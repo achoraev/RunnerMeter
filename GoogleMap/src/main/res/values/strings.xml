@@ -2,7 +2,7 @@
     <string name="app_name">RunnerMeter</string>
     <string name="title_activity_maps">Map</string>
 
-    <string-array name="planets_array">
+    <string-array name="left_menu_items">
         <item>Mercury</item>
         <item>Venus</item>
         <item>Earth</item>
@@ -16,4 +16,5 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -18,8 +18,6 @@ public class MapsActivity extends FragmentActivity  {
 //        LocationListener
 //{
 
-
-
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationManager locationManager;
     private Criteria criteria;

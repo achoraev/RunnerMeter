@@ -3,8 +3,12 @@ package com.newrunner.googlemap;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +16,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.*;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
@@ -42,7 +52,7 @@ import java.util.Locale;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnMapReadyCallback{
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -51,10 +61,20 @@ public class MainActivity extends ActionBarActivity {
     private CharSequence mTitle;
     private String[] mPlanetTitles;
 
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private LocationManager locationManager;
+    private Criteria criteria;
+    private Location location;
+    private LatLng myLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // set current location
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        criteria = new Criteria();
+        location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
 
         mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.left_menu_items);
@@ -93,10 +113,14 @@ public class MainActivity extends ActionBarActivity {
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+//        Intent mapIntent = new Intent(this, MapsActivity.class);
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        startActivity(mapIntent);
+
         if (savedInstanceState == null) {
-            Fragment fragment = new MapFragment();
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
         }
     }
 
@@ -141,6 +165,29 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        // Map is ready to be used.
+        mMap = googleMap;
+
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+
+        if (location != null) {
+            myLocation = new LatLng(location.getLatitude(),
+                    location.getLongitude());
+        } else {
+            myLocation = new LatLng(42.7079, 23.3613);
+        }
+//        Toast.makeText(this, String.format("lat: {} long: {}", location.getLatitude(), location.getLongitude()), Toast.LENGTH_SHORT).show();
+
+        // Add a marker with a title that is shown in its info window.
+        mMap.addMarker(new MarkerOptions().position(myLocation)
+                .title("Marker"));
+
+        // Move the camera to show the marker.
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
+    }
+
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -157,7 +204,7 @@ public class MainActivity extends ActionBarActivity {
         fragment.setArguments(args);
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.map, fragment).commit();
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);

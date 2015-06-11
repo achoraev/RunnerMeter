@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -52,7 +53,7 @@ import java.util.Locale;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends ActionBarActivity implements OnMapReadyCallback{
+public class MainActivity extends ActionBarActivity implements OnMapReadyCallback, LocationListener {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -113,10 +114,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-//        Intent mapIntent = new Intent(this, MapsActivity.class);
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-//        startActivity(mapIntent);
-
         if (savedInstanceState == null) {
             SupportMapFragment mapFragment =
                     (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -171,21 +168,52 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMyLocationEnabled(true);
+//        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
 
         if (location != null) {
             myLocation = new LatLng(location.getLatitude(),
                     location.getLongitude());
+            Toast.makeText(this, String.format("lat: %f long: %f",
+                            location.getLatitude(),
+                            location.getLongitude()),
+                    Toast.LENGTH_SHORT).show();
         } else {
             myLocation = new LatLng(42.7079, 23.3613);
+//            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
+////            String message = "lat: " + 10.5 + " long: " + 15.5;
+//            Toast.makeText(this, message,
+//                    Toast.LENGTH_SHORT).show();
+//            System.out.print(message);
         }
-//        Toast.makeText(this, String.format("lat: {} long: {}", location.getLatitude(), location.getLongitude()), Toast.LENGTH_SHORT).show();
 
         // Add a marker with a title that is shown in its info window.
         mMap.addMarker(new MarkerOptions().position(myLocation)
                 .title("Marker"));
 
         // Move the camera to show the marker.
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15), 2000, null);
+    }
+
+    @Override
+    public void onLocationChanged(Location currentLocation) {
+        myLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15), 2000, null);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     /* The click listener for ListView in the navigation drawer */

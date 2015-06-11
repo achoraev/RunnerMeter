@@ -30,8 +30,8 @@ public class MapsActivity extends FragmentActivity  {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
         location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-        setContentView(R.layout.activity_maps);
-        setUpMapIfNeeded();
+//        setContentView(R.layout.activity_maps);
+//        setUpMapIfNeeded();
 
 //        mGoogleApiClient = new GoogleApiClient.Builder(this)
 //                .addConnectionCallbacks(this)
@@ -49,7 +49,7 @@ public class MapsActivity extends FragmentActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+//        setUpMapIfNeeded();
 //        mGoogleApiClient.connect();
     }
 

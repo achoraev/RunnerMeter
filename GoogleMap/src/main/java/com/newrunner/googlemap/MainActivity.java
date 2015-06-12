@@ -1,28 +1,28 @@
 package com.newrunner.googlemap;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
@@ -53,7 +53,7 @@ import java.util.Locale;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends ActionBarActivity implements OnMapReadyCallback, LocationListener {
+public class MainActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -62,21 +62,38 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private CharSequence mTitle;
     private String[] mPlanetTitles;
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LocationManager locationManager;
     private Criteria criteria;
     private Location location;
-    private LatLng myLocation;
+    private LocationListener locListener;
+
+    private Boolean exit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // set current location
+
+        checkForGpsOnDevice();
+        initializeLocationManager();
+        initializeNavigationDrawer();
+
+        if (savedInstanceState == null) {
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(new MapLocationListener());
+        }
+    }
+
+    private void initializeLocationManager() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
         location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        locListener = new MapLocationListener();
+    }
 
+    private void initializeNavigationDrawer() {
         mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.left_menu_items);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -113,11 +130,31 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
 
-        if (savedInstanceState == null) {
-            SupportMapFragment mapFragment =
-                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
+    private void checkForGpsOnDevice() {
+        if (!hasGps()) {
+            // If this hardware doesn't support GPS, we prefer to exit.
+            Log.w("RunnerMeter", "This hardware doesn't have GPS, so we exit");
+            new AlertDialog.Builder(this)
+                    .setMessage(getString(R.string.gps_not_available))
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                            dialog.cancel();
+                        }
+                    })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            dialog.cancel();
+                            finish();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
         }
     }
 
@@ -160,60 +197,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        // Map is ready to be used.
-        mMap = googleMap;
-
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.setMyLocationEnabled(true);
-//        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
-
-        if (location != null) {
-            myLocation = new LatLng(location.getLatitude(),
-                    location.getLongitude());
-            Toast.makeText(this, String.format("lat: %f long: %f",
-                            location.getLatitude(),
-                            location.getLongitude()),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            myLocation = new LatLng(42.7079, 23.3613);
-//            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
-////            String message = "lat: " + 10.5 + " long: " + 15.5;
-//            Toast.makeText(this, message,
-//                    Toast.LENGTH_SHORT).show();
-//            System.out.print(message);
-        }
-
-        // Add a marker with a title that is shown in its info window.
-        mMap.addMarker(new MarkerOptions().position(myLocation)
-                .title("Marker"));
-
-        // Move the camera to show the marker.
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15), 2000, null);
-    }
-
-    @Override
-    public void onLocationChanged(Location currentLocation) {
-        myLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15), 2000, null);
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 
     /* The click listener for ListView in the navigation drawer */
@@ -259,10 +242,34 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     @Override
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+            super.onBackPressed();
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
+        }
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationManager.removeUpdates(locListener);
     }
 
     /**
@@ -288,5 +295,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             getActivity().setTitle(planet);
             return rootView;
         }
+    }
+
+    private boolean hasGps() {
+        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
     }
 }

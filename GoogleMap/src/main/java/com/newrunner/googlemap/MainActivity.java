@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         checkForGpsOnDevice();
-        initializeLocationManager();
+//        initializeLocationManager();
         initializeNavigationDrawer();
 
         if (savedInstanceState == null) {
@@ -268,8 +268,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         locationManager.removeUpdates(locListener);
+        super.onDestroy();
     }
 
     /**

@@ -1,7 +1,11 @@
 package com.newrunner.googlemap;
 
+import android.app.Activity;
+import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -13,13 +17,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by angelr on 12-Jun-15.
  */
-public class MapLocationListener implements OnMapReadyCallback, LocationListener {
+public class MapLocationListener extends Activity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LatLng currentCoordinates;
     private Location currentLocation;
     private Double lat;
     private Double lon;
+
+    private LocationManager locationManager;
+    private Criteria criteria;
+    private LocationListener locListener;
 
     @Override
     public void onLocationChanged(Location location) {
@@ -54,7 +62,7 @@ public class MapLocationListener implements OnMapReadyCallback, LocationListener
     public void onMapReady(GoogleMap googleMap) {
         // Map is ready to be used.
         mMap = googleMap;
-
+//        initializeLocationManager();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.setMyLocationEnabled(true);
 //        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
@@ -80,5 +88,14 @@ public class MapLocationListener implements OnMapReadyCallback, LocationListener
 
         // Move the camera to show the marker.
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
+    }
+
+    private void initializeLocationManager() {
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+//        locListener = new MapLocationListener();
     }
 }

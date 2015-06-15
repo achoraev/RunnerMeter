@@ -4,15 +4,10 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,7 +17,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.Locale;
 
@@ -62,11 +56,6 @@ public class MainActivity extends ActionBarActivity {
     private CharSequence mTitle;
     private String[] mPlanetTitles;
 
-    private LocationManager locationManager;
-    private Criteria criteria;
-    private Location location;
-    private LocationListener locListener;
-
     private Boolean exit = false;
 
     @Override
@@ -74,23 +63,12 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkForGpsOnDevice();
+//        checkForGpsOnDevice();
 //        initializeLocationManager();
         initializeNavigationDrawer();
 
-        if (savedInstanceState == null) {
-            SupportMapFragment mapFragment =
-                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(new MapLocationListener());
-        }
-    }
-
-    private void initializeLocationManager() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        criteria = new Criteria();
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-        locListener = new MapLocationListener();
+        Intent newIntent = new Intent(this, MapLocationListener.class);
+        startActivity(newIntent);
     }
 
     private void initializeNavigationDrawer() {
@@ -268,7 +246,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        locationManager.removeUpdates(locListener);
+//        locationManager.removeUpdates(locListener);
         super.onDestroy();
     }
 

@@ -1,15 +1,18 @@
 package com.newrunner.googlemap;
 
-import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -17,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by angelr on 12-Jun-15.
  */
-public class MapLocationListener extends Activity implements OnMapReadyCallback, LocationListener {
+public class MapLocationListener extends ActionBarActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LatLng currentCoordinates;
@@ -28,6 +31,23 @@ public class MapLocationListener extends Activity implements OnMapReadyCallback,
     private LocationManager locationManager;
     private Criteria criteria;
     private LocationListener locListener;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        initializeLocationManager();
+
+        Fragment fragment = new MapFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        if (savedInstanceState == null) {
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -91,8 +111,8 @@ public class MapLocationListener extends Activity implements OnMapReadyCallback,
     }
 
     private void initializeLocationManager() {
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));

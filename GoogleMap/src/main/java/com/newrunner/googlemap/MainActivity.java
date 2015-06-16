@@ -4,10 +4,15 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -17,6 +22,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
@@ -47,7 +58,7 @@ import java.util.Locale;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnMapReadyCallback {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -55,6 +66,16 @@ public class MainActivity extends ActionBarActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mPlanetTitles;
+
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private LatLng currentCoordinates;
+    private Location currentLocation;
+    private Double lat;
+    private Double lon;
+
+    private LocationManager locationManager;
+    private Criteria criteria;
+    private LocationListener locListener;
 
     private Boolean exit = false;
 
@@ -67,8 +88,13 @@ public class MainActivity extends ActionBarActivity {
 //        initializeLocationManager();
         initializeNavigationDrawer();
 
-        Intent newIntent = new Intent(this, MapLocationListener.class);
-        startActivity(newIntent);
+        if (savedInstanceState == null) {
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
+//        Intent newIntent = new Intent(this, MapLocationListener.class);
+//        startActivity(newIntent);
     }
 
     private void initializeNavigationDrawer() {
@@ -177,6 +203,38 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        // Map is ready to be used.
+        mMap = googleMap;
+        initializeLocationManager();
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMyLocationEnabled(true);
+//        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
+
+        if (currentLocation != null) {
+            lat = currentLocation.getLatitude();
+            lon = currentLocation.getLongitude();
+            currentCoordinates = new LatLng(lat, lon);
+            Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            currentCoordinates = new LatLng(42.7079, 23.3613);
+//            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
+////            String message = "lat: " + 10.5 + " long: " + 15.5;
+//            Toast.makeText(this, message,
+//                    Toast.LENGTH_SHORT).show();
+//            System.out.print(message);
+        }
+
+        // Add a marker with a title that is shown in its info window.
+        mMap.addMarker(new MarkerOptions().position(currentCoordinates)
+                .title("Marker"));
+
+        // Move the camera to show the marker.
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
+    }
+
     /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -273,6 +331,14 @@ public class MainActivity extends ActionBarActivity {
             getActivity().setTitle(planet);
             return rootView;
         }
+    }
+
+    private void initializeLocationManager() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        criteria = new Criteria();
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+//        locListener = new MapLocationListener();
     }
 
     private boolean hasGps() {

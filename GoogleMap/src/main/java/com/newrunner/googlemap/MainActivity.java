@@ -22,6 +22,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -58,7 +61,9 @@ import java.util.Locale;
  * An action should be an operation performed on the current contents of the window,
  * for example enabling or disabling a data overlay on top of the current content.</p>
  */
-public class MainActivity extends ActionBarActivity implements OnMapReadyCallback {
+public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -67,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private CharSequence mTitle;
     private String[] mPlanetTitles;
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMap;
     private LatLng currentCoordinates;
     private Location currentLocation;
     private Double lat;
@@ -78,23 +83,23 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private LocationListener locListener;
 
     private Boolean exit = false;
+    private Location mLastLocation;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        checkForGpsOnDevice();
-//        initializeLocationManager();
+        checkForGpsOnDevice();
         initializeNavigationDrawer();
 
-        if (savedInstanceState == null) {
-            SupportMapFragment mapFragment =
-                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-        }
-//        Intent newIntent = new Intent(this, MapLocationListener.class);
-//        startActivity(newIntent);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        buildGoogleApiClient();
+        locListener = new MapLocationListener();
     }
 
     private void initializeNavigationDrawer() {
@@ -145,7 +150,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            finish();
+//                            finish();
                             dialog.cancel();
                         }
                     })
@@ -153,7 +158,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             dialog.cancel();
-                            finish();
+//                            finish();
                         }
                     })
                     .setCancelable(false)
@@ -205,7 +210,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // Map is ready to be used.
         mMap = googleMap;
         initializeLocationManager();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -215,11 +219,15 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         if (currentLocation != null) {
             lat = currentLocation.getLatitude();
             lon = currentLocation.getLongitude();
+            Log.d("",String.valueOf(lat));
+            Log.d("",String.valueOf(lon));
             currentCoordinates = new LatLng(lat, lon);
             Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
                     Toast.LENGTH_SHORT).show();
         } else {
             currentCoordinates = new LatLng(42.7079, 23.3613);
+            Log.d("",String.valueOf(currentCoordinates.latitude));
+            Log.d("",String.valueOf(currentCoordinates.longitude));
 //            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
 ////            String message = "lat: " + 10.5 + " long: " + 15.5;
 //            Toast.makeText(this, message,
@@ -228,11 +236,35 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
 
         // Add a marker with a title that is shown in its info window.
-        mMap.addMarker(new MarkerOptions().position(currentCoordinates)
-                .title("Marker"));
+//        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Marker"));
 
         // Move the camera to show the marker.
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            lat = mLastLocation.getAltitude();
+            lon = mLastLocation.getLatitude();
+            Log.d("",String.valueOf(lat) + "from connected");
+            Log.d("",String.valueOf(lon));
+            currentCoordinates = new LatLng(lat, lon);
+            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 
     /* The click listener for ListView in the navigation drawer */
@@ -333,12 +365,19 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
     }
 
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
+
     private void initializeLocationManager() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
         criteria.setPowerRequirement(Criteria.POWER_LOW);
         currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-//        locListener = new MapLocationListener();
     }
 
     private boolean hasGps() {

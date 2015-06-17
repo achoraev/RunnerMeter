@@ -1,65 +1,53 @@
 package com.newrunner.googlemap;
 
-import android.content.Context;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by angelr on 12-Jun-15.
  */
-public class MapLocationListener extends ActionBarActivity implements OnMapReadyCallback, LocationListener {
+public class MapLocationListener extends ActionBarActivity implements LocationListener {
+
+    private static final long MIN_TIME = 5;
+    private static final float MIN_DISTANCE = 5;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private LatLng currentCoordinates;
-    private Location currentLocation;
-    private Double lat;
-    private Double lon;
-
     private LocationManager locationManager;
-    private Criteria criteria;
-    private LocationListener locListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_map);
 
-        initializeLocationManager();
-
 //        Fragment fragment = new MapFragment();
 //        FragmentManager fragmentManager = getFragmentManager();
 //        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        if (savedInstanceState == null) {
-            SupportMapFragment mapFragment =
-                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-        }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        currentLocation = location;
-        currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+        currentCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+
         mMap.addMarker(new MarkerOptions().position(currentCoordinates)
-                .title("Marker"));
-        CameraPosition camPosition = new CameraPosition.Builder()
-                .target(currentCoordinates)
-                .zoom(15)
-                .build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPosition));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15));
+                .title("Marker"))
+                .setDraggable(true);
+//        CameraPosition camPosition = new CameraPosition.Builder()
+//                .target(currentCoordinates)
+//                .zoom(15)
+//                .build();
+//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPosition));
+        currentCoordinates = mMap.getCameraPosition().target;
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(currentCoordinates));
+        locationManager.removeUpdates(this);
     }
 
     @Override
@@ -75,46 +63,5 @@ public class MapLocationListener extends ActionBarActivity implements OnMapReady
     @Override
     public void onProviderDisabled(String provider) {
 
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        // Map is ready to be used.
-        mMap = googleMap;
-//        initializeLocationManager();
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mMap.setMyLocationEnabled(true);
-//        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
-
-        if (currentLocation != null) {
-            lat = currentLocation.getLatitude();
-            lon = currentLocation.getLongitude();
-            currentCoordinates = new LatLng(lat, lon);
-            Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            currentCoordinates = new LatLng(42.7079, 23.3613);
-//            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
-////            String message = "lat: " + 10.5 + " long: " + 15.5;
-//            Toast.makeText(this, message,
-//                    Toast.LENGTH_SHORT).show();
-//            System.out.print(message);
-        }
-
-        // Add a marker with a title that is shown in its info window.
-        mMap.addMarker(new MarkerOptions().position(currentCoordinates)
-                .title("Marker"));
-
-        // Move the camera to show the marker.
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
-    }
-
-    private void initializeLocationManager() {
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        criteria = new Criteria();
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-//        locListener = new MapLocationListener();
     }
 }

@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +23,7 @@ import android.view.*;
 import android.widget.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -46,6 +46,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
     public static final int MAP_ZOOM = 15;
+
+    protected static final String TAG = "location";
 
     protected final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
     protected final static String LOCATION_KEY = "location-key";
@@ -88,10 +90,45 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        buildGoogleApiClient();
-
         updateValuesFromBundle(savedInstanceState);
+
+        buildGoogleApiClient();
 //        locListener = new MapLocationListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGoogleApiClient.isConnected()) {
+            stopLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopLocationUpdates();
+//        locationManager.removeUpdates(this);
+        super.onDestroy();
     }
 
     private void initializeNavigationDrawer() {
@@ -211,15 +248,15 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         if (currentLocation != null) {
             lat = currentLocation.getLatitude();
             lon = currentLocation.getLongitude();
-            Log.d("",String.valueOf(lat));
-            Log.d("",String.valueOf(lon));
+            Log.d("", String.valueOf(lat));
+            Log.d("", String.valueOf(lon));
             currentCoordinates = new LatLng(lat, lon);
             Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
                     Toast.LENGTH_SHORT).show();
         } else {
             currentCoordinates = new LatLng(lat, lon);
-            Log.d("",String.valueOf(currentCoordinates.latitude));
-            Log.d("",String.valueOf(currentCoordinates.longitude));
+            Log.d("", String.valueOf(currentCoordinates.latitude));
+            Log.d("", String.valueOf(currentCoordinates.longitude));
 //            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
 ////            String message = "lat: " + 10.5 + " long: " + 15.5;
 //            Toast.makeText(this, message,
@@ -236,54 +273,51 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
+        Log.i(TAG, "Connected to GoogleApiClient");
+        if (currentLocation == null) {
+            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+            updateUI();
+        }
+
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
         }
-
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-        if (mLastLocation != null) {
-            lat = mLastLocation.getAltitude();
-            lon = mLastLocation.getLatitude();
-            Log.d("",String.valueOf(lat) + "from connected");
-            Log.d("",String.valueOf(lon));
-            currentCoordinates = new LatLng(lat, lon);
-            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
-        }
+//
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+//                mGoogleApiClient);
+//        if (mLastLocation != null) {
+//            lat = mLastLocation.getAltitude();
+//            lon = mLastLocation.getLatitude();
+//            Log.d("", String.valueOf(lat) + "from connected");
+//            Log.d("", String.valueOf(lon));
+//            currentCoordinates = new LatLng(lat, lon);
+//            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+//        }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
+        // onConnectionFailed.
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
     @Override
     public void onLocationChanged(Location location) {
         currentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        Toast.makeText(this, mLastUpdateTime, Toast.LENGTH_LONG).show();
         updateUI();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+        Toast.makeText(this, mLastUpdateTime, Toast.LENGTH_LONG).show();
     }
 
     /* The click listener for ListView in the navigation drawer */
@@ -353,27 +387,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    protected void onDestroy() {
-        stopLocationUpdates();
-//        locationManager.removeUpdates(this);
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
-    }
-
     /**
      * Fragment that appears in the "content_frame", shows a planet
      */
@@ -400,6 +413,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
+        Log.i(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
             // Update the value of mRequestingLocationUpdates from the Bundle, and
             // make sure that the Start Updates and Stop Updates buttons are
@@ -434,20 +448,22 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
-    }
-
     protected void startLocationUpdates() {
         LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+                mGoogleApiClient, mLocationRequest, this);
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, this);
     }
 
     private void updateUI() {
-        currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+        if (currentLocation != null) {
+            currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+        }
     }
 
     protected void createLocationRequest() {
@@ -458,6 +474,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     protected synchronized void buildGoogleApiClient() {
+        Log.i(TAG, "Building GoogleApiClient");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)

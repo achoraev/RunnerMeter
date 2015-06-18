@@ -24,6 +24,7 @@ import android.view.*;
 import android.widget.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,37 +33,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Locale;
 
-/**
- * This example illustrates a common usage of the DrawerLayout widget
- * in the Android support library.
- * <p/>
- * <p>When a navigation (left) drawer is present, the host activity should detect presses of
- * the action bar's Up affordance as a signal to open and close the navigation drawer. The
- * ActionBarDrawerToggle facilitates this behavior.
- * Items within the drawer should fall into one of two categories:</p>
- * <p/>
- * <ul>
- * <li><strong>View switches</strong>. A view switch follows the same basic policies as
- * list or tab navigation in that a view switch does not create navigation history.
- * This pattern should only be used at the root activity of a task, leaving some form
- * of Up navigation active for activities further down the navigation hierarchy.</li>
- * <li><strong>Selective Up</strong>. The drawer allows the user to choose an alternate
- * parent for Up navigation. This allows a user to jump across an app's navigation
- * hierarchy at will. The application should treat this as it treats Up navigation from
- * a different task, replacing the current task stack using TaskStackBuilder or similar.
- * This is the only form of navigation drawer that should be used outside of the root
- * activity of a task.</li>
- * </ul>
- * <p/>
- * <p>Right side drawers should be used for actions, not navigation. This follows the pattern
- * established by the Action Bar that navigation should be to the left and actions to the right.
- * An action should be an operation performed on the current contents of the window,
- * for example enabling or disabling a data overlay on top of the current content.</p>
- */
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+    public static final int ONE_SECOND = 1000;
+    public static final int TWO_SECOND = 2000;
+    public static final int MAP_ZOOM = 15;
+
+    protected final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
+    protected final static String LOCATION_KEY = "location-key";
+    protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -75,8 +62,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private LatLng currentCoordinates;
     private Location currentLocation;
-    private Double lat;
-    private Double lon;
+    private Double lat = 42.7079;
+    private Double lon = 23.3613;
 
     private LocationManager locationManager;
     private Criteria criteria;
@@ -85,6 +72,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private Boolean exit = false;
     private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
+    private String mLastUpdateTime;
+    private boolean mRequestingLocationUpdates = false;
+    protected LocationRequest mLocationRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +89,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         buildGoogleApiClient();
-        locListener = new MapLocationListener();
+
+        updateValuesFromBundle(savedInstanceState);
+//        locListener = new MapLocationListener();
     }
 
     private void initializeNavigationDrawer() {
@@ -225,7 +217,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
                     Toast.LENGTH_SHORT).show();
         } else {
-            currentCoordinates = new LatLng(42.7079, 23.3613);
+            currentCoordinates = new LatLng(lat, lon);
             Log.d("",String.valueOf(currentCoordinates.latitude));
             Log.d("",String.valueOf(currentCoordinates.longitude));
 //            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
@@ -239,11 +231,15 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 //        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Marker"));
 
         // Move the camera to show the marker.
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
+        if (mRequestingLocationUpdates) {
+            startLocationUpdates();
+        }
+
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
@@ -253,7 +249,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             Log.d("",String.valueOf(lon));
             currentCoordinates = new LatLng(lat, lon);
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, 15), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
         }
     }
 
@@ -264,6 +260,29 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        currentLocation = location;
+        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        Toast.makeText(this, mLastUpdateTime, Toast.LENGTH_LONG).show();
+        updateUI();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
 
     }
 
@@ -323,7 +342,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 public void run() {
                     exit = false;
                 }
-            }, 3 * 1000);
+            }, 3 * ONE_SECOND);
         }
     }
 
@@ -336,8 +355,23 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     protected void onDestroy() {
-//        locationManager.removeUpdates(locListener);
+        stopLocationUpdates();
+//        locationManager.removeUpdates(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
+            startLocationUpdates();
+        }
     }
 
     /**
@@ -365,18 +399,77 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
     }
 
+    private void updateValuesFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            // Update the value of mRequestingLocationUpdates from the Bundle, and
+            // make sure that the Start Updates and Stop Updates buttons are
+            // correctly enabled or disabled.
+            if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
+                mRequestingLocationUpdates = savedInstanceState.getBoolean(
+                        REQUESTING_LOCATION_UPDATES_KEY);
+            }
+
+            // Update the value of mCurrentLocation from the Bundle and update the
+            // UI to show the correct latitude and longitude.
+            if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
+                // Since LOCATION_KEY was found in the Bundle, we can be sure that
+                // mCurrentLocationis not null.
+                currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
+            }
+
+            // Update the value of mLastUpdateTime from the Bundle and update the UI.
+            if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
+                mLastUpdateTime = savedInstanceState.getString(
+                        LAST_UPDATED_TIME_STRING_KEY);
+            }
+            updateUI();
+        }
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
+                mRequestingLocationUpdates);
+        savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
+        savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                mGoogleApiClient, (com.google.android.gms.location.LocationListener) this);
+    }
+
+    protected void startLocationUpdates() {
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+    }
+
+    private void updateUI() {
+        currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+    }
+
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        createLocationRequest();
     }
 
     private void initializeLocationManager() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         criteria = new Criteria();
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
         currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
     }
 

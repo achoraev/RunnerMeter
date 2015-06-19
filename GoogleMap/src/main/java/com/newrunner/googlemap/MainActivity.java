@@ -40,7 +40,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 7000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
@@ -69,13 +69,11 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     private LocationManager locationManager;
     private Criteria criteria;
-    private LocationListener locListener;
 
     private Boolean exit = false;
-    private Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
     private String mLastUpdateTime;
-    private boolean mRequestingLocationUpdates = false;
+    private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
 
     @Override
@@ -120,15 +118,16 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     protected void onStop() {
-        super.onStop();
+        stopLocationUpdates();
         mGoogleApiClient.disconnect();
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        stopLocationUpdates();
-//        locationManager.removeUpdates(this);
         super.onDestroy();
+        stopLocationUpdates();
+        mGoogleApiClient.disconnect();
     }
 
     private void initializeNavigationDrawer() {
@@ -173,7 +172,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private void checkForGpsOnDevice() {
         if (!hasGps()) {
             // If this hardware doesn't support GPS, we prefer to exit.
-            Log.w("RunnerMeter", "This hardware doesn't have GPS, so we exit");
+            Log.d(TAG, "This hardware doesn't have GPS");
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.gps_not_available))
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -239,6 +238,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d(TAG, "Map is ready");
+        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
         initializeLocationManager();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -248,15 +249,16 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         if (currentLocation != null) {
             lat = currentLocation.getLatitude();
             lon = currentLocation.getLongitude();
-            Log.d("", String.valueOf(lat));
-            Log.d("", String.valueOf(lon));
+            Log.d(TAG, String.valueOf(lat));
+            Log.d(TAG, String.valueOf(lon));
             currentCoordinates = new LatLng(lat, lon);
             Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
                     Toast.LENGTH_SHORT).show();
         } else {
             currentCoordinates = new LatLng(lat, lon);
-            Log.d("", String.valueOf(currentCoordinates.latitude));
-            Log.d("", String.valueOf(currentCoordinates.longitude));
+            Log.d(TAG, String.valueOf(currentCoordinates.latitude) + "No Gps");
+            Log.d(TAG, String.valueOf(currentCoordinates.longitude));
+            Toast.makeText(this, "No gps", Toast.LENGTH_LONG).show();
 //            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
 ////            String message = "lat: " + 10.5 + " long: " + 15.5;
 //            Toast.makeText(this, message,
@@ -273,7 +275,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.i(TAG, "Connected to GoogleApiClient");
+        Log.d(TAG, "Connected to GoogleApiClient");
+        Toast.makeText(this, "Connected to GoogleAPI", Toast.LENGTH_LONG).show();
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
@@ -281,6 +284,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
 
         if (mRequestingLocationUpdates) {
+            Log.d(TAG, "Starting updates");
             startLocationUpdates();
         }
 //
@@ -301,7 +305,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     public void onConnectionSuspended(int i) {
         // The connection to Google Play services was lost for some reason. We call connect() to
         // attempt to re-establish the connection.
-        Log.i(TAG, "Connection suspended");
+        Log.d(TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
 
@@ -309,11 +313,13 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     public void onConnectionFailed(ConnectionResult connectionResult) {
         // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
-        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        Log.d(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.d(TAG, "Location changed");
+        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateUI();
@@ -413,7 +419,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
-        Log.i(TAG, "Updating values from bundle");
+        Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
             // Update the value of mRequestingLocationUpdates from the Bundle, and
             // make sure that the Start Updates and Stop Updates buttons are
@@ -460,6 +466,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     private void updateUI() {
         if (currentLocation != null) {
+            Log.d(TAG, "Update UI");
+            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
@@ -474,7 +482,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     protected synchronized void buildGoogleApiClient() {
-        Log.i(TAG, "Building GoogleApiClient");
+        Log.d(TAG, "Building GoogleApiClient");
+        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)

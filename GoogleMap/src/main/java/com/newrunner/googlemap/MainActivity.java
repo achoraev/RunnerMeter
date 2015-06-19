@@ -239,7 +239,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "Map is ready");
-        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
         initializeLocationManager();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -319,7 +319,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location changed");
-        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         updateUI();
@@ -467,7 +467,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private void updateUI() {
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
-            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);

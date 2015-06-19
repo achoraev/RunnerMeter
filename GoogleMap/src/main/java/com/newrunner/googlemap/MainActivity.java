@@ -118,9 +118,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     @Override
     protected void onStop() {
-        stopLocationUpdates();
-        mGoogleApiClient.disconnect();
         super.onStop();
+//        stopLocationUpdates();
+//        mGoogleApiClient.disconnect();
     }
 
     @Override
@@ -371,8 +371,8 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         if (exit) {
-            finish(); // finish activity
             super.onBackPressed();
+            finish(); // finish activity
         } else {
             Toast.makeText(this, "Press Back again to Exit.",
                     Toast.LENGTH_SHORT).show();

@@ -40,7 +40,7 @@ import java.util.Locale;
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 7000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
@@ -111,7 +111,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-        if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
+        if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
     }
@@ -119,15 +119,19 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     @Override
     protected void onStop() {
         super.onStop();
-//        stopLocationUpdates();
-//        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient.isConnected()) {
+            stopLocationUpdates();
+            mGoogleApiClient.disconnect();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopLocationUpdates();
-        mGoogleApiClient.disconnect();
+        if (mGoogleApiClient.isConnected()) {
+            stopLocationUpdates();
+            mGoogleApiClient.disconnect();
+        }
     }
 
     private void initializeNavigationDrawer() {
@@ -241,36 +245,37 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         Log.d(TAG, "Map is ready");
 //        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
-        initializeLocationManager();
+//        initializeLocationManager();
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.setMyLocationEnabled(true);
+
 //        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
 
-        if (currentLocation != null) {
-            lat = currentLocation.getLatitude();
-            lon = currentLocation.getLongitude();
-            Log.d(TAG, String.valueOf(lat));
-            Log.d(TAG, String.valueOf(lon));
-            currentCoordinates = new LatLng(lat, lon);
-            Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            currentCoordinates = new LatLng(lat, lon);
-            Log.d(TAG, String.valueOf(currentCoordinates.latitude) + "No Gps");
-            Log.d(TAG, String.valueOf(currentCoordinates.longitude));
-            Toast.makeText(this, "No gps", Toast.LENGTH_LONG).show();
-//            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
-////            String message = "lat: " + 10.5 + " long: " + 15.5;
-//            Toast.makeText(this, message,
+//        if (currentLocation != null) {
+//            lat = currentLocation.getLatitude();
+//            lon = currentLocation.getLongitude();
+//            Log.d(TAG, String.valueOf(lat));
+//            Log.d(TAG, String.valueOf(lon));
+//            currentCoordinates = new LatLng(lat, lon);
+//            Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
 //                    Toast.LENGTH_SHORT).show();
-//            System.out.print(message);
-        }
+//        } else {
+//            currentCoordinates = new LatLng(lat, lon);
+//            Log.d(TAG, String.valueOf(currentCoordinates.latitude) + "No Gps");
+//            Log.d(TAG, String.valueOf(currentCoordinates.longitude));
+//            Toast.makeText(this, "No gps", Toast.LENGTH_LONG).show();
+////            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
+//////            String message = "lat: " + 10.5 + " long: " + 15.5;
+////            Toast.makeText(this, message,
+////                    Toast.LENGTH_SHORT).show();
+////            System.out.print(message);
+//        }
 
         // Add a marker with a title that is shown in its info window.
 //        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Marker"));
 
         // Move the camera to show the marker.
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
     }
 
     @Override
@@ -442,13 +447,19 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 mLastUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
-            updateUI();
+
+//            if(savedInstanceState){
+//
+//
+//            }
+//            updateUI();
         }
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
                 mRequestingLocationUpdates);
+        savedInstanceState.putAll(savedInstanceState);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
         super.onSaveInstanceState(savedInstanceState);

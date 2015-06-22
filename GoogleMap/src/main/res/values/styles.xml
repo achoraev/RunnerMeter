@@ -36,7 +36,7 @@ please see styles_device_defaults.xml.
         <!--<style name="AppTheme" parent="@android:style/Theme.Holo">-->
         <!-- Customize your theme here. -->
         <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:background">@drawable/screen_background_dark_transparent</item>
+        <item name="android:background">#81C784</item>
     </style>
 
     <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->

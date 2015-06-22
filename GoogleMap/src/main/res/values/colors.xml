@@ -32,6 +32,7 @@
          be able to display a light UI: this lightens its background to make
          a light UI more visible. -->
     <drawable name="screen_background_light_transparent">#80ffffff</drawable>
+    <color name="app_color">#90A4AE</color>
     <color name="safe_mode_text">#80ffffff</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>

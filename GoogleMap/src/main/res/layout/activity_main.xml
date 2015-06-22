@@ -2,7 +2,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize">
 
     <!-- As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions. -->
@@ -19,17 +20,27 @@
                   android:layout_above="@+id/testBtn"
                   tools:context=".MainActivity"
                   android:name="com.google.android.gms.maps.SupportMapFragment"/>
-        <Button
-                android:id="@+id/testBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|top"
-                android:text="Start"
-                android:layout_weight="1"
-                android:layout_alignParentBottom="true"
-                android:padding="10dp"
-                android:layout_marginTop="20dp"
-                android:paddingRight="10dp"/>
+
+    <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@android:color/transparent">
+            <TextView
+                    android:id="@+id/speed_meter"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:text="Test"
+                    android:background="@android:color/transparent"/>
+            <Button
+                    android:layout_width="100dp"
+                    android:layout_height="70dp"
+                    android:text="Start"
+                    android:background="@android:color/transparent"
+                    android:layout_alignEnd="@id/speed_meter"
+                    android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right

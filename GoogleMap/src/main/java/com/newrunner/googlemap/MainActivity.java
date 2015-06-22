@@ -36,11 +36,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
-
+/**
+ * Created by angelr on 29-April-15.
+ */
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
@@ -89,9 +91,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         updateValuesFromBundle(savedInstanceState);
-
         buildGoogleApiClient();
-//        locListener = new MapLocationListener();
     }
 
     @Override

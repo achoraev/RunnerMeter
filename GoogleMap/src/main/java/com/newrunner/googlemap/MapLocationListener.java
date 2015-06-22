@@ -25,7 +25,7 @@ public class MapLocationListener extends ActionBarActivity implements LocationLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_map);
+//        setContentView(R.layout.fragment_map);
 
 //        Fragment fragment = new MapFragment();
 //        FragmentManager fragmentManager = getFragmentManager();

@@ -20,4 +20,6 @@
 
     <string name="gps_not_available">GPS not available.</string>
     <string name="ok">OK</string>
+    // for adds
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
 </resources>

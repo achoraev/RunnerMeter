@@ -37,7 +37,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 /**
- * Created by angelr on 29-April-15.
+ * Created by Angel Raev on 29-April-15.
  */
 public class MainActivity extends ActionBarActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {

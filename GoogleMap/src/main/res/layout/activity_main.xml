@@ -34,7 +34,7 @@
                     android:background="@android:color/transparent"/>
             <Button
                     android:id="@+id/start_btn"
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="70dp"
                     android:text="Start"
                     android:background="@android:color/transparent"
@@ -62,7 +62,7 @@
     <ListView
             android:id="@+id/left_drawer"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"

@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -33,7 +34,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -67,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private LatLng currentCoordinates;
+    private LatLng lastUpdatedCoord;
     private Location currentLocation;
     private Double lat = 42.7079;
     private Double lon = 23.3613;
@@ -88,12 +90,15 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         checkForGpsOnDevice();
         initializeNavigationDrawer();
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
         updateValuesFromBundle(savedInstanceState);
-        buildGoogleApiClient();
+
+        if(savedInstanceState != null) {
+            SupportMapFragment mapFragment =
+                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+
+            buildGoogleApiClient();
+        }
 
         // setup adds
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -466,7 +471,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
                 mRequestingLocationUpdates);
-        savedInstanceState.putAll(savedInstanceState);
+//        savedInstanceState.putAll(savedInstanceState);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
         super.onSaveInstanceState(savedInstanceState);
@@ -483,11 +488,20 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     private void updateUI() {
+        lastUpdatedCoord = new LatLng(lat, lon);
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
+            if(currentCoordinates != null){
+               lastUpdatedCoord = currentCoordinates;
+            }
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
+            PolylineOptions line = new PolylineOptions()
+                    .add(lastUpdatedCoord, currentCoordinates)
+                    .width(10)
+                    .color(Color.RED);
+            mMap.addPolyline(line);
+//            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
         }
     }

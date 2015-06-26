@@ -4,15 +4,12 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -39,6 +36,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 /**
  * Created by Angel Raev on 29-April-15.
  */
@@ -50,7 +48,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
-    public static final int MAP_ZOOM = 15;
+    public static final int MAP_ZOOM = 12;
+    public static final float POLYLINE_WIDTH = 20;
+    public static final int POLYLINE_COLOR = Color.RED;
 
     protected static final String TAG = "location";
 
@@ -69,12 +69,10 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private LatLng currentCoordinates;
     private LatLng lastUpdatedCoord;
+    private LatLng startPointCoord;
     private Location currentLocation;
-    private Double lat = 42.7079;
-    private Double lon = 23.3613;
-
-    private LocationManager locationManager;
-    private Criteria criteria;
+//    private Double lat = 42.7079;
+//    private Double lon = 23.3613;
 
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
@@ -82,23 +80,29 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
 
+    TextView speedTest;
+    Button startBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        speedTest = (TextView) findViewById(R.id.speed_meter);
+        startBtn = (Button) findViewById(R.id.start_btn);
 
         checkForGpsOnDevice();
         initializeNavigationDrawer();
 
         updateValuesFromBundle(savedInstanceState);
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             SupportMapFragment mapFragment =
                     (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-
-            buildGoogleApiClient();
         }
+
+        buildGoogleApiClient();
 
         // setup adds
         AdView mAdView = (AdView) findViewById(R.id.adView);
@@ -257,37 +261,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         Log.d(TAG, "Map is ready");
 //        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
-//        initializeLocationManager();
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
-
-//        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener, );
-
-//        if (currentLocation != null) {
-//            lat = currentLocation.getLatitude();
-//            lon = currentLocation.getLongitude();
-//            Log.d(TAG, String.valueOf(lat));
-//            Log.d(TAG, String.valueOf(lon));
-//            currentCoordinates = new LatLng(lat, lon);
-//            Toast.makeText(this, String.format("lat: %f long: %f", lat, lon),
-//                    Toast.LENGTH_SHORT).show();
-//        } else {
-//            currentCoordinates = new LatLng(lat, lon);
-//            Log.d(TAG, String.valueOf(currentCoordinates.latitude) + "No Gps");
-//            Log.d(TAG, String.valueOf(currentCoordinates.longitude));
-//            Toast.makeText(this, "No gps", Toast.LENGTH_LONG).show();
-////            String message = String.format("lat: %f long: %f ", 10.5, 15.5);
-//////            String message = "lat: " + 10.5 + " long: " + 15.5;
-////            Toast.makeText(this, message,
-////                    Toast.LENGTH_SHORT).show();
-////            System.out.print(message);
-//        }
-
-        // Add a marker with a title that is shown in its info window.
-//        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Marker"));
-
-        // Move the camera to show the marker.
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
     }
 
     @Override
@@ -304,18 +280,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             Log.d(TAG, "Starting updates");
             startLocationUpdates();
         }
-//
-//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-//                mGoogleApiClient);
-//        if (mLastLocation != null) {
-//            lat = mLastLocation.getAltitude();
-//            lon = mLastLocation.getLatitude();
-//            Log.d("", String.valueOf(lat) + "from connected");
-//            Log.d("", String.valueOf(lon));
-//            currentCoordinates = new LatLng(lat, lon);
-//            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
-//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
-//        }
     }
 
     @Override
@@ -439,19 +403,14 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
             // Update the value of mRequestingLocationUpdates from the Bundle, and
-            // make sure that the Start Updates and Stop Updates buttons are
-            // correctly enabled or disabled.
             if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
                 mRequestingLocationUpdates = savedInstanceState.getBoolean(
                         REQUESTING_LOCATION_UPDATES_KEY);
             }
 
-            // Update the value of mCurrentLocation from the Bundle and update the
-            // UI to show the correct latitude and longitude.
             if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
-                // Since LOCATION_KEY was found in the Bundle, we can be sure that
-                // mCurrentLocationis not null.
                 currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
+                updateUI();
             }
 
             // Update the value of mLastUpdateTime from the Bundle and update the UI.
@@ -459,12 +418,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 mLastUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
-
-//            if(savedInstanceState){
-//
-//
-//            }
-//            updateUI();
         }
     }
 
@@ -488,20 +441,22 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
     }
 
     private void updateUI() {
-        lastUpdatedCoord = new LatLng(lat, lon);
+        lastUpdatedCoord = startPointCoord;
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
-            if(currentCoordinates != null){
-               lastUpdatedCoord = currentCoordinates;
+            if (currentCoordinates != null) {
+                lastUpdatedCoord = currentCoordinates;
             }
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            speedTest.setText(currentCoordinates.toString());
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)
-                    .width(10)
-                    .color(Color.RED);
+                    .width(POLYLINE_WIDTH)
+                    .color(POLYLINE_COLOR);
             mMap.addPolyline(line);
-//            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Test mark"));
+//            SphericalUtil.computeDistanceBetween(lastUpdatedCoord, currentCoordinates);
+//            Location.distanceBetween();
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
         }
     }
@@ -522,13 +477,6 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
                 .addApi(LocationServices.API)
                 .build();
         createLocationRequest();
-    }
-
-    private void initializeLocationManager() {
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        criteria = new Criteria();
-        criteria.setPowerRequirement(Criteria.POWER_MEDIUM);
-        currentLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
     }
 
     private boolean hasGps() {

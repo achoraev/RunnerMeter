@@ -17,29 +17,30 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:id="@+id/map"
-                  android:layout_above="@+id/testBtn"
                   tools:context=".MainActivity"
                   android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
-    <RelativeLayout
+    <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:background="@android:color/transparent">
             <TextView
                     android:id="@+id/speed_meter"
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="70dp"
                     android:text="Test"
-                    android:background="@android:color/transparent"/>
+                    android:background="@android:color/holo_purple"
+                    android:padding="5dp"/>
             <Button
                     android:id="@+id/start_btn"
                     android:layout_width="150dp"
                     android:layout_height="70dp"
                     android:text="Start"
-                    android:background="@android:color/transparent"
-                    android:layout_alignEnd="@id/speed_meter"
-                    android:layout_alignParentEnd="true"/>
+                    android:background="@android:color/holo_purple"
+                    android:layout_gravity="right"/>
+
+        </FrameLayout>
 
         <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
@@ -50,8 +51,6 @@
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id">
         </com.google.android.gms.ads.AdView>
-
-    </RelativeLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right

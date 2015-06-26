@@ -40,8 +40,6 @@
                     android:background="@android:color/holo_purple"
                     android:layout_gravity="right"/>
 
-        </FrameLayout>
-
         <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 android:layout_width="wrap_content"
@@ -51,6 +49,8 @@
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_unit_id">
         </com.google.android.gms.ads.AdView>
+
+    </FrameLayout>
 
     <!-- android:layout_gravity="start" tells DrawerLayout to treat
          this as a sliding drawer on the left side for left-to-right

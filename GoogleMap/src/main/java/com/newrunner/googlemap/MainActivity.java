@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
-    public static final int MAP_ZOOM = 12;
+    public static final int MAP_ZOOM = 17;
     public static final float POLYLINE_WIDTH = 20;
     public static final int POLYLINE_COLOR = Color.RED;
 
@@ -96,11 +96,11 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
         updateValuesFromBundle(savedInstanceState);
 
-        if (savedInstanceState != null) {
+//        if (savedInstanceState != null) {
             SupportMapFragment mapFragment =
                     (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-        }
+//        }
 
         buildGoogleApiClient();
 
@@ -261,7 +261,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         Log.d(TAG, "Map is ready");
 //        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
-        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+//        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
     }
@@ -272,8 +272,9 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Connected to GoogleAPI", Toast.LENGTH_LONG).show();
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-            updateUI();
+//            updateUI();
         }
 
         if (mRequestingLocationUpdates) {
@@ -410,8 +411,12 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 
             if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
                 currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
-                updateUI();
+//                updateUI();
             }
+
+//            if(savedInstanceState.keySet().contains("Bundle")){
+//
+//            }
 
             // Update the value of mLastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
@@ -427,6 +432,7 @@ public class MainActivity extends ActionBarActivity implements OnMapReadyCallbac
 //        savedInstanceState.putAll(savedInstanceState);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
+//        savedInstanceState.putBundle("Bundle", savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
 

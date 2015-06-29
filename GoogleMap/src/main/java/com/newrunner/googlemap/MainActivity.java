@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String[] mPlanetTitles;
 
     private GoogleMap mMap;
+    private SupportMapFragment mapFragment;
     private LatLng currentCoordinates;
     private LatLng lastUpdatedCoord;
     private LatLng startPointCoord;
@@ -123,17 +124,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        dlDrawer.setDrawerListener(drawerToggle);
 
 
-
         // old drawer
 //        initializeNavigationDrawer();
 
         updateValuesFromBundle(savedInstanceState);
 
-//        if (savedInstanceState != null) {
-            SupportMapFragment mapFragment =
-                    (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        if (savedInstanceState == null) {
+            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction().replace(R.id.flContent, mapFragment).commit();
             mapFragment.getMapAsync(this);
-//        }
+        }
 
         buildGoogleApiClient();
 
@@ -516,9 +517,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                updateUI();
             }
 
-//            if(savedInstanceState.keySet().contains("Bundle")){
-//
-//            }
+            if(savedInstanceState.keySet().contains("Start")){
+                startPointCoord = savedInstanceState.getParcelable("Start");
+            }
 
             // Update the value of mLastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
@@ -533,7 +534,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mRequestingLocationUpdates);
 //        savedInstanceState.putAll(savedInstanceState);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
+        savedInstanceState.putParcelable("Start", startPointCoord);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
+
 //        savedInstanceState.putBundle("Bundle", savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -562,10 +565,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .add(lastUpdatedCoord, currentCoordinates)
                     .width(POLYLINE_WIDTH)
                     .color(POLYLINE_COLOR);
-            mMap.addPolyline(line);
+            if (mMap != null) {
+                mMap.addPolyline(line);
 //            SphericalUtil.computeDistanceBetween(lastUpdatedCoord, currentCoordinates);
 //            Location.distanceBetween();
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
+            }
         }
     }
 

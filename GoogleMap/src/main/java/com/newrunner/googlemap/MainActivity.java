@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
-    private DrawerLayout dlDrawer;
     private ActionBarDrawerToggle drawerToggle;
 
     private CharSequence mDrawerTitle;
@@ -106,18 +105,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        nvDrawer = (NavigationView) findViewById(R.id.nvView);
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
 
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
-        // Find our drawer view
-        nvDrawer = (NavigationView) findViewById(R.id.nvView);
-        // Setup drawer view
-        setupDrawerContent(nvDrawer);
 
         // Find our drawer view
-//        dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 //        drawerToggle = setupDrawerToggle();
 
         // Tie DrawerLayout events to the ActionBarToggle
@@ -207,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Class fragmentClass;
         switch(menuItem.getItemId()) {
             case R.id.nav_first_fragment:
-                fragmentClass = AccountActivity.class;
+                fragmentClass = MainActivity.class;
                 break;
             case R.id.nav_second_fragment:
                 fragmentClass = LoginActivity.class;
@@ -232,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
-        dlDrawer.closeDrawers();
+        mDrawer.closeDrawers();
     }
 
     private void initializeNavigationDrawer() {
@@ -303,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.drawer_menu, menu);
+        inflater.inflate(R.menu.main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -373,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toast.makeText(this, "Connected to GoogleAPI", Toast.LENGTH_LONG).show();
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
 //            updateUI();
         }
@@ -449,7 +446,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
 //        mDrawerToggle.syncState();
-        drawerToggle.syncState();
+//        drawerToggle.syncState();
     }
 
     @Override
@@ -475,7 +472,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
 //        mDrawerToggle.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+//        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -517,9 +514,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                updateUI();
             }
 
-            if(savedInstanceState.keySet().contains("Start")){
-                startPointCoord = savedInstanceState.getParcelable("Start");
-            }
+//            if(savedInstanceState.keySet().contains("Start")){
+//                startPointCoord = savedInstanceState.getParcelable("Start");
+//            }
 
             // Update the value of mLastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
@@ -534,7 +531,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mRequestingLocationUpdates);
 //        savedInstanceState.putAll(savedInstanceState);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
-        savedInstanceState.putParcelable("Start", startPointCoord);
+//        savedInstanceState.putParcelable("Start", startPointCoord);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
 
 //        savedInstanceState.putBundle("Bundle", savedInstanceState);
@@ -552,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void updateUI() {
-        lastUpdatedCoord = startPointCoord;
+//        lastUpdatedCoord = startPointCoord;
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();

@@ -18,7 +18,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -36,7 +39,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -78,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng lastUpdatedCoord;
     private LatLng startPointCoord;
     private Location currentLocation;
-//    private Double lat = 42.7079;
-//    private Double lon = 23.3613;
 
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Tie DrawerLayout events to the ActionBarToggle
 //        dlDrawer.setDrawerListener(drawerToggle);
 
-
         // old drawer
 //        initializeNavigationDrawer();
 
@@ -128,8 +127,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (savedInstanceState == null) {
             mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.flContent, mapFragment).commit();
             mapFragment.getMapAsync(this);
         }
 
@@ -197,8 +194,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        // Create a new fragment and specify the planet to show based on
-        // position
         Fragment fragment = null;
 
         Class fragmentClass;
@@ -316,11 +311,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-//        if (drawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-
         // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -416,36 +406,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-
-        // update selected item and title, then close the drawer
-        mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+//        Fragment fragment = new PlanetFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
+//        fragment.setArguments(args);
+//
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+//
+//        // update selected item and title, then close the drawer
+//        mDrawerList.setItemChecked(position, true);
+//        setTitle(mPlanetTitles[position]);
+//        mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
     public void setTitle(CharSequence title) {
-        mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
+//        mTitle = title;
+//        getSupportActionBar().setTitle(mTitle);
     }
-
-    /**
-     * When using the ActionBarDrawerToggle, you must call it during
-     * onPostCreate() and onConfigurationChanged()...
-     */
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-//        mDrawerToggle.syncState();
 //        drawerToggle.syncState();
     }
 
@@ -453,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onBackPressed() {
         if (exit) {
             super.onBackPressed();
-            finish(); // finish activity
+            finish();
         } else {
             Toast.makeText(this, getString(R.string.press_back_again),
                     Toast.LENGTH_SHORT).show();
@@ -471,13 +455,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-//        mDrawerToggle.onConfigurationChanged(newConfig);
 //        drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
-     * Fragment that appears in the "content_frame", shows a planet
-     */
     public static class PlanetFragment extends Fragment {
         public static final String ARG_PLANET_NUMBER = "planet_number";
 
@@ -485,19 +465,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             // Empty constructor required for fragment subclasses
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-            int i = getArguments().getInt(ARG_PLANET_NUMBER);
-            String planet = getResources().getStringArray(R.array.left_menu_items)[i];
-
-            int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-                    "drawable", getActivity().getPackageName());
-            ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
-            getActivity().setTitle(planet);
-            return rootView;
-        }
+//        @Override
+//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                                 Bundle savedInstanceState) {
+//            View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
+//            int i = getArguments().getInt(ARG_PLANET_NUMBER);
+//            String planet = getResources().getStringArray(R.array.left_menu_items)[i];
+//
+//            int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
+//                    "drawable", getActivity().getPackageName());
+//            ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
+//            getActivity().setTitle(planet);
+//            return rootView;
+//        }
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
@@ -529,12 +509,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
                 mRequestingLocationUpdates);
-//        savedInstanceState.putAll(savedInstanceState);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
 //        savedInstanceState.putParcelable("Start", startPointCoord);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
 
-//        savedInstanceState.putBundle("Bundle", savedInstanceState);
         super.onSaveInstanceState(savedInstanceState);
     }
 

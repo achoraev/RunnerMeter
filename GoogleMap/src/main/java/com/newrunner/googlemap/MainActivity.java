@@ -527,6 +527,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void updateUI() {
 //        lastUpdatedCoord = startPointCoord;
+        lastUpdatedCoord = new LatLng(43.25, 23.55);
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
@@ -534,7 +535,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lastUpdatedCoord = currentCoordinates;
             }
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            speedTest.setText(currentCoordinates.toString());
+//            speedTest.setText(currentCoordinates.toString());
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)
                     .width(POLYLINE_WIDTH)

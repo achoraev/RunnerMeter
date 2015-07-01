@@ -10,32 +10,24 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <!-- The ActionBar -->
+        <!-- The Toolbar -->
         <include
                 layout="@layout/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         <!-- The main content view -->
-        <FrameLayout
+        <LinearLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <include layout="@layout/map_layout"/>
-        </FrameLayout>
+        </LinearLayout>
     </LinearLayout>
 
+    <!-- The advertise -->
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
-        <com.google.android.gms.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"
-                                           xmlns:ads="http://schemas.android.com/apk/res-auto"
-                                           android:id="@+id/adView"
-                                           android:layout_width="wrap_content"
-                                           android:layout_height="wrap_content"
-                                           android:layout_centerHorizontal="true"
-                                           android:layout_alignParentBottom="true"
-                                           ads:adSize="BANNER"
-                                           ads:adUnitId="@string/banner_ad_unit_id">
-        </com.google.android.gms.ads.AdView>
+        <include layout="@layout/ad_layout"/>
     </RelativeLayout>
 
     <!-- The navigation drawer -->
@@ -47,14 +39,6 @@
             android:layout_gravity="start"
             android:background="@android:color/white"
             app:menu="@menu/drawer_menu"/>
-    <!-- As the main content view, the view below consumes the entire
-         space available using match_parent in both dimensions. -->
-    <!--<FrameLayout-->
-    <!--android:id="@+id/content_frame"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"/>-->
-
-    <!--<include layout="@layout/map_layout"/>-->
 
     <!--<FrameLayout-->
     <!--android:id="@+id/container"-->
@@ -76,19 +60,6 @@
     <!--android:background="@android:color/holo_purple"-->
     <!--android:layout_gravity="right"/>-->
 
-
     <!--</FrameLayout>-->
-
-    <!--<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">-->
-    <!--<include layout="@layout/add_layout"/>-->
-    <!--</RelativeLayout>-->
-
-    <!--&lt;!&ndash; android:layout_gravity="start" tells DrawerLayout to treat-->
-    <!--this as a sliding drawer on the left side for left-to-right-->
-    <!--languages and on the right side for right-to-left languages.-->
-    <!--The drawer is given a fixed width in dp and extends the full height of-->
-    <!--the container. A solid background is used for contrast-->
-    <!--with the content view. &ndash;&gt;-->
-    <!--<include layout="@layout/leftlist_layout"/>-->
 
 </android.support.v4.widget.DrawerLayout>

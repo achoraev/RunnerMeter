@@ -1,6 +1,9 @@
 package com.newrunner.googlemap;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -9,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,10 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -98,6 +97,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        startBtn = (Button) findViewById(R.id.start_btn);
 
         checkForGpsOnDevice();
+
+        setToolbarAndDrawer();
+
+        updateValuesFromBundle(savedInstanceState);
+
+        createGoogleMap();
+
+        buildGoogleApiClient();
+
+        // setup adds
+        setupAdds();
+    }
+
+    private void setToolbarAndDrawer() {
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -117,20 +130,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         drawerToggle = setupDrawerToggle();
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.setDrawerListener(drawerToggle);
+    }
 
-        // old drawer
-//        initializeNavigationDrawer();
+    private void createGoogleMap() {
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
-        updateValuesFromBundle(savedInstanceState);
-
-        if (savedInstanceState == null) {
-            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-            mapFragment.getMapAsync(this);
-        }
-
-        buildGoogleApiClient();
-
-        // setup adds
+    private void setupAdds() {
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -192,32 +199,57 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        Fragment fragment = null;
-
-        Class fragmentClass;
-        switch(menuItem.getItemId()) {
+        int layout = 0;
+        switch (menuItem.getItemId()) {
             case R.id.nav_first_fragment:
-                fragmentClass = MainActivity.class;
+                layout = R.layout.activity_main;
                 break;
             case R.id.nav_second_fragment:
-                fragmentClass = LoginActivity.class;
+                layout = R.layout.login_layout;
                 break;
             case R.id.nav_third_fragment:
-                fragmentClass = RegisterActivity.class;
+                layout = R.layout.register_layout;
+                break;
+            case R.id.nav_fourth_fragment:
+                layout = R.layout.account_layout;
                 break;
             default:
-                fragmentClass = MainActivity.class;
+                layout = R.layout.activity_main;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        getLayoutInflater();
+        LinearLayout container = (LinearLayout) findViewById(R.id.flContent);
+        inflater.inflate(layout, container, false);
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+//        old working version with fragments
+
+//        Fragment fragment = null;
+//
+//        Class fragmentClass;
+//        switch (menuItem.getItemId()) {
+//            case R.id.nav_first_fragment:
+//                fragmentClass = MainActivity.class;
+//                break;
+//            case R.id.nav_second_fragment:
+//                fragmentClass = LoginActivity.class;
+//                break;
+//            case R.id.nav_third_fragment:
+//                fragmentClass = RegisterActivity.class;
+//                break;
+//            default:
+//                fragmentClass = MainActivity.class;
+//        }
+//
+//        try {
+//            fragment = (Fragment) fragmentClass.newInstance();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        // Insert the fragment by replacing any existing fragment
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
@@ -320,30 +352,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-
-
-//        // The action bar home/up action should open or close the drawer.
-//        // ActionBarDrawerToggle will take care of this.
-//        if (mDrawerToggle.onOptionsItemSelected(item)) {
-//            return true;
-//        }
-//        // Handle action buttons
-//        switch (item.getItemId()) {
-//            case R.id.action_websearch:
-//                // create intent to perform web search for this planet
-//                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//                intent.putExtra(SearchManager.QUERY, getSupportActionBar().getTitle());
-//                // catch event that there's no activity to handle intent
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-//                }
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
+        // Handle action button
+        switch (item.getItemId()) {
+            case R.id.action_websearch:
+                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+                intent.putExtra(SearchManager.QUERY, "");
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -352,10 +374,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
 //        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+//        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMapToolbarEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 

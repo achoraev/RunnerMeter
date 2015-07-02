@@ -1,0 +1,21 @@
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+          android:id="@+id/info_fragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/speed_meter"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:text="Test"
+                android:background="@android:color/holo_purple"
+                android:padding="5dp"/>
+        <Button
+                android:id="@+id/start_btn"
+                android:layout_width="150dp"
+                android:layout_height="70dp"
+                android:text="Start"
+                android:background="@android:color/holo_purple"
+                android:layout_gravity="right"/>
+
+</fragment>

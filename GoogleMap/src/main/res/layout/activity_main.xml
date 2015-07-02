@@ -17,12 +17,12 @@
                 android:layout_height="wrap_content"/>
 
         <!-- The main content view -->
-        <LinearLayout
+        <FrameLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <include layout="@layout/map_layout"/>
-        </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
     <!-- The advertise -->
@@ -39,27 +39,5 @@
             android:layout_gravity="start"
             android:background="@android:color/white"
             app:menu="@menu/drawer_menu"/>
-
-    <!--<FrameLayout-->
-    <!--android:id="@+id/container"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="70dp"-->
-    <!--android:background="@android:color/transparent">-->
-    <!--<TextView-->
-    <!--android:id="@+id/speed_meter"-->
-    <!--android:layout_width="100dp"-->
-    <!--android:layout_height="70dp"-->
-    <!--android:text="Test"-->
-    <!--android:background="@android:color/holo_purple"-->
-    <!--android:padding="5dp"/>-->
-    <!--<Button-->
-    <!--android:id="@+id/start_btn"-->
-    <!--android:layout_width="150dp"-->
-    <!--android:layout_height="70dp"-->
-    <!--android:text="Start"-->
-    <!--android:background="@android:color/holo_purple"-->
-    <!--android:layout_gravity="right"/>-->
-
-    <!--</FrameLayout>-->
 
 </android.support.v4.widget.DrawerLayout>

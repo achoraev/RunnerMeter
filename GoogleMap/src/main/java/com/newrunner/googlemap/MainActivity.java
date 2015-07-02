@@ -1,7 +1,6 @@
 package com.newrunner.googlemap;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,7 +19,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.*;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -50,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
     public static final int MAP_ZOOM = 17;
-    public static final float POLYLINE_WIDTH = 20;
+    public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.RED;
 
     protected static final String TAG = "location";
@@ -199,106 +202,70 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-        int layout = 0;
-        switch (menuItem.getItemId()) {
-            case R.id.nav_first_fragment:
-                layout = R.layout.activity_main;
-                break;
-            case R.id.nav_second_fragment:
-                layout = R.layout.login_layout;
-                break;
-            case R.id.nav_third_fragment:
-                layout = R.layout.register_layout;
-                break;
-            case R.id.nav_fourth_fragment:
-                layout = R.layout.account_layout;
-                break;
-            default:
-                layout = R.layout.activity_main;
-        }
-
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        getLayoutInflater();
-        LinearLayout container = (LinearLayout) findViewById(R.id.flContent);
-        inflater.inflate(layout, container, false);
+//        int layout = 0;
+//        switch (menuItem.getItemId()) {
+//            case R.id.nav_first_fragment:
+//                layout = R.layout.activity_main;
+//                break;
+//            case R.id.nav_second_fragment:
+//                layout = R.layout.login_layout;
+//                break;
+//            case R.id.nav_third_fragment:
+//                layout = R.layout.register_layout;
+//                break;
+//            case R.id.nav_fourth_fragment:
+//                layout = R.layout.account_layout;
+//                break;
+//            default:
+//                layout = R.layout.activity_main;
+//        }
+//
+//        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+////        getLayoutInflater();
+//        LinearLayout container = (LinearLayout) findViewById(R.id.flContent);
+//        inflater.inflate(layout, container, false);
 
 //        old working version with fragments
 
-//        Fragment fragment = null;
-//
-//        Class fragmentClass;
-//        switch (menuItem.getItemId()) {
+        Fragment fragment = null;
+
+        Class fragmentClass;
+        switch (menuItem.getItemId()) {
 //            case R.id.nav_first_fragment:
 //                fragmentClass = MainActivity.class;
 //                break;
-//            case R.id.nav_second_fragment:
-//                fragmentClass = LoginActivity.class;
-//                break;
+            case R.id.nav_second_fragment:
+                fragment = new LoginFragment();
+                break;
 //            case R.id.nav_third_fragment:
 //                fragmentClass = RegisterActivity.class;
 //                break;
 //            default:
-//                fragmentClass = MainActivity.class;
-//        }
-//
+//                fragmentClass = LoginFragment.class;
+        }
+
 //        try {
 //            fragment = (Fragment) fragmentClass.newInstance();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//
-//        // Insert the fragment by replacing any existing fragment
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.map, fragment)
+                .addToBackStack(null)
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
+//        setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
 
-//    private void initializeNavigationDrawer() {
-//        mTitle = mDrawerTitle = getTitle();
-//        mPlanetTitles = getResources().getStringArray(R.array.left_menu_items);
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-//
-//        // set a custom shadow that overlays the main content when the drawer opens
-//        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-//        // set up the drawer's list view with items and click listener
-//        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-//                R.layout.drawer_list_item, mPlanetTitles));
-//        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-//
-//        // enable ActionBar app icon to behave as action to toggle nav drawer
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//
-//        // ActionBarDrawerToggle ties together the the proper interactions
-//        // between the sliding drawer and the action bar app icon
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this,                  /* host Activity */
-//                mDrawerLayout,         /* DrawerLayout object */
-//                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-//                R.string.drawer_open,  /* "open drawer" description for accessibility */
-//                R.string.drawer_close  /* "close drawer" description for accessibility */
-//        ) {
-//            public void onDrawerClosed(View view) {
-//                getSupportActionBar().setTitle(mTitle);
-//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-//            }
-//
-//            public void onDrawerOpened(View drawerView) {
-//                getSupportActionBar().setTitle(mDrawerTitle);
-//                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-//            }
-//        };
-//        mDrawerLayout.setDrawerListener(mDrawerToggle);
-//    }
-
     private void checkForGpsOnDevice() {
         if (!hasGps()) {
-            // If this hardware doesn't support GPS, we prefer to exit.
+            // If this hardware doesn't support GPS, we throw message
             Log.d(TAG, "This hardware doesn't have GPS");
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.gps_not_available))
@@ -555,7 +522,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void updateUI() {
 //        lastUpdatedCoord = startPointCoord;
-        lastUpdatedCoord = new LatLng(43.25, 23.55);
+        lastUpdatedCoord = new LatLng(42.679, 23.360);
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();

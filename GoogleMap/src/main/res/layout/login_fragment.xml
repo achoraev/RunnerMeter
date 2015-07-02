@@ -1,0 +1,19 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <fragment android:orientation="vertical"
+              android:layout_width="match_parent"
+              tools:context=".LoginFragment"
+              android:layout_height="match_parent"
+              android:weightSum="1">
+
+        <!--<TextView-->
+        <!--android:layout_width="149dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Login"-->
+        <!--android:id="@+id/textView"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_weight="0.26"/>-->
+    </fragment>
+</FrameLayout>

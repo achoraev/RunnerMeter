@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -47,7 +49,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 4000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
@@ -62,18 +64,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected final static String LOCATION_KEY = "location-key";
     protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
 
-//    private DrawerLayout mDrawerLayout;
-//    private ListView mDrawerList;
-//    private ActionBarDrawerToggle mDrawerToggle;
-
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
-
-//    private CharSequence mDrawerTitle;
-//    private CharSequence mTitle;
-//    private String[] mPlanetTitles;
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -84,11 +78,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
-    private String mLastUpdateTime;
+    private String lastUpdateTime;
+    private String startTime = null;
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
+    double currentDistance = 0;
 
-    TextView speedTest;
+    TextView distanceMeter;
+    TextView speedMeter;
+    TextView timeMeter;
     Button startBtn;
 
     @Override
@@ -96,8 +94,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        speedTest = (TextView) findViewById(R.id.speed_meter);
-//        startBtn = (Button) findViewById(R.id.start_btn);
+        distanceMeter = (TextView) findViewById(R.id.distance_meter);
+        speedMeter = (TextView) findViewById(R.id.speed_meter);
+        timeMeter = (TextView) findViewById(R.id.time_meter);
+        startBtn = (Button) findViewById(R.id.start_btn);
 
         checkForGpsOnDevice();
 
@@ -229,19 +229,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Fragment fragment = null;
 
-        Class fragmentClass;
         switch (menuItem.getItemId()) {
-//            case R.id.nav_first_fragment:
-//                fragmentClass = MainActivity.class;
-//                break;
+            case R.id.nav_first_fragment:
+                fragment = new LoginFragment();
+                break;
             case R.id.nav_second_fragment:
                 fragment = new LoginFragment();
                 break;
-//            case R.id.nav_third_fragment:
-//                fragmentClass = RegisterActivity.class;
-//                break;
-//            default:
-//                fragmentClass = LoginFragment.class;
+            case R.id.nav_third_fragment:
+                fragment = new LoginFragment();
+                break;
+            case R.id.nav_fourth_fragment:
+                fragment = new LoginFragment();
+                break;
+            case R.id.nav_fifth_fragment:
+                fragment = new LoginFragment();
+                break;
         }
 
 //        try {
@@ -253,13 +256,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.map, fragment)
+                .replace(R.id.flContent, fragment)
                 .addToBackStack(null)
                 .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
-//        setTitle(menuItem.getTitle());
+        setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
 
@@ -355,8 +358,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-//            updateUI();
+        }
+        lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+
+        if (startTime == null) {
+            startTime = lastUpdateTime;
         }
 
         if (mRequestingLocationUpdates) {
@@ -385,9 +391,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        updateUI();
-        Toast.makeText(this, mLastUpdateTime, Toast.LENGTH_LONG).show();
+        lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        try {
+            updateUI();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+//        Toast.makeText(this, lastUpdateTime, Toast.LENGTH_LONG).show();
     }
 
     /* The click listener for ListView in the navigation drawer */
@@ -492,9 +502,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                startPointCoord = savedInstanceState.getParcelable("Start");
 //            }
 
-            // Update the value of mLastUpdateTime from the Bundle and update the UI.
+            // Update the value of lastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
-                mLastUpdateTime = savedInstanceState.getString(
+                lastUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
         }
@@ -505,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mRequestingLocationUpdates);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
 //        savedInstanceState.putParcelable("Start", startPointCoord);
-        savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, mLastUpdateTime);
+        savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, lastUpdateTime);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -520,8 +530,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mGoogleApiClient, this);
     }
 
-    private void updateUI() {
-//        lastUpdatedCoord = startPointCoord;
+    private void updateUI() throws ParseException {
         lastUpdatedCoord = new LatLng(42.679, 23.360);
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
@@ -530,7 +539,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lastUpdatedCoord = currentCoordinates;
             }
             currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//            speedTest.setText(currentCoordinates.toString());
+            currentDistance += calculateDistance(lastUpdatedCoord, currentCoordinates);
+            distanceMeter.setText(String.format("%.2f m", currentDistance));
+            speedMeter.setText(calculateSpeed());
+            timeMeter.setText(calculateTime(lastUpdateTime, startTime));
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)
                     .width(POLYLINE_WIDTH)
@@ -543,6 +555,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
+    private double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
+        float[] result = new float[2];
+        Location.distanceBetween(lastUpdatedCoord.latitude,
+                lastUpdatedCoord.longitude,
+                currentCoordinates.latitude,
+                currentCoordinates.longitude, result);
+        return result[0];
+    }
+
+    private String calculateSpeed() {
+        String result = "0";
+        return (result + " km/h");
+    }
+
+    private String calculateTime(String lastUpdateTime, String startTime) throws ParseException {
+        Date lastDate = new SimpleDateFormat("HH:mm:ss").parse(lastUpdateTime);
+        Date startDate = new SimpleDateFormat("HH:mm:ss").parse(startTime);
+
+        long diff = lastDate.getTime() - startDate.getTime();
+        long diffSeconds = diff / 1000 % 60;
+        long diffMinutes = diff / (60 * 1000) % 60;
+        long diffHours = diff / (60 * 60 * 1000) % 24;
+
+        String result = diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
+
+        return result;
+    }
+
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();

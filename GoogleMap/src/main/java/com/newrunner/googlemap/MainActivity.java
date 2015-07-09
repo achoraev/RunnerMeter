@@ -94,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Parse.enableLocalDatastore(this);
+//
+//        Parse.initialize(this, R.string.parse_app_id, R.string.parse_client_key);
+
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
         timeMeter = (TextView) findViewById(R.id.time_meter);
@@ -269,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void checkForGpsOnDevice() {
         if (!hasGps()) {
             // If this hardware doesn't support GPS, we throw message
-            Log.d(TAG, "This hardware doesn't have GPS");
+            Log.d(TAG, getString(R.string.dontHaveGps));
             new AlertDialog.Builder(this)
                     .setMessage(getString(R.string.gps_not_available))
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -549,8 +553,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .color(POLYLINE_COLOR);
             if (mMap != null) {
                 mMap.addPolyline(line);
-//            SphericalUtil.computeDistanceBetween(lastUpdatedCoord, currentCoordinates);
-//            Location.distanceBetween();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
             }
         }

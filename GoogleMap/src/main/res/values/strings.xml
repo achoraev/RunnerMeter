@@ -20,4 +20,5 @@
     <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
     <string name="press_back_again">Press Back again to Exit.</string>
     <string name="action_logout">Logout</string>
+    <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
 </resources>

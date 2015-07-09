@@ -5,24 +5,24 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_first_fragment"
+                android:id="@+id/nav_map_fragment"
                 android:icon="@drawable/ic_one"
                 android:title="Map"
                 android:checked="true"/>
         <item
-                android:id="@+id/nav_second_fragment"
+                android:id="@+id/nav_login_fragment"
                 android:icon="@drawable/ic_two"
                 android:title="Login" />
         <item
-                android:id="@+id/nav_third_fragment"
+                android:id="@+id/nav_register_fragment"
                 android:icon="@drawable/ic_three"
                 android:title="Register" />
         <item
-                android:id="@+id/nav_fourth_fragment"
+                android:id="@+id/nav_account_fragment"
                 android:icon="@drawable/ic_three"
                 android:title="Account" />
         <item
-                android:id="@+id/nav_fifth_fragment"
+                android:id="@+id/nav_Leatherboard_fragment"
                 android:icon="@drawable/ic_three"
                 android:title="Leatherboard" />
     </group>

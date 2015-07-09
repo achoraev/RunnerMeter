@@ -37,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.parse.Parse;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         // init parse
-//        Parse.enableLocalDatastore(this);
+        Parse.enableLocalDatastore(this);
 //        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
 
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
@@ -234,35 +235,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Fragment fragment = null;
 
         switch (menuItem.getItemId()) {
-            case R.id.nav_first_fragment:
+            case R.id.nav_map_fragment:
                 fragment = new LoginFragment();
                 break;
-            case R.id.nav_second_fragment:
+            case R.id.nav_login_fragment:
+//                fragment = new LoginFragment();
+//                ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+//                startActivityForResult(builder.build(), 0);
+                break;
+            case R.id.nav_register_fragment:
                 fragment = new LoginFragment();
                 break;
-            case R.id.nav_third_fragment:
+            case R.id.nav_account_fragment:
                 fragment = new LoginFragment();
                 break;
-            case R.id.nav_fourth_fragment:
-                fragment = new LoginFragment();
-                break;
-            case R.id.nav_fifth_fragment:
+            case R.id.nav_Leatherboard_fragment:
                 fragment = new LoginFragment();
                 break;
         }
 
-//        try {
-//            fragment = (Fragment) fragmentClass.newInstance();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.flContent, fragment)
-                .addToBackStack(null)
-                .commit();
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.flContent, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
@@ -314,14 +313,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        // The action bar home/up action should open or close the drawer.
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                mDrawer.openDrawer(GravityCompat.START);
-//                return true;
-//        }
-
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

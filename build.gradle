@@ -2,28 +2,15 @@
 
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-
-        // Module dependency on ParseLoginUI library sources
-//        compile project(':ParseLoginUI')
-
-// If your app's project does not have the Parse Android SDK already, copy it into your
-// project at YOUR_PROJECT_LIBS_PATH.
-//        compile files('libs/Parse-1.9.3.jar')
-//        compile files('libs/ParseFacebookUtilsV4-1.9.3.jar')
-
-// Uncomment if using Facebook Login (optional Maven dependency)
-// compile 'com.facebook.android:facebook-android-sdk:4.0.1'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }

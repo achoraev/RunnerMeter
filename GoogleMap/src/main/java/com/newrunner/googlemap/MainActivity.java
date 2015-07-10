@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.Parse;
+import com.parse.ui.ParseLoginBuilder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -240,8 +241,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_login_fragment:
 //                fragment = new LoginFragment();
-//                ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-//                startActivityForResult(builder.build(), 0);
+                ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+                startActivityForResult(builder.build(), 0);
                 break;
             case R.id.nav_register_fragment:
                 fragment = new LoginFragment();

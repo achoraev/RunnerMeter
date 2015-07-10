@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GoogleMap/GoogleMap.iml" filepath="$PROJECT_DIR$/GoogleMap/GoogleMap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" filepath="$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/RunnerMeter.iml" filepath="$PROJECT_DIR$/RunnerMeter.iml" />
     </modules>
   </component>

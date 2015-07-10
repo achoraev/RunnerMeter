@@ -1,1 +1,1 @@
-include ':GoogleMap'
+include ':GoogleMap', ':ParseLoginUI'

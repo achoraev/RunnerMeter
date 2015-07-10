@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private LatLng currentCoordinates;
-    private LatLng lastUpdatedCoord;
+    private LatLng lastUpdatedCoord = null;
     private LatLng startPointCoord;
     private Location currentLocation;
 
@@ -527,17 +527,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void updateUI() throws ParseException {
-        lastUpdatedCoord = new LatLng(42.679, 23.360);
+//        lastUpdatedCoord = new LatLng(42.679, 23.360);
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
+                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            } else {
+                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                startPointCoord = currentCoordinates;
+                lastUpdatedCoord = currentCoordinates;
             }
-            currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
             currentDistance += calculateDistance(lastUpdatedCoord, currentCoordinates);
             distanceMeter.setText(String.format("%.2f m", currentDistance));
             speedMeter.setText(calculateSpeed());
+            // save distance in variable
             timeMeter.setText(calculateTime(lastUpdateTime, startTime));
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)
@@ -551,7 +557,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
-        float[] result = new float[2];
+        float[] result = new float[4];
         Location.distanceBetween(lastUpdatedCoord.latitude,
                 lastUpdatedCoord.longitude,
                 currentCoordinates.latitude,

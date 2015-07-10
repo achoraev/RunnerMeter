@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // init parse
         Parse.enableLocalDatastore(this);
-//        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
+        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
 
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);

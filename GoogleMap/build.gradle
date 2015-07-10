@@ -29,7 +29,9 @@ dependencies {
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.parse.bolts:bolts-android:1.+'
-//    compile 'com.facebook.android:facebook-android-sdk:4.0.1'
+    // Uncomment if using Facebook Login (optional Maven dependency)
+    compile 'com.facebook.android:facebook-android-sdk:4.0.1'
+
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:recyclerview-v7:22.2.0'
@@ -42,9 +44,4 @@ dependencies {
 // project at YOUR_PROJECT_LIBS_PATH.
         compile files('libs/Parse-1.9.3.jar')
         compile files('libs/ParseFacebookUtilsV4-1.9.3.jar')
-
-// Uncomment if using Facebook Login (optional Maven dependency)
-// compile 'com.facebook.android:facebook-android-sdk:4.0.1'
-    // NOTE: Do not place your application dependencies here; they belong
-    // in the individual module build.gradle files
 }

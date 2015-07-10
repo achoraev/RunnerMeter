@@ -55,18 +55,29 @@
         <activity android:name=".AccountActivity"
                   android:label="Account">
         </activity>
-        <!--<activity-->
-                <!--android:name="com.parse.ui.ParseLoginActivity"-->
-                <!--android:label="@string/app_name"-->
-                <!--android:launchMode="singleTop">-->
-            <!--&lt;!&ndash; For more options, see https://www.parse.com/docs/android_guide#ui-login &ndash;&gt;-->
-            <!--<meta-data-->
-                    <!--android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"-->
-                    <!--android:value="true"/>-->
-            <!--<meta-data-->
-                    <!--android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"-->
-                    <!--android:value="true"/>-->
-        <!--</activity>-->
+        <activity
+                android:name="com.parse.ui.ParseLoginActivity"
+                android:label="@string/app_name"
+                android:launchMode="singleTop">
+            <!-- For more options, see https://www.parse.com/docs/android_guide#ui-login -->
+            <meta-data
+                    android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
+                    android:value="true"/>
+            <meta-data
+                    android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
+                    android:value="true"/>
+            <meta-data
+                    android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
+                    android:value="true"/>
+            <meta-data
+                    android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED"
+                    android:value="true"/>
+        </activity>
+        <activity android:name="com.facebook.FacebookActivity"
+                  android:configChanges=
+                          "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                  android:label="@string/app_name" />
         <activity
                 android:name="com.google.android.gms.ads.AdActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"

@@ -38,6 +38,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseTwitterUtils;
 import com.parse.ui.ParseLoginBuilder;
 
 import java.text.DateFormat;
@@ -99,6 +101,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // init parse
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
+        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        ParseFacebookUtils.initialize(this);
+        ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
+                getString(R.string.twitter_consumer_secret));
 
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);

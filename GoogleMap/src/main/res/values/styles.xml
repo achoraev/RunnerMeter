@@ -39,6 +39,7 @@ please see styles_device_defaults.xml.
         <item name="colorPrimary">#673AB7</item>
         <item name="colorPrimaryDark">#512DA8</item>
         <item name="colorAccent">#FF4081</item>
+        <!--<item name="android:background">@drawable/screen_background_dark_transparent</item>-->
     </style>
 
     <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->

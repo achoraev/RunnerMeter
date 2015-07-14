@@ -17,7 +17,7 @@ https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend
     <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
     <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
     // facebook
-    <string name="facebook_app_id">1399153903744743</string>
+    <string name="facebook_app_id">993071064060757</string>
     // twitter
     <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
     <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>

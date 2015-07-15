@@ -32,10 +32,7 @@ please see styles_device_defaults.xml.
     <!-- Global Theme Styles -->
     <eat-comment />
 
-    <style name="AppTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!--<style name="AppTheme" parent="@android:style/Theme.Holo">-->
-        <!-- Customize your theme here. -->
-        <!--<item name="android:windowActionBarOverlay">true</item>-->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#673AB7</item>
         <item name="colorPrimaryDark">#512DA8</item>
         <item name="colorAccent">#FF4081</item>

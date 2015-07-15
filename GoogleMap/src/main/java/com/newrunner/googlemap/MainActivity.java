@@ -37,7 +37,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ui.ParseLoginBuilder;
@@ -99,9 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_main);
 
         // init parse
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_key));
-        Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        ParseCommon.ParseInitialize(this);
         ParseFacebookUtils.initialize(this);
         ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
                 getString(R.string.twitter_consumer_secret));

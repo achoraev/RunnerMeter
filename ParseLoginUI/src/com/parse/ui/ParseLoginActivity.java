@@ -99,6 +99,14 @@ public class ParseLoginActivity extends FragmentActivity implements
       getSupportFragmentManager().beginTransaction().add(fragmentContainer,
           ParseLoginFragment.newInstance(configOptions)).commit();
     }
+
+//    layout.setOnTouchListener(new View.OnTouchListener() {
+//      @Override
+//      public boolean onTouch(View view, MotionEvent ev) {
+//        Utility.hideKeyboard(view, context);
+//        return false;
+//      }
+//    });
   }
 
   @Override

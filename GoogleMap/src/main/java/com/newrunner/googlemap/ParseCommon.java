@@ -11,6 +11,17 @@ import com.parse.ParseUser;
  * Created by angelr on 14-May-15.
  */
 public class ParseCommon {
+    public static boolean isUserLoggedIn(){
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            // do stuff with the user
+        } else {
+            // show the signup or login screen
+        }
+
+        return true;
+    }
+
     public static void registerOnParse(String userName, String passWord, String eMail, Context context) throws ParseException {
         ParseUser user = new ParseUser();
         user.setUsername(userName);

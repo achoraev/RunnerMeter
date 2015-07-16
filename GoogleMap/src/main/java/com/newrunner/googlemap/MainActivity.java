@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView distanceMeter;
     TextView speedMeter;
     TextView timeMeter;
+    TextView usersName;
     Button startBtn;
 
     @Override
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
         timeMeter = (TextView) findViewById(R.id.time_meter);
+        usersName = (TextView) findViewById(R.id.headerUserName);
         startBtn = (Button) findViewById(R.id.start_btn);
 
         checkForGpsOnDevice();
@@ -167,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
         }
+        // for facebook API
+        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
@@ -175,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
+        // for facebook API
+        AppEventsLogger.activateApp(this);
     }
 
     @Override

@@ -33,7 +33,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Window;
-
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 
@@ -100,10 +99,10 @@ public class ParseLoginActivity extends FragmentActivity implements
           ParseLoginFragment.newInstance(configOptions)).commit();
     }
 
-//    layout.setOnTouchListener(new View.OnTouchListener() {
+//    getWindow().getDecorView().getRootView().setOnTouchListener(new View.OnTouchListener() {
 //      @Override
 //      public boolean onTouch(View view, MotionEvent ev) {
-//        Utility.hideKeyboard(view, context);
+//        Utility.hideKeyboard(view, view.getContext());
 //        return false;
 //      }
 //    });

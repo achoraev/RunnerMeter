@@ -305,6 +305,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return true;
             case R.id.action_logout:
                 ParseCommon.logOutUser(this);
+                showUsername.setText("Guest");
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -11,6 +11,15 @@ import com.parse.ParseUser;
  * Created by angelr on 14-May-15.
  */
 public class ParseCommon {
+    public static void logOutUser(Context cont){
+        if(ParseUser.getCurrentUser() != null){
+            Toast.makeText(cont, cont.getString(R.string.successfull_logout), Toast.LENGTH_SHORT).show();
+            ParseUser.logOut();
+        } else {
+            Toast.makeText(cont, cont.getString(R.string.msg_not_logged_in), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public static boolean isUserLoggedIn(){
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {

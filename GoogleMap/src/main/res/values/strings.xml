@@ -21,4 +21,8 @@
     <string name="press_back_again">Press Back again to Exit.</string>
     <string name="action_logout">Logout</string>
     <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
+    <string name="need_internet_msg">This application needs access to the internet!</string>
+    <string name="want_to_continue">Do you want to continue?</string>
+    <string name="successfull_logout">You are successfully logged out.</string>
+    <string name="msg_not_logged_in">You are not logged in.</string>
 </resources>

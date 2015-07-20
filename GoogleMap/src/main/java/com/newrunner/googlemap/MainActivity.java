@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // 1 start
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -126,6 +127,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         createGoogleMap();
 
         buildGoogleApiClient();
+
+//        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+//
+//        }
 
         // setup adds
         setupAdds();
@@ -166,12 +171,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onStart() {
+        // 3- pause
+        // 2 start
         super.onStart();
         mGoogleApiClient.connect();
     }
 
     @Override
     protected void onPause() {
+        // 1 - pause
         super.onPause();
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
@@ -182,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onResume() {
+        // 4- pause
+        // 3 start
         super.onResume();
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
@@ -192,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onStop() {
+        // 2- pause
         super.onStop();
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
@@ -390,11 +401,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(ParseCommon.isUserLoggedIn()){
             if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-                Toast.makeText(this, "Logged with facebook",
-                        Toast.LENGTH_SHORT).show();
-//                showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
-                ProfilePictureView facebookProfilPicture = (ProfilePictureView) findViewById(R.id.profile_picture);
-                facebookProfilPicture.setProfileId(ParseUser.getCurrentUser().getObjectId());
+                showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
+                ProfilePictureView facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
+                facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getObjectId());
             } else {
                 showUsername.setText(ParseUser.getCurrentUser().getUsername());
             }

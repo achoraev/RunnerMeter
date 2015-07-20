@@ -21,11 +21,11 @@ public class Utility {
     public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork == null && !activeNetwork.isConnectedOrConnecting()) {
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
             // There are no active networks.
-            return false;
-        } else
             return true;
+        } else
+            return false;
     }
 
     public static void createDialogWithButtons(Context context, String message, String question) {

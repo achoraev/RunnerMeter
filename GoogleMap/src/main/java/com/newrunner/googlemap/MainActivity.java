@@ -1,7 +1,6 @@
 package com.newrunner.googlemap;
 
 import android.app.SearchManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -15,15 +14,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -40,6 +39,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
+import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
 import java.text.DateFormat;
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView distanceMeter;
     TextView speedMeter;
     TextView timeMeter;
-    TextView usersName;
+    TextView showUsername;
     Button startBtn;
 
     @Override
@@ -108,8 +108,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
         timeMeter = (TextView) findViewById(R.id.time_meter);
-        usersName = (TextView) findViewById(R.id.headerUserName);
         startBtn = (Button) findViewById(R.id.start_btn);
+
+        showUsername = (TextView) findViewById(R.id.header_username);
+
+        if(!Utility.isNetworkConnected(this)) {
+            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), getString(R.string.want_to_continue));
+        }
 
         checkForGpsOnDevice();
 
@@ -218,30 +223,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
-//        int layout = 0;
-//        switch (menuItem.getItemId()) {
-//            case R.id.nav_first_fragment:
-//                layout = R.layout.activity_main;
-//                break;
-//            case R.id.nav_second_fragment:
-//                layout = R.layout.login_layout;
-//                break;
-//            case R.id.nav_third_fragment:
-//                layout = R.layout.register_layout;
-//                break;
-//            case R.id.nav_fourth_fragment:
-//                layout = R.layout.account_layout;
-//                break;
-//            default:
-//                layout = R.layout.activity_main;
-//        }
-//
-//        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-////        getLayoutInflater();
-//        LinearLayout container = (LinearLayout) findViewById(R.id.flContent);
-//        inflater.inflate(layout, container, false);
-
-//        old working version with fragments
 
         Fragment fragment = null;
 
@@ -250,11 +231,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 fragment = new LoginFragment();
                 break;
             case R.id.nav_login_fragment:
-//                fragment = new LoginFragment();
+                // todo check that user is not logged in
                 ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
                 startActivityForResult(builder.build(), 0);
                 break;
-            case R.id.nav_register_fragment:
+            case R.id.nav_feedback_fragment:
                 fragment = new LoginFragment();
                 break;
             case R.id.nav_account_fragment:
@@ -284,25 +265,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (!hasGps()) {
             // If this hardware doesn't support GPS, we throw message
             Log.d(TAG, getString(R.string.dontHaveGps));
-            new AlertDialog.Builder(this)
-                    .setMessage(getString(R.string.gps_not_available))
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-//                            finish();
-                            dialog.cancel();
-                        }
-                    })
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            dialog.cancel();
-//                            finish();
-                        }
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show();
+            Utility.createDialogWithButtons(this, getString(R.string.gps_not_available), "");
         }
     }
 
@@ -339,6 +302,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
                 }
                 return true;
+            case R.id.action_logout:
+                ParseCommon.logOutUser(this);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -406,30 +371,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Toast.makeText(this, lastUpdateTime, Toast.LENGTH_LONG).show();
     }
 
-    /* The click listener for ListView in the navigation drawer */
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
-    private void selectItem(int position) {
-        // update the main content by replacing fragments
-//        Fragment fragment = new PlanetFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-//        fragment.setArguments(args);
-//
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
-//
-//        // update selected item and title, then close the drawer
-//        mDrawerList.setItemChecked(position, true);
-//        setTitle(mPlanetTitles[position]);
-//        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
     @Override
     public void setTitle(CharSequence title) {
 //        mTitle = title;
@@ -441,6 +382,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(ParseCommon.isUserLoggedIn()){
+            showUsername.setText(ParseUser.getCurrentUser().getUsername());
+            if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+                Toast.makeText(this, "Logged with facebook",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -466,28 +419,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    public static class PlanetFragment extends Fragment {
-        public static final String ARG_PLANET_NUMBER = "planet_number";
-
-        public PlanetFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-//        @Override
-//        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                                 Bundle savedInstanceState) {
-//            View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-//            int i = getArguments().getInt(ARG_PLANET_NUMBER);
-//            String planet = getResources().getStringArray(R.array.left_menu_items)[i];
-//
-//            int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-//                    "drawable", getActivity().getPackageName());
-//            ((ImageView) rootView.findViewById(R.id.image)).setImageResource(imageId);
-//            getActivity().setTitle(planet);
-//            return rootView;
-//        }
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {

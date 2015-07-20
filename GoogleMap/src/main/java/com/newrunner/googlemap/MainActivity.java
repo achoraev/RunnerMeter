@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
@@ -387,10 +388,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(ParseCommon.isUserLoggedIn()){
-            showUsername.setText(ParseUser.getCurrentUser().getUsername());
             if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
                 Toast.makeText(this, "Logged with facebook",
                         Toast.LENGTH_SHORT).show();
+//                showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
+                ProfilePictureView facebookProfilPicture = (ProfilePictureView) findViewById(R.id.profile_picture);
+                facebookProfilPicture.setProfileId(ParseUser.getCurrentUser().getObjectId());
+            } else {
+                showUsername.setText(ParseUser.getCurrentUser().getUsername());
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

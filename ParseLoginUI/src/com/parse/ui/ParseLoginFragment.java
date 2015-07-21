@@ -321,7 +321,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     twitterLoginButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        loadingStart(false); // Twitter login pop-up already has a spinner
+        loadingStart(true); // Twitter login pop-up already has a spinner
         ParseTwitterUtils.logIn(getActivity(), new LogInCallback() {
           @Override
           public void done(ParseUser user, ParseException e) {

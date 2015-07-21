@@ -39,7 +39,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
-import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -103,9 +102,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // init parse
         ParseCommon.ParseInitialize(this);
-        ParseFacebookUtils.initialize(this);
-        ParseTwitterUtils.initialize(getString(R.string.twitter_consumer_key),
-                getString(R.string.twitter_consumer_secret));
 
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
@@ -128,9 +124,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         buildGoogleApiClient();
 
-//        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-//
-//        }
+        if(ParseCommon.isUserLoggedIn()) {
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
+            } else {
+                showUsername.setText(ParseUser.getCurrentUser().getUsername());
+            }
+        }
 
         // setup adds
         setupAdds();
@@ -244,8 +244,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_login_fragment:
                 // todo check that user is not logged in
-                ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-                startActivityForResult(builder.build(), 0);
+                if(!ParseCommon.isUserLoggedIn()) {
+                    ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+                    startActivityForResult(builder.build(), 0);
+                } else {
+                    Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.nav_feedback_fragment:
                 fragment = new LoginFragment();
@@ -403,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
                 showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
                 ProfilePictureView facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
-                facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getObjectId());
+                facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getSessionToken());
             } else {
                 showUsername.setText(ParseUser.getCurrentUser().getUsername());
             }

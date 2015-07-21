@@ -2,10 +2,7 @@ package com.newrunner.googlemap;
 
 import android.content.Context;
 import android.widget.Toast;
-import com.parse.LogInCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
-import com.parse.ParseUser;
+import com.parse.*;
 
 /**
  * Created by angelr on 14-May-15.
@@ -26,6 +23,7 @@ public class ParseCommon {
             // do stuff with the user
         } else {
             // show the signup or login screen
+            return false;
         }
 
         return true;
@@ -75,5 +73,8 @@ public class ParseCommon {
         Parse.enableLocalDatastore(context);
         Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        ParseFacebookUtils.initialize(context);
+        ParseTwitterUtils.initialize(context.getString(R.string.twitter_consumer_key),
+                context.getString(R.string.twitter_consumer_secret));
     }
 }

@@ -1,16 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+              <!--android:id="@+id/start_page_layout"-->
+              <!--android:orientation="vertical"-->
+              <!--android:layout_width="match_parent"-->
+              <!--android:layout_height="match_parent"-->
+              <!--android:background="@drawable/runner2">-->
+
+    <!--<Button android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="WHY RUNNING?"-->
+            <!--android:id="@+id/why_btn"-->
+            <!--android:layout_gravity="center_horizontal" android:layout_centerVertical="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:background="@color/button_material_light"/>-->
+<!--</RelativeLayout>-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/start_page_layout"
-              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/runner2">
+              android:orientation="vertical"
+              android:background="#000000"
+              tools:context=".StartActivity">
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="WHY RUNNING?"
-            android:id="@+id/why_btn"
-            android:layout_gravity="center_horizontal" android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:background="@color/button_material_light"/>
-</RelativeLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="horizontal"
+                  android:layout_weight="5">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/top_left"
+                      android:layout_weight="2"
+                      android:background="#18FFFF"
+                      android:layout_marginRight="5dp"
+                      android:layout_marginBottom="5dp"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/bottom_left"
+                      android:layout_weight="2"
+                      android:background="#B39DDB"
+                      android:layout_marginRight="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+            <Button android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/top_right"
+                      android:layout_weight="2"
+                      android:background="@drawable/startrunner"
+                      android:layout_marginBottom="5dp"/>
+            <Button android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/center_right"
+                      android:layout_weight="2"
+                      android:background="#76FF03"
+                      android:layout_marginBottom="5dp"/>
+            <Button android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:id="@+id/bottom_right"
+                      android:layout_weight="2"
+                      android:background="#9C27B0"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

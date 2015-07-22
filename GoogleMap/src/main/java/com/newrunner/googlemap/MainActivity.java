@@ -39,6 +39,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected LocationRequest mLocationRequest;
     double currentDistance = 0;
 
+    private String userName;
+
     TextView distanceMeter;
     TextView speedMeter;
     TextView timeMeter;
@@ -125,15 +128,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildGoogleApiClient();
 
         if(ParseCommon.isUserLoggedIn()) {
-            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
-            } else {
-                showUsername.setText(ParseUser.getCurrentUser().getUsername());
-            }
+            setCurrentUserUsernameInHeader();
         }
 
         // setup adds
         setupAdds();
+    }
+
+    private void setCurrentUserUsernameInHeader() {
+        userName = ParseUser.getCurrentUser().get("name").toString();
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+            showUsername.setText(userName);
+        } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())){
+            showUsername.setText(userName);
+        } else {
+            userName = ParseUser.getCurrentUser().getUsername();
+            showUsername.setText(userName);
+        }
+        Toast.makeText(this, ("Welcome " + userName), Toast.LENGTH_SHORT).show();
     }
 
     private void setToolbarAndDrawer() {

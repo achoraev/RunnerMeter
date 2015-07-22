@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:weightSum="1">
+
     <TextView
             android:layout_width="149dp"
             android:layout_height="wrap_content"
-            android:text="Register"
-            android:id="@+id/textViewReg"
+            android:text="Feedback"
+            android:id="@+id/textView"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.26"/>
 </LinearLayout>

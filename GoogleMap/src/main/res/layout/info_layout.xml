@@ -9,14 +9,14 @@
                 android:id="@+id/distance_meter"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:text="Test"
+                android:text="0 m"
                 android:background="@android:color/holo_purple"
                 android:padding="5dp"/>
         <TextView
                 android:id="@+id/speed_meter"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
-                android:text="Test"
+                android:text="0 km/h"
                 android:background="@android:color/holo_purple"
                 android:padding="5dp"
                 android:layout_alignParentBottom="true"/>
@@ -33,7 +33,7 @@
             android:id="@+id/time_meter"
             android:layout_width="100dp"
             android:layout_height="70dp"
-            android:text="Test"
+            android:text="00:00:00"
             android:background="@android:color/holo_purple"
             android:layout_gravity="right"
             android:padding="5dp"/>

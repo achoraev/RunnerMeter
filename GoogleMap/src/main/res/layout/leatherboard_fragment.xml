@@ -7,7 +7,7 @@
     <TextView
             android:layout_width="149dp"
             android:layout_height="wrap_content"
-            android:text="Login"
+            android:text="LeatherBoard"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.26"/>

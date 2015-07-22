@@ -240,7 +240,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         switch (menuItem.getItemId()) {
             case R.id.nav_map_fragment:
-                fragment = new LoginFragment();
                 break;
             case R.id.nav_login_fragment:
                 // todo check that user is not logged in
@@ -252,13 +251,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 break;
             case R.id.nav_feedback_fragment:
-                fragment = new LoginFragment();
+                fragment = new FeedbackFragment();
                 break;
             case R.id.nav_account_fragment:
-                fragment = new LoginFragment();
+                fragment = new AccountFragment();
                 break;
             case R.id.nav_Leatherboard_fragment:
-                fragment = new LoginFragment();
+                fragment = new LeatherBoardFragment();
                 break;
         }
 

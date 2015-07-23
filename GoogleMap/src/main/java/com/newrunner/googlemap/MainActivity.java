@@ -1,7 +1,9 @@
 package com.newrunner.googlemap;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -29,9 +31,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.*;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -52,7 +55,10 @@ import java.util.Date;
  * Created by Angel Raev on 29-April-15.
  */
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener,
+        ResultCallback<LocationSettingsResult> {
 
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 4000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
@@ -87,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String startTime = null;
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
+    protected LocationSettingsRequest mLocationSettingsRequest;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     double currentDistance = 0;
 
     private String userName;
@@ -99,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // 1 start
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -117,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), getString(R.string.want_to_continue));
         }
 
-        checkForGpsOnDevice();
+//        checkForGpsOnDevice();
 
         setToolbarAndDrawer();
 
@@ -125,7 +132,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         createGoogleMap();
 
-        buildGoogleApiClient();
+        if (mGoogleApiClient == null) {
+            buildGoogleApiClient();
+        }
+
+        buildLocationSettingsRequest();
+        checkLocationSettings();
 
         if(ParseCommon.isUserLoggedIn()) {
             setCurrentUserUsernameInHeader();
@@ -135,17 +147,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupAdds();
     }
 
+    protected void buildLocationSettingsRequest() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        mLocationSettingsRequest = builder.build();
+    }
+
+    protected void checkLocationSettings() {
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(
+                        mGoogleApiClient,
+                        mLocationSettingsRequest
+                );
+        result.setResultCallback(this);
+    }
+
     private void setCurrentUserUsernameInHeader() {
-        userName = ParseUser.getCurrentUser().get("name").toString();
-        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-            showUsername.setText(userName);
-        } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())){
-            showUsername.setText(userName);
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (ParseFacebookUtils.isLinked(currentUser) ||
+                ParseTwitterUtils.isLinked(currentUser)) {
+            userName = currentUser.get("name").toString();
         } else {
-            userName = ParseUser.getCurrentUser().getUsername();
-            showUsername.setText(userName);
+            userName = currentUser.getUsername();
         }
-        Toast.makeText(this, ("Welcome " + userName), Toast.LENGTH_SHORT).show();
+        showUsername.setText(userName);
+        Toast.makeText(this, ("Welcome " + userName), Toast.LENGTH_LONG).show();
     }
 
     private void setToolbarAndDrawer() {
@@ -184,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         // 3- pause
+        // 1 start onCreate
         // 2 start
         super.onStart();
         mGoogleApiClient.connect();
@@ -193,9 +220,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onPause() {
         // 1 - pause
         super.onPause();
-        if (mGoogleApiClient.isConnected()) {
-            stopLocationUpdates();
-        }
+//        if (mGoogleApiClient.isConnected()) {
+//            stopLocationUpdates();
+//        }
         // for facebook API
         AppEventsLogger.deactivateApp(this);
     }
@@ -216,10 +243,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onStop() {
         // 2- pause
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
-            stopLocationUpdates();
-            mGoogleApiClient.disconnect();
-        }
+//        if (mGoogleApiClient.isConnected()) {
+//            stopLocationUpdates();
+//            mGoogleApiClient.disconnect();
+//        }
     }
 
     @Override
@@ -414,15 +441,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // result from check Gps on/off
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.i(TAG, "User agreed to make required location settings changes.");
+                        startLocationUpdates();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Log.i(TAG, "User chose not to make required location settings changes.");
+                        break;
+                }
+                break;
+        }
+
+        // check current user
         if(ParseCommon.isUserLoggedIn()){
+            setCurrentUserUsernameInHeader();
             if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-                showUsername.setText(ParseUser.getCurrentUser().get("name").toString());
                 ProfilePictureView facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
                 facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getSessionToken());
-            } else {
-                showUsername.setText(ParseUser.getCurrentUser().getUsername());
             }
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -488,13 +531,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     protected void startLocationUpdates() {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+                    }
+                });
     }
 
     protected void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
+                mGoogleApiClient, this)
+                .setResultCallback(new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+                    }
+                });
     }
 
     private void updateUI() throws ParseException {
@@ -560,12 +614,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
     protected synchronized void buildGoogleApiClient() {
         Log.d(TAG, "Building GoogleApiClient");
-        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -576,5 +630,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private boolean hasGps() {
         return getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
+    }
+
+    @Override
+    public void onResult(LocationSettingsResult locationSettingsResult) {
+        final Status status = locationSettingsResult.getStatus();
+        switch (status.getStatusCode()) {
+            case LocationSettingsStatusCodes.SUCCESS:
+                Log.i(TAG, "All location settings are satisfied.");
+                startLocationUpdates();
+                break;
+            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
+                        "upgrade location settings ");
+
+                try {
+                    // Show the dialog by calling startResolutionForResult(), and check the result
+                    // in onActivityResult().
+                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.i(TAG, "PendingIntent unable to execute request.");
+                }
+                break;
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                Log.i(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
+                        "not created.");
+                break;
+        }
     }
 }

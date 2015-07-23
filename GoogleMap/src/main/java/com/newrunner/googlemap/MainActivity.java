@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String userName;
 
+    Fragment fragment = null;
+
     TextView distanceMeter;
     TextView speedMeter;
     TextView timeMeter;
@@ -275,13 +277,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void selectDrawerItem(MenuItem menuItem) {
 
-        Fragment fragment = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         switch (menuItem.getItemId()) {
             case R.id.nav_map_fragment:
+                if (fragment != null) {
+                    fragmentManager.beginTransaction()
+                            .remove(fragment)
+                            .commit();
+                }
                 break;
             case R.id.nav_login_fragment:
-                // todo check that user is not logged in
                 if(!ParseCommon.isUserLoggedIn()) {
                     ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
                     startActivityForResult(builder.build(), 0);
@@ -302,7 +308,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Insert the fragment by replacing any existing fragment
         if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.flContent, fragment)
                     .addToBackStack(null)
@@ -471,8 +476,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
+
         if (exit) {
-            super.onBackPressed();
             finish();
         } else {
             Toast.makeText(this, getString(R.string.press_back_again),

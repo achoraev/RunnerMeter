@@ -70,7 +70,7 @@ public class ParseCommon {
     }
 
     public static void ParseInitialize(Context context) {
-        Parse.enableLocalDatastore(context);
+//        Parse.enableLocalDatastore(context);
         Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
         ParseFacebookUtils.initialize(context);

@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         LocationListener,
         ResultCallback<LocationSettingsResult> {
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 4000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     double currentDistance = 0;
+    boolean startButtonEnabled;
 
     private String userName;
 
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView speedMeter;
     TextView timeMeter;
     TextView showUsername;
-    Button startBtn;
+    Button startStopBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,8 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
         timeMeter = (TextView) findViewById(R.id.time_meter);
-        startBtn = (Button) findViewById(R.id.start_btn);
-
+        startStopBtn = (Button) findViewById(R.id.start_stop_btn);
         showUsername = (TextView) findViewById(R.id.header_username);
 
         if(!Utility.isNetworkConnected(this)) {
@@ -144,6 +145,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if(ParseCommon.isUserLoggedIn()) {
             setCurrentUserUsernameInHeader();
         }
+
+        startStopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!startButtonEnabled){
+                    startStopBtn.setBackgroundResource(R.drawable.stop_btn);
+                    startButtonEnabled = true;
+//                    startLocationUpdates();
+                } else {
+                    startStopBtn.setBackgroundResource(R.drawable.start_btn);
+//                    stopLocationUpdates();
+                    startButtonEnabled = false;
+                }
+
+            }
+        });
 
         // setup adds
         setupAdds();
@@ -284,10 +301,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (fragment != null) {
                     fragmentManager.beginTransaction()
                             .remove(fragment)
+                            .addToBackStack(null)
                             .commit();
                 }
+                fragment = null;
                 break;
             case R.id.nav_login_fragment:
+                fragment = null;
                 if(!ParseCommon.isUserLoggedIn()) {
                     ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
                     startActivityForResult(builder.build(), 0);
@@ -309,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Insert the fragment by replacing any existing fragment
         if (fragment != null) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.flContent, fragment)
+                    .add(R.id.flContent, fragment)
                     .addToBackStack(null)
                     .commit();
         }
@@ -453,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.i(TAG, "User agreed to make required location settings changes.");
-                        startLocationUpdates();
+//                        startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
                         Log.i(TAG, "User chose not to make required location settings changes.");
@@ -620,7 +640,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -644,7 +664,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         switch (status.getStatusCode()) {
             case LocationSettingsStatusCodes.SUCCESS:
                 Log.i(TAG, "All location settings are satisfied.");
-                startLocationUpdates();
+//                startLocationUpdates();
                 break;
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                 Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +

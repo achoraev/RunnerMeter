@@ -1,15 +1,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:id="@+id/info_container"
              android:layout_width="match_parent"
-             android:layout_height="70dp"
-             android:background="@color/Blue_700">
+             android:layout_height="80dp"
+             android:background="@drawable/screen_background_dark_transparent">
 
-    <RelativeLayout android:layout_width="120dp" android:layout_height="70dp">
+    <RelativeLayout android:layout_width="120dp"
+                    android:layout_height="match_parent">
         <TextView
                 android:id="@+id/distance_meter"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
                 android:text="0 m"
+                android:textSize="20dp"
+                android:gravity="end"
                 android:background="@android:color/holo_purple"
                 android:padding="5dp"/>
         <TextView
@@ -17,23 +20,25 @@
                 android:layout_width="120dp"
                 android:layout_height="30dp"
                 android:text="0 km/h"
+                android:textSize="20dp"
+                android:gravity="end"
                 android:background="@android:color/holo_purple"
                 android:padding="5dp"
                 android:layout_alignParentBottom="true"/>
     </RelativeLayout>
     <Button
-            android:id="@+id/start_btn"
+            android:id="@+id/start_stop_btn"
             android:layout_width="130dp"
-            android:layout_height="70dp"
-            android:text="Start"
-            android:background="@android:color/holo_purple"
+            android:layout_height="match_parent"
+            android:background="@drawable/start_btn"
             android:layout_gravity="center"/>
 
     <TextView
             android:id="@+id/time_meter"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
             android:text="00:00:00"
+            android:textSize="20dp"
             android:background="@android:color/holo_purple"
             android:layout_gravity="right"
             android:padding="5dp"/>

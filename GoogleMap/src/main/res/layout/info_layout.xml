@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:id="@+id/info_container"
              android:layout_width="match_parent"
-             android:layout_height="90dp"
+             android:layout_height="wrap_content"
              android:background="@drawable/screen_background_dark_transparent">
 
     <LinearLayout android:layout_width="match_parent"
@@ -70,7 +70,7 @@
                     android:id="@+id/time_meter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="00:00:00"
+                    android:text="--:--:--"
                     android:textSize="20dp"
                     android:gravity="center"/>
             <TextView

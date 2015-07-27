@@ -152,6 +152,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if(!startButtonEnabled){
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
                     startButtonEnabled = true;
+                    Session currentSession = new Session();
+                    ParseUser guestUser = new ParseUser();
+                    guestUser.setUsername("Guest");
+                    currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
 //                    startLocationUpdates();
                 } else {
                     startStopBtn.setBackgroundResource(R.drawable.start_btn);
@@ -323,6 +327,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_Leatherboard_fragment:
                 fragment = new LeatherBoardFragment();
+                break;
+            case R.id.rate_app_fragment:
+//                fragment = new LeatherBoardFragment();
                 break;
         }
 

@@ -77,4 +77,13 @@ public class ParseCommon {
         ParseTwitterUtils.initialize(context.getString(R.string.twitter_consumer_key),
                 context.getString(R.string.twitter_consumer_secret));
     }
+
+    public static ParseUser createGuestUser(ParseUser guestUser) {
+        guestUser = new ParseUser();
+        guestUser.setUsername("Guest");
+        guestUser.setEmail("test@tes.com");
+        guestUser.setPassword("");
+        guestUser.saveInBackground();
+        return guestUser;
+    }
 }

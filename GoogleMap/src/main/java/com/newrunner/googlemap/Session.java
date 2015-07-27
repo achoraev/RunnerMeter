@@ -14,7 +14,7 @@ public class Session {
     private long duration = 0;
     private long timePerKilometer = 0;
 
-    public Session(){
+    public Session() {
 
     }
 
@@ -33,6 +33,7 @@ public class Session {
     public void setMaxSpeed(long maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
+
     public long getAverageSpeed() {
         return averageSpeed;
     }
@@ -48,6 +49,7 @@ public class Session {
     public void setDistance(long distance) {
         this.distance = distance;
     }
+
     public long getDuration() {
         return duration;
     }
@@ -55,7 +57,17 @@ public class Session {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
     public long getTimePerKilometer() {
         return timePerKilometer;
+    }
+
+    public void setTimePerKilometer(long distance, long duration) {
+        this.timePerKilometer = calculateTimePerKilometer(distance, duration);
+    }
+
+    private long calculateTimePerKilometer(long distance, long duration) {
+        long result = ((duration / 60) / (distance / 1000));
+        return result;
     }
 }

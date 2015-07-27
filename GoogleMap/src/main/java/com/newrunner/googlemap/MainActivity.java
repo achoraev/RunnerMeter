@@ -43,6 +43,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     boolean startButtonEnabled;
 
     private String userName;
+    private Session currentSession;
+    private ParseUser guestUser;
 
     Fragment fragment = null;
 
@@ -152,15 +155,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if(!startButtonEnabled){
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
                     startButtonEnabled = true;
-                    Session currentSession = new Session();
-                    ParseUser guestUser = new ParseUser();
-                    guestUser.setUsername("Guest");
+                    currentSession = new Session();
+                    guestUser = ParseCommon.createGuestUser(guestUser);
                     currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
 //                    startLocationUpdates();
                 } else {
                     startStopBtn.setBackgroundResource(R.drawable.start_btn);
 //                    stopLocationUpdates();
                     startButtonEnabled = false;
+                    currentSession.setMaxSpeed(37);
+                    currentSession.setAverageSpeed(30);
+                    currentSession.setDistance(1500);
+                    currentSession.setDuration(420);
+                    currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
+                    ParseObject saveSession = new ParseObject("Sessions");
+                    saveSession.put("maxSpeed", currentSession.getMaxSpeed());
+                    saveSession.put("averageSpeed", currentSession.getAverageSpeed());
+                    saveSession.put("distance", currentSession.getDistance());
+                    saveSession.put("duration", currentSession.getDuration());
+                    saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
+                    saveSession.saveInBackground();
                 }
 
             }

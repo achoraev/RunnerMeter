@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -48,6 +50,8 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -508,11 +512,46 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             setCurrentUserUsernameInHeader();
             if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
                 ProfilePictureView facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
-                facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getSessionToken());
+                facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getObjectId());
+                Bitmap pic = getUserPic(ParseUser.getCurrentUser().getUsername());
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+//    private void makeMeRequest(final Session session) {
+//        Request request = Request.newMeRequest(session,
+//                new Request.GraphUserCallback() {
+//
+//                    @Override
+//                    public void onCompleted(GraphUser user, Response response) {
+//                        // If the response is successful
+//                        if (session == Session.getActiveSession()) {
+//                            if (user != null) {
+//                                String facebookId = user.getId();
+//                            }
+//                        }
+//                        if (response.getError() != null) {
+//                            // Handle error
+//                        }
+//                    }
+//                });
+//        request.executeAsync();
+//    }
+
+    public Bitmap getUserPic(String userID) {
+        String imageURL;
+        Bitmap bitmap = null;
+        Log.d(TAG, "Loading Picture");
+        imageURL = "http://graph.facebook.com/"+userID+"/picture?type=small";
+        try {
+            bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).getContent());
+        } catch (Exception e) {
+            Log.d("TAG", "Loading Picture FAILED");
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     @Override

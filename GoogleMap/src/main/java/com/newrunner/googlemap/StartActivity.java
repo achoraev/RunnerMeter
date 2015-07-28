@@ -19,6 +19,9 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_layout);
 
+        // init parse
+        ParseCommon.ParseInitialize(this);
+
         Button startBtn = (Button) findViewById(R.id.center_right);
         LinearLayout layout = (LinearLayout) findViewById(R.id.start_page_layout);
 

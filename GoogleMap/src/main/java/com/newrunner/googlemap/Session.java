@@ -74,6 +74,8 @@ public class Session {
         } else if(result % 1 == 0.60) {
             finalResult += 1.00;
         }
-        return Math.round(finalResult * 100) / 100;
+
+        finalResult = Math.round(finalResult * 100);
+        return finalResult / 100;
     }
 }

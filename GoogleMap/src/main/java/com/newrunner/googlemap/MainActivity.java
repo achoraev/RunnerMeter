@@ -124,9 +124,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // init parse
-        ParseCommon.ParseInitialize(this);
-
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
         timeMeter = (TextView) findViewById(R.id.time_meter);

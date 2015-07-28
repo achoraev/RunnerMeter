@@ -8,11 +8,11 @@ import com.parse.ParseUser;
 public class Session {
 
     private ParseUser currentUser = null;
-    private long maxSpeed = 0;
-    private long averageSpeed = 0;
-    private long distance = 0;
-    private long duration = 0;
-    private long timePerKilometer = 0;
+    private double maxSpeed = 0;
+    private double averageSpeed = 0;
+    private double distance = 0;
+    private double duration = 0;
+    private double timePerKilometer = 0;
 
     public Session() {
 
@@ -26,48 +26,54 @@ public class Session {
         this.currentUser = currentUser;
     }
 
-    public long getMaxSpeed() {
+    public double getMaxSpeed() {
         return maxSpeed;
     }
 
-    public void setMaxSpeed(long maxSpeed) {
+    public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
     }
 
-    public long getAverageSpeed() {
+    public double getAverageSpeed() {
         return averageSpeed;
     }
 
-    public void setAverageSpeed(long averageSpeed) {
+    public void setAverageSpeed(double averageSpeed) {
         this.averageSpeed = averageSpeed;
     }
 
-    public long getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(long distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
-    public long getDuration() {
+    public double getDuration() {
         return duration;
     }
 
-    public void setDuration(long duration) {
+    public void setDuration(double duration) {
         this.duration = duration;
     }
 
-    public long getTimePerKilometer() {
+    public double getTimePerKilometer() {
         return timePerKilometer;
     }
 
-    public void setTimePerKilometer(long distance, long duration) {
+    public void setTimePerKilometer(double distance, double duration) {
         this.timePerKilometer = calculateTimePerKilometer(distance, duration);
     }
 
-    private long calculateTimePerKilometer(long distance, long duration) {
-        long result = ((duration / 60) / (distance / 1000));
-        return result;
+    private double calculateTimePerKilometer(double distance, double duration) {
+        double result = ((duration / 60) / (distance / 1000));
+        double finalResult = result - (result % 1);
+        if(result % 1 != 0) {
+            finalResult += 0.60 * (result % 1);
+        } else if(result % 1 == 0.60) {
+            finalResult += 1.00;
+        }
+        return Math.round(finalResult * 100) / 100;
     }
 }

@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdRequest;
@@ -51,6 +50,8 @@ import com.parse.ParseObject;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -171,10 +172,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startStopBtn.setBackgroundResource(R.drawable.start_btn);
 //                    stopLocationUpdates();
                     startButtonEnabled = false;
-                    currentSession.setMaxSpeed(37);
-                    currentSession.setAverageSpeed(30);
-                    currentSession.setDistance(1500);
-                    currentSession.setDuration(420);
+                    currentSession.setMaxSpeed(37.5);
+                    currentSession.setAverageSpeed(30.56);
+                    currentSession.setDistance(1500.00);
+                    currentSession.setDuration(420.00);
                     currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
                     ParseObject saveSession = new ParseObject("Sessions");
                     saveSession.put("maxSpeed", currentSession.getMaxSpeed());
@@ -412,6 +413,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.action_logout:
                 ParseCommon.logOutUser(this);
                 showUsername.setText("Guest");
+                facebookProfilePicture.setProfileId("");
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -526,19 +528,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private String getFacebookIdInBackground() {
-        String faceId = "1034308419914405";
+        final String[] faceId = {"1034308419914405"};
 
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-//                        response
-                    }
+        GraphRequest req = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
+                try {
+                    faceId[0] = jsonObject.getJSONObject("me").get("id").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-        ).executeAsync();
+            }
+        });
+        req.executeAsync();
+//        Parse.Cloud.beforeSave("_User", function(request, response) {
+//            request.object.set("facebook_id", request.user.get("authData").facebook.id);
+//
+//            response.success();
+//        });
+
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me",
+//                null,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+////                        response
+//                    }
+//                }
+//        ).executeAsync();
 
 //        LoginClient.Request.executeMeRequestAsync(ParseFacebookUtils.getSession(), new LoginClient.Request.GraphUserCallback() {
 //            @Override
@@ -550,7 +569,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                }
 //            }
 //        });
-        return faceId;
+        return faceId[0];
     }
 
 //    private void makeMeRequest(final Session session) {

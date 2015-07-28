@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,6 +26,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdRequest;
@@ -50,8 +52,6 @@ import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String userName;
     private Session currentSession;
     private ParseUser guestUser;
+    private String facebookId;
 
     Fragment fragment = null;
 
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     TextView timeMeter;
     TextView showUsername;
     Button startStopBtn;
+    ProfilePictureView facebookProfilePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,8 +131,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         timeMeter = (TextView) findViewById(R.id.time_meter);
         startStopBtn = (Button) findViewById(R.id.start_stop_btn);
         showUsername = (TextView) findViewById(R.id.header_username);
+        facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
 
-        if(!Utility.isNetworkConnected(this)) {
+        if (!Utility.isNetworkConnected(this)) {
             Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), getString(R.string.want_to_continue));
         }
 
@@ -149,14 +152,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildLocationSettingsRequest();
         checkLocationSettings();
 
-        if(ParseCommon.isUserLoggedIn()) {
+        if (ParseCommon.isUserLoggedIn()) {
             setCurrentUserUsernameInHeader();
+            facebookProfilePicture.setProfileId("1034308419914405");
         }
 
         startStopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!startButtonEnabled){
+                if (!startButtonEnabled) {
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
                     startButtonEnabled = true;
                     currentSession = new Session();
@@ -180,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
                     saveSession.saveInBackground();
                 }
-
             }
         });
 
@@ -330,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_login_fragment:
                 fragment = null;
-                if(!ParseCommon.isUserLoggedIn()) {
+                if (!ParseCommon.isUserLoggedIn()) {
                     ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
                     startActivityForResult(builder.build(), 0);
                 } else {
@@ -507,52 +510,76 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
 
+
         // check current user
-        if(ParseCommon.isUserLoggedIn()){
+        if (ParseCommon.isUserLoggedIn()) {
             setCurrentUserUsernameInHeader();
-            if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-                ProfilePictureView facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
-                facebookProfilePicture.setProfileId(ParseUser.getCurrentUser().getObjectId());
-                Bitmap pic = getUserPic(ParseUser.getCurrentUser().getUsername());
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                facebookId = getFacebookIdInBackground();
+                facebookProfilePicture.setProfileId(facebookId);
+                facebookProfilePicture.setCropped(true);
+//                Bitmap pic = getUserPic(ParseUser.getCurrentUser().getUsername());
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private String getFacebookIdInBackground() {
+        String faceId = "1034308419914405";
+
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+//                        response
+                    }
+                }
+        ).executeAsync();
+
+//        LoginClient.Request.executeMeRequestAsync(ParseFacebookUtils.getSession(), new LoginClient.Request.GraphUserCallback() {
+//            @Override
+//            public void onCompleted(GraphUser user, GetRecentContextCall.Response response) {
+//                if (user != null) {
+//                    faceId = user.getId();
+////                    ParseUser.getCurrentUser().put("fbId", user.getId());
+////                    ParseUser.getCurrentUser().saveInBackground();
+//                }
+//            }
+//        });
+        return faceId;
+    }
+
 //    private void makeMeRequest(final Session session) {
-//        Request request = Request.newMeRequest(session,
-//                new Request.GraphUserCallback() {
-//
-//                    @Override
-//                    public void onCompleted(GraphUser user, Response response) {
-//                        // If the response is successful
-//                        if (session == Session.getActiveSession()) {
-//                            if (user != null) {
-//                                String facebookId = user.getId();
-//                            }
-//                        }
-//                        if (response.getError() != null) {
-//                            // Handle error
-//                        }
+//        GraphRequest request = new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me",
+//                null,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//            /* handle the result */
 //                    }
 //                });
 //        request.executeAsync();
 //    }
 
-    public Bitmap getUserPic(String userID) {
-        String imageURL;
-        Bitmap bitmap = null;
-        Log.d(TAG, "Loading Picture");
-        imageURL = "http://graph.facebook.com/"+userID+"/picture?type=small";
-        try {
-            bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).getContent());
-        } catch (Exception e) {
-            Log.d("TAG", "Loading Picture FAILED");
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
+//    public Bitmap getUserPic(String userID) {
+//        String imageURL;
+//        Bitmap bitmap = null;
+//        Log.d(TAG, "Loading Picture");
+//        imageURL = "http://graph.facebook.com/" + userID + "/picture?type=small";
+//        try {
+//            bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).getContent());
+//        } catch (Exception e) {
+//            Log.d("TAG", "Loading Picture FAILED");
+//            e.printStackTrace();
+//        }
+//        return bitmap;
+//    }
 
     @Override
     public void onBackPressed() {

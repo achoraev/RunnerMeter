@@ -166,34 +166,44 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 if (!startButtonEnabled) {
-                    startStopBtn.setBackgroundResource(R.drawable.stop_btn);
-                    startButtonEnabled = true;
-                    currentSession = new Session();
-                    guestUser = ParseCommon.createGuestUser(guestUser);
-                    currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
-//                    startLocationUpdates();
+                    startLogic();
                 } else {
-                    startStopBtn.setBackgroundResource(R.drawable.start_btn);
-//                    stopLocationUpdates();
-                    startButtonEnabled = false;
-                    currentSession.setMaxSpeed(37.5);
-                    currentSession.setAverageSpeed(30.56);
-                    currentSession.setDistance(1500.00);
-                    currentSession.setDuration(420.00);
-                    currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
-                    ParseObject saveSession = new ParseObject("Sessions");
-                    saveSession.put("maxSpeed", currentSession.getMaxSpeed());
-                    saveSession.put("averageSpeed", currentSession.getAverageSpeed());
-                    saveSession.put("distance", currentSession.getDistance());
-                    saveSession.put("duration", currentSession.getDuration());
-                    saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
-                    saveSession.saveInBackground();
+                    stopLogic();
                 }
             }
         });
 
         // setup adds
         setupAdds();
+    }
+
+    private void startLogic() {
+        startStopBtn.setBackgroundResource(R.drawable.stop_btn);
+        startButtonEnabled = true;
+        currentSession = new Session();
+        if(guestUser == null) {
+            guestUser = ParseCommon.createGuestUser(guestUser);
+        }
+        currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
+//                    startLocationUpdates();
+    }
+
+    private void stopLogic() {
+        startStopBtn.setBackgroundResource(R.drawable.start_btn);
+//                    stopLocationUpdates();
+        startButtonEnabled = false;
+        currentSession.setMaxSpeed(37.5);
+        currentSession.setAverageSpeed(30.56);
+        currentSession.setDistance(1500.00);
+        currentSession.setDuration(420.00);
+        currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
+        ParseObject saveSession = new ParseObject(getString(R.string.session_object));
+        saveSession.put("maxSpeed", currentSession.getMaxSpeed());
+        saveSession.put("averageSpeed", currentSession.getAverageSpeed());
+        saveSession.put("distance", currentSession.getDistance());
+        saveSession.put("duration", currentSession.getDuration());
+        saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
+        saveSession.saveInBackground();
     }
 
     protected void buildLocationSettingsRequest() {

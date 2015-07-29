@@ -81,9 +81,9 @@ public class ParseCommon {
     public static ParseUser createGuestUser(ParseUser guestUser) {
         guestUser = new ParseUser();
         guestUser.setUsername("Guest");
-        guestUser.setEmail("test@tes.com");
-        guestUser.setPassword("");
-        guestUser.saveInBackground();
+        guestUser.setEmail("tester@tester.com");
+        guestUser.setPassword("123456");
+        guestUser.signUpInBackground();
         return guestUser;
     }
 }

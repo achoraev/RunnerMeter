@@ -13,17 +13,23 @@
     <string name="action_about">About</string>
     <string name="action_help">Help</string>
 
-    <string name="gps_not_available">GPS not available.</string>
-    <string name="ok">OK</string>
-
-    // for adds
+    // banner add
     <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
-    <string name="press_back_again">Press Back again to Exit.</string>
+
+    // login/logout
     <string name="action_logout">Logout</string>
-    <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
-    <string name="need_internet_msg">This application needs access to the internet!</string>
-    <string name="want_to_continue">Do you want to continue?</string>
     <string name="successfull_logout">You are successfully logged out.</string>
     <string name="msg_not_logged_in">You are not logged in.</string>
     <string name="already_logged_in">You are already logged in!</string>
+
+    // common
+    <string name="gps_not_available">GPS not available.</string>
+    <string name="ok">OK</string>
+    <string name="press_back_again">Press Back again to Exit.</string>
+    <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
+    <string name="need_internet_msg">This application needs access to the internet!</string>
+    <string name="want_to_continue">Do you want to continue?</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
 </resources>

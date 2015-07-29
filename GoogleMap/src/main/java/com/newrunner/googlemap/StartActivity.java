@@ -12,7 +12,9 @@ import android.widget.Toast;
 /**
  * Created by angelr on 03-Jul-15.
  */
-public class StartActivity extends Activity {
+public class StartActivity extends Activity implements SimpleGestureFilter.SimpleGestureListener {
+
+    private SimpleGestureFilter detector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,23 +27,25 @@ public class StartActivity extends Activity {
         Button startBtn = (Button) findViewById(R.id.center_right);
         LinearLayout layout = (LinearLayout) findViewById(R.id.start_page_layout);
 
-        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+//        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+//
+//            public void onSwipeLeft() {
+//                Toast.makeText(getBaseContext(), "left", Toast.LENGTH_SHORT).show();
+//                startMainActivity();
+//            }
+//
+//            public void onSwipeRight() {
+//                Toast.makeText(getBaseContext(), "right", Toast.LENGTH_SHORT).show();
+//                startMainActivity();
+//            }
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return super.onTouch(v, event);
+//            }
+//        });
 
-            public void onSwipeLeft() {
-                Toast.makeText(getBaseContext(), "left", Toast.LENGTH_SHORT).show();
-                startMainActivity();
-            }
-
-            public void onSwipeRight() {
-                Toast.makeText(getBaseContext(), "right", Toast.LENGTH_SHORT).show();
-                startMainActivity();
-            }
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return super.onTouch(v, event);
-            }
-        });
+        detector = new SimpleGestureFilter(this,this);
 
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,8 +55,39 @@ public class StartActivity extends Activity {
         });
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        // Call onTouchEvent of SimpleGestureFilter class
+        this.detector.onTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
+    }
+
     private void startMainActivity() {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
         startActivity(startIntent);
+    }
+
+    @Override
+    public void onSwipe(int direction) {
+        String str = "";
+
+        switch (direction) {
+
+            case SimpleGestureFilter.SWIPE_RIGHT : str = "Right";
+                break;
+            case SimpleGestureFilter.SWIPE_LEFT :  str = "Left";
+                break;
+            case SimpleGestureFilter.SWIPE_DOWN :  str = "Down";
+                break;
+            case SimpleGestureFilter.SWIPE_UP :    str = "Up";
+                break;
+
+        }
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDoubleTap() {
+        Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
     }
 }

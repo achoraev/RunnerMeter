@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 /**
@@ -25,25 +24,6 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         ParseCommon.ParseInitialize(this);
 
         Button startBtn = (Button) findViewById(R.id.center_right);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.start_page_layout);
-
-//        layout.setOnTouchListener(new OnSwipeTouchListener(this) {
-//
-//            public void onSwipeLeft() {
-//                Toast.makeText(getBaseContext(), "left", Toast.LENGTH_SHORT).show();
-//                startMainActivity();
-//            }
-//
-//            public void onSwipeRight() {
-//                Toast.makeText(getBaseContext(), "right", Toast.LENGTH_SHORT).show();
-//                startMainActivity();
-//            }
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return super.onTouch(v, event);
-//            }
-//        });
 
         detector = new SimpleGestureFilter(this,this);
 
@@ -73,13 +53,19 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         switch (direction) {
 
-            case SimpleGestureFilter.SWIPE_RIGHT : str = "Right";
+            case SimpleGestureFilter.SWIPE_RIGHT :
+                str = "Right";
+                startMainActivity();
                 break;
-            case SimpleGestureFilter.SWIPE_LEFT :  str = "Left";
+            case SimpleGestureFilter.SWIPE_LEFT :
+                str = "Left";
+                startMainActivity();
                 break;
-            case SimpleGestureFilter.SWIPE_DOWN :  str = "Down";
+            case SimpleGestureFilter.SWIPE_DOWN :
+                str = "Down";
                 break;
-            case SimpleGestureFilter.SWIPE_UP :    str = "Up";
+            case SimpleGestureFilter.SWIPE_UP :
+                str = "Up";
                 break;
 
         }
@@ -89,5 +75,6 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     @Override
     public void onDoubleTap() {
         Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+        startMainActivity();
     }
 }

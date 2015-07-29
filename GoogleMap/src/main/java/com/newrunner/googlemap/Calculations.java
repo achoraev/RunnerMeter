@@ -37,9 +37,7 @@ public class Calculations {
         Date lastDate = new SimpleDateFormat("HH:mm:ss").parse(lastUpdateTime);
         Date startDate = new SimpleDateFormat("HH:mm:ss").parse(startTime);
 
-        long diff = lastDate.getTime() - startDate.getTime();
-
-        return diff;
+        return lastDate.getTime() - startDate.getTime();
     }
 
     public static String convertTimeToString(long diff) {
@@ -47,8 +45,7 @@ public class Calculations {
         long diffMinutes = diff / (60 * 1000) % 60;
         long diffHours = diff / (60 * 60 * 1000) % 24;
 
-        String result = diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
-        return result;
+        return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
     }
 
     public static double calculateMaxSpeed(double currentSpeed) {

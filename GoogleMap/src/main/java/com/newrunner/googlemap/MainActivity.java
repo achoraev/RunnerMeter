@@ -55,7 +55,6 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -102,7 +101,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-    double currentDistance = 0;
+
+    double currentDistance;
+    long currentTimeDiff;
+    double currentSpeed;
+    double currentMaxSpeed;
+
     boolean startButtonEnabled;
 
     private String userName;
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     TextView distanceMeter;
     TextView speedMeter;
+    TextView maxSpeedMeter;
     TextView timeMeter;
     TextView showUsername;
     Button startStopBtn;
@@ -126,7 +131,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
+        maxSpeedMeter = (TextView) findViewById(R.id.max_speed);
         timeMeter = (TextView) findViewById(R.id.time_meter);
+
         startStopBtn = (Button) findViewById(R.id.start_stop_btn);
         showUsername = (TextView) findViewById(R.id.header_username);
         facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
@@ -694,11 +701,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lastUpdatedCoord = currentCoordinates;
             }
 
-            currentDistance += calculateDistance(lastUpdatedCoord, currentCoordinates);
+            currentDistance += Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
+            currentTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
+            currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
+            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed);
+
             distanceMeter.setText(String.format("%.2f m", currentDistance));
-            speedMeter.setText(calculateSpeed());
-            // save distance in variable
-            timeMeter.setText(calculateTime(lastUpdateTime, startTime));
+            speedMeter.setText(String.valueOf(currentSpeed) + " km/h");
+            timeMeter.setText(Calculations.convertTimeToString(currentTimeDiff));
+            maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + " km/h");
+
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)
                     .width(POLYLINE_WIDTH)
@@ -709,35 +721,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
-
-    private double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
-        float[] result = new float[4];
-        Location.distanceBetween(lastUpdatedCoord.latitude,
-                lastUpdatedCoord.longitude,
-                currentCoordinates.latitude,
-                currentCoordinates.longitude, result);
-        return result[0];
-    }
-
-    private String calculateSpeed() {
-        String result = "0";
-        return (result + " km/h");
-    }
-
-    private String calculateTime(String lastUpdateTime, String startTime) throws ParseException {
-        Date lastDate = new SimpleDateFormat("HH:mm:ss").parse(lastUpdateTime);
-        Date startDate = new SimpleDateFormat("HH:mm:ss").parse(startTime);
-
-        long diff = lastDate.getTime() - startDate.getTime();
-        long diffSeconds = diff / 1000 % 60;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-
-        String result = diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
-
-        return result;
-    }
-
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();

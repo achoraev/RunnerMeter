@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by angelr on 29-Jul-15.
  */
 public class Calculations {
-    private static double maxSpeed;
+    private static double maxSpeed = 0;
 
     public static double getMaxSpeed() {
         return maxSpeed;
@@ -27,9 +27,9 @@ public class Calculations {
     }
 
     public static double calculateSpeed(Long time, Double distance) {
-        double result;
-        result = (distance / 1000) / (time / (60 * 60 * 1000) % 24);
-
+        double result = 0;
+        result = (distance / 1000) / (Double.valueOf(time) / (60 * 60 * 1000) % 24);
+        result = (Math.round(result * 100)) / 100;
         return result;
     }
 
@@ -53,7 +53,7 @@ public class Calculations {
 
     public static double calculateMaxSpeed(double currentSpeed) {
         if(currentSpeed > getMaxSpeed()){
-            maxSpeed = currentSpeed;
+            maxSpeed = (Math.round(currentSpeed * 100)) / 100;
         }
 
         return maxSpeed;

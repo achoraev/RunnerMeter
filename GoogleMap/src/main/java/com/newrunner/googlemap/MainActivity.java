@@ -46,10 +46,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseObject;
-import com.parse.ParseTwitterUtils;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -134,14 +131,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        distanceMeter = (TextView) findViewById(R.id.distance_meter);
-        speedMeter = (TextView) findViewById(R.id.speed_meter);
-        maxSpeedMeter = (TextView) findViewById(R.id.max_speed);
-        timeMeter = (TextView) findViewById(R.id.time_meter);
-
-        startStopBtn = (Button) findViewById(R.id.start_stop_btn);
-        showUsername = (TextView) findViewById(R.id.header_username);
-        facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
+        initializeUiViews();
 
         if (!Utility.isNetworkConnected(this)) {
             Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), getString(R.string.want_to_continue));
@@ -180,6 +170,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // setup adds
         setupAdds();
+    }
+
+    private void initializeUiViews() {
+        distanceMeter = (TextView) findViewById(R.id.distance_meter);
+        speedMeter = (TextView) findViewById(R.id.speed_meter);
+        maxSpeedMeter = (TextView) findViewById(R.id.max_speed);
+        timeMeter = (TextView) findViewById(R.id.time_meter);
+        startStopBtn = (Button) findViewById(R.id.start_stop_btn);
+        showUsername = (TextView) findViewById(R.id.header_username);
+        facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
     }
 
     private void startLogic() {
@@ -364,7 +364,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 break;
             case R.id.nav_feedback_fragment:
-                fragment = new FeedbackFragment();
+                fragment = null;
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "runner.meter@gmail.com" });
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "Your text here ...");
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Send Feedback:"));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                }
+//                fragment = new FeedbackFragment();
                 break;
             case R.id.nav_account_fragment:
                 fragment = new AccountFragment();
@@ -722,7 +733,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             currentDistance = Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
             sessionDistance += Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
-            currentTimeDiff = Calculations.calculateTime(lastUpdateTime, currentUpdateTime);
+            currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
             sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);

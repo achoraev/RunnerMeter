@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.RED;
 
+    private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
+
     protected static final String TAG = "location";
 
     protected final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
@@ -512,7 +514,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (ParseException e) {
             e.printStackTrace();
         }
-//        Toast.makeText(this, lastUpdateTime, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -724,7 +725,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
-                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude );
+//                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             } else {
                 currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 startPointCoord = currentCoordinates;
@@ -754,6 +756,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
             }
         }
+    }
+
+    private LatLng smoothLocation(Location location, double oldLat, double oldLon) {
+        double lat = smooth(location.getLatitude(), oldLat);
+        double lon = smooth(location.getLongitude(), oldLon);
+
+        return new LatLng(lat, lon);
+    }
+
+    // wikipedia.org/wiki/Exponential_smoothing
+    private double smooth(double newVal, double oldVal) {
+        return (newVal * SMOOTH_FACTOR) + oldVal * (1 - SMOOTH_FACTOR);
     }
 
     protected void createLocationRequest() {

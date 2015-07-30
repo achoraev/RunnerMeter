@@ -20,9 +20,6 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_layout);
 
-        // init parse
-        ParseCommon.ParseInitialize(this);
-
         Button startBtn = (Button) findViewById(R.id.center_right);
 
         detector = new SimpleGestureFilter(this,this);

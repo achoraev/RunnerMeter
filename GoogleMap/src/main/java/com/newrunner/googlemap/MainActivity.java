@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildLocationSettingsRequest();
         checkLocationSettings();
 
-        if (ParseCommon.isUserLoggedIn()) {
+        if (ParseCommon.isUserLoggedIn() && ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             setCurrentUserUsernameInHeader();
             facebookProfilePicture.setProfileId("1034308419914405");
         }
@@ -194,6 +194,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             guestUser = ParseCommon.createGuestUser(guestUser);
         }
         currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
+        if(!ParseCommon.isUserLoggedIn()){
+            ParseUser.logInInBackground(guestUser.getUsername(), "123456");
+        }
 //                    startLocationUpdates();
     }
 
@@ -207,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         currentSession.setDuration(sessionTimeDiff);
         currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
+        saveSession.put("username", currentSession.getCurrentUser() );
         saveSession.put("maxSpeed", currentSession.getMaxSpeed());
         saveSession.put("averageSpeed", currentSession.getAverageSpeed());
         saveSession.put("distance", currentSession.getDistance());
@@ -358,6 +362,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_login_fragment:
                 fragment = null;
+                if(ParseCommon.isUserLoggedIn() && ParseUser.getCurrentUser().getUsername().equals("Guest")){
+                    logOutCurrentUser();
+                }
                 if (!ParseCommon.isUserLoggedIn()) {
                     ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
                     startActivityForResult(builder.build(), 0);
@@ -404,6 +411,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDrawer.closeDrawers();
     }
 
+    private void logOutCurrentUser() {
+        ParseCommon.logOutUser(this);
+        showUsername.setText("");
+        facebookProfilePicture.setProfileId("");
+    }
+
     private void checkForGpsOnDevice() {
         if (!hasGps()) {
             // If this hardware doesn't support GPS, we throw message
@@ -446,9 +459,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 return true;
             case R.id.action_logout:
-                ParseCommon.logOutUser(this);
-                showUsername.setText("Guest");
-                facebookProfilePicture.setProfileId("");
+                logOutCurrentUser();
             default:
                 return super.onOptionsItemSelected(item);
         }

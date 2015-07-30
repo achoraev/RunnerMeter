@@ -67,7 +67,7 @@ public class Session {
     }
 
     private double calculateTimePerKilometer(double distance, double duration) {
-        double result = ((duration / 60) / (distance / 1000));
+        double result = ((duration / 1000 / 60) / (distance / 1000));
         double finalResult = result - (result % 1);
         if(result % 1 != 0) {
             finalResult += 0.60 * (result % 1);

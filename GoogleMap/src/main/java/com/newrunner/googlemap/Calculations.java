@@ -23,7 +23,7 @@ public class Calculations {
                 lastUpdatedCoord.longitude,
                 currentCoordinates.latitude,
                 currentCoordinates.longitude, result);
-        return result[0];
+        return (Math.round(result[0] * 100))/100;
     }
 
     public static double calculateSpeed(Long time, Double distance) {

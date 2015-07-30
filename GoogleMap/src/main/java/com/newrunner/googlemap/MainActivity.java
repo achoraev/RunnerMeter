@@ -44,6 +44,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -96,16 +97,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
     private String lastUpdateTime;
+    private String currentUpdateTime;
     private String startTime = null;
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
-    double currentDistance;
-    long currentTimeDiff;
-    double currentSpeed;
-    double currentMaxSpeed;
+    private double currentDistance;
+    private double sessionDistance;
+    private long currentTimeDiff;
+    private long sessionTimeDiff;
+    private double currentSpeed;
+    private double averageSpeed;
+    private double currentMaxSpeed;
 
     boolean startButtonEnabled;
 
@@ -181,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         currentSession = new Session();
+        currentSession.setMaxSpeed(0);
+        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
         if(guestUser == null) {
             guestUser = ParseCommon.createGuestUser(guestUser);
         }
@@ -192,10 +199,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
 //                    stopLocationUpdates();
         startButtonEnabled = false;
-        currentSession.setMaxSpeed(37.5);
-        currentSession.setAverageSpeed(30.56);
-        currentSession.setDistance(1500.00);
-        currentSession.setDuration(420.00);
+        currentSession.setMaxSpeed(currentMaxSpeed);
+        currentSession.setAverageSpeed(averageSpeed);
+        currentSession.setDistance(sessionDistance);
+        currentSession.setDuration(sessionTimeDiff);
         currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
         saveSession.put("maxSpeed", currentSession.getMaxSpeed());
@@ -204,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.put("duration", currentSession.getDuration());
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
         saveSession.saveInBackground();
+        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
     }
 
     protected void buildLocationSettingsRequest() {
@@ -454,10 +462,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         }
-        lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
 
         if (startTime == null) {
-            startTime = lastUpdateTime;
+            startTime = currentUpdateTime;
         }
 
         if (mRequestingLocationUpdates) {
@@ -486,7 +494,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
-        lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        lastUpdateTime = currentUpdateTime;
+        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         try {
             updateUI();
         } catch (ParseException e) {
@@ -660,7 +669,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             // Update the value of lastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
-                lastUpdateTime = savedInstanceState.getString(
+                currentUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
         }
@@ -671,7 +680,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mRequestingLocationUpdates);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
 //        savedInstanceState.putParcelable("Start", startPointCoord);
-        savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, lastUpdateTime);
+        savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -711,14 +720,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 lastUpdatedCoord = currentCoordinates;
             }
 
-            currentDistance += Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
-            currentTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
+            currentDistance = Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
+            sessionDistance += Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
+            currentTimeDiff = Calculations.calculateTime(lastUpdateTime, currentUpdateTime);
+            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
+            averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed);
 
-            distanceMeter.setText(String.format("%.2f m", currentDistance));
-            speedMeter.setText(String.valueOf(currentSpeed) + " km/h");
-            timeMeter.setText(Calculations.convertTimeToString(currentTimeDiff));
+//            distanceMeter.setText(String.format("%.2f m", sessionDistance));
+            distanceMeter.setText(String.valueOf(sessionDistance + " m"));
+            speedMeter.setText(String.valueOf(averageSpeed) + " km/h");
+            timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
             maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + " km/h");
 
             PolylineOptions line = new PolylineOptions()

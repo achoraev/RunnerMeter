@@ -189,13 +189,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startButtonEnabled = true;
         currentSession = new Session();
         currentSession.setMaxSpeed(0);
-        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
-        if(guestUser == null) {
-            guestUser = ParseCommon.createGuestUser(guestUser);
+        if (currentCoordinates != null) {
+            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Start point"));
+        }
+        if(guestUser.equals("null")) {
+            try {
+                guestUser = ParseCommon.createGuestUser(guestUser);
+            } catch (com.parse.ParseException e) {
+                e.printStackTrace();
+            }
         }
         currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
         if(!ParseCommon.isUserLoggedIn()){
-            ParseUser.logInInBackground(guestUser.getUsername(), "123456");
+            try {
+                ParseUser.logIn(guestUser.getUsername(), "123456");
+            } catch (com.parse.ParseException e) {
+                e.printStackTrace();
+            }
         }
 //                    startLocationUpdates();
     }

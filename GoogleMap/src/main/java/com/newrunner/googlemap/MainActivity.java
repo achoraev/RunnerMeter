@@ -88,9 +88,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
-    private LatLng currentCoordinates;
+    private LatLng currentCoordinates = null;
     private LatLng lastUpdatedCoord = null;
-    private LatLng startPointCoord;
+    private LatLng startPointCoord = null;
     private Location currentLocation;
 
     private Boolean exit = false;
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String userName;
     private Session currentSession;
-    private ParseUser guestUser;
+    private ParseUser guestUser = null;
     private String facebookId;
 
     Fragment fragment = null;
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Start point"));
         }
-        if(guestUser.equals("null")) {
+        if(guestUser == null) {
             try {
                 guestUser = ParseCommon.createGuestUser(guestUser);
             } catch (com.parse.ParseException e) {

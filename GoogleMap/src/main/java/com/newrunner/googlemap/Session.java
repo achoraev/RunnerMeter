@@ -8,14 +8,23 @@ import com.parse.ParseUser;
 public class Session {
 
     private ParseUser currentUser = null;
-    private double maxSpeed = 0;
-    private double averageSpeed = 0;
-    private double distance = 0;
-    private double duration = 0;
-    private double timePerKilometer = 0;
+    private double maxSpeed;
+    private double averageSpeed;
+    private double distance;
+    private double duration;
+    private double timePerKilometer;
 
     public Session() {
+        new Session(0, 0, 0, 0, 0, null);
+    }
 
+    public Session(double dis, double dur, double max, double avr, double timePKm, ParseUser curUser){
+        this.distance = dis;
+        this.duration = dur;
+        this.maxSpeed = max;
+        this.averageSpeed = avr;
+        this.timePerKilometer = timePKm;
+        this.currentUser = curUser;
     }
 
     public ParseUser getCurrentUser() {

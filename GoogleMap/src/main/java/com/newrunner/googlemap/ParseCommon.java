@@ -11,7 +11,7 @@ public class ParseCommon {
     public static void logOutUser(Context cont){
         if(ParseUser.getCurrentUser() != null){
             Toast.makeText(cont, cont.getString(R.string.successfull_logout), Toast.LENGTH_SHORT).show();
-            ParseUser.logOut();
+            ParseUser.logOutInBackground();
         } else {
             Toast.makeText(cont, cont.getString(R.string.msg_not_logged_in), Toast.LENGTH_SHORT).show();
         }

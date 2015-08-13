@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
         if(!ParseCommon.isUserLoggedIn()){
             try {
-                ParseUser.logIn(guestUser.getUsername(), "123456");
+                ParseUser.logIn("Guest", "123456");
             } catch (com.parse.ParseException e) {
                 e.printStackTrace();
             }

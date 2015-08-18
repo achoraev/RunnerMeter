@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initializeUiViews();
 
         if (!Utility.isNetworkConnected(this)) {
-            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), null);
+            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "" );
         }
 
 //        checkForGpsOnDevice();
@@ -232,6 +232,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.put("duration", currentSession.getDuration());
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
         saveSession.saveInBackground();
+        sessionDistance = 0;
+        currentMaxSpeed = 0;
+        Calculations.setMaxSpeed(0);
+        averageSpeed = 0;
+        sessionTimeDiff = 0;
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
         }

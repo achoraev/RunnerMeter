@@ -27,7 +27,7 @@
                     android:layout_height="wrap_content"
                     android:text="0 m"
                     android:textSize="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center" android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:text="0 km/h"
                     android:textSize="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center" android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="match_parent"
@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:text="--:--:--"
                     android:textSize="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center" android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,10 +84,15 @@
             <TextView
                     android:id="@+id/max_speed"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="0 km/h"
                     android:textSize="20dp"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:layout_gravity="left|bottom"
+                    android:autoText="false"
+                    android:textStyle="bold"
+                    android:maxWidth="70dp"
+                    android:nestedScrollingEnabled="false"/>
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

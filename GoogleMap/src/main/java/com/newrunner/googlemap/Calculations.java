@@ -12,7 +12,11 @@ import java.util.Date;
  * Created by angelr on 29-Jul-15.
  */
 public class Calculations {
-    private static double maxSpeed = 0;
+    private static double maxSpeed = Double.MIN_VALUE;
+
+    public static void setMaxSpeed(double speed) {
+        maxSpeed = speed;
+    }
 
     public static double getMaxSpeed() {
         return maxSpeed;
@@ -29,8 +33,13 @@ public class Calculations {
 
     public static double calculateSpeed(Long time, Double distance) {
         double result = 0;
-        result = (distance / 1000) / (Double.valueOf(time) / (60 * 60 * 1000) % 24);
-        result = (Math.round(result * 100)) / 100;
+        if (time > 0) {
+            result = (distance / 1000) / (Double.valueOf(time) / (60 * 60 * 1000) % 24);
+            result = (Math.round(result * 100)) / 100;
+        }
+        Log.d("time", String.valueOf(time));
+        Log.d("distance", String.valueOf(distance));
+        Log.d("result", String.valueOf(result));
         return result;
     }
 
@@ -53,7 +62,7 @@ public class Calculations {
         if(currentSpeed > getMaxSpeed()){
             maxSpeed = (Math.round(currentSpeed * 100)) / 100;
         }
-        Log.d("max", String.valueOf(currentSpeed));
+        Log.d("cur", String.valueOf(currentSpeed));
         Log.d("max", String.valueOf(maxSpeed));
         return maxSpeed;
     }

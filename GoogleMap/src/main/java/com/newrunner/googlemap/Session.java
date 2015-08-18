@@ -15,15 +15,15 @@ public class Session {
     private double timePerKilometer;
 
     public Session() {
-        new Session(0, 0, 0, 0, 0, null);
+        new Session(0, 0, 0, 0, null);
     }
 
-    public Session(double dis, double dur, double max, double avr, double timePKm, ParseUser curUser){
+    public Session(double dis, double dur, double max, double avr, ParseUser curUser){
         this.distance = dis;
         this.duration = dur;
         this.maxSpeed = max;
         this.averageSpeed = avr;
-        this.timePerKilometer = timePKm;
+        setTimePerKilometer(dis, dur);
         this.currentUser = curUser;
     }
 

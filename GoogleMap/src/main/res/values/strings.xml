@@ -21,15 +21,19 @@
     <string name="successfull_logout">You are successfully logged out.</string>
     <string name="msg_not_logged_in">You are not logged in.</string>
     <string name="already_logged_in">You are already logged in!</string>
+    <string name="do_you_want_logout">Do you want to logout?</string>
 
     // common
     <string name="gps_not_available">GPS not available.</string>
     <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="press_back_again">Press Back again to Exit.</string>
-    <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
+    <string name="dontHaveGps">This hardware doesn't have GPS</string>
     <string name="need_internet_msg">This application needs access to the internet!</string>
     <string name="want_to_continue">Do you want to continue?</string>
 
     // database objects
     <string name="session_object">Sessions</string>
+
 </resources>

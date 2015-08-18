@@ -2,6 +2,7 @@ package com.newrunner.googlemap;
 
 import android.app.Activity;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initializeUiViews();
 
         if (!Utility.isNetworkConnected(this)) {
-            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), getString(R.string.want_to_continue));
+            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), null);
         }
 
 //        checkForGpsOnDevice();
@@ -154,10 +156,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildLocationSettingsRequest();
         checkLocationSettings();
 
-        if (ParseCommon.isUserLoggedIn() && ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-            setCurrentUserUsernameInHeader();
-            facebookProfilePicture.setProfileId("1034308419914405");
+        if (ParseCommon.isUserLoggedIn()) {
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                setCurrentUserUsernameInHeader();
+                facebookId = AccessToken.getCurrentAccessToken().getUserId();
+                facebookProfilePicture.setProfileId(facebookId);
+            } else {
+                setCurrentUserUsernameInHeader();
+            }
+        } else {
+            showUsername.setText("Guest");
         }
+
 
         startStopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,24 +197,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void startLogic() {
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
-        currentSession = new Session();
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Start point"));
         }
-        if(guestUser == null) {
+
+        if (guestUser == null) {
             try {
                 guestUser = ParseCommon.createGuestUser(guestUser);
             } catch (com.parse.ParseException e) {
                 e.printStackTrace();
             }
         }
-        currentSession.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser);
-        if(!ParseCommon.isUserLoggedIn()){
-            try {
-                ParseUser.logIn("Guest", "123456");
-            } catch (com.parse.ParseException e) {
-                e.printStackTrace();
-            }
+
+        if (!ParseCommon.isUserLoggedIn()) {
+            ParseUser.logInInBackground("Guest", "123456");
         }
 //                    startLocationUpdates();
     }
@@ -213,20 +219,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
 //                    stopLocationUpdates();
         startButtonEnabled = false;
-        currentSession.setMaxSpeed(currentMaxSpeed);
-        currentSession.setAverageSpeed(averageSpeed);
-        currentSession.setDistance(sessionDistance);
-        currentSession.setDuration(sessionTimeDiff);
-        currentSession.setTimePerKilometer(currentSession.getDistance(), currentSession.getDuration());
+        currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed,
+                (ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser));
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
-        saveSession.put("username", currentSession.getCurrentUser() );
+        saveSession.put("username", currentSession.getCurrentUser().getUsername());
         saveSession.put("maxSpeed", currentSession.getMaxSpeed());
         saveSession.put("averageSpeed", currentSession.getAverageSpeed());
         saveSession.put("distance", currentSession.getDistance());
         saveSession.put("duration", currentSession.getDuration());
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
         saveSession.saveInBackground();
-        mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
+        if (currentCoordinates != null) {
+            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
+        }
     }
 
     protected void buildLocationSettingsRequest() {
@@ -371,21 +376,46 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_login_fragment:
                 fragment = null;
-                if(ParseCommon.isUserLoggedIn() && ParseUser.getCurrentUser().getUsername().equals("Guest")){
-                    logOutCurrentUser();
-                }
-                if (!ParseCommon.isUserLoggedIn()) {
-                    ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-                    startActivityForResult(builder.build(), 0);
+                if (ParseCommon.isUserLoggedIn()) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.do_you_want_logout))
+                            .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    logOutCurrentUser();
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setCancelable(false)
+                            .create()
+                            .show();
+
                 } else {
-                    Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
+                    if (!ParseCommon.isUserLoggedIn()) {
+                        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+                        startActivityForResult(builder.build(), 0);
+                    } else {
+                        Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
+                    }
                 }
                 break;
             case R.id.nav_feedback_fragment:
                 fragment = null;
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("message/rfc822");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "runner.meter@gmail.com" });
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"runner.meter@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "Your text here ...");
                 try {
@@ -572,7 +602,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (ParseCommon.isUserLoggedIn()) {
             setCurrentUserUsernameInHeader();
             if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                facebookId = getFacebookIdInBackground();
+                facebookId = AccessToken.getCurrentAccessToken().getUserId();
                 facebookProfilePicture.setProfileId(facebookId);
                 facebookProfilePicture.setCropped(true);
 //                Bitmap pic = getUserPic(ParseUser.getCurrentUser().getUsername());
@@ -584,7 +614,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private String getFacebookIdInBackground() {
         final String[] faceId = {"1034308419914405"};
-
         GraphRequest req = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
@@ -745,7 +774,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
-                currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude );
+                currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
 //                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             } else {
                 currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());

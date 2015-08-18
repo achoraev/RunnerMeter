@@ -29,8 +29,8 @@ public class ParseCommon {
                 context.getString(R.string.twitter_consumer_secret));
     }
 
-    public static ParseUser createGuestUser(ParseUser guestUser) throws ParseException {
-        guestUser = new ParseUser();
+    public static ParseUser createGuestUser() throws ParseException {
+        ParseUser guestUser = new ParseUser();
         guestUser.setUsername("Guest");
         guestUser.setEmail("tester@tester.com");
         guestUser.setPassword("123456");

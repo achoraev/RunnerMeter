@@ -1,6 +1,7 @@
 package com.newrunner.googlemap;
 
 import android.location.Location;
+import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.text.ParseException;
@@ -52,7 +53,8 @@ public class Calculations {
         if(currentSpeed > getMaxSpeed()){
             maxSpeed = (Math.round(currentSpeed * 100)) / 100;
         }
-
+        Log.d("max", String.valueOf(currentSpeed));
+        Log.d("max", String.valueOf(maxSpeed));
         return maxSpeed;
     }
 }

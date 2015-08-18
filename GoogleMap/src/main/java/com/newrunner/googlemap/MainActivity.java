@@ -83,10 +83,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected final static String LOCATION_KEY = "location-key";
     protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
 
+    private ActionBarDrawerToggle drawerToggle;
+    private NavigationView nvDrawer;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
-    private NavigationView nvDrawer;
-    private ActionBarDrawerToggle drawerToggle;
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -147,7 +147,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         updateValuesFromBundle(savedInstanceState);
 
-        createGoogleMap();
+        if (mapFragment == null) {
+            createGoogleMap();
+        }
 
         if (mGoogleApiClient == null) {
             buildGoogleApiClient();
@@ -197,13 +199,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void startLogic() {
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
+        startLocationUpdates();
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Start point"));
         }
 
+        // create guest user if not created
         if (guestUser == null) {
             try {
-                guestUser = ParseCommon.createGuestUser(guestUser);
+                guestUser = ParseCommon.createGuestUser();
             } catch (com.parse.ParseException e) {
                 e.printStackTrace();
             }
@@ -212,17 +216,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (!ParseCommon.isUserLoggedIn()) {
             ParseUser.logInInBackground("Guest", "123456");
         }
-//                    startLocationUpdates();
     }
 
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
-//                    stopLocationUpdates();
+        stopLocationUpdates();
         startButtonEnabled = false;
         currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed,
                 (ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser));
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
-        saveSession.put("username", currentSession.getCurrentUser().getUsername());
+        saveSession.put("username", currentSession.getCurrentUser());
         saveSession.put("maxSpeed", currentSession.getMaxSpeed());
         saveSession.put("averageSpeed", currentSession.getAverageSpeed());
         saveSession.put("distance", currentSession.getDistance());
@@ -319,9 +322,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 4- pause
         // 3 start
         super.onResume();
-        if (mGoogleApiClient.isConnected()) {
-            startLocationUpdates();
-        }
+//        if (mGoogleApiClient.isConnected()) {
+//            startLocationUpdates();
+//        }
         // for facebook API
         AppEventsLogger.activateApp(this);
     }
@@ -533,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (mRequestingLocationUpdates) {
             Log.d(TAG, "Starting updates");
-            startLocationUpdates();
+//            startLocationUpdates();
         }
     }
 

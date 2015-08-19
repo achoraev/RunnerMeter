@@ -97,37 +97,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
-    private String lastUpdateTime;
-    private String currentUpdateTime;
-    private String startTime = null;
+    private String lastUpdateTime, currentUpdateTime, startTime = null;
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
-    private double currentDistance;
-    private double sessionDistance;
-    private long currentTimeDiff;
-    private long sessionTimeDiff;
-    private double currentSpeed;
-    private double averageSpeed;
-    private double currentMaxSpeed;
+    private double currentDistance, sessionDistance, currentSpeed, averageSpeed, currentMaxSpeed;
+    private long currentTimeDiff, sessionTimeDiff;
     private String speedMetricUnit = " km/h";
 
     boolean startButtonEnabled;
 
-    private String userName;
+    private String userName, facebookId;
     private Session currentSession;
     private ParseUser guestUser = null;
-    private String facebookId;
 
     Fragment fragment = null;
-
-    TextView distanceMeter;
-    TextView speedMeter;
-    TextView maxSpeedMeter;
-    TextView timeMeter;
-    TextView showUsername;
+    TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
     Button startStopBtn;
     ProfilePictureView facebookProfilePicture;
 
@@ -139,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initializeUiViews();
 
         if (!Utility.isNetworkConnected(this)) {
-            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "" );
+            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "");
         }
 
 //        checkForGpsOnDevice();
@@ -219,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ParseUser.logInInBackground("Guest", "123456");
         }
     }
-
 
 
     private void stopLogic() {
@@ -801,7 +787,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed);
 
-            distanceMeter.setText(String.valueOf((sessionDistance/1000) + " km"));
+            distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " km"));
             speedMeter.setText(String.valueOf(averageSpeed) + speedMetricUnit);
             timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
             maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedMetricUnit);

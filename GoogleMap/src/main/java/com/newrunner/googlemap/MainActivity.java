@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private double currentSpeed;
     private double averageSpeed;
     private double currentMaxSpeed;
+    private String speedMetricUnit = " km/h";
 
     boolean startButtonEnabled;
 
@@ -200,12 +201,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         startLocationUpdates();
-        if (currentCoordinates != null) {
-            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("Start point"));
+        if (startPointCoord == null) {
+            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         }
+        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
 
         // create guest user if not created
-        if (guestUser == null) {
+        if (guestUser == null && !ParseCommon.checkIfUserExist()) {
             try {
                 guestUser = ParseCommon.createGuestUser();
             } catch (com.parse.ParseException e) {
@@ -217,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             ParseUser.logInInBackground("Guest", "123456");
         }
     }
+
+
 
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
@@ -431,7 +435,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 } catch (android.content.ActivityNotFoundException ex) {
                     Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
                 }
-//                fragment = new FeedbackFragment();
                 break;
             case R.id.nav_account_fragment:
                 fragment = new AccountFragment();
@@ -798,11 +801,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed);
 
-//            distanceMeter.setText(String.format("%.2f m", sessionDistance));
-            distanceMeter.setText(String.valueOf(sessionDistance + " m"));
-            speedMeter.setText(String.valueOf(averageSpeed) + " km/h");
+            distanceMeter.setText(String.valueOf((sessionDistance/1000) + " km"));
+            speedMeter.setText(String.valueOf(averageSpeed) + speedMetricUnit);
             timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
-            maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + " km/h");
+            maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedMetricUnit);
 
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)

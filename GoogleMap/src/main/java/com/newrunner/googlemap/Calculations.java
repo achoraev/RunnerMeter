@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by angelr on 29-Jul-15.
  */
 public class Calculations {
-    private static double maxSpeed = Double.MIN_VALUE;
+    private static double maxSpeed = 0;
 
     public static void setMaxSpeed(double speed) {
         maxSpeed = speed;

@@ -15,6 +15,7 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
 
     ListView showInput;
     ArrayList<Session> arrayOfSessions;
+    Session newSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,7 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
 
         arrayOfSessions = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            Session newSession = new Session(i + 10, i + 20, i + 30, i + 15, ParseUser.getCurrentUser());
+            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
             arrayOfSessions.add(newSession);
         }
 

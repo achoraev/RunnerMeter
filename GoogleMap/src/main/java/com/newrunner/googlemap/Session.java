@@ -6,9 +6,11 @@ import com.parse.ParseUser;
 /**
  * Created by angelr on 27-Jul-15.
  */
-public class Session extends ParseObject {
+public class Session
+//        extends ParseObject
+{
 
-    private ParseUser currentUser = null;
+    private ParseUser currentUser;
     private double maxSpeed;
     private double averageSpeed;
     private double distance;

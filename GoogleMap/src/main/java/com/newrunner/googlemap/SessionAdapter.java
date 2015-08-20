@@ -34,10 +34,10 @@ public class SessionAdapter extends ArrayAdapter<Session> {
         duration = (TextView) rowView.findViewById(R.id.view_duration);
         maxSpeed = (TextView) rowView.findViewById(R.id.view_maxspeed);
         averageSpeed = (TextView) rowView.findViewById(R.id.view_avrspeed);
-        distance.setText((int) dataList.get(position).getDistance());
-        duration.setText((int) dataList.get(position).getDuration());
-        maxSpeed.setText((int) dataList.get(position).getMaxSpeed());
-        averageSpeed.setText((int) dataList.get(position).getAverageSpeed());
+        distance.setText(String.valueOf(dataList.get(position).getDistance()));
+        duration.setText(String.valueOf(dataList.get(position).getDuration()));
+        maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()));
+        averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()));
 
         return rowView;
     }

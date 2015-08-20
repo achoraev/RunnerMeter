@@ -146,18 +146,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildLocationSettingsRequest();
         checkLocationSettings();
 
-        if (ParseCommon.isUserLoggedIn()) {
-            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                setCurrentUserUsernameInHeader();
-                facebookId = AccessToken.getCurrentAccessToken().getUserId();
-                facebookProfilePicture.setProfileId(facebookId);
-            } else {
-                setCurrentUserUsernameInHeader();
-            }
-        } else {
-            showUsername.setText("Guest");
-        }
+        createAnonimousUser();
 
+        setCurrentUserUsername();
 
         startStopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +165,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setupAdds();
     }
 
+    private void createAnonimousUser() {
+        // create guest user if not created
+        if (ParseUser.getCurrentUser() == null) {
+            try {
+                guestUser = ParseCommon.createGuestUser();
+            } catch (com.parse.ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setCurrentUserUsername() {
+        if (ParseCommon.isUserLoggedIn()) {
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                setCurrentUserUsernameInHeader();
+                facebookId = AccessToken.getCurrentAccessToken().getUserId();
+                facebookProfilePicture.setProfileId(facebookId);
+            } else {
+                setCurrentUserUsernameInHeader();
+            }
+        } else {
+            showUsername.setText("Guest");
+        }
+    }
+
     private void initializeUiViews() {
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
@@ -188,19 +204,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         startLocationUpdates();
-        if (startPointCoord == null) {
-            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
-        }
-        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
-
-        // create guest user if not created
-        if (guestUser == null && !ParseCommon.checkIfUserExist()) {
-            try {
-                guestUser = ParseCommon.createGuestUser();
-            } catch (com.parse.ParseException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (startPointCoord == null) {
+//            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+//        }
+//        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
 
         if (!ParseCommon.isUserLoggedIn()) {
             ParseUser.logInInBackground("Guest", "123456");
@@ -426,7 +433,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 fragment = new AccountFragment();
                 break;
             case R.id.nav_Leatherboard_fragment:
-                fragment = new LeatherBoardFragment();
+//                fragment = new LeatherBoardFragment();
+                Intent leatherIntent = new Intent(MainActivity.this, LeatherBoardActivity.class);
+                startActivity(leatherIntent);
                 break;
             case R.id.rate_app_fragment:
 //                fragment = new LeatherBoardFragment();

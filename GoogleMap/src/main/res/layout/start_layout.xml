@@ -20,7 +20,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:background="#000000"
+              android:background="#A7FFEB"
               tools:context=".StartActivity">
 
     <LinearLayout android:layout_width="match_parent"
@@ -37,14 +37,14 @@
                       android:layout_height="match_parent"
                       android:id="@+id/top_left"
                       android:layout_weight="2"
-                      android:background="#18FFFF"
+                      android:background="#009688"
                       android:layout_marginRight="5dp"
                       android:layout_marginBottom="5dp"/>
             <TextView android:layout_width="match_parent"
                       android:layout_height="match_parent"
                       android:id="@+id/bottom_left"
                       android:layout_weight="2"
-                      android:background="#B39DDB"
+                      android:background="#00796B"
                       android:layout_marginRight="5dp"/>
 
         </LinearLayout>
@@ -59,7 +59,7 @@
                       android:layout_height="match_parent"
                       android:id="@+id/top_right"
                       android:layout_weight="2"
-                      android:background="#76FF03"
+                      android:background="#4DB6AC"
                       android:layout_marginBottom="5dp"/>
             <Button android:layout_width="match_parent"
                       android:layout_height="match_parent"
@@ -71,7 +71,7 @@
                       android:layout_height="match_parent"
                       android:id="@+id/bottom_right"
                       android:layout_weight="2"
-                      android:background="#9C27B0"/>
+                      android:background="#004D40"/>
 
         </LinearLayout>
 

@@ -17,7 +17,7 @@ public class SessionAdapter extends ArrayAdapter<Session> {
     private Context context;
     private int resourseId;
     private ArrayList<Session> dataList;
-    private TextView username,post,date;
+    private TextView distance, duration, maxSpeed, averageSpeed;
 
     public SessionAdapter(Context context, int resource, ArrayList<Session> objects) {
         super(context, resource, objects);
@@ -28,14 +28,16 @@ public class SessionAdapter extends ArrayAdapter<Session> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         View rowView = inflater.inflate(resourseId, parent, false);
-//        username = (TextView) rowView.findViewById(R.id.text_username);
-//        post = (TextView) rowView.findViewById(R.id.text_post);
-//        date = (TextView) rowView.findViewById(R.id.text_date);
-//        username.setText(dataList.get(position).getUsername());
-//        post.setText(dataList.get(position).getNote());
-//        date.setText(dataList.get(position).getDateCreated());
+        distance = (TextView) rowView.findViewById(R.id.view_distance);
+        duration = (TextView) rowView.findViewById(R.id.view_duration);
+        maxSpeed = (TextView) rowView.findViewById(R.id.view_maxspeed);
+        averageSpeed = (TextView) rowView.findViewById(R.id.view_avrspeed);
+        distance.setText((int) dataList.get(position).getDistance());
+        duration.setText((int) dataList.get(position).getDuration());
+        maxSpeed.setText((int) dataList.get(position).getMaxSpeed());
+        averageSpeed.setText((int) dataList.get(position).getAverageSpeed());
 
         return rowView;
     }

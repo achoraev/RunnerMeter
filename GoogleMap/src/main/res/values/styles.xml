@@ -33,8 +33,11 @@ please see styles_device_defaults.xml.
     <eat-comment />
 
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#673AB7</item>
-        <item name="colorPrimaryDark">#512DA8</item>
+        <!--<item name="colorPrimary">#673AB7</item>-->
+        <!--<item name="colorPrimaryDark">#512DA8</item>-->
+        <!--<item name="colorAccent">#FF4081</item>-->
+        <item name="colorPrimary">#00897B</item>
+        <item name="colorPrimaryDark">#00695C</item>
         <item name="colorAccent">#FF4081</item>
     </style>
 

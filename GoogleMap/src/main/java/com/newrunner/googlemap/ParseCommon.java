@@ -4,32 +4,12 @@ import android.content.Context;
 import android.widget.Toast;
 import com.parse.*;
 
-import java.util.List;
-
 /**
  * Created by angelr on 14-May-15.
  */
 public class ParseCommon {
-    public static boolean checkIfUserExist() {
-        final boolean[] ifExist = {false};
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("username", "Guest");
-        query.findInBackground(new FindCallback<ParseUser>() {
-            @Override
-            public void done(List<ParseUser> list, ParseException e) {
-                if (e == null) {
-                    ifExist[0] = true;
-                } else {
-
-                }
-            }
-        });
-
-        return ifExist[0];
-    }
-
-    public static void logOutUser(Context cont){
-        if(ParseUser.getCurrentUser() != null){
+    public static void logOutUser(Context cont) {
+        if (ParseUser.getCurrentUser() != null) {
             Toast.makeText(cont, cont.getString(R.string.successfull_logout), Toast.LENGTH_SHORT).show();
             ParseUser.logOutInBackground();
         } else {
@@ -37,7 +17,7 @@ public class ParseCommon {
         }
     }
 
-    public static boolean isUserLoggedIn(){
+    public static boolean isUserLoggedIn() {
         return ParseUser.getCurrentUser() != null;
     }
 

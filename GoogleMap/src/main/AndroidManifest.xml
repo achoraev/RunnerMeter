@@ -48,6 +48,9 @@
         <activity android:name=".MainActivity"
                   android:label="@string/app_name">
         </activity>
+        <activity android:name=".LeatherBoardActivity"
+                  android:label="Leatherboard">
+        </activity>
         <activity
                 android:name="com.parse.ui.ParseLoginActivity"
                 android:label="@string/app_name"

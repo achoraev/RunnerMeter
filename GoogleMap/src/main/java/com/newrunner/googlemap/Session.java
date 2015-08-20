@@ -1,11 +1,12 @@
 package com.newrunner.googlemap;
 
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 /**
  * Created by angelr on 27-Jul-15.
  */
-public class Session {
+public class Session extends ParseObject {
 
     private ParseUser currentUser = null;
     private double maxSpeed;

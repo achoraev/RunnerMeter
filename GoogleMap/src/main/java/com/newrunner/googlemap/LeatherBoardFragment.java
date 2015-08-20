@@ -15,12 +15,23 @@ public class LeatherBoardFragment extends ListFragment {
         // Empty constructor required for fragment subclasses
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
+
+//        ListView showInput = (ListView) findViewById(android.R.id.list);
 //
-//        setRetainInstance(true);
-//    }
+//        posts = new ArrayList<Session>();
+//
+//        Note note = new Note();
+//        note.setUsername(username);
+//        note.setNote(noteFromInput);
+//        posts.add(note);
+//
+//        refreshListView();
+    }
 
 //    @Nullable
 //    @Override

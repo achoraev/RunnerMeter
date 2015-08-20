@@ -11,8 +11,12 @@ public class ParseApplication extends Application {
     public void onCreate() {
         super.onCreate();
 //
+//        ParseObject.registerSubclass(Session.class);
 //        ParseCrashReporting.enable(this);
         Parse.enableLocalDatastore(this);
         ParseCommon.ParseInitialize(this);
+//        ParseUser.enableAutomaticUser();
+//        ParseACL defaultACL = new ParseACL();
+//        ParseACL.setDefaultACL(defaultACL, true);
     }
 }

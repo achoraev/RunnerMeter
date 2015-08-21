@@ -12,6 +12,7 @@
                   android:orientation="vertical">
         <ImageView android:layout_height="60dp"
                    android:layout_width="60dp"
+                   android:layout_margin="7dp"
                    android:id="@+id/runner"
                    android:contentDescription="Runner image"
                    android:src="@drawable/runner2"

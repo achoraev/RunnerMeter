@@ -209,16 +209,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        }
 //        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
 
-        if (!ParseCommon.isUserLoggedIn()) {
-            ParseUser.logInInBackground("Guest", "123456");
-        }
+        ParseCommon.logInGuestUser();
     }
-
 
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
         stopLocationUpdates();
         startButtonEnabled = false;
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(false);
         currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed,
                 (ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser));
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.put("distance", currentSession.getDistance());
         saveSession.put("duration", currentSession.getDuration());
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
+        saveSession.setACL(acl);
         saveSession.saveInBackground();
         sessionDistance = 0;
         currentMaxSpeed = 0;

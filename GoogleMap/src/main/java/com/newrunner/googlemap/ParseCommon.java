@@ -1,13 +1,39 @@
 package com.newrunner.googlemap;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 import com.parse.*;
+
+import java.util.List;
 
 /**
  * Created by angelr on 14-May-15.
  */
 public class ParseCommon {
+    public static void loadFromParse() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
+        query.whereEqualTo("username", ParseUser.getCurrentUser());
+        query.orderByAscending("timePerKilometer");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> sessions, ParseException e) {
+                if (e == null) {
+                    LeatherBoardActivity.objectsWereRetrievedSuccessfully(sessions);
+                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                } else {
+                    LeatherBoardActivity.objectRetrievalFailed(e);
+                    Log.d("session", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public static void logInGuestUser() {
+        if (!ParseCommon.isUserLoggedIn()) {
+            ParseUser.logInInBackground("Guest", "123456");
+        }
+    }
+
     public static void logOutUser(Context cont) {
         if (ParseUser.getCurrentUser() != null) {
             Toast.makeText(cont, cont.getString(R.string.successfull_logout), Toast.LENGTH_SHORT).show();

@@ -2,11 +2,15 @@ package com.newrunner.googlemap;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by angelr on 20-Aug-15.
@@ -14,7 +18,7 @@ import java.util.ArrayList;
 public class LeatherBoardActivity extends ListActivity implements View.OnClickListener {
 
     ListView showInput;
-    ArrayList<Session> arrayOfSessions;
+    static ArrayList<Session> arrayOfSessions;
     Session newSession;
 
     @Override
@@ -25,15 +29,13 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
         showInput = (ListView) findViewById(android.R.id.list);
 
         arrayOfSessions = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
-            arrayOfSessions.add(newSession);
-        }
+        ParseCommon.loadFromParse();
 
-//        Session newSession = new Session();
-//        newSession.setUsername(username);
-//        newSession.setNote(noteFromInput);
-//        arrayOfSessions.add(newSession);
+//        arrayOfSessions = objects;
+//        for (int i = 0; i < 2; i++) {
+//            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
+//            arrayOfSessions.add(newSession);
+//        }
 
         refreshListView();
     }
@@ -80,5 +82,22 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
     private void refreshListView() {
         SessionAdapter adapter = new SessionAdapter(this, R.layout.leatherboard_row, arrayOfSessions);
         showInput.setAdapter(adapter);
+    }
+
+    public static void objectRetrievalFailed(ParseException e) {
+        Log.d("Query", e.getMessage());
+    }
+
+    public static void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
+        for(ParseObject ses : sessions){
+            Session newSession = new Session(
+                    ses.getDouble("distance"),
+                    ses.getDouble("duration"),
+                    ses.getDouble("maxSpeed"),
+                    ses.getDouble("averageSpeed"),
+                    ParseUser.getCurrentUser());
+            arrayOfSessions.add(newSession);
+
+        }
     }
 }

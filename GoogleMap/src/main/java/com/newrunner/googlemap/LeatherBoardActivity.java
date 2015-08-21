@@ -31,11 +31,10 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
         arrayOfSessions = new ArrayList<>();
         ParseCommon.loadFromParse();
 
-//        arrayOfSessions = objects;
-//        for (int i = 0; i < 2; i++) {
-//            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
-//            arrayOfSessions.add(newSession);
-//        }
+        for (int i = 0; i < 2; i++) {
+            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
+            arrayOfSessions.add(newSession);
+        }
 
         refreshListView();
     }
@@ -97,7 +96,6 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
                     ses.getDouble("averageSpeed"),
                     ParseUser.getCurrentUser());
             arrayOfSessions.add(newSession);
-
         }
     }
 }

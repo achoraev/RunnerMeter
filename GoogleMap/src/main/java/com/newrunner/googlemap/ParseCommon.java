@@ -14,7 +14,7 @@ public class ParseCommon {
     public static void loadFromParse() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
         query.whereEqualTo("username", ParseUser.getCurrentUser());
-        query.orderByAscending("timePerKilometer");
+//        query.orderByAscending("timePerKilometer");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {

@@ -28,14 +28,14 @@ public class Calculations {
                 lastUpdatedCoord.longitude,
                 currentCoordinates.latitude,
                 currentCoordinates.longitude, result);
-        return (Math.round(result[0] * 100))/100;
+        return roundToTwoDigitsAfterDecimalPoint(result[0]);
     }
 
     public static double calculateSpeed(Long time, Double distance) {
         double result = 0;
         if (time > 0) {
             result = (distance / 1000) / (Double.valueOf(time) / (60 * 60 * 1000) % 24);
-            result = (Math.round(result * 100)) / 100;
+            result = roundToTwoDigitsAfterDecimalPoint(result);
         }
         Log.d("time", String.valueOf(time));
         Log.d("distance", String.valueOf(distance));
@@ -60,10 +60,15 @@ public class Calculations {
 
     public static double calculateMaxSpeed(double currentSpeed) {
         if(currentSpeed > getMaxSpeed()){
-            maxSpeed = (Math.round(currentSpeed * 100)) / 100;
+            maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
         }
         Log.d("cur", String.valueOf(currentSpeed));
         Log.d("max", String.valueOf(maxSpeed));
         return maxSpeed;
+    }
+
+    public static double roundToTwoDigitsAfterDecimalPoint(double in){
+        double result = (Math.round(in * 100))/100.00;
+        return result;
     }
 }

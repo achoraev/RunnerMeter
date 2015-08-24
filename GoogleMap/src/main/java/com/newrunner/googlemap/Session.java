@@ -116,7 +116,7 @@ public class Session implements Parcelable
         dest.writeDouble(distance);
         dest.writeDouble(duration);
         dest.writeDouble(timePerKilometer);
-//        dest.writeString(String.valueOf(createdAt));
+        dest.writeSerializable(createdAt);
 //        dest.writeParcelable(currentUser, flags);
     }
 
@@ -137,6 +137,7 @@ public class Session implements Parcelable
         distance = in.readDouble();
         duration = in.readDouble();
         timePerKilometer = in.readDouble();
+        createdAt = (Date) in.readSerializable();
 //        currentUser = in.readParcelable(ParseUser.class.getClassLoader());
     }
 }

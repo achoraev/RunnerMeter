@@ -17,7 +17,7 @@ public class SessionAdapter extends ArrayAdapter<Session> {
     private Context context;
     private int resourseId;
     private ArrayList<Session> dataList;
-    private TextView distance, duration, maxSpeed, averageSpeed;
+    private TextView distance, duration, maxSpeed, averageSpeed, createdAt, timePerKm;
 
     public SessionAdapter(Context context, int resource, ArrayList<Session> objects) {
         super(context, resource, objects);
@@ -30,14 +30,20 @@ public class SessionAdapter extends ArrayAdapter<Session> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
         View rowView = inflater.inflate(resourseId, parent, false);
+        // initialize
         distance = (TextView) rowView.findViewById(R.id.view_distance);
         duration = (TextView) rowView.findViewById(R.id.view_duration);
         maxSpeed = (TextView) rowView.findViewById(R.id.view_maxspeed);
         averageSpeed = (TextView) rowView.findViewById(R.id.view_avrspeed);
-        distance.setText(String.valueOf(dataList.get(position).getDistance()));
-        duration.setText(String.valueOf(dataList.get(position).getDuration()));
-        maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()));
-        averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()));
+        timePerKm = (TextView) rowView.findViewById(R.id.view_timeperkm);
+        createdAt = (TextView) rowView.findViewById(R.id.view_created);
+        // set text
+        distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
+        duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration()/1000/60) + " min"));
+        maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " km/h");
+        averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " km/h");
+        timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
+        createdAt.setText(String.valueOf(dataList.get(position).getCreatedAt()));
 
         return rowView;
     }

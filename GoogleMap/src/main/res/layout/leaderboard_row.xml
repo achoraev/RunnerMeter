@@ -8,7 +8,7 @@
 
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
-                  android:layout_weight="1"
+                  android:layout_weight="2"
                   android:orientation="vertical">
         <ImageView android:layout_height="60dp"
                    android:layout_width="60dp"
@@ -28,33 +28,47 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Distance: "
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Duration: "
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_maxspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Max Speed: "
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_avrspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Average Speed: "
-                android:layout_gravity="end"
+                android:layout_gravity="start"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/label_timeperkm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time / km: "
+                android:layout_gravity="start"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/label_created"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Created at: "
+                android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
-                  android:layout_weight="2"
+                  android:layout_weight="3"
                   android:orientation="vertical">
         <TextView
                 android:id="@+id/view_distance"
@@ -79,6 +93,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0 km/h"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/view_timeperkm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 min/km"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/view_created"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--/--/---- --:--:--"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 

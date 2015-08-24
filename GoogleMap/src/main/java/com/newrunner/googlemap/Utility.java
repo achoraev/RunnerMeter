@@ -25,7 +25,7 @@ public class Utility {
                     ses.getDouble("duration"),
                     ses.getDouble("maxSpeed"),
                     ses.getDouble("averageSpeed"),
-//                    ses.getCreatedAt(),
+                    ses.getCreatedAt(),
                     ParseUser.getCurrentUser());
             arrayOfSessions.add(newSession);
         }

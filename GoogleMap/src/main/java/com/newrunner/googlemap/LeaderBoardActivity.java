@@ -26,10 +26,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         Bundle bundle = getIntent().getExtras();
         arrayOfSessions = new ArrayList<>();
         arrayOfSessions = bundle.getParcelableArrayList("list");
-//        for (int i = 0; i < 2; i++) {
-//            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
-//            arrayOfSessions.add(newSession);
-//        }
 
         refreshListView();
     }

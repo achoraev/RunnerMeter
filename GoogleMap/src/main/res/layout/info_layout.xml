@@ -25,7 +25,7 @@
                     android:id="@+id/distance_meter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0 m"
+                    android:text="0 km"
                     android:textSize="20dp"
                     android:gravity="center" android:textStyle="bold"/>
             <TextView

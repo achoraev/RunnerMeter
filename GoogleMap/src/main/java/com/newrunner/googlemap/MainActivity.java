@@ -406,6 +406,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 public void onClick(DialogInterface dialog, int id) {
                                     logOutCurrentUser();
                                     dialog.cancel();
+                                    ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+                                    startActivityForResult(builder.build(), 0);
                                 }
                             })
                             .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -637,78 +639,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    private String getFacebookIdInBackground() {
-        final String[] faceId = {"1034308419914405"};
-        GraphRequest req = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                try {
-                    faceId[0] = jsonObject.getJSONObject("me").get("id").toString();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        req.executeAsync();
-//        Parse.Cloud.beforeSave("_User", function(request, response) {
-//            request.object.set("facebook_id", request.user.get("authData").facebook.id);
-//
-//            response.success();
-//        });
-
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/me",
-//                null,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-////                        response
-//                    }
-//                }
-//        ).executeAsync();
-
-//        LoginClient.Request.executeMeRequestAsync(ParseFacebookUtils.getSession(), new LoginClient.Request.GraphUserCallback() {
-//            @Override
-//            public void onCompleted(GraphUser user, GetRecentContextCall.Response response) {
-//                if (user != null) {
-//                    faceId = user.getId();
-////                    ParseUser.getCurrentUser().put("fbId", user.getId());
-////                    ParseUser.getCurrentUser().saveInBackground();
-//                }
-//            }
-//        });
-        return faceId[0];
-    }
-
-//    private void makeMeRequest(final Session session) {
-//        GraphRequest request = new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/me",
-//                null,
-//                HttpMethod.GET,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//            /* handle the result */
-//                    }
-//                });
-//        request.executeAsync();
-//    }
-
-//    public Bitmap getUserPic(String userID) {
-//        String imageURL;
-//        Bitmap bitmap = null;
-//        Log.d(TAG, "Loading Picture");
-//        imageURL = "http://graph.facebook.com/" + userID + "/picture?type=small";
-//        try {
-//            bitmap = BitmapFactory.decodeStream((InputStream) new URL(imageURL).getContent());
-//        } catch (Exception e) {
-//            Log.d("TAG", "Loading Picture FAILED");
-//            e.printStackTrace();
-//        }
-//        return bitmap;
-//    }
 
     @Override
     public void onBackPressed() {

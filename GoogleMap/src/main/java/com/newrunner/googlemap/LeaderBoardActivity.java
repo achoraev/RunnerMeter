@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by angelr on 20-Aug-15.
  */
-public class LeatherBoardActivity extends ListActivity implements View.OnClickListener {
+public class LeaderBoardActivity extends ListActivity implements View.OnClickListener {
 
     ListView showInput;
     Session newSession;

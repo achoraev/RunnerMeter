@@ -9,9 +9,9 @@ import android.widget.ListView;
 /**
  * Created by angelr on 22-Jul-15.
  */
-public class LeatherBoardFragment extends ListFragment {
+public class LeaderBoardFragment extends ListFragment {
 
-    public LeatherBoardFragment() {
+    public LeaderBoardFragment() {
         // Empty constructor required for fragment subclasses
     }
 

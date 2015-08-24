@@ -18,10 +18,10 @@ public class ParseCommon {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
-                    LeatherBoardActivity.objectsWereRetrievedSuccessfully(sessions);
+                    StartActivity.objectsWereRetrievedSuccessfully(sessions);
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                 } else {
-                    LeatherBoardActivity.objectRetrievalFailed(e);
+                    StartActivity.objectRetrievalFailed(e);
                     Log.d("session", "Error: " + e.getMessage());
                 }
             }

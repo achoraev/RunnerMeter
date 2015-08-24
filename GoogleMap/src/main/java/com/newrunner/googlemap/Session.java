@@ -1,12 +1,13 @@
 package com.newrunner.googlemap;
 
-import com.parse.ParseObject;
+import android.os.Parcel;
+import android.os.Parcelable;
 import com.parse.ParseUser;
 
 /**
  * Created by angelr on 27-Jul-15.
  */
-public class Session
+public class Session implements Parcelable
 //        extends ParseObject
 {
 
@@ -89,5 +90,40 @@ public class Session
 
         finalResult = Math.round(finalResult * 100);
         return finalResult / 100;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(maxSpeed);
+        dest.writeDouble(averageSpeed);
+        dest.writeDouble(distance);
+        dest.writeDouble(duration);
+        dest.writeDouble(timePerKilometer);
+//        dest.writeParcelable(currentUser, flags);
+    }
+
+    public static final Parcelable.Creator<Session> CREATOR
+            = new Parcelable.Creator<Session>() {
+        public Session createFromParcel(Parcel in) {
+            return new Session(in);
+        }
+
+        public Session[] newArray(int size) {
+            return new Session[size];
+        }
+    };
+
+    private Session(Parcel in) {
+        maxSpeed = in.readDouble();
+        averageSpeed = in.readDouble();
+        distance = in.readDouble();
+        duration = in.readDouble();
+        timePerKilometer = in.readDouble();
+//        currentUser = in.readParcelable(ParseUser.class.getClassLoader());
     }
 }

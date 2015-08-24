@@ -2,15 +2,10 @@ package com.newrunner.googlemap;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by angelr on 20-Aug-15.
@@ -18,8 +13,8 @@ import java.util.List;
 public class LeatherBoardActivity extends ListActivity implements View.OnClickListener {
 
     ListView showInput;
-    static ArrayList<Session> arrayOfSessions;
     Session newSession;
+    ArrayList<Session> arrayOfSessions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,13 +23,13 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
 
         showInput = (ListView) findViewById(android.R.id.list);
 
+        Bundle bundle = getIntent().getExtras();
         arrayOfSessions = new ArrayList<>();
-        ParseCommon.loadFromParse();
-
-        for (int i = 0; i < 2; i++) {
-            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
-            arrayOfSessions.add(newSession);
-        }
+        arrayOfSessions = bundle.getParcelableArrayList("list");
+//        for (int i = 0; i < 2; i++) {
+//            newSession = new Session(10.5, 20.5, 30.5, 15.5, ParseUser.getCurrentUser());
+//            arrayOfSessions.add(newSession);
+//        }
 
         refreshListView();
     }
@@ -81,21 +76,5 @@ public class LeatherBoardActivity extends ListActivity implements View.OnClickLi
     private void refreshListView() {
         SessionAdapter adapter = new SessionAdapter(this, R.layout.leatherboard_row, arrayOfSessions);
         showInput.setAdapter(adapter);
-    }
-
-    public static void objectRetrievalFailed(ParseException e) {
-        Log.d("Query", e.getMessage());
-    }
-
-    public static void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
-        for(ParseObject ses : sessions){
-            Session newSession = new Session(
-                    ses.getDouble("distance"),
-                    ses.getDouble("duration"),
-                    ses.getDouble("maxSpeed"),
-                    ses.getDouble("averageSpeed"),
-                    ParseUser.getCurrentUser());
-            arrayOfSessions.add(newSession);
-        }
     }
 }

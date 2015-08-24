@@ -18,10 +18,10 @@ public class ParseCommon {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
-                    StartActivity.objectsWereRetrievedSuccessfully(sessions);
+                    MainActivity.objectsWereRetrievedSuccessfully(sessions);
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                 } else {
-                    StartActivity.objectRetrievalFailed(e);
+                    MainActivity.objectRetrievalFailed(e);
                     Log.d("session", "Error: " + e.getMessage());
                 }
             }

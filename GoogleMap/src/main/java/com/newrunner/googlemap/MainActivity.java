@@ -55,7 +55,9 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -118,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Button startStopBtn;
     ProfilePictureView facebookProfilePicture;
 
+    public static ArrayList<Session> arrayOfSessions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,10 +147,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
         }
 
+        // check gps status and turn on if not
         buildLocationSettingsRequest();
         checkLocationSettings();
 
         createAnonimousUser();
+
+        ParseCommon.loadFromParse();
 
         setCurrentUserUsername();
 
@@ -163,6 +170,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // setup adds
         setupAdds();
+    }
+
+    public static void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
+        arrayOfSessions = new ArrayList<>();
+        arrayOfSessions = Utility.convertFromParseObject(sessions);
+    }
+
+    public static void objectRetrievalFailed(com.parse.ParseException e) {
+        Log.d("Query", e.getMessage());
     }
 
     private void createAnonimousUser() {
@@ -436,8 +452,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.nav_Leaderboard_fragment:
 //                fragment = new LeaderBoardFragment();
                 Intent leatherIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
-                Bundle bundle = getIntent().getExtras();
-                bundle.putParcelableArrayList("list", bundle.getParcelableArrayList("list"));
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", arrayOfSessions);
                 leatherIntent.putExtras(bundle);
                 startActivity(leatherIntent);
                 break;

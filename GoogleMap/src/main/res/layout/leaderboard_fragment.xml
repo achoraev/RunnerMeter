@@ -5,7 +5,7 @@
               android:orientation="vertical">
     <TextView android:layout_height="25dp"
               android:layout_width="match_parent"
-              android:text="Leatherboard"
+              android:text="@string/menu_leaderboard"
               android:textSize="20dp"
               android:gravity="center"
               android:layout_marginTop="30dp"/>

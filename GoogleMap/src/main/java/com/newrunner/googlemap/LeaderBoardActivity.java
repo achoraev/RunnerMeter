@@ -19,7 +19,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.leatherboard_fragment);
+        setContentView(R.layout.leaderboard_fragment);
 
         showInput = (ListView) findViewById(android.R.id.list);
 
@@ -74,7 +74,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     }
 
     private void refreshListView() {
-        SessionAdapter adapter = new SessionAdapter(this, R.layout.leatherboard_row, arrayOfSessions);
+        SessionAdapter adapter = new SessionAdapter(this, R.layout.leaderboard_row, arrayOfSessions);
         showInput.setAdapter(adapter);
     }
 }

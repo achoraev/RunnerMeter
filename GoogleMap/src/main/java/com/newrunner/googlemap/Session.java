@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.parse.ParseUser;
 
+import java.util.Date;
+
 /**
  * Created by angelr on 27-Jul-15.
  */
@@ -17,9 +19,10 @@ public class Session implements Parcelable
     private double distance;
     private double duration;
     private double timePerKilometer;
+    private Date createdAt;
 
     public Session() {
-        new Session(0, 0, 0, 0, null);
+        this(0, 0, 0, 0, null);
     }
 
     public Session(double dis, double dur, double max, double avr, ParseUser curUser){
@@ -29,6 +32,15 @@ public class Session implements Parcelable
         this.averageSpeed = avr;
         setTimePerKilometer(dis, dur);
         this.currentUser = curUser;
+    }
+
+    public Session(double distance, double duration, double maxSpeed, double averageSpeed, Date createdAt, ParseUser currentUser) {
+        this(distance, duration, maxSpeed, averageSpeed, currentUser);
+        this.createdAt = createdAt;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public ParseUser getCurrentUser() {
@@ -104,6 +116,7 @@ public class Session implements Parcelable
         dest.writeDouble(distance);
         dest.writeDouble(duration);
         dest.writeDouble(timePerKilometer);
+//        dest.writeString(String.valueOf(createdAt));
 //        dest.writeParcelable(currentUser, flags);
     }
 

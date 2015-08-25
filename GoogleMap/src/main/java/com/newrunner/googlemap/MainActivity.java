@@ -227,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setCurrentUserUsernameInHeader();
                 facebookId = AccessToken.getCurrentAccessToken().getUserId();
                 facebookProfilePicture.setProfileId(facebookId);
+                facebookProfilePicture.setCropped(true);
             } else {
                 setCurrentUserUsernameInHeader();
             }
@@ -470,10 +471,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_feedback_fragment:
                 fragment = null;
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-//                emailIntent.setType("message/rfc822");
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822");
 //                emailIntent.setData(Uri.parse("mailto:"));
-                emailIntent.setType("text/plain");
+//                emailIntent.setType("text/plain");
 //                emailIntent.setType("*/*");
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"runner.meter@gmail.com"});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
@@ -661,16 +662,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
 
-
         // check current user
-        if (ParseCommon.isUserLoggedIn()) {
-            setCurrentUserUsernameInHeader();
-            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                facebookId = AccessToken.getCurrentAccessToken().getUserId();
-                facebookProfilePicture.setProfileId(facebookId);
-                facebookProfilePicture.setCropped(true);
-            }
-        }
+        setCurrentUserUsername();
 
         super.onActivityResult(requestCode, resultCode, data);
     }

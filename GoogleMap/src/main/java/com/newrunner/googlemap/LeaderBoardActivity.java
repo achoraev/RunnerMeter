@@ -48,7 +48,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //        DialogViewer newDialog = new DialogViewer();
 //        newDialog.show(getFragmentManager(), "DialogViewer");
 //        deleteItem(position);
-        // todo make this work
 //		isClickYes = getIntent().getStringExtra("isClickYes");
 //		if (isClickYes == "true") {
 //			// delete

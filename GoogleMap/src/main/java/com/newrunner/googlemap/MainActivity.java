@@ -29,12 +29,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -50,8 +50,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -122,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static ArrayList<Session> arrayOfSessions;
 
+    InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         buildLocationSettingsRequest();
         checkLocationSettings();
 
-        createAnonimousUser();
+        createAnonymousUser();
 
         ParseCommon.loadFromParse();
 
@@ -163,13 +163,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (!startButtonEnabled) {
                     startLogic();
                 } else {
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    }
+
                     stopLogic();
                 }
             }
+
         });
 
         // setup adds
         setupAdds();
+
+        // inter add
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+
+            }
+        });
+
+        requestNewInterstitial();
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                // todo see logcat for ID
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     public static void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
@@ -181,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("Query", e.getMessage());
     }
 
-    private void createAnonimousUser() {
+    private void createAnonymousUser() {
         // create guest user if not created
         if (ParseUser.getCurrentUser() == null) {
             try {
@@ -312,7 +341,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setupAdds() {
         AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                        //todo add huawei id for test
+                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .build();
         mAdView.loadAd(adRequest);
     }
 
@@ -669,25 +702,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
-            // Update the value of mRequestingLocationUpdates from the Bundle, and
+            // Update the value of mRequestingLocationUpdates from the Bundle
             if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
                 mRequestingLocationUpdates = savedInstanceState.getBoolean(
                         REQUESTING_LOCATION_UPDATES_KEY);
             }
 
-            if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
-                currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
-//                updateUI();
-            }
-
-//            if(savedInstanceState.keySet().contains("Start")){
-//                startPointCoord = savedInstanceState.getParcelable("Start");
-//            }
-
             // Update the value of lastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
                 currentUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
+            }
+
+            if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
+                currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
+            }
+
+            if (savedInstanceState.keySet().contains("distance")) {
+                sessionDistance = savedInstanceState.getDouble("distance");
+            }
+
+            if (savedInstanceState.keySet().contains("averageSpeed")) {
+                averageSpeed = savedInstanceState.getDouble("averageSpeed");
+            }
+
+            if (savedInstanceState.keySet().contains("maxSpeed")) {
+                currentMaxSpeed = savedInstanceState.getDouble("maxSpeed");
+            }
+
+            if (savedInstanceState.keySet().contains("duration")) {
+                sessionTimeDiff = savedInstanceState.getLong("duration");
             }
         }
     }
@@ -696,7 +740,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
                 mRequestingLocationUpdates);
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
-//        savedInstanceState.putParcelable("Start", startPointCoord);
+        savedInstanceState.putDouble("distance", sessionDistance);
+        savedInstanceState.putDouble("averageSpeed", averageSpeed);
+        savedInstanceState.putDouble("maxSpeed", currentMaxSpeed);
+        savedInstanceState.putLong("duration", sessionTimeDiff);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
 
         super.onSaveInstanceState(savedInstanceState);
@@ -733,6 +780,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
 //                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             } else {
+                // todo try to smooth this coordinates
                 currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 startPointCoord = currentCoordinates;
                 lastUpdatedCoord = currentCoordinates;

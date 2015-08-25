@@ -15,6 +15,8 @@
 
     // banner add
     <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
 
     // login/logout
     <string name="action_logout">Logout</string>

@@ -193,9 +193,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
-                // todo see logcat for ID
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .addTestDevice("CA0A55C98B89F9F9F4844683B21D024A")
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
@@ -344,8 +343,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                        //todo add huawei id for test
-                .addTestDevice("SEE_YOUR_LOGCAT_TO_GET_YOUR_DEVICE_ID")
+                .addTestDevice("CA0A55C98B89F9F9F4844683B21D024A")
                 .build();
         mAdView.loadAd(adRequest);
     }

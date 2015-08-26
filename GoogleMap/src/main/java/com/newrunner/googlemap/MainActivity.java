@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.nav_account_fragment:
                 fragment = new AccountFragment();
                 break;
-            case R.id.nav_Leaderboard_fragment:
+            case R.id.nav_leaderboard_fragment:
 //                fragment = new LeaderBoardFragment();
                 Intent leatherIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
                 Bundle bundle = new Bundle();
@@ -631,8 +631,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void setTitle(CharSequence title) {
-//        mTitle = title;
-//        getSupportActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(title);
     }
 
     @Override
@@ -668,10 +667,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
         if (exit) {
             finish();
+            super.onBackPressed();
         } else {
             Toast.makeText(this, getString(R.string.press_back_again),
                     Toast.LENGTH_SHORT).show();

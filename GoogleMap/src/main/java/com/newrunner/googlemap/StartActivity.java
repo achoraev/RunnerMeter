@@ -24,6 +24,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         detector = new SimpleGestureFilter(this,this);
 
+        ParseCommon.logInGuestUser();
+
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +44,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     private void startMainActivity() {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
         startActivity(startIntent);
+        finish();
     }
 
     @Override

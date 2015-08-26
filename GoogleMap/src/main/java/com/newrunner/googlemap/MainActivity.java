@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng lastUpdatedCoord = null;
     private LatLng startPointCoord = null;
     private Location currentLocation;
+    private Bitmap sessionScreenShot;
 
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
@@ -281,6 +283,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
+            mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+                @Override
+                public void onSnapshotReady(Bitmap bitmap) {
+                    sessionScreenShot = bitmap;
+                    // todo save on device
+                }
+            });
         }
     }
 
@@ -732,13 +741,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (savedInstanceState.keySet().contains("duration")) {
                 sessionTimeDiff = savedInstanceState.getLong("duration");
             }
+
+            if(savedInstanceState.keySet().contains("isStarted")){
+                startButtonEnabled = savedInstanceState.getBoolean("isStarted");
+                if(startButtonEnabled){
+                    startLocationUpdates();
+                    startStopBtn.setBackgroundResource(R.drawable.stop_btn);
+                    updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+                }
+            }
         }
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
                 mRequestingLocationUpdates);
+        // todo save mGoogleApiClient and mLocationRequest
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
+        savedInstanceState.putBoolean("isStarted", startButtonEnabled);
         savedInstanceState.putDouble("distance", sessionDistance);
         savedInstanceState.putDouble("averageSpeed", averageSpeed);
         savedInstanceState.putDouble("maxSpeed", currentMaxSpeed);

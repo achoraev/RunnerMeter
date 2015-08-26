@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onAdClosed() {
                 requestNewInterstitial();
-
             }
         });
 
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("CA0A55C98B89F9F9F4844683B21D024A")
+                .addTestDevice(getString(R.string.huawei_device_id))
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
@@ -275,14 +274,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
         saveSession.setACL(acl);
         saveSession.saveInBackground();
+
+        setVariablesToNull();
+
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+
+        if (currentCoordinates != null) {
+            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
+        }
+    }
+
+    private void setVariablesToNull() {
         sessionDistance = 0;
         currentMaxSpeed = 0;
         Calculations.setMaxSpeed(0);
         averageSpeed = 0;
         sessionTimeDiff = 0;
-        if (currentCoordinates != null) {
-            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
-        }
     }
 
     protected void buildLocationSettingsRequest() {
@@ -343,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice("CA0A55C98B89F9F9F4844683B21D024A")
+                .addTestDevice(getString(R.string.huawei_device_id))
                 .build();
         mAdView.loadAd(adRequest);
     }
@@ -373,6 +380,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 4- pause
         // 3 start
         super.onResume();
+        setTitle(getString(R.string.app_name));
 //        if (mGoogleApiClient.isConnected()) {
 //            startLocationUpdates();
 //        }
@@ -785,10 +793,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed);
 
-            distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " km"));
-            speedMeter.setText(String.valueOf(averageSpeed) + speedMetricUnit);
-            timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
-            maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedMetricUnit);
+            updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
             PolylineOptions line = new PolylineOptions()
                     .add(lastUpdatedCoord, currentCoordinates)
@@ -799,6 +804,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
             }
         }
+    }
+
+    private void updateInfoPanel(double sessionDistance, double averageSpeed, double currentMaxSpeed, long sessionTimeDiff, String speedMetricUnit) {
+        distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " km"));
+        speedMeter.setText(String.valueOf(averageSpeed) + speedMetricUnit);
+        timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
+        maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedMetricUnit);
     }
 
     private LatLng smoothLocation(Location location, double oldLat, double oldLon) {

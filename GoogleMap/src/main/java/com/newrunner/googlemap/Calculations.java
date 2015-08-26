@@ -43,9 +43,19 @@ public class Calculations {
         return result;
     }
 
-    public static long calculateTime(String lastUpdateTime, String startTime) throws ParseException {
-        Date lastDate = new SimpleDateFormat("HH:mm:ss").parse(lastUpdateTime);
-        Date startDate = new SimpleDateFormat("HH:mm:ss").parse(startTime);
+    public static long calculateTime(String lastUpdateTime, String startTime) {
+        Date lastDate = null;
+        try {
+            lastDate = new SimpleDateFormat("HH:mm:ss").parse(lastUpdateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date startDate = null;
+        try {
+            startDate = new SimpleDateFormat("HH:mm:ss").parse(startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return lastDate.getTime() - startDate.getTime();
     }

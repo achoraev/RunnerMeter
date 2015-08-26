@@ -45,4 +45,7 @@
     <string name="menu_account">Account</string>
     <string name="menu_rate">Rate this app!</string>
 
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
 </resources>

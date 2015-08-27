@@ -2,21 +2,60 @@ package com.newrunner.googlemap;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by angelr on 14-May-15.
  */
 public class Utility {
+
+    public static String saveToInternalStorage(Bitmap bitmapImage, Context cont){
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/session_images");
+        myDir.mkdirs();
+        int n = new Random().nextInt(10000);
+        String fileName = "img-" + n + ".jpg";
+        File file = new File(myDir, fileName);
+        Log.i("file", "" + file);
+        if (file.exists())
+            file.delete();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+
+            MediaStore.Images.Media.insertImage(cont.getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // other
+//        ContextWrapper cw = new ContextWrapper(cont);
+//        // path to /data/data/yourapp/app_data/imageDir
+//        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+//        // Create imageDir
+//        File mypath=new File(directory,"profile.jpg");
+
+        return file.getAbsolutePath();
+    }
+
     public static ArrayList<Session> convertFromParseObject(List<ParseObject> sessions) {
         ArrayList<Session> arrayOfSessions = new ArrayList<>();
         for(ParseObject ses : sessions){

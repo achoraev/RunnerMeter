@@ -159,6 +159,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setCurrentUserUsername();
 
+        // inter add
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        requestNewInterstitial();
+
         startStopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,19 +190,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // setup adds
         setupAdds();
-
-        // inter add
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                requestNewInterstitial();
-            }
-        });
-
-        requestNewInterstitial();
     }
 
     private void requestNewInterstitial() {
@@ -287,6 +287,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onSnapshotReady(Bitmap bitmap) {
                     sessionScreenShot = bitmap;
+                    String path = Utility.saveToInternalStorage(bitmap, getApplicationContext());
+                    Toast.makeText(MainActivity.this, path, Toast.LENGTH_LONG).show();
+                    Log.d("url", path);
                     // todo save on device
                 }
             });

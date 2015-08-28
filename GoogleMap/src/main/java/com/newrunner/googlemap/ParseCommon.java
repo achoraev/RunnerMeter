@@ -44,7 +44,7 @@ public class ParseCommon {
     }
 
     public static boolean isUserLoggedIn() {
-        return ParseUser.getCurrentUser() != null;
+        return ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().isAuthenticated();
     }
 
     public static void ParseInitialize(Context context) {

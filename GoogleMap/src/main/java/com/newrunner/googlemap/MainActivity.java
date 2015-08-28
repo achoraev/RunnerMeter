@@ -10,6 +10,7 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -250,12 +251,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         startLocationUpdates();
-//        if (startPointCoord == null) {
-//            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
-//        }
-//        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
-
-        ParseCommon.logInGuestUser();
+        if (startPointCoord == null) {
+            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+        }
+        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
     }
 
     private void stopLogic() {
@@ -287,10 +286,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onSnapshotReady(Bitmap bitmap) {
                     sessionScreenShot = bitmap;
-                    String path = Utility.saveToInternalStorage(bitmap, getApplicationContext());
+                    String path = Utility.saveToExternalStorage(bitmap, getApplicationContext());
                     Toast.makeText(MainActivity.this, path, Toast.LENGTH_LONG).show();
                     Log.d("url", path);
-                    // todo save on device
+                    sendBroadcast(new Intent(
+                            Intent.ACTION_MEDIA_MOUNTED,
+//                            Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+                            Uri.parse("file://" + path)));
+
                 }
             });
         }
@@ -803,7 +806,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             } else {
                 // todo try to smooth this coordinates
-                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                currentCoordinates = smoothLocation(currentLocation, currentLocation.getLatitude(), currentLocation.getLongitude());
                 startPointCoord = currentCoordinates;
                 lastUpdatedCoord = currentCoordinates;
             }

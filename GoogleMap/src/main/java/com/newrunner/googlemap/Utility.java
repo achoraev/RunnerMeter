@@ -3,6 +3,7 @@ package com.newrunner.googlemap;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
@@ -15,22 +16,38 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by angelr on 14-May-15.
  */
 public class Utility {
 
-    public static String saveToInternalStorage(Bitmap bitmapImage, Context cont){
+    public static void loadImageFromStorage(String path)
+    {
+        try {
+            File f=new File(path, "profile.jpg");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            ImageView img=(ImageView)findViewById(R.id.imgPicker);
+//            img.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public static String saveToExternalStorage(Bitmap bitmapImage, Context cont){
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/session_images");
+        File myDir = new File(root + "/Runner_meter_sessions");
         myDir.mkdirs();
-        int n = new Random().nextInt(10000);
-        String fileName = "img-" + n + ".jpg";
+//        int n = new Random().nextInt(10000);
+        String fileName = "img-" + new Date().getTime() + ".jpg";
         File file = new File(myDir, fileName);
         Log.i("file", "" + file);
         if (file.exists())

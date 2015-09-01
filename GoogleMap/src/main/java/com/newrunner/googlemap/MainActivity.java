@@ -43,10 +43,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
-    public static final int MAP_ZOOM = 17;
+    public static final int MAP_ZOOM = 20;
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.RED;
 
@@ -599,6 +596,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
+        LatLng startPoint = new LatLng(42.697748, 23.321658);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPoint, MAP_ZOOM), ONE_SECOND, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
@@ -818,7 +817,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
-            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed);
+            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, SportTypes.runner);
 
             updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 

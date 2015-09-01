@@ -68,8 +68,12 @@ public class Calculations {
         return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
     }
 
-    public static double calculateMaxSpeed(double currentSpeed) {
-        if(currentSpeed > getMaxSpeed()){
+    public static double calculateMaxSpeed(double currentSpeed, SportTypes runner) {
+        if((runner == SportTypes.runner && currentSpeed <= 44) && currentSpeed > getMaxSpeed()){
+            maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+        } else if((runner == SportTypes.biker && currentSpeed <= 133) && currentSpeed > getMaxSpeed()){
+            maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+        } else if((runner == SportTypes.driver && currentSpeed <= 250) && currentSpeed > getMaxSpeed()){
             maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
         }
         Log.d("cur", String.valueOf(currentSpeed));

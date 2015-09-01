@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
-    public static final int MAP_ZOOM = 20;
+    public static final int MAP_ZOOM = 15;
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.RED;
 
@@ -137,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setToolbarAndDrawer();
 
-        updateValuesFromBundle(savedInstanceState);
-
         if (mapFragment == null) {
             createGoogleMap();
         }
@@ -146,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mGoogleApiClient == null) {
             buildGoogleApiClient();
         }
+
+        updateValuesFromBundle(savedInstanceState);
 
         // check gps status and turn on if not
         buildLocationSettingsRequest();
@@ -286,10 +286,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String path = Utility.saveToExternalStorage(bitmap, getApplicationContext());
                     Toast.makeText(MainActivity.this, path, Toast.LENGTH_LONG).show();
                     Log.d("url", path);
-                    sendBroadcast(new Intent(
-                            Intent.ACTION_MEDIA_MOUNTED,
-//                            Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-                            Uri.parse("file://" + path)));
+//                    sendBroadcast(new Intent(
+//                            Intent.ACTION_MEDIA_MOUNTED,
+////                            Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+//                            Uri.parse("file://" + path)));
 
                 }
             });
@@ -370,15 +370,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         // 3- pause
-        // 1 start onCreate
-        // 2 start
+        // 1 - land start
+        // 2 - land start
         super.onStart();
         mGoogleApiClient.connect();
     }
 
     @Override
     protected void onPause() {
-        // 1 - pause
+        // 1 land
         super.onPause();
 //        if (mGoogleApiClient.isConnected()) {
 //            stopLocationUpdates();
@@ -389,8 +389,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onResume() {
-        // 4- pause
-        // 3 start
+        // 3 land start
         super.onResume();
         setTitle(getString(R.string.app_name));
 //        if (mGoogleApiClient.isConnected()) {
@@ -402,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onStop() {
-        // 2- pause
+        // 2 land
         super.onStop();
 //        if (mGoogleApiClient.isConnected()) {
 //            stopLocationUpdates();
@@ -412,6 +411,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onDestroy() {
+        // 3 - land
         super.onDestroy();
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
@@ -750,7 +750,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(savedInstanceState.keySet().contains("isStarted")){
                 startButtonEnabled = savedInstanceState.getBoolean("isStarted");
                 if(startButtonEnabled){
-                    startLocationUpdates();
+//                    startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
                     updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
                 }

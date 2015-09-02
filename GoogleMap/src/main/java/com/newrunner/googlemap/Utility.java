@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,21 +29,18 @@ import java.util.List;
  */
 public class Utility {
 
-    public static void loadImageFromStorage(String path)
-    {
+    public static void loadImageFromStorage(String path) {
         try {
-            File f=new File(path, "profile.jpg");
+            File f = new File(path, "profile.jpg");
             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
 //            ImageView img=(ImageView)findViewById(R.id.imgPicker);
 //            img.setImageBitmap(b);
-        }
-        catch (FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    public static String saveToExternalStorage(Bitmap bitmapImage, Context cont){
+    public static String saveToExternalStorage(Bitmap bitmapImage, Context cont) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/Runner_meter_sessions");
         myDir.mkdirs();
@@ -75,21 +73,26 @@ public class Utility {
 
     public static ArrayList<Session> convertFromParseObject(List<ParseObject> sessions) {
         ArrayList<Session> arrayOfSessions = new ArrayList<>();
-        for(ParseObject ses : sessions){
+        for (ParseObject ses : sessions) {
             Session newSession = new Session(
                     ses.getDouble("distance"),
                     ses.getDouble("duration"),
                     ses.getDouble("maxSpeed"),
                     ses.getDouble("averageSpeed"),
-                    ses.getCreatedAt(),
-                    ParseUser.getCurrentUser());
+                    Utility.formatDate(ses.getCreatedAt()),
+                    ParseUser.getCurrentUser(),
+                    ParseUser.getCurrentUser().get("name") != null ? ParseUser.getCurrentUser().get("name").toString() : "");
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;
     }
 
-    public static void hideKeyboard(View view, Context context)
-    {
+    private static String formatDate(Date createdAt) {
+        String formatted = new SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(createdAt);
+        return formatted;
+    }
+
+    public static void hideKeyboard(View view, Context context) {
         InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }

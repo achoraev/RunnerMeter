@@ -17,7 +17,7 @@ public class SessionAdapter extends ArrayAdapter<Session> {
     private Context context;
     private int resourseId;
     private ArrayList<Session> dataList;
-    private TextView distance, duration, maxSpeed, averageSpeed, createdAt, timePerKm;
+    private TextView distance, duration, maxSpeed, averageSpeed, createdAt, timePerKm, userName;
 
     public SessionAdapter(Context context, int resource, ArrayList<Session> objects) {
         super(context, resource, objects);
@@ -37,6 +37,7 @@ public class SessionAdapter extends ArrayAdapter<Session> {
         averageSpeed = (TextView) rowView.findViewById(R.id.view_avrspeed);
         timePerKm = (TextView) rowView.findViewById(R.id.view_timeperkm);
         createdAt = (TextView) rowView.findViewById(R.id.view_created);
+        userName = (TextView) rowView.findViewById(R.id.view_user);
         // set text
         distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
         duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration()/1000/60) + " min"));
@@ -44,6 +45,7 @@ public class SessionAdapter extends ArrayAdapter<Session> {
         averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " km/h");
         timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
         createdAt.setText(String.valueOf(dataList.get(position).getCreatedAt()));
+        userName.setText(String.valueOf(dataList.get(position).getUserName()));
 
         return rowView;
     }

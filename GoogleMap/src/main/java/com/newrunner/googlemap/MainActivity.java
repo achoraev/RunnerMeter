@@ -10,7 +10,6 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -43,7 +42,10 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
-import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -133,8 +135,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "");
         }
 
-//        checkForGpsOnDevice();
-
         setToolbarAndDrawer();
 
         if (mapFragment == null) {
@@ -150,8 +150,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // check gps status and turn on if not
         buildLocationSettingsRequest();
         checkLocationSettings();
-
-        createAnonymousUser();
 
         ParseCommon.loadFromParse();
 
@@ -183,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     stopLogic();
                 }
             }
-
         });
 
         // setup adds
@@ -206,17 +203,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static void objectRetrievalFailed(com.parse.ParseException e) {
         Log.d("Query", e.getMessage());
-    }
-
-    private void createAnonymousUser() {
-        // create guest user if not created
-        if (ParseUser.getCurrentUser() == null) {
-            try {
-                guestUser = ParseCommon.createGuestUser();
-            } catch (com.parse.ParseException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void setCurrentUserUsername() {
@@ -268,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.put("maxSpeed", currentSession.getMaxSpeed());
         saveSession.put("averageSpeed", currentSession.getAverageSpeed());
         saveSession.put("distance", currentSession.getDistance());
-        saveSession.put("duration", currentSession.getDuration());
+        saveSession.put("duration", currentSession.getDuration() / 1000);
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
         saveSession.setACL(acl);
         saveSession.saveInBackground();
@@ -370,10 +356,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onStart() {
         // 3- pause
-        // 1 - land start
+        // 1 - land start onCreate
         // 2 - land start
         super.onStart();
-        mGoogleApiClient.connect();
+        if(!mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
@@ -413,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onDestroy() {
         // 3 - land
         super.onDestroy();
-        if (mGoogleApiClient.isConnected()) {
+        if (!startButtonEnabled && mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
             mGoogleApiClient.disconnect();
         }
@@ -537,14 +525,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseCommon.logOutUser(this);
         showUsername.setText("");
         facebookProfilePicture.setProfileId("");
-    }
-
-    private void checkForGpsOnDevice() {
-        if (!hasGps()) {
-            // If this hardware doesn't support GPS, we throw message
-            Log.d(TAG, getString(R.string.dontHaveGps));
-            Utility.createDialogWithButtons(this, getString(R.string.gps_not_available), "");
-        }
     }
 
     @Override
@@ -750,7 +730,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if(savedInstanceState.keySet().contains("isStarted")){
                 startButtonEnabled = savedInstanceState.getBoolean("isStarted");
                 if(startButtonEnabled){
-//                    startLocationUpdates();
+                    startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
                     updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
                 }

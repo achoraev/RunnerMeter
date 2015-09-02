@@ -11,6 +11,18 @@ import java.util.List;
  * Created by angelr on 14-May-15.
  */
 public class ParseCommon {
+    public static void createAnonymousUser() {
+        ParseUser guestUser = null;
+        // create guest user if not created
+        if (ParseUser.getCurrentUser() == null) {
+            try {
+                guestUser = ParseCommon.createGuestUser();
+            } catch (com.parse.ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void loadFromParse() {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
         query.whereEqualTo("username", ParseUser.getCurrentUser());
@@ -60,6 +72,7 @@ public class ParseCommon {
         guestUser.setUsername("Guest");
         guestUser.setEmail("tester@tester.com");
         guestUser.setPassword("123456");
+        guestUser.put("name", "Guest");
         guestUser.signUp();
         return guestUser;
     }

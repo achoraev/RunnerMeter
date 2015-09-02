@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.parse.ParseUser;
 
-import java.util.Date;
-
 /**
  * Created by angelr on 27-Jul-15.
  */
@@ -19,11 +17,8 @@ public class Session implements Parcelable
     private double distance;
     private double duration;
     private double timePerKilometer;
-    private Date createdAt;
-
-    public Session() {
-        this(0, 0, 0, 0, null);
-    }
+    private String userName;
+    private String createdAt;
 
     public Session(double dis, double dur, double max, double avr, ParseUser curUser){
         this.distance = dis;
@@ -34,12 +29,21 @@ public class Session implements Parcelable
         this.currentUser = curUser;
     }
 
-    public Session(double distance, double duration, double maxSpeed, double averageSpeed, Date createdAt, ParseUser currentUser) {
+    public Session(double distance, double duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser) {
         this(distance, duration, maxSpeed, averageSpeed, currentUser);
         this.createdAt = createdAt;
     }
 
-    public Date getCreatedAt() {
+    public Session(double distance, double duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser, String username) {
+        this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
+        this.userName = username;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getCreatedAt() {
         return createdAt;
     }
 
@@ -47,40 +51,20 @@ public class Session implements Parcelable
         return currentUser;
     }
 
-    public void setCurrentUser(ParseUser currentUser) {
-        this.currentUser = currentUser;
-    }
-
     public double getMaxSpeed() {
         return maxSpeed;
-    }
-
-    public void setMaxSpeed(double maxSpeed) {
-        this.maxSpeed = maxSpeed;
     }
 
     public double getAverageSpeed() {
         return averageSpeed;
     }
 
-    public void setAverageSpeed(double averageSpeed) {
-        this.averageSpeed = averageSpeed;
-    }
-
     public double getDistance() {
         return distance;
     }
 
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
     public double getDuration() {
         return duration;
-    }
-
-    public void setDuration(double duration) {
-        this.duration = duration;
     }
 
     public double getTimePerKilometer() {
@@ -116,8 +100,8 @@ public class Session implements Parcelable
         dest.writeDouble(distance);
         dest.writeDouble(duration);
         dest.writeDouble(timePerKilometer);
-        dest.writeSerializable(createdAt);
-//        dest.writeParcelable(currentUser, flags);
+        dest.writeString(createdAt);
+        dest.writeString(userName);
     }
 
     public static final Parcelable.Creator<Session> CREATOR
@@ -137,7 +121,7 @@ public class Session implements Parcelable
         distance = in.readDouble();
         duration = in.readDouble();
         timePerKilometer = in.readDouble();
-        createdAt = (Date) in.readSerializable();
-//        currentUser = in.readParcelable(ParseUser.class.getClassLoader());
+        createdAt = in.readString();
+        userName = in.readString();
     }
 }

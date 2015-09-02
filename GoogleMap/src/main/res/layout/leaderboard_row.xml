@@ -65,6 +65,13 @@
                 android:text="Created at: "
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/by_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By: "
+                android:layout_gravity="start"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
@@ -105,6 +112,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="--/--/---- --:--:--"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/view_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 

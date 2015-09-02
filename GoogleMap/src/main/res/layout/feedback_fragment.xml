@@ -8,8 +8,8 @@
 
     <TextView
             android:layout_width="149dp"
-            android:layout_height="wrap_content"
-            android:text="Feedback"
+            android:layout_height="0dp"
+            android:text="@string/feedback"
             android:id="@+id/textView"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.26"/>

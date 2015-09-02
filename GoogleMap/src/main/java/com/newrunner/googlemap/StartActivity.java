@@ -24,6 +24,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         detector = new SimpleGestureFilter(this,this);
 
+        ParseCommon.createAnonymousUser();
         ParseCommon.logInGuestUser();
 
         startBtn.setOnClickListener(new View.OnClickListener() {

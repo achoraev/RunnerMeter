@@ -3,11 +3,12 @@ package com.newrunner.googlemap;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import com.parse.ParseObject;
+import com.parse.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,24 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         });
 
         showBestScoreList = (ListView) findViewById(android.R.id.list);
-        arrayOfSessions = new ArrayList<>();
-        adapter = new SessionAdapter(this, R.layout.leaderboard_row, arrayOfSessions);
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
+        query.whereEqualTo("username", ParseUser.getCurrentUser());
+        query.orderByAscending("timePerKilometer");
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> sessions, ParseException e) {
+                if (e == null) {
+                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                    arrayOfSessions = new ArrayList<>();
+                    arrayOfSessions = Utility.convertFromParseObject(sessions);
+                    isFinishLoading = true;
+                    refreshListView();
+                } else {
+                    Log.d("session", "Error: " + e.getMessage());
+                }
+            }
+        });
 
         new ProgressTask().execute();
 
@@ -56,7 +73,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //            }
 //        }
 
-        refreshListView();
+//        refreshListView();
     }
 
     public void onClick(View v) {
@@ -92,7 +109,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //                    this,
 //                    String.valueOf(toDeleteNote.getUsername()
 //                            + "'s post deleted"), Toast.LENGTH_SHORT).show();
-        refreshListView();
+//        refreshListView();
 //        }
     }
 
@@ -104,7 +121,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            ParseCommon.loadFromParse();
+//            ParseCommon.loadFromParse();
             return null;
         }
 

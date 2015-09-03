@@ -48,7 +48,10 @@
                   android:label="@string/app_name">
         </activity>
         <activity android:name=".LeaderBoardActivity"
-                  android:label="Leaderboard">
+                  android:label="@string/menu_leaderboard">
+        </activity>
+        <activity android:name=".AccountActivity"
+                  android:label="My Account">
         </activity>
         <activity
                 android:name="com.parse.ui.ParseLoginActivity"

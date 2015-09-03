@@ -27,13 +27,13 @@ public class ParseCommon {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
         query.whereEqualTo("username", ParseUser.getCurrentUser());
         query.orderByAscending("timePerKilometer");
+        query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
-                    MainActivity.objectsWereRetrievedSuccessfully(sessions);
+                    new LeaderBoardActivity().objectsWereRetrievedSuccessfully(sessions);
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                 } else {
-                    MainActivity.objectRetrievalFailed(e);
                     Log.d("session", "Error: " + e.getMessage());
                 }
             }

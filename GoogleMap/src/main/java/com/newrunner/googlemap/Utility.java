@@ -87,7 +87,7 @@ public class Utility {
         return arrayOfSessions;
     }
 
-    private static String formatDate(Date createdAt) {
+    public static String formatDate(Date createdAt) {
         String formatted = new SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(createdAt);
         return formatted;
     }

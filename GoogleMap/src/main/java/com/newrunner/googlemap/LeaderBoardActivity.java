@@ -1,31 +1,60 @@
 package com.newrunner.googlemap;
 
 import android.app.ListActivity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by angelr on 20-Aug-15.
  */
 public class LeaderBoardActivity extends ListActivity implements View.OnClickListener {
 
-    ListView showInput;
-    Session newSession;
-    ArrayList<Session> arrayOfSessions;
+    ListView showBestScoreList;
+    Button bestRunners;
+    private ProgressBar bar;
+    static Boolean isFinishLoading = false;
+    public static ArrayList<Session> arrayOfSessions;
+    SessionAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.leaderboard_fragment);
+        setContentView(R.layout.leaderboard_layout);
 
-        showInput = (ListView) findViewById(android.R.id.list);
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+        bestRunners = (Button) findViewById(R.id.btn_best_runners);
 
-        Bundle bundle = getIntent().getExtras();
+        bestRunners.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ProgressTask().execute();
+            }
+        });
+
+        showBestScoreList = (ListView) findViewById(android.R.id.list);
         arrayOfSessions = new ArrayList<>();
-        arrayOfSessions = bundle.getParcelableArrayList("list");
+        adapter = new SessionAdapter(this, R.layout.leaderboard_row, arrayOfSessions);
+
+        new ProgressTask().execute();
+
+//        Bundle bundle = getIntent().getExtras();
+//        arrayOfSessions = bundle.getParcelableArrayList("list");
+
+//        while (!isFinishLoading){
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         refreshListView();
     }
@@ -55,7 +84,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     }
 
     public void deleteItem(int position) {
-        // todo parse query
 //        ArrayList<Session> allSessions = datasource.getAllNotes();
 //        Session toDeleteNote = allSessions.get(position);
 //        if (allSessions.toArray().length != 0) {
@@ -68,8 +96,32 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //        }
     }
 
+    private class ProgressTask extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute(){
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            ParseCommon.loadFromParse();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            bar.setVisibility(View.GONE);
+        }
+    }
+
     private void refreshListView() {
-        SessionAdapter adapter = new SessionAdapter(this, R.layout.leaderboard_row, arrayOfSessions);
-        showInput.setAdapter(adapter);
+        adapter = new SessionAdapter(LeaderBoardActivity.this, R.layout.leaderboard_row, arrayOfSessions);
+        showBestScoreList.setAdapter(adapter);
+    }
+
+    public void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
+        arrayOfSessions = new ArrayList<>();
+        arrayOfSessions = Utility.convertFromParseObject(sessions);
+        isFinishLoading = true;
     }
 }

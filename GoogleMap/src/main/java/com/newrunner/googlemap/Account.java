@@ -7,7 +7,7 @@ public class Account {
 
     private String userName;
     private String name;
-    private String eMail;
+    private String Email;
     private Boolean isVerified;
     private String createdAt;
 
@@ -18,7 +18,7 @@ public class Account {
     public Account (String user, String nam, String mail, Boolean verified, String created){
         this.userName = user;
         this.name = nam;
-        this.eMail = mail;
+        this.Email = mail;
         this.isVerified = verified;
         this.createdAt = created;
     }
@@ -39,12 +39,12 @@ public class Account {
         this.name = name;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return Email;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
+    public void setEmail(String eMail) {
+        this.Email = eMail;
     }
 
     public Boolean getIsVerified() {

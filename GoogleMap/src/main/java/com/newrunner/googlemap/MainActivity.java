@@ -54,9 +54,7 @@ import com.parse.ui.ParseLoginBuilder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -120,8 +118,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     Button startStopBtn;
     ProfilePictureView facebookProfilePicture;
 
-    public static ArrayList<Session> arrayOfSessions;
-
     InterstitialAd mInterstitialAd;
 
     @Override
@@ -150,8 +146,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // check gps status and turn on if not
         buildLocationSettingsRequest();
         checkLocationSettings();
-
-        ParseCommon.loadFromParse();
 
         setCurrentUserUsername();
 
@@ -194,15 +188,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
-    }
-
-    public static void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
-        arrayOfSessions = new ArrayList<>();
-        arrayOfSessions = Utility.convertFromParseObject(sessions);
-    }
-
-    public static void objectRetrievalFailed(com.parse.ParseException e) {
-        Log.d("Query", e.getMessage());
     }
 
     private void setCurrentUserUsername() {
@@ -492,14 +477,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 break;
             case R.id.nav_account_fragment:
-                fragment = new AccountFragment();
+//                fragment = new AccountFragment();
+                Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
+                startActivity(accountIntent);
                 break;
             case R.id.nav_leaderboard_fragment:
 //                fragment = new LeaderBoardFragment();
                 Intent leatherIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("list", arrayOfSessions);
-                leatherIntent.putExtras(bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("list", arrayOfSessions);
+//                leatherIntent.putExtras(bundle);
                 startActivity(leatherIntent);
                 break;
             case R.id.rate_app_fragment:

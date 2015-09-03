@@ -69,12 +69,16 @@ public class Calculations {
     }
 
     public static double calculateMaxSpeed(double currentSpeed, SportTypes runner) {
-        if((runner == SportTypes.runner && currentSpeed <= 44) && currentSpeed > getMaxSpeed()){
-            maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-        } else if((runner == SportTypes.biker && currentSpeed <= 133) && currentSpeed > getMaxSpeed()){
-            maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-        } else if((runner == SportTypes.driver && currentSpeed <= 250) && currentSpeed > getMaxSpeed()){
-            maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+        if(currentSpeed > getMaxSpeed()) {
+            if (runner == SportTypes.runner && currentSpeed > 44) {
+                maxSpeed = 44;
+            } else if (runner == SportTypes.biker && currentSpeed > 133) {
+                maxSpeed = 133;
+            } else if (runner == SportTypes.driver && currentSpeed > 250) {
+                maxSpeed = 250;
+            } else {
+                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+            }
         }
         Log.d("cur", String.valueOf(currentSpeed));
         Log.d("max", String.valueOf(maxSpeed));

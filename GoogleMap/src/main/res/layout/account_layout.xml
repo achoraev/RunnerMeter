@@ -1,15 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:facebook="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:id="@+id/account_layout"
+              android:padding="10dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Acoount Info"
+            android:id="@+id/page_label"
+            android:layout_gravity="center_horizontal"/>
+    <com.facebook.login.widget.ProfilePictureView
+            android:id="@+id/profile_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+            facebook:preset_size="normal"/>
+    <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/progress_bar"
+            android:layout_gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Your name:"
+            android:layout_gravity="center"
+            android:id="@+id/label_name"/>
+    <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="My Account"
-            android:id="@+id/textView2"
+            android:id="@+id/edit_name"
             android:layout_gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Username:"
+            android:layout_gravity="center"
+            android:id="@+id/label_username"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_username"
+            android:layout_gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="E-mail address:"
+            android:layout_gravity="center"
+            android:id="@+id/label_email"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/edit_mail"
+            android:layout_gravity="center_horizontal"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Verified e-mail:"
+            android:layout_gravity="center"
+            android:id="@+id/label_verified"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_gravity="center"
+            android:id="@+id/edit_is_verified"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Created at:"
+            android:layout_gravity="center"
+            android:id="@+id/textView5"/>
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:hint="today"
+            android:id="@+id/edit_date"
+            android:layout_gravity="center_horizontal" android:autoText="false"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:id="@+id/edit_btn"
+            android:layout_gravity="center"/>
 </LinearLayout>

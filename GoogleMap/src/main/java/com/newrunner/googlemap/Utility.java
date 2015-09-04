@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -80,8 +79,10 @@ public class Utility {
                     ses.getDouble("maxSpeed"),
                     ses.getDouble("averageSpeed"),
                     Utility.formatDate(ses.getCreatedAt()),
-                    ParseUser.getCurrentUser(),
-                    ParseUser.getCurrentUser().get("name") != null ? ParseUser.getCurrentUser().get("name").toString() : "");
+                    ses.getParseUser("username"),
+                    "null");
+                    // todo fix if not working
+//                    ses.getParseUser("username") != null ? ses.getParseUser("username").get("name").toString() : "Anonymous");
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;

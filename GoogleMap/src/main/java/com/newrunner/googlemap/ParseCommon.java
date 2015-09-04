@@ -31,7 +31,7 @@ public class ParseCommon {
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
-                    new LeaderBoardActivity().objectsWereRetrievedSuccessfully(sessions);
+//                    new LeaderBoardActivity().objectsWereRetrievedSuccessfully(sessions);
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                 } else {
                     Log.d("session", "Error: " + e.getMessage());

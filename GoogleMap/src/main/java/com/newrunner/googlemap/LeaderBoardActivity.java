@@ -22,7 +22,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     Button bestRunners;
     private ProgressBar bar;
     static Boolean isFinishLoading = false;
-    public static ArrayList<Session> arrayOfSessions;
+    public ArrayList<Session> arrayOfSessions;
     SessionAdapter adapter;
 
     @Override
@@ -42,6 +42,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
         showBestScoreList = (ListView) findViewById(android.R.id.list);
 
+        bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
         query.whereEqualTo("username", ParseUser.getCurrentUser());
         query.orderByAscending("timePerKilometer");
@@ -52,28 +53,16 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                     arrayOfSessions = new ArrayList<>();
                     arrayOfSessions = Utility.convertFromParseObject(sessions);
-                    isFinishLoading = true;
                     refreshListView();
                 } else {
                     Log.d("session", "Error: " + e.getMessage());
                 }
+                bar.setVisibility(View.GONE);
             }
         });
 
-        new ProgressTask().execute();
-
 //        Bundle bundle = getIntent().getExtras();
 //        arrayOfSessions = bundle.getParcelableArrayList("list");
-
-//        while (!isFinishLoading){
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
-//        refreshListView();
     }
 
     public void onClick(View v) {
@@ -121,7 +110,22 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
         @Override
         protected Void doInBackground(Void... arg0) {
-//            ParseCommon.loadFromParse();
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
+            query.orderByAscending("timePerKilometer");
+            query.setLimit(10);
+            query.findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> sessions, ParseException e) {
+                    if (e == null) {
+                        Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                        arrayOfSessions = new ArrayList<>();
+                        arrayOfSessions = Utility.convertFromParseObject(sessions);
+                        refreshListView();
+                    } else {
+                        Log.d("session", "Error: " + e.getMessage());
+                    }
+                    bar.setVisibility(View.GONE);
+                }
+            });
             return null;
         }
 
@@ -136,9 +140,8 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         showBestScoreList.setAdapter(adapter);
     }
 
-    public void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
-        arrayOfSessions = new ArrayList<>();
-        arrayOfSessions = Utility.convertFromParseObject(sessions);
-        isFinishLoading = true;
-    }
+//    public void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {
+//        arrayOfSessions = new ArrayList<>();
+//        arrayOfSessions = Utility.convertFromParseObject(sessions);
+//    }
 }

@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
     private void stopLogic() {
@@ -233,8 +234,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);
         currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed,
-                (ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : guestUser));
+                ParseUser.getCurrentUser());
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
+        saveSession.put("name", currentSession.getUserName());
         saveSession.put("username", currentSession.getCurrentUser());
         saveSession.put("maxSpeed", currentSession.getMaxSpeed());
         saveSession.put("averageSpeed", currentSession.getAverageSpeed());

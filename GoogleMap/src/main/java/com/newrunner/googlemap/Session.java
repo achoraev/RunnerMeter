@@ -2,6 +2,7 @@ package com.newrunner.googlemap;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.format.DateFormat;
 import com.parse.ParseUser;
 
 /**
@@ -37,11 +38,16 @@ public class Session implements Parcelable
     public Session(double distance, double duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser, String username) {
         this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
         // todo fix this
-        this.userName = (currentUser.getUsername() != null ? currentUser.getUsername() : "Anonymous");
+        this.userName = setUserName(username);
     }
 
     public String getUserName() {
         return userName;
+    }
+
+    public String setUserName(String users) {
+        String user = (getCurrentUser().getUsername() != null ? getCurrentUser().getUsername() : "Anonymous");
+        return user;
     }
 
     public String getCreatedAt() {

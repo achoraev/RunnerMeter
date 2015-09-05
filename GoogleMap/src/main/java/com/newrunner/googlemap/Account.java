@@ -19,7 +19,7 @@ public class Account {
         this.userName = user;
         this.name = nam;
         this.Email = mail;
-        this.isVerified = verified;
+        this.isVerified = setIsVerified(verified);
         this.createdAt = created;
     }
 
@@ -51,8 +51,8 @@ public class Account {
         return isVerified;
     }
 
-    public void setIsVerified(Boolean isVerified) {
-        this.isVerified = isVerified;
+    public Boolean setIsVerified(Boolean isVerified) {
+        return isVerified != null ? isVerified: false;
     }
 
     public String getCreatedAt() {

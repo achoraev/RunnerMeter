@@ -233,8 +233,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);
-        currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed,
-                ParseUser.getCurrentUser());
+        currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, "",
+                ParseUser.getCurrentUser(), "");
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
         saveSession.put("name", currentSession.getUserName());
         saveSession.put("username", currentSession.getCurrentUser());
@@ -246,7 +246,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.setACL(acl);
         saveSession.saveInBackground();
 
+        // set all to null
         setVariablesToNull();
+
+        // clear map
+        mMap.clear();
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
@@ -271,10 +275,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setVariablesToNull() {
         sessionDistance = 0;
-        currentMaxSpeed = 0;
+        sessionTimeDiff = 0;
         Calculations.setMaxSpeed(0);
         averageSpeed = 0;
-        sessionTimeDiff = 0;
+        currentMaxSpeed = 0;
+        currentTimeDiff = 0;
+        currentDistance = 0;
+        currentSpeed = 0;
     }
 
     protected void buildLocationSettingsRequest() {

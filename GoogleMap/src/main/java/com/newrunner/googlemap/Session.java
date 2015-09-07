@@ -2,7 +2,6 @@ package com.newrunner.googlemap;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.format.DateFormat;
 import com.parse.ParseUser;
 
 /**
@@ -46,7 +45,7 @@ public class Session implements Parcelable
     }
 
     public String setUserName(String users) {
-        String user = (getCurrentUser().getUsername() != null ? getCurrentUser().getUsername() : "Anonymous");
+        String user = ((users != "" && users != null)  ? users : "Anonymous");
         return user;
     }
 

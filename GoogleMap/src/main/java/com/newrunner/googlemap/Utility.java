@@ -80,7 +80,7 @@ public class Utility {
                     ses.getDouble("averageSpeed"),
                     Utility.formatDate(ses.getCreatedAt()),
                     ses.getParseUser("username"),
-                    "null");
+                    ses.getString("name"));
                     // todo fix if not working
 //                    ses.getParseUser("username") != null ? ses.getParseUser("username").get("name").toString() : "Anonymous");
             arrayOfSessions.add(newSession);

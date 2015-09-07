@@ -233,8 +233,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);
-        currentSession = new Session(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, "",
-                ParseUser.getCurrentUser(), "");
+        currentSession = new Session(
+                sessionDistance,
+                sessionTimeDiff,
+                currentMaxSpeed,
+                averageSpeed,
+                "",
+                ParseUser.getCurrentUser(),
+                ParseUser.getCurrentUser().get("name") != null
+                        ? ParseUser.getCurrentUser().get("name").toString()
+                        : null);
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
         saveSession.put("name", currentSession.getUserName());
         saveSession.put("username", currentSession.getCurrentUser());

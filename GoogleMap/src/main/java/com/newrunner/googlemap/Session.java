@@ -45,7 +45,7 @@ public class Session implements Parcelable
     }
 
     public String setUserName(String users) {
-        String user = ((users != "" && users != null)  ? users : "Anonymous");
+        String user = (users != null ? users : "Anonymous");
         return user;
     }
 

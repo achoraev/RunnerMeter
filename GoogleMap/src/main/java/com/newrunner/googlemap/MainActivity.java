@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void startLogic() {
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
+        ParseCommon.logInGuestUser();
         startButtonEnabled = true;
         startLocationUpdates();
         if (startPointCoord == null) {

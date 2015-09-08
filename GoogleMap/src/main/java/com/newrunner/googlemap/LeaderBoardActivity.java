@@ -118,12 +118,12 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
                     if (e == null) {
                         Log.d("session", "Retrieved " + sessions.size() + " sessions");
                         arrayOfSessions = new ArrayList<>();
+                        arrayOfSessions.clear();
                         arrayOfSessions = Utility.convertFromParseObject(sessions);
                         refreshListView();
                     } else {
                         Log.d("session", "Error: " + e.getMessage());
                     }
-                    bar.setVisibility(View.GONE);
                 }
             });
             return null;
@@ -131,6 +131,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
         @Override
         protected void onPostExecute(Void result) {
+            refreshListView();
             bar.setVisibility(View.GONE);
         }
     }

@@ -11,7 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/GoogleMap" />
-            <option value="$PROJECT_DIR$/ParseLoginUI" />
+            <option value="$PROJECT_DIR$/LoginUI" />
           </set>
         </option>
       </GradleProjectSettings>

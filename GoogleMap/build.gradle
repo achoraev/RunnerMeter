@@ -25,7 +25,7 @@ android {
 
 dependencies {
     // Module dependency on ParseLoginUI library sources
-    compile project(':ParseLoginUI')
+    compile project(':LoginUI')
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.parse.bolts:bolts-android:1.+'

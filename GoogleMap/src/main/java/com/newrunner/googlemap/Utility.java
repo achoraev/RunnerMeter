@@ -81,8 +81,6 @@ public class Utility {
                     Utility.formatDate(ses.getCreatedAt()),
                     ses.getParseUser("username"),
                     ses.getString("name"));
-                    // todo fix if not working
-//                    ses.getParseUser("username") != null ? ses.getParseUser("username").get("name").toString() : "Anonymous");
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;

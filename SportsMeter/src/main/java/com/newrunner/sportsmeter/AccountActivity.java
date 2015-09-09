@@ -1,4 +1,4 @@
-package com.newrunner.googlemap;
+package com.newrunner.sportsmeter;
 
 import android.app.Activity;
 import android.os.Bundle;

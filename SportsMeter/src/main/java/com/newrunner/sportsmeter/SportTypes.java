@@ -1,4 +1,4 @@
-package com.newrunner.googlemap;
+package com.newrunner.sportsmeter;
 
 /**
  * Created by angelr on 01-Sep-15.

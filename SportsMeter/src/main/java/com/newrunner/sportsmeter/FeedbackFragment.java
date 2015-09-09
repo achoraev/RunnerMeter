@@ -1,4 +1,4 @@
-package com.newrunner.googlemap;
+package com.newrunner.sportsmeter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 /**
  * Created by angelr on 22-Jul-15.
  */
-public class AccountFragment extends Fragment {
+public class FeedbackFragment extends Fragment {
 
-    public AccountFragment() {
+    public FeedbackFragment() {
         // Empty constructor required for fragment subclasses
     }
 
@@ -26,6 +26,6 @@ public class AccountFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.account_fragment, container, false);
+        return inflater.inflate(R.layout.feedback_fragment, container, false);
     }
 }

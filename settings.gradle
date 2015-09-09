@@ -1,1 +1,1 @@
-include ':GoogleMap', ':LoginUI'
+include ':SportsMeter', ':LoginUI'

@@ -1,4 +1,4 @@
-package com.newrunner.googlemap;
+package com.newrunner.sportsmeter;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

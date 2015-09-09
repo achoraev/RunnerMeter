@@ -13,8 +13,8 @@ dependencies {
     //
     // Since the dependency below is "provided" instead of "compile", your project's build.gradle
     // does not have to refer to the same Parse SDK instance that's in the ParseLoginUI/libs folder.
-    provided files("$rootProject.projectDir/GoogleMap/libs/Parse-1.9.3.jar")
-    provided files("$rootProject.projectDir/GoogleMap/libs/ParseFacebookUtilsV4-1.9.3.jar")
+    provided files("$rootProject.projectDir/SportsMeter/libs/Parse-1.9.3.jar")
+    provided files("$rootProject.projectDir/SportsMeter/libs/ParseFacebookUtilsV4-1.9.3.jar")
 }
 
 android {

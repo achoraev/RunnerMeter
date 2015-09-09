@@ -1,4 +1,4 @@
-package com.newrunner.googlemap;
+package com.newrunner.sportsmeter;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -258,27 +258,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // set all to null
         setVariablesToNull();
 
-        // clear map
-        mMap.clear();
-
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
-            mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+            // todo start in other thread
+            Thread newThread = new Thread(new Runnable() {
                 @Override
-                public void onSnapshotReady(Bitmap bitmap) {
-                    sessionScreenShot = bitmap;
-                    String path = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-                    Toast.makeText(MainActivity.this, path, Toast.LENGTH_LONG).show();
-                    Log.d("url", path);
+                public void run() {
+                    mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+                        @Override
+                        public void onSnapshotReady(Bitmap bitmap) {
+                            sessionScreenShot = bitmap;
+                            String path = Utility.saveToExternalStorage(bitmap, getApplicationContext());
+                            Toast.makeText(MainActivity.this, path, Toast.LENGTH_LONG).show();
+                            Log.d("url", path);
+                            // clear map
+                            mMap.clear();
 //                    sendBroadcast(new Intent(
 //                            Intent.ACTION_MEDIA_MOUNTED,
 ////                            Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 //                            Uri.parse("file://" + path)));
 
+                        }
+                    }, sessionScreenShot);
                 }
             });
+            newThread.start();
         }
     }
 

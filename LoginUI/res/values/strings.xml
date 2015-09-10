@@ -58,4 +58,12 @@
 
     <string name="com_parse_ui_login_dispatch_user_logged_in">"User logged in, starting: "</string>
     <string name="com_parse_ui_login_dispatch_user_not_logged_in">User not logged in, starting ParseLoginActivity</string>
+
+    // banner add
+    <string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>
+    <string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>
+    <string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
 </resources>

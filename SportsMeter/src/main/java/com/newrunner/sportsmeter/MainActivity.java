@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     ProfilePictureView facebookProfilePicture;
 
     InterstitialAd mInterstitialAd;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,10 +150,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setCurrentUserUsername();
 
-        // inter add
+        // setup add
+        mAdView = (AdView) findViewById(R.id.adView);
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
-
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
@@ -178,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         // setup adds
-        setupAdds();
+        new Utility().setupAdds(mAdView, this);
     }
 
     private void requestNewInterstitial() {
@@ -351,15 +352,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void createGoogleMap() {
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
-
-    private void setupAdds() {
-        AdView mAdView = (AdView) findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice(getString(R.string.huawei_device_id))
-                .build();
-        mAdView.loadAd(adRequest);
     }
 
     @Override

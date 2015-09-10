@@ -1,79 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-              <!--android:id="@+id/start_page_layout"-->
-              <!--android:orientation="vertical"-->
-              <!--android:layout_width="match_parent"-->
-              <!--android:layout_height="match_parent"-->
-              <!--android:background="@drawable/runner2">-->
-
-    <!--<Button android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="WHY RUNNING?"-->
-            <!--android:id="@+id/why_btn"-->
-            <!--android:layout_gravity="center_horizontal" android:layout_centerVertical="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:background="@color/button_material_light"/>-->
-<!--</RelativeLayout>-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/start_page_layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:background="#A7FFEB"
-              tools:context=".StartActivity">
-
-    <LinearLayout android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools"
+                  android:id="@+id/start_page_layout"
+                  android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:orientation="horizontal"
-                  android:layout_weight="5">
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:orientation="vertical">
+                  android:orientation="vertical"
+                  android:background="#A7FFEB"
+                  tools:context=".StartActivity">
 
-            <TextView android:layout_width="match_parent"
+        <LinearLayout android:layout_width="match_parent"
                       android:layout_height="match_parent"
-                      android:id="@+id/top_left"
-                      android:layout_weight="2"
-                      android:background="#009688"
-                      android:layout_marginRight="5dp"
-                      android:layout_marginBottom="5dp"/>
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:id="@+id/bottom_left"
-                      android:layout_weight="2"
-                      android:background="#00796B"
-                      android:layout_marginRight="5dp"/>
+                      android:orientation="horizontal"
+                      android:layout_weight="5">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:id="@+id/top_left"
+                          android:layout_weight="2"
+                          android:background="#009688"
+                          android:layout_marginRight="5dp"
+                          android:layout_marginBottom="5dp"/>
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:id="@+id/bottom_left"
+                          android:layout_weight="2"
+                          android:background="#00796B"
+                          android:layout_marginRight="5dp"/>
 
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:orientation="vertical">
+            </LinearLayout>
 
-            <Button android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:id="@+id/top_right"
-                      android:layout_weight="2"
-                      android:background="#4DB6AC"
-                      android:layout_marginBottom="5dp"/>
-            <Button android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:id="@+id/center_right"
-                      android:layout_weight="2"
-                      android:background="@drawable/startrunner"
-                      android:layout_marginBottom="5dp"/>
-            <Button android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:id="@+id/bottom_right"
-                      android:layout_weight="2"
-                      android:background="#004D40"/>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                <Button android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/top_right"
+                        android:layout_weight="2"
+                        android:background="#4DB6AC"
+                        android:layout_marginBottom="5dp"/>
+                <Button android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/center_right"
+                        android:layout_weight="2"
+                        android:background="@drawable/startrunner"
+                        android:layout_marginBottom="5dp"/>
+                <Button android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/bottom_right"
+                        android:layout_weight="2"
+                        android:background="#004D40"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
+    <!-- The advertise -->
+    <include layout="@layout/ad_layout_start"/>
+</RelativeLayout>

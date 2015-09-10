@@ -2,7 +2,10 @@ apply plugin: 'android-library'
 
 dependencies {
     compile 'com.parse.bolts:bolts-android:1.2.0'
-    compile 'com.android.support:support-v4:22.0.0'
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services-ads:7.5.0'
 
     provided 'com.facebook.android:facebook-android-sdk:4.0.1'
     // This assumes that your app's project has a compile dependency on the Parse SDK JAR files.

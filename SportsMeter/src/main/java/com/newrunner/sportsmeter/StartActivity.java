@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import com.google.android.gms.ads.AdView;
 
 /**
  * Created by angelr on 03-Jul-15.
@@ -14,6 +15,7 @@ import android.widget.Toast;
 public class StartActivity extends Activity implements SimpleGestureFilter.SimpleGestureListener {
 
     private SimpleGestureFilter detector;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,10 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                 startMainActivity();
             }
         });
+
+        // setup adds
+        mAdView = (AdView) findViewById(R.id.adViewStart);
+        new Utility().setupAdds(mAdView, this);
     }
 
     @Override

@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.parse.ParseObject;
 
 import java.io.File;
@@ -27,6 +29,14 @@ import java.util.List;
  * Created by angelr on 14-May-15.
  */
 public class Utility {
+
+    public void setupAdds(AdView mAdView, Context cont) {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(cont.getString(R.string.huawei_device_id))
+                .build();
+        mAdView.loadAd(adRequest);
+    }
 
     public static void loadImageFromStorage(String path) {
         try {

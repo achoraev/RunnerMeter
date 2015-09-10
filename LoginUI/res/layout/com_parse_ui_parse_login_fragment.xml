@@ -15,26 +15,19 @@
             android:layout_weight="0.5"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:gravity="center"
-        android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:orientation="vertical">
 
         <include layout="@layout/com_parse_ui_parse_login_form"/>
 
         <include layout="@layout/com_parse_ui_parse_login_third_party_section"/>
 
-        <!--&lt;!&ndash; The advertise &ndash;&gt;-->
         <!--<RelativeLayout android:layout_width="match_parent"-->
                         <!--android:layout_height="match_parent">-->
-            <!--<com.google.android.gms.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"-->
-                                               <!--android:id="@+id/adViewLogin"-->
-                                               <!--android:layout_width="wrap_content"-->
-                                               <!--android:layout_height="wrap_content"-->
-                                               <!--android:layout_centerHorizontal="true"-->
-                                               <!--android:layout_alignParentBottom="true">-->
-            <!--</com.google.android.gms.ads.AdView>-->
+            <!--<include layout="@layout/ad_layout_login"/>-->
         <!--</RelativeLayout>-->
 
     </LinearLayout>

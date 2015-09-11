@@ -401,11 +401,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onDestroy() {
         // 3 - land
-        super.onDestroy();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+
         if (!startButtonEnabled && mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
             mGoogleApiClient.disconnect();
         }
+
+        super.onDestroy();
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
@@ -471,6 +476,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (!ParseCommon.isUserLoggedIn()) {
                         ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
                         startActivityForResult(builder.build(), 0);
+                        if (mInterstitialAd.isLoaded()) {
+                            mInterstitialAd.show();
+                        }
                     } else {
                         Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
                     }

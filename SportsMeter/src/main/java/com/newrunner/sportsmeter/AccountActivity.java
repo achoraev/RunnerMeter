@@ -3,6 +3,9 @@ package com.newrunner.sportsmeter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.*;
+import com.facebook.AccessToken;
+import com.facebook.login.widget.ProfilePictureView;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import java.util.HashMap;
  */
 public class AccountActivity extends Activity {
     private final HashMap accounts = new HashMap();
+    ProfilePictureView profilePic;
     ProgressBar progress;
     EditText name, userName, eMail, createdAt;
     TextView isVerified;
@@ -25,6 +29,7 @@ public class AccountActivity extends Activity {
         // init views
         progress = (ProgressBar) findViewById(R.id.progress_bar);
 
+        profilePic = (ProfilePictureView) findViewById(R.id.profile_picture);
         name = (EditText) findViewById(R.id.edit_name);
         userName = (EditText) findViewById(R.id.edit_username);
         eMail = (EditText) findViewById(R.id.edit_mail);
@@ -39,6 +44,10 @@ public class AccountActivity extends Activity {
 
         Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
 
+        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+            String facebookId = AccessToken.getCurrentAccessToken().getUserId();
+            profilePic.setProfileId(facebookId);
+        }
         name.setHint(current.getName());
         userName.setHint(current.getUserName());
         eMail.setHint(current.getEmail());

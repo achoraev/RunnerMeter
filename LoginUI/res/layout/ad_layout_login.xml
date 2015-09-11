@@ -1,6 +1,6 @@
 <com.google.android.gms.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:ads="http://schemas.android.com/apk/res-auto"
-                                   android:id="@+id/adViewStart"
+                                   android:id="@+id/adViewLogin"
                                    android:layout_width="wrap_content"
                                    android:layout_height="wrap_content"
                                    android:layout_centerHorizontal="true"

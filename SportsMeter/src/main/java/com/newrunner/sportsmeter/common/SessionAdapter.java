@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.common;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import com.newrunner.sportsmeter.R;
+import com.newrunner.sportsmeter.common.Calculations;
+import com.newrunner.sportsmeter.models.Session;
 
 import java.util.ArrayList;
 
@@ -40,7 +43,7 @@ public class SessionAdapter extends ArrayAdapter<Session> {
         user = (TextView) rowView.findViewById(R.id.view_user);
         // set text
         distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
-        duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration()/1000/60) + " min"));
+        duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration() / 1000 / 60) + " min"));
         maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " kmph");
         averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " kmph");
         timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");

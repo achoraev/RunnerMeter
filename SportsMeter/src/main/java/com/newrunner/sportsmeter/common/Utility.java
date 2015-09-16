@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.common;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.newrunner.sportsmeter.R;
+import com.newrunner.sportsmeter.models.Session;
 import com.parse.ParseObject;
 
 import java.io.File;

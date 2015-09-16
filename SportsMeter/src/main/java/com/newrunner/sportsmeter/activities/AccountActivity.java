@@ -1,10 +1,13 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.*;
 import com.facebook.AccessToken;
 import com.facebook.login.widget.ProfilePictureView;
+import com.newrunner.sportsmeter.R;
+import com.newrunner.sportsmeter.common.Utility;
+import com.newrunner.sportsmeter.models.Account;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 

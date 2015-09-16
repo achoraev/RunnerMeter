@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseObject;

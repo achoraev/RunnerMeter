@@ -39,7 +39,7 @@
                 android:value="@string/google_maps_key"/>
 
         <activity
-                android:name=".StartActivity"
+                android:name=".activities.StartActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -50,10 +50,10 @@
         <activity android:name=".MainActivity"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".LeaderBoardActivity"
+        <activity android:name=".activities.LeaderBoardActivity"
                   android:label="@string/menu_leaderboard">
         </activity>
-        <activity android:name=".AccountActivity"
+        <activity android:name=".activities.AccountActivity"
                   android:label="My Account">
         </activity>
         <activity

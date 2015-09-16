@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.activities;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import com.newrunner.sportsmeter.R;
+import com.newrunner.sportsmeter.common.SessionAdapter;
+import com.newrunner.sportsmeter.common.Utility;
+import com.newrunner.sportsmeter.models.Session;
 import com.parse.*;
 
 import java.util.ArrayList;

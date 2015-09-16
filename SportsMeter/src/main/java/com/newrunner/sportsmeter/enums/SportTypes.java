@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.enums;
 
 /**
  * Created by angelr on 01-Sep-15.

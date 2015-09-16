@@ -1,8 +1,9 @@
-package com.newrunner.sportsmeter;
+package com.newrunner.sportsmeter.common;
 
 import android.location.Location;
 import android.util.Log;
 import com.google.android.gms.maps.model.LatLng;
+import com.newrunner.sportsmeter.enums.SportTypes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

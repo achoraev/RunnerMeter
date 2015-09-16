@@ -1,6 +1,7 @@
 package com.newrunner.sportsmeter;
 
 import android.app.Application;
+import com.newrunner.sportsmeter.common.ParseCommon;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseInstallation;

@@ -51,6 +51,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.newrunner.sportsmeter.activities.AccountActivity;
+import com.newrunner.sportsmeter.activities.LeaderBoardActivity;
+import com.newrunner.sportsmeter.common.Calculations;
+import com.newrunner.sportsmeter.common.ParseCommon;
+import com.newrunner.sportsmeter.common.Utility;
+import com.newrunner.sportsmeter.enums.SportTypes;
+import com.newrunner.sportsmeter.models.Session;
 import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 

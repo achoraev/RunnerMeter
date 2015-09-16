@@ -3,6 +3,7 @@ package com.newrunner.sportsmeter;
 import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseInstallation;
 
 /**
  * Created by angelr on 30-Jul-15.
@@ -19,5 +20,6 @@ public class ParseApplication extends Application {
 //        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         ParseACL.setDefaultACL(defaultACL, true);
+        ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 }

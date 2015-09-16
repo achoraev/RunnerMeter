@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseAnalytics;
 
 /**
  * Created by angelr on 03-Jul-15.
@@ -28,6 +29,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         ParseCommon.createAnonymousUser();
         ParseCommon.logInGuestUser();
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
+//        ParsePush.subscribeInBackground();
 
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override

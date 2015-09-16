@@ -12,11 +12,10 @@ import java.util.List;
  */
 public class ParseCommon {
     public static void createAnonymousUser() {
-        ParseUser guestUser = null;
         // create guest user if not created
         if (ParseUser.getCurrentUser() == null) {
             try {
-                guestUser = ParseCommon.createGuestUser();
+                ParseUser guestUser = ParseCommon.createGuestUser();
             } catch (com.parse.ParseException e) {
                 e.printStackTrace();
             }

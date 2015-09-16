@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RunnerMeter</string>
+    <string name="app_name">Sport Meter</string>
     <string name="title_activity_maps">Map</string>
 
     // navigation drawer
@@ -32,4 +32,9 @@
 
     // database objects
     <string name="session_object">Sessions</string>
+
+    <string name="cookie_policy">We use device identifier to personalize content and ads to provide functions of social
+        media and analyze traffic. Also share such identifiers and other information from your device with its partner
+        social media, advertising partners and partners for analysis.
+    </string>
 </resources>

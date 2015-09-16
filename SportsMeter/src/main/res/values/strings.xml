@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RunnerMeter</string>
+    <string name="app_name">Sport Meter</string>
     <string name="title_activity_maps">Map</string>
 
     // navigation drawer
@@ -52,5 +52,10 @@
 
     // test device
     <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    <string name="cookie_policy">We use device identifier to personalize content and ads to provide functions of social
+        media and analyze traffic. Also share such identifiers and other information from your device with its partner
+        social media, advertising partners and partners for analysis.
+    </string>
 
 </resources>

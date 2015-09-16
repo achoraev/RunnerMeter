@@ -5,11 +5,13 @@ import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final int MAP_ZOOM = 15;
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.RED;
+    public static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
 
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
@@ -125,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // EU user consent policy
+        applyEUcookiePolicy();
 
         initializeUiViews();
 
@@ -180,6 +186,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // setup adds
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private void applyEUcookiePolicy() {
+        final SharedPreferences settings =
+                getSharedPreferences("localPreferences", MODE_PRIVATE);
+        if (settings.getBoolean("isFirstRun", true)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Cookies")
+                    .setMessage(getString(R.string.cookie_policy))
+                    .setPositiveButton("See details", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cookieUrl)));
+                        }
+                    })
+                    .setNeutralButton("Close message", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            settings.edit().putBoolean("isFirstRun", false).commit();
+                        }
+                    })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            settings.edit().putBoolean("isFirstRun", false).commit();
+                        }
+                    })
+                    .show();
+        }
     }
 
     private void requestNewInterstitial() {

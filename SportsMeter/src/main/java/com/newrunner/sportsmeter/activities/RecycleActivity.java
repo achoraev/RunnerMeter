@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.newrunner.sportsmeter.R;
+import com.newrunner.sportsmeter.models.Session;
+
+import java.util.ArrayList;
 
 /**
  * Created by angelr on 17-Sep-15.
@@ -29,7 +32,7 @@ public class RecycleActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        String[] myDataset = new String[10];
+        ArrayList<Session> myDataset = new ArrayList<>();
         mAdapter = new MyAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
     }

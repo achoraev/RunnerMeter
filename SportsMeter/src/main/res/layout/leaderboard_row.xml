@@ -15,7 +15,7 @@
                    android:layout_margin="7dp"
                    android:id="@+id/runner"
                    android:contentDescription="Runner image"
-                   android:src="@drawable/runner2"
+                   android:src="@drawable/runner_logo"
                    android:layout_gravity="center"/>
     </LinearLayout>
 

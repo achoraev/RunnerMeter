@@ -3,6 +3,8 @@ package com.newrunner.sportsmeter.activities;
 import android.app.ListActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,22 +32,26 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     SessionAdapter adapter;
     AdView mAdView;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboard_layout);
 
-        bar = (ProgressBar) this.findViewById(R.id.progressBar);
-        bestRunners = (Button) findViewById(R.id.btn_best_runners);
-
-        bestRunners.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ProgressTask().execute();
-            }
-        });
-
-        showBestScoreList = (ListView) findViewById(android.R.id.list);
+//        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+//        bestRunners = (Button) findViewById(R.id.btn_best_runners);
+//
+//        bestRunners.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new ProgressTask().execute();
+//            }
+//        });
+//
+//        showBestScoreList = (ListView) findViewById(android.R.id.list);
 
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
@@ -65,6 +71,21 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
                 bar.setVisibility(View.GONE);
             }
         });
+
+        // for recycle
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MyAdapter(arrayOfSessions);
+        mRecyclerView.setAdapter(mAdapter);
 
 //        Bundle bundle = getIntent().getExtras();
 //        arrayOfSessions = bundle.getParcelableArrayList("list");

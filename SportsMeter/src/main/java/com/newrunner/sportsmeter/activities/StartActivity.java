@@ -80,7 +80,9 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     private void startMainActivity() {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
-        startIntent.putExtra("sportType", sportType);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("sportType", sportType);
+        startIntent.putExtras(bundle);
         startActivity(startIntent);
         finish();
     }

@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
     public static String sessionImagePath;
-    public static SportTypes sportType;
+    public SportTypes sportType;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView nvDrawer;
     private DrawerLayout mDrawer;
@@ -154,7 +154,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
         }
 
-        sportType = (SportTypes) savedInstanceState.get("sportType");
+//        sportType = (SportTypes) getIntent().getSerializableExtra("sportType");
+        Bundle bundle = getIntent().getExtras();
+        sportType = (SportTypes) bundle.get("sportType");
+        Toast.makeText(this, sportType.toString(), Toast.LENGTH_LONG).show();
+//        switch (bundle.getString("sportType")){
+//            case "biker": sportType = SportTypes.biker;
+//            case "runner": sportType = SportTypes.runner;
+//            case "driver": sportType = SportTypes.driver;
+//        }
 
         updateValuesFromBundle(savedInstanceState);
 

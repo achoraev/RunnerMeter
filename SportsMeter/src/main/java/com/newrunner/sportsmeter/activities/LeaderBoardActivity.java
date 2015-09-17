@@ -25,7 +25,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     ListView showBestScoreList;
     Button bestRunners;
     private ProgressBar bar;
-    static Boolean isFinishLoading = false;
     public ArrayList<Session> arrayOfSessions;
     SessionAdapter adapter;
 
@@ -69,43 +68,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //        arrayOfSessions = bundle.getParcelableArrayList("list");
     }
 
-    public void onClick(View v) {
-//        if (v.getId() == R.id.btn_delete) {
-//            deleteItem(0);
-//        }
-//        else if (v.getId() == R.id.btn_createNewNote) {
-//            final Intent createNewNoteIntent = new Intent(this, MainActivity.class);
-//            overridePendingTransition(android.R.anim.fade_in,
-//                    android.R.anim.fade_out);
-//            startActivity(createNewNoteIntent);
-//        }
-    }
-
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-//        DialogViewer newDialog = new DialogViewer();
-//        newDialog.show(getFragmentManager(), "DialogViewer");
-//        deleteItem(position);
-//		isClickYes = getIntent().getStringExtra("isClickYes");
-//		if (isClickYes == "true") {
-//			// delete
-//		}
-    }
-
-    public void deleteItem(int position) {
-//        ArrayList<Session> allSessions = datasource.getAllNotes();
-//        Session toDeleteNote = allSessions.get(position);
-//        if (allSessions.toArray().length != 0) {
-//            datasource.deleteNote(toDeleteNote);
-//            Toast.makeText(
-//                    this,
-//                    String.valueOf(toDeleteNote.getUsername()
-//                            + "'s post deleted"), Toast.LENGTH_SHORT).show();
-//        refreshListView();
-//        }
-    }
-
     private class ProgressTask extends AsyncTask<Void,Void,Void> {
         @Override
         protected void onPreExecute(){
@@ -143,6 +105,44 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     private void refreshListView() {
         adapter = new SessionAdapter(LeaderBoardActivity.this, R.layout.leaderboard_row, arrayOfSessions);
         showBestScoreList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void onClick(View v) {
+//        if (v.getId() == R.id.btn_delete) {
+//            deleteItem(0);
+//        }
+//        else if (v.getId() == R.id.btn_createNewNote) {
+//            final Intent createNewNoteIntent = new Intent(this, MainActivity.class);
+//            overridePendingTransition(android.R.anim.fade_in,
+//                    android.R.anim.fade_out);
+//            startActivity(createNewNoteIntent);
+//        }
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+//        DialogViewer newDialog = new DialogViewer();
+//        newDialog.show(getFragmentManager(), "DialogViewer");
+//        deleteItem(position);
+//		isClickYes = getIntent().getStringExtra("isClickYes");
+//		if (isClickYes == "true") {
+//			// delete
+//		}
+    }
+
+    public void deleteItem(int position) {
+//        ArrayList<Session> allSessions = datasource.getAllNotes();
+//        Session toDeleteNote = allSessions.get(position);
+//        if (allSessions.toArray().length != 0) {
+//            datasource.deleteNote(toDeleteNote);
+//            Toast.makeText(
+//                    this,
+//                    String.valueOf(toDeleteNote.getUsername()
+//                            + "'s post deleted"), Toast.LENGTH_SHORT).show();
+//        refreshListView();
+//        }
     }
 
 //    public void objectsWereRetrievedSuccessfully(List<ParseObject> sessions) {

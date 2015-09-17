@@ -41,7 +41,7 @@ public class Session implements Parcelable
     }
 
     public String getUserName() {
-        return userName;
+        return this.userName;
     }
 
     public String setUserName(String users) {
@@ -50,31 +50,31 @@ public class Session implements Parcelable
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public ParseUser getCurrentUser() {
-        return currentUser;
+        return this.currentUser;
     }
 
     public double getMaxSpeed() {
-        return maxSpeed;
+        return this.maxSpeed;
     }
 
     public double getAverageSpeed() {
-        return averageSpeed;
+        return this.averageSpeed;
     }
 
     public double getDistance() {
-        return distance;
+        return this.distance;
     }
 
     public double getDuration() {
-        return duration;
+        return this.duration;
     }
 
     public double getTimePerKilometer() {
-        return timePerKilometer;
+        return this.timePerKilometer;
     }
 
     public void setTimePerKilometer(double distance, double duration) {

@@ -74,23 +74,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         LocationListener,
         ResultCallback<LocationSettingsResult> {
 
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 2000;
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
-            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
+    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int MAP_ZOOM = 15;
     public static final float POLYLINE_WIDTH = 17;
-    public static final int POLYLINE_COLOR = Color.RED;
+    public static final int POLYLINE_COLOR = Color.CYAN;
     public static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
-
-    private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
-
+    public static final String speedMetricUnit = " km/h";
     protected static final String TAG = "location";
-
-    protected final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
-    protected final static String LOCATION_KEY = "location-key";
-    protected final static String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
+    protected static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
+    protected static final String LOCATION_KEY = "location-key";
+    protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView nvDrawer;
@@ -111,13 +110,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
-    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
     private double currentDistance, sessionDistance, currentSpeed, averageSpeed, currentMaxSpeed;
     private long currentTimeDiff, sessionTimeDiff;
-    private String speedMetricUnit = " km/h";
 
-    boolean startButtonEnabled;
+    public boolean startButtonEnabled;
 
     private String userName, facebookId;
     private Session currentSession;
@@ -263,10 +260,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseCommon.logInGuestUser();
         startButtonEnabled = true;
         startLocationUpdates();
+        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (startPointCoord == null) {
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
+        sessionTimeDiff = 0;
+        currentTimeDiff = 0;
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 

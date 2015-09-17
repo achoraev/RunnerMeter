@@ -36,7 +36,6 @@ public class Session implements Parcelable
 
     public Session(double distance, double duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser, String username) {
         this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
-        // todo fix this
         this.userName = setUserName(username);
     }
 

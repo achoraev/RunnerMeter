@@ -13,6 +13,7 @@ import com.newrunner.sportsmeter.R;
 import com.newrunner.sportsmeter.common.SimpleGestureFilter;
 import com.newrunner.sportsmeter.common.ParseCommon;
 import com.newrunner.sportsmeter.common.Utility;
+import com.newrunner.sportsmeter.enums.SportTypes;
 import com.parse.ParseAnalytics;
 
 /**
@@ -22,13 +23,17 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     private SimpleGestureFilter detector;
     AdView mAdView;
+    SportTypes sportType;
+    Button runnerBtn, bikerBtn, driveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_layout);
 
-        Button startBtn = (Button) findViewById(R.id.center_right);
+        bikerBtn = (Button) findViewById(R.id.top_right);
+        runnerBtn = (Button) findViewById(R.id.center_right);
+        driveBtn = (Button) findViewById(R.id.bottom_right);
 
         detector = new SimpleGestureFilter(this,this);
 
@@ -37,9 +42,26 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 //        ParsePush.subscribeInBackground();
 
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        runnerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sportType = SportTypes.runner;
+                startMainActivity();
+            }
+        });
+
+        bikerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sportType = SportTypes.biker;
+                startMainActivity();
+            }
+        });
+
+        driveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sportType = SportTypes.driver;
                 startMainActivity();
             }
         });
@@ -58,6 +80,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     private void startMainActivity() {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
+        startIntent.putExtra("sportType", sportType);
         startActivity(startIntent);
         finish();
     }

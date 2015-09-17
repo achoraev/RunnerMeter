@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
+    public static String sessionImagePath;
+    public static SportTypes sportType;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView nvDrawer;
     private DrawerLayout mDrawer;
@@ -151,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (mGoogleApiClient == null) {
             buildGoogleApiClient();
         }
+
+        sportType = (SportTypes) savedInstanceState.get("sportType");
 
         updateValuesFromBundle(savedInstanceState);
 
@@ -295,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveSession.put("distance", currentSession.getDistance());
         saveSession.put("duration", currentSession.getDuration() / 1000);
         saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
+        saveSession.put("sportType", sportType.toString());
         saveSession.setACL(acl);
         saveSession.saveInBackground();
 
@@ -305,7 +310,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
-            // todo start in other thread
             Thread newThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -313,9 +317,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         @Override
                         public void onSnapshotReady(Bitmap bitmap) {
                             sessionScreenShot = bitmap;
-                            String path = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-                            Toast.makeText(MainActivity.this, path, Toast.LENGTH_LONG).show();
-                            Log.d("url", path);
+                            sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
+                            Toast.makeText(MainActivity.this, sessionImagePath, Toast.LENGTH_LONG).show();
+                            Log.d("url", sessionImagePath);
                             // clear map
                             mMap.clear();
 //                    sendBroadcast(new Intent(
@@ -850,7 +854,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
-            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, SportTypes.runner);
+            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, sportType);
 
             updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 

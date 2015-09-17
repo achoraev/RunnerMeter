@@ -9,7 +9,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
-                  android:background="#A7FFEB"
+                  android:background="@drawable/runnerStartBack"
                   tools:context=".StartActivity">
 
         <LinearLayout android:layout_width="match_parent"
@@ -26,15 +26,17 @@
                           android:layout_height="match_parent"
                           android:id="@+id/top_left"
                           android:layout_weight="2"
-                          android:background="#009688"
-                          android:layout_marginRight="5dp"
-                          android:layout_marginBottom="5dp"/>
+                          android:background="#A7FFEB"
+                          android:layout_marginRight="15dp"
+                          android:layout_marginBottom="15dp"
+                          android:alpha="0.8"/>
                 <TextView android:layout_width="match_parent"
                           android:layout_height="match_parent"
                           android:id="@+id/bottom_left"
                           android:layout_weight="2"
-                          android:background="#00796B"
-                          android:layout_marginRight="5dp"/>
+                          android:background="#64FFDA"
+                          android:layout_marginRight="15dp"
+                          android:alpha="0.8"/>
 
             </LinearLayout>
 
@@ -48,19 +50,22 @@
                         android:layout_height="match_parent"
                         android:id="@+id/top_right"
                         android:layout_weight="2"
-                        android:background="#4DB6AC"
-                        android:layout_marginBottom="5dp"/>
+                        android:background="@drawable/bike"
+                        android:layout_marginBottom="10dp"
+                        android:alpha="0.7"/>
                 <Button android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/center_right"
                         android:layout_weight="2"
                         android:background="@drawable/startrunner"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_marginBottom="15dp"
+                        android:alpha="0.7"/>
                 <Button android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/bottom_right"
                         android:layout_weight="2"
-                        android:background="#004D40"/>
+                        android:background="@drawable/gtRDrifting"
+                        android:alpha="0.7"/>
 
             </LinearLayout>
 

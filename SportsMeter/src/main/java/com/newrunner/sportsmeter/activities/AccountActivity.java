@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.*;
 import com.facebook.AccessToken;
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.android.gms.ads.AdView;
 import com.newrunner.sportsmeter.R;
 import com.newrunner.sportsmeter.common.Utility;
 import com.newrunner.sportsmeter.models.Account;
@@ -19,10 +20,10 @@ import java.util.HashMap;
 public class AccountActivity extends Activity {
     private final HashMap accounts = new HashMap();
     ProfilePictureView profilePic;
-    ProgressBar progress;
-    EditText name, userName, eMail, createdAt;
-    TextView isVerified;
-    Button editBtn;
+//    ProgressBar progress;
+    TextView name, userName, eMail, createdAt, isVerified;
+    Button closeBtn;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,15 @@ public class AccountActivity extends Activity {
         setContentView(R.layout.account_layout);
 
         // init views
-        progress = (ProgressBar) findViewById(R.id.progress_bar);
+//        progress = (ProgressBar) findViewById(R.id.progress_bar);
 
         profilePic = (ProfilePictureView) findViewById(R.id.profile_picture);
-        name = (EditText) findViewById(R.id.edit_name);
-        userName = (EditText) findViewById(R.id.edit_username);
-        eMail = (EditText) findViewById(R.id.edit_mail);
+        name = (TextView) findViewById(R.id.edit_name);
+        userName = (TextView) findViewById(R.id.edit_username);
+        eMail = (TextView) findViewById(R.id.edit_mail);
         isVerified = (TextView) findViewById(R.id.edit_is_verified);
-        createdAt = (EditText) findViewById(R.id.edit_date);
-        editBtn = (Button) findViewById(R.id.edit_btn);
+        createdAt = (TextView) findViewById(R.id.edit_date);
+        closeBtn = (Button) findViewById(R.id.close_btn);
 
         // todo save account hashmap to local datastore
         if(!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
@@ -51,11 +52,15 @@ public class AccountActivity extends Activity {
             String facebookId = AccessToken.getCurrentAccessToken().getUserId();
             profilePic.setProfileId(facebookId);
         }
-        name.setHint(current.getName());
-        userName.setHint(current.getUserName());
-        eMail.setHint(current.getEmail());
+        name.setText(current.getName());
+        userName.setText(current.getName());
+        eMail.setText(current.getEmail());
         isVerified.setText(current.getIsVerified().toString());
-        createdAt.setHint(current.getCreatedAt());
+        createdAt.setText(current.getCreatedAt());
+
+        // setup adds
+        mAdView = (AdView) findViewById(R.id.adViewAccount);
+        new Utility().setupAdds(mAdView, this);
     }
 
     private Account convertFromUserToAccount(ParseUser currentUser) {

@@ -16,9 +16,11 @@
     // banner add
     <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
     <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
-    <string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>
-    <string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>
-    <string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
 
     // interestitial add
     <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import com.google.android.gms.ads.AdView;
 import com.newrunner.sportsmeter.R;
 import com.newrunner.sportsmeter.common.SessionAdapter;
 import com.newrunner.sportsmeter.common.Utility;
@@ -27,6 +28,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     private ProgressBar bar;
     public ArrayList<Session> arrayOfSessions;
     SessionAdapter adapter;
+    AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,10 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
 //        Bundle bundle = getIntent().getExtras();
 //        arrayOfSessions = bundle.getParcelableArrayList("list");
+
+        // setup adds
+        mAdView = (AdView) findViewById(R.id.adViewLeaderBoard);
+        new Utility().setupAdds(mAdView, this);
     }
 
     private class ProgressTask extends AsyncTask<Void,Void,Void> {

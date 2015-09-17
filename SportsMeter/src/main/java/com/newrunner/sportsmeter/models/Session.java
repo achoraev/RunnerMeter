@@ -19,6 +19,7 @@ public class Session implements Parcelable
     private double timePerKilometer;
     private String userName;
     private String createdAt;
+    private String sportType;
 
     public Session(double dis, double dur, double max, double avr, ParseUser curUser){
         this.distance = dis;
@@ -37,6 +38,18 @@ public class Session implements Parcelable
     public Session(double distance, double duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser, String username) {
         this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
         this.userName = setUserName(username);
+    }
+
+    public Session(double distance, double duration, double maxSpeed, double averageSpeed, double timePer,
+                   String createdAt, ParseUser currentUser, String username, String type) {
+        this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
+        this.timePerKilometer = timePer;
+        this.userName = setUserName(username);
+        this.sportType = type;
+    }
+
+    public String getSportType() {
+        return this.sportType;
     }
 
     public String getUserName() {

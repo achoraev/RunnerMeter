@@ -41,17 +41,17 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboard_layout);
 
-//        bar = (ProgressBar) this.findViewById(R.id.progressBar);
-//        bestRunners = (Button) findViewById(R.id.btn_best_runners);
-//
-//        bestRunners.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+        bestRunners = (Button) findViewById(R.id.btn_best_runners);
+
+        bestRunners.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                new ProgressTask().execute();
-//            }
-//        });
-//
-//        showBestScoreList = (ListView) findViewById(android.R.id.list);
+            }
+        });
+
+        showBestScoreList = (ListView) findViewById(android.R.id.list);
 
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
@@ -82,10 +82,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(arrayOfSessions);
-        mRecyclerView.setAdapter(mAdapter);
 
 //        Bundle bundle = getIntent().getExtras();
 //        arrayOfSessions = bundle.getParcelableArrayList("list");
@@ -130,9 +126,12 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     }
 
     private void refreshListView() {
-        adapter = new SessionAdapter(LeaderBoardActivity.this, R.layout.leaderboard_row, arrayOfSessions);
-        showBestScoreList.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+//        adapter = new SessionAdapter(LeaderBoardActivity.this, R.layout.leaderboard_row, arrayOfSessions);
+//        showBestScoreList.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+        // specify an adapter (see also next example)
+        mAdapter = new MyAdapter(arrayOfSessions);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void onClick(View v) {

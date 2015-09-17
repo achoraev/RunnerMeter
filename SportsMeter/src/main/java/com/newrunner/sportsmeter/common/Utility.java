@@ -90,9 +90,11 @@ public class Utility {
                     ses.getDouble("duration"),
                     ses.getDouble("maxSpeed"),
                     ses.getDouble("averageSpeed"),
+                    ses.getDouble("timePerKilometer"),
                     Utility.formatDate(ses.getCreatedAt()),
                     ses.getParseUser("username"),
-                    ses.getString("name"));
+                    ses.getString("name"),
+                    ses.getString("sportType") != null ? ses.getString("sportType") : null);
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;

@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter.models;
+package com.runner.sportsmeter.models;
 
 /**
  * Created by angelr on 02-Sep-15.

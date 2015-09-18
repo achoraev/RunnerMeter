@@ -1,9 +1,9 @@
-package com.newrunner.sportsmeter.common;
+package com.runner.sportsmeter.common;
 
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-import com.newrunner.sportsmeter.R;
+import com.runner.sportsmeter.R;
 import com.parse.*;
 
 import java.util.List;

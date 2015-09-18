@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter.activities;
+package com.runner.sportsmeter.activities;
 
 import android.app.ListActivity;
 import android.os.AsyncTask;
@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import com.google.android.gms.ads.AdView;
-import com.newrunner.sportsmeter.R;
-import com.newrunner.sportsmeter.common.SessionAdapter;
-import com.newrunner.sportsmeter.common.Utility;
-import com.newrunner.sportsmeter.models.Session;
 import com.parse.*;
+import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.SessionAdapter;
+import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.models.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +130,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //        showBestScoreList.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(arrayOfSessions);
+        mAdapter = new RecyclerAdapter(arrayOfSessions);
         mRecyclerView.setAdapter(mAdapter);
     }
 

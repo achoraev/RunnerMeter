@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.runner.sportsmeter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

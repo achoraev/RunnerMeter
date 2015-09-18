@@ -9,7 +9,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.newrunner.sportsmeter"
+        applicationId "com.runner.sportsmeter"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1

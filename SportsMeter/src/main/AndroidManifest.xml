@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.newrunner.sportsmeter">
+          package="com.runner.sportsmeter">
 
     <uses-feature
             android:name="android.hardware.location.gps"
@@ -22,12 +22,12 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <permission android:protectionLevel="signature"
-                android:name="com.newrunner.sportsmeter.permission.C2D_MESSAGE" />
+                android:name="com.runner.sportsmeter.permission.C2D_MESSAGE" />
     <uses-permission android:name="com.newrunner.sportsmeter.permission.C2D_MESSAGE" />
 
     <application
             android:allowBackup="true"
-            android:name=".ParseApplication"
+            android:name="com.runner.sportsmeter.ParseApplication"
             android:icon="@drawable/runner_logo"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
@@ -39,7 +39,7 @@
                 android:value="@string/google_maps_key"/>
 
         <activity
-                android:name=".activities.StartActivity"
+                android:name="com.runner.sportsmeter.activities.StartActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -47,13 +47,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.runner.sportsmeter.MainActivity"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".activities.LeaderBoardActivity"
+        <activity android:name="com.runner.sportsmeter.activities.LeaderBoardActivity"
                   android:label="@string/menu_leaderboard">
         </activity>
-        <activity android:name=".activities.AccountActivity"
+        <activity android:name="com.runner.sportsmeter.activities.AccountActivity"
                   android:label="My Account">
         </activity>
         <activity

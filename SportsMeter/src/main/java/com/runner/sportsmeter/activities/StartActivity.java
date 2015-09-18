@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter.activities;
+package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,12 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
-import com.newrunner.sportsmeter.MainActivity;
-import com.newrunner.sportsmeter.R;
-import com.newrunner.sportsmeter.common.SimpleGestureFilter;
-import com.newrunner.sportsmeter.common.ParseCommon;
-import com.newrunner.sportsmeter.common.Utility;
-import com.newrunner.sportsmeter.enums.SportTypes;
+import com.runner.sportsmeter.MainActivity;
+import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.SimpleGestureFilter;
+import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.SportTypes;
 import com.parse.ParseAnalytics;
 
 /**

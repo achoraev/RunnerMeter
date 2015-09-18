@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.runner.sportsmeter;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -51,13 +51,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.newrunner.sportsmeter.activities.AccountActivity;
-import com.newrunner.sportsmeter.activities.LeaderBoardActivity;
-import com.newrunner.sportsmeter.common.Calculations;
-import com.newrunner.sportsmeter.common.ParseCommon;
-import com.newrunner.sportsmeter.common.Utility;
-import com.newrunner.sportsmeter.enums.SportTypes;
-import com.newrunner.sportsmeter.models.Session;
+import com.runner.sportsmeter.activities.AccountActivity;
+import com.runner.sportsmeter.activities.LeaderBoardActivity;
+import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.SportTypes;
+import com.runner.sportsmeter.models.Session;
 import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 

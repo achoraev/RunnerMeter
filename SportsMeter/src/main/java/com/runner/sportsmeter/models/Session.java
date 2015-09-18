@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter.models;
+package com.runner.sportsmeter.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

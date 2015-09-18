@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter.common;
+package com.runner.sportsmeter.common;
 
 import android.app.Activity;
 import android.view.GestureDetector;

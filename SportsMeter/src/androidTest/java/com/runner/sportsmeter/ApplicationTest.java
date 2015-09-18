@@ -1,4 +1,4 @@
-package com.newrunner.sportsmeter;
+package com.runner.sportsmeter;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

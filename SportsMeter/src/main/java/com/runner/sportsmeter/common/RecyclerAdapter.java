@@ -1,4 +1,4 @@
-package com.runner.sportsmeter.activities;
+package com.runner.sportsmeter.common;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.models.Session;
 
 import java.util.ArrayList;

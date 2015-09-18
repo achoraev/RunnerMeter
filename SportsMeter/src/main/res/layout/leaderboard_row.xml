@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/black"
+              android:background="@color/transparent"
               android:orientation="horizontal"
+              android:padding="10dp"
               android:baselineAligned="true">
 
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
                   android:layout_weight="2"
-                  android:orientation="vertical">
-        <ImageView android:layout_height="60dp"
-                   android:layout_width="60dp"
-                   android:layout_margin="7dp"
+                  android:orientation="vertical" android:layout_gravity="center_horizontal">
+        <ImageView android:layout_height="70dp"
+                   android:layout_width="70dp"
+                   android:layout_margin="20dp"
                    android:id="@+id/runner"
-                   android:contentDescription="Runner image"
+                   android:contentDescription="@string/l_sess_image"
                    android:src="@drawable/runner_logo"
                    android:layout_gravity="center"/>
     </LinearLayout>
@@ -24,52 +25,52 @@
                   android:layout_weight="2"
                   android:orientation="vertical">
         <TextView
+                android:id="@+id/label_timeperkm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/l_time_per_km"
+                android:layout_gravity="start"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
                 android:id="@+id/label_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Distance: "
+                android:text="@string/l_distance"
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Duration: "
+                android:text="@string/l_duration"
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_maxspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Max Speed: "
+                android:text="@string/l_max_speed"
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_avrspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Average Speed: "
-                android:layout_gravity="start"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <TextView
-                android:id="@+id/label_timeperkm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time / km: "
-                android:layout_gravity="start"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <TextView
-                android:id="@+id/label_created"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Created at: "
+                android:text="@string/l_average_speed"
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/by_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="By: "
+                android:text="@string/l_by_user"
+                android:layout_gravity="start"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/label_created"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/l_created_at"
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
@@ -78,46 +79,39 @@
                   android:layout_weight="3"
                   android:orientation="vertical">
         <TextView
+                android:id="@+id/view_timeperkm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
                 android:id="@+id/view_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 km"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/view_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="--:--:--"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/view_maxspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 km/h"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/view_avrspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0 km/h"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <TextView
-                android:id="@+id/view_timeperkm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0 min/km"
-                android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <TextView
-                android:id="@+id/view_created"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="--/--/---- --:--:--"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/view_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
+                android:id="@+id/view_created"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 

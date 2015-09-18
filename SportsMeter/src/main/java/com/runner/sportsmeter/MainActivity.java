@@ -561,11 +561,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_leaderboard_fragment:
 //                fragment = new LeaderBoardFragment();
-                Intent leatherIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
+                Intent leaderIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
 //                Bundle bundle = new Bundle();
 //                bundle.putParcelableArrayList("list", arrayOfSessions);
-//                leatherIntent.putExtras(bundle);
-                startActivity(leatherIntent);
+//                leaderIntent.putExtras(bundle);
+                startActivity(leaderIntent);
                 break;
             case R.id.rate_app_fragment:
 //                fragment = new LeaderBoardFragment();

@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.google.android.gms.ads.AdView;
 import com.parse.*;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.SessionAdapter;
+import com.runner.sportsmeter.common.RecyclerAdapter;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Session;
 
@@ -29,7 +29,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
     Button bestRunners;
     private ProgressBar bar;
     public ArrayList<Session> arrayOfSessions;
-    SessionAdapter adapter;
+//    SessionAdapter adapter;
     AdView mAdView;
 
     private RecyclerView mRecyclerView;
@@ -47,7 +47,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         bestRunners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                new ProgressTask().execute();
+                new ProgressTask().execute();
             }
         });
 
@@ -107,7 +107,6 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
                     if (e == null) {
                         Log.d("session", "Retrieved " + sessions.size() + " sessions");
                         arrayOfSessions = new ArrayList<>();
-                        arrayOfSessions.clear();
                         arrayOfSessions = Utility.convertFromParseObject(sessions);
                         refreshListView();
                     } else {

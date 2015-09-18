@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 //        sportType = (SportTypes) getIntent().getSerializableExtra("sportType");
         Bundle bundle = getIntent().getExtras();
-        sportType = (SportTypes) bundle.get("sportType");
+        sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
         Toast.makeText(this, sportType.toString(), Toast.LENGTH_LONG).show();
 //        switch (bundle.getString("sportType")){
 //            case "biker": sportType = SportTypes.biker;
@@ -206,27 +206,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void applyEUcookiePolicy() {
         final SharedPreferences settings =
-                getSharedPreferences("localPreferences", MODE_PRIVATE);
-        if (settings.getBoolean("isFirstRun", true)) {
+                getSharedPreferences(getString(R.string.local_preferences), MODE_PRIVATE);
+        if (settings.getBoolean(getString(R.string.is_first_run), true)) {
             new AlertDialog.Builder(this)
-                    .setTitle("Cookies")
+                    .setTitle(getString(R.string.cookies))
                     .setMessage(getString(R.string.cookie_policy))
-                    .setPositiveButton("See details", new DialogInterface.OnClickListener() {
+                    .setPositiveButton(getString(R.string.dialog_see_details), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cookieUrl)));
                         }
                     })
-                    .setNeutralButton("Close message", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(getString(R.string.dialog_close_message), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            settings.edit().putBoolean("isFirstRun", false).commit();
+                            settings.edit().putBoolean(getString(R.string.is_first_run), false).commit();
                         }
                     })
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            settings.edit().putBoolean("isFirstRun", false).commit();
+                            settings.edit().putBoolean(getString(R.string.is_first_run), false).commit();
                         }
                     })
                     .show();
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setCurrentUserUsernameInHeader();
             }
         } else {
-            showUsername.setText("Guest");
+            showUsername.setText(getString(R.string.guest));
         }
     }
 
@@ -296,18 +296,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 averageSpeed,
                 "",
                 ParseUser.getCurrentUser(),
-                ParseUser.getCurrentUser().get("name") != null
-                        ? ParseUser.getCurrentUser().get("name").toString()
+                ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
+                        ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
                         : null);
         ParseObject saveSession = new ParseObject(getString(R.string.session_object));
-        saveSession.put("name", currentSession.getUserName());
-        saveSession.put("username", currentSession.getCurrentUser());
-        saveSession.put("maxSpeed", currentSession.getMaxSpeed());
-        saveSession.put("averageSpeed", currentSession.getAverageSpeed());
-        saveSession.put("distance", currentSession.getDistance());
-        saveSession.put("duration", currentSession.getDuration() / 1000);
-        saveSession.put("timePerKilometer", currentSession.getTimePerKilometer());
-        saveSession.put("sportType", sportType.toString());
+        saveSession.put(getString(R.string.session_name), currentSession.getUserName());
+        saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
+        saveSession.put(getString(R.string.session_max_speed), currentSession.getMaxSpeed());
+        saveSession.put(getString(R.string.session_average_speed), currentSession.getAverageSpeed());
+        saveSession.put(getString(R.string.session_distance), currentSession.getDistance());
+        saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
+        saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
+        saveSession.put(getString(R.string.session_sport_type), sportType.toString());
         saveSession.setACL(acl);
         saveSession.saveInBackground();
 
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
         if (currentCoordinates != null) {
-            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title("End point"));
+            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
             Thread newThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -373,12 +373,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (ParseFacebookUtils.isLinked(currentUser) ||
                 ParseTwitterUtils.isLinked(currentUser)) {
-            userName = currentUser.get("name").toString();
+            userName = currentUser.get(getString(R.string.session_name)).toString();
         } else {
             userName = currentUser.getUsername();
         }
         showUsername.setText(userName);
-        Toast.makeText(this, ("Welcome " + userName), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, (getString(R.string.welcome) + userName), Toast.LENGTH_LONG).show();
     }
 
     private void setToolbarAndDrawer() {
@@ -394,8 +394,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Set the menu icon instead of the launcher icon.
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         // Find our drawer view
         drawerToggle = setupDrawerToggle();
@@ -545,13 +547,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                emailIntent.setData(Uri.parse("mailto:"));
 //                emailIntent.setType("text/plain");
 //                emailIntent.setType("*/*");
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"runner.meter@gmail.com"});
-                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback");
-                emailIntent.putExtra(Intent.EXTRA_TEXT, "Your text here ...");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.app_email)});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback));
+                emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_text));
                 try {
-                    startActivity(Intent.createChooser(emailIntent, "Send Feedback:"));
+                    startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.nav_account_fragment:
@@ -588,7 +590,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void logOutCurrentUser() {
         ParseCommon.logOutUser(this);
-        showUsername.setText("");
         facebookProfilePicture.setProfileId("");
     }
 
@@ -776,24 +777,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
             }
 
-            if (savedInstanceState.keySet().contains("distance")) {
-                sessionDistance = savedInstanceState.getDouble("distance");
+            if (savedInstanceState.keySet().contains(getString(R.string.global_distance))) {
+                sessionDistance = savedInstanceState.getDouble(getString(R.string.global_distance));
             }
 
-            if (savedInstanceState.keySet().contains("averageSpeed")) {
-                averageSpeed = savedInstanceState.getDouble("averageSpeed");
+            if (savedInstanceState.keySet().contains(getString(R.string.global_average_speed))) {
+                averageSpeed = savedInstanceState.getDouble(getString(R.string.global_average_speed));
             }
 
-            if (savedInstanceState.keySet().contains("maxSpeed")) {
-                currentMaxSpeed = savedInstanceState.getDouble("maxSpeed");
+            if (savedInstanceState.keySet().contains(getString(R.string.global_max_speed))) {
+                currentMaxSpeed = savedInstanceState.getDouble(getString(R.string.global_max_speed));
             }
 
-            if (savedInstanceState.keySet().contains("duration")) {
-                sessionTimeDiff = savedInstanceState.getLong("duration");
+            if (savedInstanceState.keySet().contains(getString(R.string.global_duration))) {
+                sessionTimeDiff = savedInstanceState.getLong(getString(R.string.global_duration));
             }
 
-            if(savedInstanceState.keySet().contains("isStarted")){
-                startButtonEnabled = savedInstanceState.getBoolean("isStarted");
+            if(savedInstanceState.keySet().contains(getString(R.string.global_is_started))){
+                startButtonEnabled = savedInstanceState.getBoolean(getString(R.string.global_is_started));
                 if(startButtonEnabled){
                     startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
@@ -808,11 +809,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mRequestingLocationUpdates);
         // todo save mGoogleApiClient and mLocationRequest
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
-        savedInstanceState.putBoolean("isStarted", startButtonEnabled);
-        savedInstanceState.putDouble("distance", sessionDistance);
-        savedInstanceState.putDouble("averageSpeed", averageSpeed);
-        savedInstanceState.putDouble("maxSpeed", currentMaxSpeed);
-        savedInstanceState.putLong("duration", sessionTimeDiff);
+        savedInstanceState.putBoolean(getString(R.string.global_is_started), startButtonEnabled);
+        savedInstanceState.putDouble(getString(R.string.global_distance), sessionDistance);
+        savedInstanceState.putDouble(getString(R.string.global_average_speed), averageSpeed);
+        savedInstanceState.putDouble(getString(R.string.global_max_speed), currentMaxSpeed);
+        savedInstanceState.putLong(getString(R.string.global_duration), sessionTimeDiff);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
 
         super.onSaveInstanceState(savedInstanceState);

@@ -27,7 +27,7 @@
 
     // login/logout
     <string name="action_logout">Logout</string>
-    <string name="successfull_logout">You are successfully logged out.</string>
+    <string name="successfully_logout">You are successfully logged out.</string>
     <string name="msg_not_logged_in">You are not logged in.</string>
     <string name="already_logged_in">You are already logged in!</string>
     <string name="do_you_want_logout">Do you want to logout?</string>
@@ -41,9 +41,22 @@
     <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
     <string name="need_internet_msg">This application needs access to the internet!</string>
     <string name="want_to_continue">Do you want to continue?</string>
+    <string name="cookies">Cookies</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="guest">Guest</string>
+    <string name="end_point">End point</string>
+    <string name="welcome">"Welcome "</string>
 
     // database objects
     <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
 
     // navigation menu
     <string name="menu_leaderboard">Leaderboard</string>
@@ -70,5 +83,26 @@
     <string name="l_average_speed">Average Speed:</string>
     <string name="l_by_user">By:</string>
     <string name="l_created_at">Created at:</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // dialog messages
+    <string name="dialog_close_message">Close message</string>
+    <string name="dialog_see_details">See details</string>
+
+    // feedback
+    <string name="app_email">runner.meter@gmail.com</string>
+    <string name="feedback_text">Your text here ...</string>
+    <string name="send_feedback">Send Feedback:</string>
+    <string name="no_email_client_installed">There are no email clients installed.</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="global_is_started">isStarted</string>
 
 </resources>

@@ -18,7 +18,7 @@
 
     // login/logout
     <string name="action_logout">Logout</string>
-    <string name="successfull_logout">You are successfully logged out.</string>
+    <string name="successfully_logout">You are successfully logged out.</string>
     <string name="msg_not_logged_in">You are not logged in.</string>
     <string name="already_logged_in">You are already logged in!</string>
 
@@ -37,4 +37,6 @@
         media and analyze traffic. Also share such identifiers and other information from your device with its partner
         social media, advertising partners and partners for analysis.
     </string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
 </resources>

@@ -21,7 +21,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        private TextView distance, duration, maxSpeed, averageSpeed, createdAt, timePerKm, user;
+        private TextView distance, duration, maxSpeed, averageSpeed, createdAt, timePerKm, user, position;
         public ViewHolder(View v) {
             super(v);
             distance = (TextView) v.findViewById(R.id.view_distance);
@@ -31,6 +31,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             timePerKm = (TextView) v.findViewById(R.id.view_timeperkm);
             createdAt = (TextView) v.findViewById(R.id.view_created);
             user = (TextView) v.findViewById(R.id.view_user);
+            position = (TextView) v.findViewById(R.id.position);
         }
     }
 
@@ -58,9 +59,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+        holder.position.setText(String.valueOf(dataList.get(position)));
         holder.distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
         holder.duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration() / 1000 / 60) + " min"));
-        holder.maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " kmph");
+        holder.maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " kmph" );
         holder.averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " kmph");
         holder.timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
         holder.createdAt.setText(String.valueOf(dataList.get(position).getCreatedAt()));

@@ -54,9 +54,9 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
         showBestScoreList = (ListView) findViewById(android.R.id.list);
 
         bar.setVisibility(View.VISIBLE);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
-        query.whereEqualTo("username", ParseUser.getCurrentUser());
-        query.orderByAscending("timePerKilometer");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
+        query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
+        query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> sessions, ParseException e) {
@@ -66,7 +66,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
                     arrayOfSessions = Utility.convertFromParseObject(sessions);
                     refreshListView();
                 } else {
-                    Log.d("session", "Error: " + e.getMessage());
+                    Log.e("session", "Error: " + e.getMessage());
                 }
                 bar.setVisibility(View.GONE);
             }
@@ -99,9 +99,10 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Sessions");
-            query.orderByAscending("timePerKilometer");
-            query.setLimit(10);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
+            // todo make query by type of sport
+            query.orderByAscending(getString(R.string.session_time_per_kilometer));
+            query.setLimit(15);
             query.findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> sessions, ParseException e) {
                     if (e == null) {
@@ -110,7 +111,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
                         arrayOfSessions = Utility.convertFromParseObject(sessions);
                         refreshListView();
                     } else {
-                        Log.d("session", "Error: " + e.getMessage());
+                        Log.e("session", "Error: " + e.getMessage());
                     }
                 }
             });

@@ -2,6 +2,7 @@ package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 import com.facebook.AccessToken;
 import com.facebook.login.widget.ProfilePictureView;
@@ -41,6 +42,13 @@ public class AccountActivity extends Activity {
         createdAt = (TextView) findViewById(R.id.edit_date);
         closeBtn = (Button) findViewById(R.id.close_btn);
 
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         // todo save account hashmap to local datastore
         if(!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
             accounts.put(ParseUser.getCurrentUser().getUsername(), convertFromUserToAccount(ParseUser.getCurrentUser()));
@@ -64,11 +72,10 @@ public class AccountActivity extends Activity {
     }
 
     private Account convertFromUserToAccount(ParseUser currentUser) {
-        Account acc = new Account(currentUser.getUsername(),
+        return new Account(currentUser.getUsername(),
                 currentUser.get("name").toString(),
                 currentUser.getEmail(),
                 (Boolean)currentUser.get("emailVerified"),
                 Utility.formatDate(currentUser.getCreatedAt()));
-        return acc;
     }
 }

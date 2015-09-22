@@ -59,7 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.position.setText(String.valueOf(dataList.get(position)));
+        holder.position.setText(String.valueOf(position + 1));
         holder.distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
         holder.duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration() / 1000 / 60) + " min"));
         holder.maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " kmph" );

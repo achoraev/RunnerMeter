@@ -51,7 +51,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
             }
         });
 
-        showBestScoreList = (ListView) findViewById(android.R.id.list);
+//        showBestScoreList = (ListView) findViewById(android.R.id.list);
 
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
@@ -88,7 +88,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewLeaderBoard);
-        new Utility().setupAdds(mAdView, this);
+//        new Utility().setupAdds(mAdView, this);
     }
 
     private class ProgressTask extends AsyncTask<Void,Void,Void> {

@@ -23,7 +23,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <permission android:protectionLevel="signature"
                 android:name="com.runner.sportsmeter.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.newrunner.sportsmeter.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.runner.sportsmeter.permission.C2D_MESSAGE" />
 
     <application
             android:allowBackup="true"
@@ -115,7 +115,7 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="com.newrunner.sportsmeter" />
+                <category android:name="com.runner.sportsmeter" />
             </intent-filter>
         </receiver>
     </application>

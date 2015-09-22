@@ -80,7 +80,7 @@
     <string name="l_distance">Distance:</string>
     <string name="l_duration">Duration:</string>
     <string name="l_max_speed">Max Speed:</string>
-    <string name="l_average_speed">Average Speed:</string>
+    <string name="l_average_speed">Avg. Speed:</string>
     <string name="l_by_user">By:</string>
     <string name="l_created_at">Created at:</string>
 

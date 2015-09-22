@@ -4,7 +4,8 @@
               android:layout_height="match_parent"
               android:background="@color/darker_gray"
               android:orientation="horizontal"
-              android:padding="10dp"
+              android:padding="5dp"
+              android:layout_marginBottom="5dp"
               android:baselineAligned="true">
 
     <LinearLayout android:layout_width="20dp"
@@ -18,18 +19,20 @@
                   android:layout_gravity="center"/>
     </LinearLayout>
 
-    <LinearLayout android:layout_width="0dp"
-                  android:layout_height="wrap_content"
-                  android:layout_weight="2"
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="115dp"
                   android:orientation="vertical"
-                  android:layout_gravity="center_horizontal">
+                  android:layout_gravity="center_horizontal" android:weightSum="1">
         <ImageView android:layout_height="70dp"
-                   android:layout_width="70dp"
-                   android:layout_margin="15dp"
+                   android:layout_width="88dp"
+                   android:layout_marginTop="10dp"
+                   android:layout_marginBottom="10dp"
+                   android:layout_marginLeft="0dp"
+                   android:layout_marginRight="0dp"
                    android:id="@+id/runner"
                    android:contentDescription="@string/l_sess_image"
                    android:src="@drawable/runner_logo"
-                   android:layout_gravity="center"/>
+                   android:layout_weight="0.40"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="0dp"
@@ -88,7 +91,7 @@
     </LinearLayout>
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
-                  android:layout_weight="2.20"
+                  android:layout_weight="3"
                   android:orientation="vertical">
         <TextView
                 android:id="@+id/view_timeperkm"

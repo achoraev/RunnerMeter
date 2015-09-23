@@ -897,22 +897,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return (newVal * SMOOTH_FACTOR) + oldVal * (1 - SMOOTH_FACTOR);
     }
 
+    protected synchronized void buildGoogleApiClient() {
+        Log.d(TAG, "Building GoogleApiClient");
+//        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
+        Thread buildGoogleApiThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mGoogleApiClient = new GoogleApiClient.Builder(MainActivity.this)
+                        .addConnectionCallbacks(MainActivity.this)
+                        .addOnConnectionFailedListener(MainActivity.this)
+                        .addApi(LocationServices.API)
+                        .build();
+                createLocationRequest();
+            }
+        });
+        buildGoogleApiThread.start();
+    }
+
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        Log.d(TAG, "Building GoogleApiClient");
-//        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-        createLocationRequest();
     }
 
     private boolean hasGps() {

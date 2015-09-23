@@ -29,7 +29,7 @@ public class Calculations {
                 lastUpdatedCoord.longitude,
                 currentCoordinates.latitude,
                 currentCoordinates.longitude, result);
-        return (Math.round(result[0] * 100))/100;
+        return (Math.round(result[0] * 100)) / 100;
     }
 
     public static double calculateSpeed(Long time, Double distance) {
@@ -70,14 +70,12 @@ public class Calculations {
     }
 
     public static double calculateMaxSpeed(double currentSpeed, SportTypes runner) {
-        if(currentSpeed > getMaxSpeed()) {
-            if (runner == SportTypes.runner && currentSpeed > 44) {
-                maxSpeed = 44;
-            } else if (runner == SportTypes.biker && currentSpeed > 133) {
-                maxSpeed = 133;
-            } else if (runner == SportTypes.driver && currentSpeed > 250) {
-                maxSpeed = 250;
-            } else {
+        if (currentSpeed > getMaxSpeed()) {
+            if (runner == SportTypes.runner && currentSpeed <= 44) {
+                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+            } else if (runner == SportTypes.biker && currentSpeed <= 133) {
+                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+            } else if (runner == SportTypes.driver && currentSpeed <= 250) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             }
         }
@@ -86,8 +84,8 @@ public class Calculations {
         return maxSpeed;
     }
 
-    public static double roundToTwoDigitsAfterDecimalPoint(double in){
-        double result = (Math.round(in * 100))/100.00;
+    public static double roundToTwoDigitsAfterDecimalPoint(double in) {
+        double result = (Math.round(in * 100)) / 100.00;
         return result;
     }
 }

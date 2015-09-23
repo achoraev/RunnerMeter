@@ -3,15 +3,20 @@ package com.runner.sportsmeter.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.TextView;
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseTwitterUtils;
+import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
 
 import java.util.HashMap;
 
@@ -25,6 +30,7 @@ public class AccountActivity extends Activity {
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
+    String facebookId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +63,29 @@ public class AccountActivity extends Activity {
         Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
 
         if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-            String facebookId = AccessToken.getCurrentAccessToken().getUserId();
+            facebookId = AccessToken.getCurrentAccessToken().getUserId();
             profilePic.setProfileId(facebookId);
         }
         name.setText(current.getName());
         userName.setText(current.getName());
-        eMail.setText(current.getEmail());
+        // todo get facebook email
+        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    facebookId,
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(GraphResponse response) {
+                            eMail.setText(response.getRawResponse());
+                        }
+                    }
+            ).executeAsync();
+        } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
+            eMail.setText("twitter@sdfg.com");
+        } else {
+            eMail.setText(current.getEmail());
+        }
         isVerified.setText(current.getIsVerified().toString());
         createdAt.setText(current.getCreatedAt());
 

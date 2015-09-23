@@ -1,6 +1,6 @@
 package com.runner.sportsmeter.activities;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,9 +23,9 @@ import java.util.List;
 /**
  * Created by angelr on 20-Aug-15.
  */
-public class LeaderBoardActivity extends ListActivity implements View.OnClickListener {
+public class LeaderBoardActivity extends Activity implements View.OnClickListener {
 
-    ListView showBestScoreList;
+//    ListView showBestScoreList;
     Button bestRunners;
     private ProgressBar bar;
     public ArrayList<Session> arrayOfSessions;
@@ -51,7 +51,7 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
             }
         });
 
-        showBestScoreList = (ListView) findViewById(android.R.id.list);
+//        showBestScoreList = (ListView) findViewById(android.R.id.list);
 
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
@@ -146,17 +146,17 @@ public class LeaderBoardActivity extends ListActivity implements View.OnClickLis
 //        }
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-//        DialogViewer newDialog = new DialogViewer();
-//        newDialog.show(getFragmentManager(), "DialogViewer");
-//        deleteItem(position);
-//		isClickYes = getIntent().getStringExtra("isClickYes");
-//		if (isClickYes == "true") {
-//			// delete
-//		}
-    }
+//    @Override
+//    protected void onListItemClick(ListView l, View v, int position, long id) {
+//        super.onListItemClick(l, v, position, id);
+////        DialogViewer newDialog = new DialogViewer();
+////        newDialog.show(getFragmentManager(), "DialogViewer");
+////        deleteItem(position);
+////		isClickYes = getIntent().getStringExtra("isClickYes");
+////		if (isClickYes == "true") {
+////			// delete
+////		}
+//    }
 
     public void deleteItem(int position) {
 //        ArrayList<Session> allSessions = datasource.getAllNotes();

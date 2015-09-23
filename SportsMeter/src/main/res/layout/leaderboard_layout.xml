@@ -29,11 +29,6 @@
     </ProgressBar>
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-        <ListView android:id="@android:id/list"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content">
-        </ListView>
-
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/my_recycler_view"
                 android:scrollbars="vertical"
@@ -41,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/advertise"/>
 
-         The advertise
+         <!--The advertise-->
         <include layout="@layout/ad_layout_leaderboard"
                  android:id="@+id/advertise"/>
     </RelativeLayout>

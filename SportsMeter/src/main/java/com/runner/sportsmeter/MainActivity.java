@@ -158,17 +158,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Bundle bundle = getIntent().getExtras();
         sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
         Toast.makeText(this, sportType.toString(), Toast.LENGTH_LONG).show();
-//        switch (bundle.getString("sportType")){
-//            case "biker": sportType = SportTypes.biker;
-//            case "runner": sportType = SportTypes.runner;
-//            case "driver": sportType = SportTypes.driver;
-//        }
 
         updateValuesFromBundle(savedInstanceState);
-
-        // check gps status and turn on if not
-        buildLocationSettingsRequest();
-        checkLocationSettings();
 
         setCurrentUserUsername();
 
@@ -909,6 +900,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         .addApi(LocationServices.API)
                         .build();
                 createLocationRequest();
+                // check gps status and turn on if not
+                buildLocationSettingsRequest();
+                checkLocationSettings();
             }
         });
         buildGoogleApiThread.start();

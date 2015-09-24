@@ -82,7 +82,7 @@ public class AccountActivity extends Activity {
                     }
             ).executeAsync();
         } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
-            eMail.setText("twitter@sdfg.com");
+            eMail.setText("twitter@twitter.com");
         } else {
             eMail.setText(current.getEmail());
         }

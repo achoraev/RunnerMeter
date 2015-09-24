@@ -108,9 +108,11 @@
     // facebook permissions
     <string-array name = "facePermissions">
         <item>public_profile</item>
-        <item>email</item>
-        <item>user_birthday</item>
         <item>publish_actions</item>
         <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
     </string-array>
 </resources>

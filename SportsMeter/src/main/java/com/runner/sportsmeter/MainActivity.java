@@ -63,6 +63,7 @@ import com.parse.ui.ParseLoginBuilder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -407,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 1 - land start onCreate
         // 2 - land start
         super.onStart();
-        if(!mGoogleApiClient.isConnected()) {
+        if (!mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
     }
@@ -500,7 +501,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     logOutCurrentUser();
                                     dialog.cancel();
                                     ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-                                    startActivityForResult(builder.build(), 0);
+                                    Intent parseLoginIntent = builder
+                                            .setFacebookLoginPermissions(Arrays.asList(
+                                                    "public_profile",
+                                                    "publish_actions",
+                                                    "publish_pages",
+                                                    "email",
+                                                    "user_birthday",
+                                                    "user_likes"))
+                                            .build();
+                                    startActivityForResult(parseLoginIntent, 0);
                                 }
                             })
                             .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -784,9 +794,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 sessionTimeDiff = savedInstanceState.getLong(getString(R.string.global_duration));
             }
 
-            if(savedInstanceState.keySet().contains(getString(R.string.global_is_started))){
+            if (savedInstanceState.keySet().contains(getString(R.string.global_is_started))) {
                 startButtonEnabled = savedInstanceState.getBoolean(getString(R.string.global_is_started));
-                if(startButtonEnabled){
+                if (startButtonEnabled) {
                     startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
                     updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);

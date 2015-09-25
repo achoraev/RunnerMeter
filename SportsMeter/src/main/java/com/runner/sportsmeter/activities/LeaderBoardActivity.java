@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import com.google.android.gms.ads.AdView;
 import com.parse.*;
@@ -54,23 +53,29 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 //        showBestScoreList = (ListView) findViewById(android.R.id.list);
 
         bar.setVisibility(View.VISIBLE);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-        query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
-        query.orderByAscending(getString(R.string.session_time_per_kilometer));
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> sessions, ParseException e) {
-                if (e == null) {
-                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
-                    arrayOfSessions = new ArrayList<>();
-                    arrayOfSessions = Utility.convertFromParseObject(sessions);
-                    refreshListView();
-                } else {
-                    Log.e("session", "Error: " + e.getMessage());
-                }
-                bar.setVisibility(View.GONE);
+        Thread newThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
+                query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
+                query.orderByAscending(getString(R.string.session_time_per_kilometer));
+                query.setLimit(20);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> sessions, ParseException e) {
+                        if (e == null) {
+                            Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                            arrayOfSessions = new ArrayList<>();
+                            arrayOfSessions = Utility.convertFromParseObject(sessions);
+                            refreshListView();
+                        } else {
+                            Log.e("session", "Error: " + e.getMessage());
+                        }
+                        bar.setVisibility(View.GONE);
+                    }
+                });
             }
         });
+        newThread.start();
 
         // for recycle
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

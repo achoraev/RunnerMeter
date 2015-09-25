@@ -8,7 +8,6 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdView;
 import com.parse.ParseFacebookUtils;
@@ -17,6 +16,8 @@ import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -68,19 +69,8 @@ public class AccountActivity extends Activity {
         }
         name.setText(current.getName());
         userName.setText(current.getName());
-        // todo get facebook email
         if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-            new GraphRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    facebookId,
-                    null,
-                    HttpMethod.GET,
-                    new GraphRequest.Callback() {
-                        public void onCompleted(GraphResponse response) {
-                            eMail.setText(response.getRawResponse());
-                        }
-                    }
-            ).executeAsync();
+            facebookGraphMeRequestForUserInfo();
         } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText("twitter@twitter.com");
         } else {
@@ -92,6 +82,32 @@ public class AccountActivity extends Activity {
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewAccount);
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private void facebookGraphMeRequestForUserInfo() {
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse graphResponse) {
+//                            userName = object.getString("name");
+//                            userId = object.getString("id");
+//                            userGender = object.getString("gender");
+//                            userProfileURL = object.getString("link");
+//                            firstName = object.getString("first_name");
+//                            lastName = object.getString("last_name");
+                        try {
+                            String mail = object.getString("email");
+                            eMail.setText(mail);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "age_range,gender,name,id,link,email,picture.type(large),first_name,last_name");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private Account convertFromUserToAccount(ParseUser currentUser) {

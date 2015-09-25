@@ -504,11 +504,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     Intent parseLoginIntent = builder
                                             .setFacebookLoginPermissions(Arrays.asList(
                                                     "public_profile",
-                                                    "publish_actions",
-                                                    "publish_pages",
-                                                    "email",
-                                                    "user_birthday",
-                                                    "user_likes"))
+//                                                    "publish_actions",
+//                                                    "manage_pages",
+//                                                    "publish_pages",
+                                                    "email"))
+//                                                    "user_birthday",
+//                                                    "user_likes"))
                                             .build();
                                     startActivityForResult(parseLoginIntent, 0);
                                 }
@@ -544,6 +545,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.nav_feedback_fragment:
                 fragment = null;
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                Toast.makeText(MainActivity.this, emailIntent.getType(), Toast.LENGTH_SHORT).show();
                 emailIntent.setType("message/rfc822");
 //                emailIntent.setData(Uri.parse("mailto:"));
 //                emailIntent.setType("text/plain");

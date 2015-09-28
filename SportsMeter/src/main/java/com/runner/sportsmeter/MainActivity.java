@@ -2,10 +2,7 @@ package com.runner.sportsmeter;
 
 import android.app.Activity;
 import android.app.SearchManager;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -51,6 +48,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.parse.*;
+import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.AccountActivity;
 import com.runner.sportsmeter.activities.LeaderBoardActivity;
 import com.runner.sportsmeter.common.Calculations;
@@ -58,8 +57,6 @@ import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Session;
-import com.parse.*;
-import com.parse.ui.ParseLoginBuilder;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -574,6 +571,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.rate_app_fragment:
 //                fragment = new LeaderBoardFragment();
+                launchMarket();
                 break;
         }
 
@@ -589,6 +587,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
+    }
+
+    private void launchMarket() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Unable to find market app" + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("App", e.getMessage());
+        }
     }
 
     private void logOutCurrentUser() {

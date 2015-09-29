@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseObject;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Session;
-import com.parse.ParseObject;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,7 +53,7 @@ public class Utility {
 
     public static String saveToExternalStorage(Bitmap bitmapImage, Context cont) {
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/Runner_meter_sessions");
+        File myDir = new File(root + "/sport_meter_sessions");
         myDir.mkdirs();
 //        int n = new Random().nextInt(10000);
         String fileName = "img-" + new Date().getTime() + ".jpg";
@@ -117,6 +117,13 @@ public class Utility {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
+    public static boolean isWiFiEnabled(Context ctx) {
+        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
     public static void createDialogWithButtons(Context context, String message, String question) {
         new AlertDialog.Builder(context)
                 .setMessage(message + question)
@@ -138,5 +145,4 @@ public class Utility {
                 .create()
                 .show();
     }
-
 }

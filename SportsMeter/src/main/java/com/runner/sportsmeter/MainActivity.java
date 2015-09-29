@@ -138,10 +138,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         initializeUiViews();
 
-        if (!Utility.isNetworkConnected(this)) {
-            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "");
-        }
-
         setToolbarAndDrawer();
 
         if (mapFragment == null) {

@@ -1,20 +1,24 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseAnalytics;
 import com.runner.sportsmeter.MainActivity;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.SimpleGestureFilter;
 import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.common.SimpleGestureFilter;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
-import com.parse.ParseAnalytics;
 
 /**
  * Created by angelr on 03-Jul-15.
@@ -36,6 +40,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         driveBtn = (Button) findViewById(R.id.bottom_right);
 
         detector = new SimpleGestureFilter(this,this);
+
+        turnOnWiFiOrDataInternet();
 
         ParseCommon.createAnonymousUser();
         ParseCommon.logInGuestUser();
@@ -69,6 +75,46 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewStart);
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private void turnOnWiFiOrDataInternet() {
+        if (!Utility.isNetworkConnected(this)) {
+            new AlertDialog.Builder(this)
+                    .setTitle("No internet connection")
+                    .setMessage("To use app you need to turn it on.")
+                    .setPositiveButton("Turn On Wifi", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // todo fix exception
+                            if (!Utility.isWiFiEnabled(StartActivity.this)) {
+                                WifiManager wifi = (WifiManager) StartActivity.this.getSystemService(Context.WIFI_SERVICE);
+                                wifi.setWifiEnabled(true);
+                            }
+                        }
+                    })
+                    .setNeutralButton("Turn On Data", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    })
+//                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(DialogInterface dialog) {
+//
+//                        }
+//                    })
+                    .show();
+
+
+//            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "");
+        }
     }
 
     @Override

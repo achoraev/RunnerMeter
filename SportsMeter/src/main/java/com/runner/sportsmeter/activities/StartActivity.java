@@ -39,7 +39,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         runnerBtn = (Button) findViewById(R.id.center_right);
         driveBtn = (Button) findViewById(R.id.bottom_right);
 
-        detector = new SimpleGestureFilter(this,this);
+        detector = new SimpleGestureFilter(this, this);
 
         turnOnWiFiOrDataInternet();
 
@@ -78,8 +78,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     }
 
     private void turnOnWiFiOrDataInternet() {
-        if (!Utility.isNetworkConnected(this)) {
-            new AlertDialog.Builder(this)
+        if (!Utility.isNetworkConnected(StartActivity.this)) {
+            new AlertDialog.Builder(StartActivity.this)
                     .setTitle("No internet connection")
                     .setMessage("To use app you need to turn it on.")
                     .setPositiveButton("Turn On Wifi", new DialogInterface.OnClickListener() {
@@ -101,19 +101,9 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                     .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            dialog.dismiss();
                         }
-                    })
-//                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//
-//                        }
-//                    })
-                    .show();
-
-
-//            Utility.createDialogWithButtons(this, this.getString(R.string.need_internet_msg), "");
+                    }).show();
         }
     }
 
@@ -139,18 +129,18 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         switch (direction) {
 
-            case SimpleGestureFilter.SWIPE_RIGHT :
+            case SimpleGestureFilter.SWIPE_RIGHT:
                 str = "Right";
                 startMainActivity();
                 break;
-            case SimpleGestureFilter.SWIPE_LEFT :
+            case SimpleGestureFilter.SWIPE_LEFT:
                 str = "Left";
                 startMainActivity();
                 break;
-            case SimpleGestureFilter.SWIPE_DOWN :
+            case SimpleGestureFilter.SWIPE_DOWN:
                 str = "Down";
                 break;
-            case SimpleGestureFilter.SWIPE_UP :
+            case SimpleGestureFilter.SWIPE_UP:
                 str = "Up";
                 break;
 

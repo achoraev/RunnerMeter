@@ -121,7 +121,7 @@ public class Utility {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        return activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+        return activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     public static void createDialogWithButtons(Context context, String message, String question) {

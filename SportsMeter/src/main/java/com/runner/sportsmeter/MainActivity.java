@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (startPointCoord == null) {
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         }
-        mMap.addMarker(new MarkerOptions().position(startPointCoord).title("Start point"));
+        mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
         sessionTimeDiff = 0;
         currentTimeDiff = 0;
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
@@ -591,7 +591,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         try {
             startActivity(myAppLinkToMarket);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Unable to find market app" + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.d("App", e.getMessage());
         }
     }

@@ -80,9 +80,9 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     private void turnOnWiFiOrDataInternet() {
         if (!Utility.isNetworkConnected(StartActivity.this)) {
             new AlertDialog.Builder(StartActivity.this)
-                    .setTitle("No internet connection")
-                    .setMessage("To use app you need to turn it on.")
-                    .setPositiveButton("Turn On Wifi", new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.no_internet))
+                    .setMessage(getString(R.string.no_net_message))
+                    .setPositiveButton(getString(R.string.turn_on_wifi), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // todo fix exception
@@ -92,13 +92,13 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                             }
                         }
                     })
-                    .setNeutralButton("Turn On Data", new DialogInterface.OnClickListener() {
+                    .setNeutralButton(getString(R.string.turn_on_data), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
                     })
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -117,7 +117,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     private void startMainActivity() {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("sportType", sportType);
+        bundle.putSerializable(getString(R.string.type_of_sport), sportType);
         startIntent.putExtras(bundle);
         startActivity(startIntent);
         finish();

@@ -38,7 +38,6 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="press_back_again">Press Back again to Exit.</string>
-    <string name="dontHaveGps">This hardware doesn\'t have GPS</string>
     <string name="need_internet_msg">This application needs access to the internet!</string>
     <string name="want_to_continue">Do you want to continue?</string>
     <string name="cookies">Cookies</string>
@@ -104,6 +103,13 @@
     <string name="global_max_speed">maxSpeed</string>
     <string name="global_duration">duration</string>
     <string name="global_is_started">isStarted</string>
+    <string name="start_point">Start point</string>
+    <string name="unable_find_market_app">Unable to find market app</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="no_net_message">To use app you need to turn it on.</string>
+    <string name="turn_on_wifi">Turn On Wifi</string>
+    <string name="turn_on_data">Turn On Data</string>
+    <string name="close">Close</string>
 
     // facebook permissions
     <string-array name = "facePermissions">

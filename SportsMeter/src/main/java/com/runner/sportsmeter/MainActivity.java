@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private Boolean exit = false;
     private GoogleApiClient mGoogleApiClient;
-    private String lastUpdateTime, currentUpdateTime, startTime = null;
+    private String lastUpdateTime, currentUpdateTime, sessionStartTime = null;
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
     protected LocationSettingsRequest mLocationSettingsRequest;
@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             buildGoogleApiClient();
         }
 
-//        sportType = (SportTypes) getIntent().getSerializableExtra("sportType");
         Bundle bundle = getIntent().getExtras();
         sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
         Toast.makeText(this, sportType.toString(), Toast.LENGTH_LONG).show();
@@ -257,13 +256,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseCommon.logInGuestUser();
         startButtonEnabled = true;
         startLocationUpdates();
+        setVariablesToNull();
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        if (sessionStartTime == null) {
+            sessionStartTime = currentUpdateTime;
+        }
+
         if (startPointCoord == null) {
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
-        sessionTimeDiff = 0;
-        currentTimeDiff = 0;
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
@@ -331,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setVariablesToNull() {
         sessionDistance = 0;
         sessionTimeDiff = 0;
+        sessionStartTime = null;
         Calculations.setMaxSpeed(0);
         averageSpeed = 0;
         currentMaxSpeed = 0;
@@ -666,9 +669,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
 
-        if (startTime == null) {
-            startTime = currentUpdateTime;
-        }
+//        if (sessionStartTime == null) {
+//            sessionStartTime = currentUpdateTime;
+//        }
 
         if (mRequestingLocationUpdates) {
             Log.d(TAG, "Starting updates");
@@ -868,7 +871,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             currentDistance = Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
             sessionDistance += Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
             currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
-            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, startTime);
+            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, sportType);

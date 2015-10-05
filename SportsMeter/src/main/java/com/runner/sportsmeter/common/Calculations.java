@@ -66,7 +66,7 @@ public class Calculations {
         long diffMinutes = diff / (60 * 1000) % 60;
         long diffHours = diff / (60 * 60 * 1000) % 24;
 
-        return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
+        return diffHours + " h:" + diffMinutes + " m:" + diffSeconds + " s";
     }
 
     public static double calculateMaxSpeed(double currentSpeed, SportTypes runner) {

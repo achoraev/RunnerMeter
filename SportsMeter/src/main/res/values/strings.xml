@@ -110,6 +110,7 @@
     <string name="turn_on_wifi">Turn On Wifi</string>
     <string name="turn_on_data">Turn On Data</string>
     <string name="close">Close</string>
+    <string name="twitter_email_not_present">not represent</string>
 
     // facebook permissions
     <string-array name = "facePermissions">

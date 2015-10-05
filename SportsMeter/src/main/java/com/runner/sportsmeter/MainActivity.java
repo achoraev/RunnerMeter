@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    public static final int MAP_ZOOM = 15;
+    public static final int MAP_ZOOM = 13;
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.CYAN;
     public static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";

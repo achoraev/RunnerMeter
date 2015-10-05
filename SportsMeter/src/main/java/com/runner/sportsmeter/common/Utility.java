@@ -86,15 +86,15 @@ public class Utility {
         ArrayList<Session> arrayOfSessions = new ArrayList<>();
         for (ParseObject ses : sessions) {
             Session newSession = new Session(
-                    ses.getDouble("distance"),
-                    ses.getDouble("duration"),
-                    ses.getDouble("maxSpeed"),
-                    ses.getDouble("averageSpeed"),
-                    ses.getDouble("timePerKilometer"),
+                    ses.getDouble(String.valueOf(R.string.session_distance)),
+                    ses.getDouble(String.valueOf(R.string.session_duration)),
+                    ses.getDouble(String.valueOf(R.string.session_max_speed)),
+                    ses.getDouble(String.valueOf(R.string.session_average_speed)),
+                    ses.getDouble(String.valueOf(R.string.session_time_per_kilometer)),
                     Utility.formatDate(ses.getCreatedAt()),
                     ses.getParseUser("username"),
                     ses.getString("name"),
-                    ses.getString("sportType") != null ? ses.getString("sportType") : null);
+                    ses.getString(String.valueOf(R.string.type_of_sport)) != null ? ses.getString(String.valueOf(R.string.type_of_sport)) : null);
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;

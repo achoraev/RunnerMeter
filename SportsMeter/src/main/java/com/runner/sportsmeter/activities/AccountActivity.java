@@ -72,7 +72,7 @@ public class AccountActivity extends Activity {
         if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
             facebookGraphMeRequestForUserInfo();
         } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
-            eMail.setText("twitter@twitter.com");
+            eMail.setText(getString(R.string.twitter_email_not_present));
         } else {
             eMail.setText(current.getEmail());
         }

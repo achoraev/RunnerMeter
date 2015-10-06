@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -19,6 +20,10 @@ import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.SimpleGestureFilter;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Created by angelr on 03-Jul-15.
@@ -95,7 +100,24 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                     .setNeutralButton(getString(R.string.turn_on_data), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            // promt user
+//                            Intent intent=new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS);
+//                            ComponentName cn = new ComponentName("com.android.phone","com.android.phone.Settings");
+//                            intent.setComponent(cn);
+//                            startActivity(intent);
+                            try {
+                                setMobileDataEnabled(StartActivity.this, true);
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchFieldException e) {
+                                e.printStackTrace();
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            } catch (NoSuchMethodException e) {
+                                e.printStackTrace();
+                            } catch (InvocationTargetException e) {
+                                e.printStackTrace();
+                            }
                         }
                     })
                     .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
@@ -146,6 +168,19 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         }
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+
+    private void setMobileDataEnabled(Context context, boolean enabled) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final Class conmanClass = Class.forName(conman.getClass().getName());
+        final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+        iConnectivityManagerField.setAccessible(true);
+        final Object iConnectivityManager = iConnectivityManagerField.get(conman);
+        final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+        final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+        setMobileDataEnabledMethod.setAccessible(true);
+
+        setMobileDataEnabledMethod.invoke(iConnectivityManager, enabled);
     }
 
     @Override

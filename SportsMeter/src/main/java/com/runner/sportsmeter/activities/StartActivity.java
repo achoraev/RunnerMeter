@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -97,9 +98,14 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                         public void onClick(DialogInterface dialog, int which) {
                             // prompt user
                             // 1
-                            Intent dialogIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-                            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(dialogIntent);
+//                            Intent dialogIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+//                            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(dialogIntent);
+                            // 5
+                            Intent intent = new Intent();
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setAction(Settings.ACTION_DATA_ROAMING_SETTINGS);
+                            startActivity(intent);
                             // 2
 //                            startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                             // 3 throw exception

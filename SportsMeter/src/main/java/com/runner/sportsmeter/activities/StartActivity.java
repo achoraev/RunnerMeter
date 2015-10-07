@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
-import com.parse.ParseAnalytics;
 import com.runner.sportsmeter.MainActivity;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.ParseCommon;
@@ -50,14 +49,13 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         ParseCommon.createAnonymousUser();
         ParseCommon.logInGuestUser();
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 //        ParsePush.subscribeInBackground();
 
         runnerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sportType = SportTypes.runner;
-                startMainActivity();
+                startMainActivity(sportType);
             }
         });
 
@@ -65,7 +63,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
             @Override
             public void onClick(View v) {
                 sportType = SportTypes.biker;
-                startMainActivity();
+                startMainActivity(sportType);
             }
         });
 
@@ -73,7 +71,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
             @Override
             public void onClick(View v) {
                 sportType = SportTypes.driver;
-                startMainActivity();
+                startMainActivity(sportType);
             }
         });
 
@@ -90,11 +88,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                     .setPositiveButton(getString(R.string.turn_on_wifi), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // todo fix exception
-                            if (!Utility.isWiFiEnabled(StartActivity.this)) {
-                                WifiManager wifi = (WifiManager) StartActivity.this.getSystemService(Context.WIFI_SERVICE);
-                                wifi.setWifiEnabled(true);
-                            }
+                            WifiManager wifi = (WifiManager) StartActivity.this.getSystemService(Context.WIFI_SERVICE);
+                            wifi.setWifiEnabled(true);
                         }
                     })
                     .setNeutralButton(getString(R.string.turn_on_data), new DialogInterface.OnClickListener() {
@@ -136,7 +131,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         return super.dispatchTouchEvent(ev);
     }
 
-    private void startMainActivity() {
+    private void startMainActivity(SportTypes sportType) {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
@@ -153,11 +148,11 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
             case SimpleGestureFilter.SWIPE_RIGHT:
                 str = "Right";
-                startMainActivity();
+                startMainActivity(sportType);
                 break;
             case SimpleGestureFilter.SWIPE_LEFT:
                 str = "Left";
-                startMainActivity();
+                startMainActivity(sportType);
                 break;
             case SimpleGestureFilter.SWIPE_DOWN:
                 str = "Down";
@@ -186,6 +181,6 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     @Override
     public void onDoubleTap() {
         Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
-        startMainActivity();
+        startMainActivity(sportType);
     }
 }

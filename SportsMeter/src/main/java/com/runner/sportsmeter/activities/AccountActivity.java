@@ -1,9 +1,13 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -19,6 +23,9 @@ import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -73,6 +80,10 @@ public class AccountActivity extends Activity {
             facebookGraphMeRequestForUserInfo();
         } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
+            ImageView twitterImageViewPicture = new ImageView(AccountActivity.this);
+            replaceView(profilePic, twitterImageViewPicture);
+
+            twitterImageViewPicture.setImageBitmap(getTwitterProfileImage());
         } else {
             eMail.setText(current.getEmail());
         }
@@ -82,6 +93,42 @@ public class AccountActivity extends Activity {
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewAccount);
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private Bitmap getTwitterProfileImage() {
+        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+        URL newUrl = null;
+        try {
+            newUrl = new URL(("http://twitter.com/" + screenName + "/profile_image?size=original"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        Bitmap mIcon_val = null;
+        try {
+            mIcon_val = BitmapFactory.decodeStream(newUrl.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mIcon_val;
+    }
+
+    public void replaceView(View currentView, View newView) {
+        ViewGroup parent = (ViewGroup) currentView.getParent();
+        if(parent == null) {
+            return;
+        }
+        final int index = parent.indexOfChild(currentView);
+        removeView(currentView);
+        removeView(newView);
+        parent.addView(newView, index);
+    }
+
+    public void removeView(View view) {
+        ViewGroup parent = (ViewGroup) view.getParent();
+        if(parent != null) {
+            parent.removeView(view);
+        }
     }
 
     private void facebookGraphMeRequestForUserInfo() {

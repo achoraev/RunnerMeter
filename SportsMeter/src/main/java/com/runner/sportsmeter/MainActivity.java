@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // setup adds
         new Utility().setupAdds(mAdView, this);
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
 
     private void applyEUcookiePolicy() {
@@ -404,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 1 - land start onCreate
         // 2 - land start
         super.onStart();
-        if (!mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
     }

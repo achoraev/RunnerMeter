@@ -73,7 +73,7 @@ public class ParseCommon {
         guestUser.setEmail("tester@tester.com");
         guestUser.setPassword("123456");
         guestUser.put("name", "Guest");
-        guestUser.signUp();
+        guestUser.signUpInBackground();
         return guestUser;
     }
 }

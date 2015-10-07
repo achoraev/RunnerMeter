@@ -540,21 +540,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 break;
             case R.id.nav_feedback_fragment:
-                fragment = null;
-                Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                Toast.makeText(MainActivity.this, emailIntent.getType(), Toast.LENGTH_SHORT).show();
-                emailIntent.setType("message/rfc822");
-//                emailIntent.setData(Uri.parse("mailto:"));
+
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+//                emailIntent.setType("message/rfc822");
+                emailIntent.setData(Uri.parse("mailto:"));
 //                emailIntent.setType("text/plain");
 //                emailIntent.setType("*/*");
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.app_email)});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback));
                 emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_text));
-                try {
+                if (emailIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
-                } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast.LENGTH_SHORT).show();
+
                 break;
             case R.id.nav_account_fragment:
 //                fragment = new AccountFragment();

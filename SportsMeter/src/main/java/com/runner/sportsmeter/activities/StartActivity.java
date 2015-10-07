@@ -95,24 +95,32 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                     .setNeutralButton(getString(R.string.turn_on_data), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // promt user
+                            // prompt user
+                            // 1
+                            Intent dialogIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+                            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(dialogIntent);
+                            // 2
+//                            startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                            // 3 throw exception
 //                            Intent intent=new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS);
 //                            ComponentName cn = new ComponentName("com.android.phone","com.android.phone.Settings");
 //                            intent.setComponent(cn);
 //                            startActivity(intent);
-                            try {
-                                setMobileDataEnabled(StartActivity.this, true);
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (NoSuchFieldException e) {
-                                e.printStackTrace();
-                            } catch (IllegalAccessException e) {
-                                e.printStackTrace();
-                            } catch (NoSuchMethodException e) {
-                                e.printStackTrace();
-                            } catch (InvocationTargetException e) {
-                                e.printStackTrace();
-                            }
+                            // 4
+//                            try {
+//                                setMobileDataEnabled(StartActivity.this, true);
+//                            } catch (ClassNotFoundException e) {
+//                                e.printStackTrace();
+//                            } catch (NoSuchFieldException e) {
+//                                e.printStackTrace();
+//                            } catch (IllegalAccessException e) {
+//                                e.printStackTrace();
+//                            } catch (NoSuchMethodException e) {
+//                                e.printStackTrace();
+//                            } catch (InvocationTargetException e) {
+//                                e.printStackTrace();
+//                            }
                         }
                     })
                     .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {

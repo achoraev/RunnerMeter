@@ -5,13 +5,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.runner.sportsmeter"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -37,6 +37,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:7.5.0'
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile 'com.android.support:support-v4:22.2.0'
+    compile 'org.apache.commons:commons-io:1.3.2'
 
     compile files('libs/Parse-1.9.3.jar')
     compile files('libs/ParseFacebookUtilsV4-1.9.3.jar')

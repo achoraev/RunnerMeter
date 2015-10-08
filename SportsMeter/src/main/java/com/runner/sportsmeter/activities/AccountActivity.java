@@ -1,14 +1,14 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -20,12 +20,14 @@ import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -81,9 +83,19 @@ public class AccountActivity extends Activity {
         } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
             ImageView twitterImageViewPicture = new ImageView(AccountActivity.this);
+            twitterImageViewPicture.setMaxWidth(70);
+            twitterImageViewPicture.setMaxHeight(70);
             replaceView(profilePic, twitterImageViewPicture);
 
-            twitterImageViewPicture.setImageBitmap(getTwitterProfileImage());
+            try {
+                twitterImageViewPicture.setImageURI(getTwitterProfileImage());
+            } catch (IOException e) {
+                Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            } catch (JSONException e) {
+                Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
         } else {
             eMail.setText(current.getEmail());
         }
@@ -95,22 +107,32 @@ public class AccountActivity extends Activity {
         new Utility().setupAdds(mAdView, this);
     }
 
-    private Bitmap getTwitterProfileImage() {
+    private Uri getTwitterProfileImage() throws IOException, JSONException {
         String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-        URL newUrl = null;
-        try {
-            newUrl = new URL(("http://twitter.com/" + screenName + "/profile_image?size=original"));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        HttpGet verifyGet = new HttpGet(
+                "https://api.twitter.com/1.1/users/profile_banner.json?screen_name=" + screenName);
+//        HttpGet verifyGet = new HttpGet("http://twitter.com/" + screenName + "/profile_image?size=bigger");
+        ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+        HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
+        JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
+        String url = responseJson.getString("profile_image_url");
 
-        Bitmap mIcon_val = null;
-        try {
-            mIcon_val = BitmapFactory.decodeStream(newUrl.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mIcon_val;
+        Uri newUri = Uri.parse(url);
+        Toast.makeText(AccountActivity.this, url, Toast.LENGTH_LONG).show();
+//        URL newUrl = null;
+//        try {
+//            newUrl = new URL(Url);
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Bitmap mIcon_val = null;
+//        try {
+//            mIcon_val = BitmapFactory.decodeStream(newUrl.openConnection().getInputStream());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        return newUri;
     }
 
     public void replaceView(View currentView, View newView) {

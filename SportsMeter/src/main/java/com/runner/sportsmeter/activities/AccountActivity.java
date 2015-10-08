@@ -24,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +37,7 @@ import java.util.HashMap;
 public class AccountActivity extends Activity {
     private final HashMap accounts = new HashMap();
     ProfilePictureView profilePic;
-//    ProgressBar progress;
+    //    ProgressBar progress;
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
@@ -66,36 +67,42 @@ public class AccountActivity extends Activity {
         });
 
         // todo save account hashmap to local datastore
-        if(!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
+        if (!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
             accounts.put(ParseUser.getCurrentUser().getUsername(), convertFromUserToAccount(ParseUser.getCurrentUser()));
         }
 
         Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
 
-        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             facebookId = AccessToken.getCurrentAccessToken().getUserId();
             profilePic.setProfileId(facebookId);
         }
         name.setText(current.getName());
         userName.setText(current.getName());
-        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             facebookGraphMeRequestForUserInfo();
-        } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
+        } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
-            ImageView twitterImageViewPicture = new ImageView(AccountActivity.this);
+            final ImageView twitterImageViewPicture = new ImageView(AccountActivity.this);
             twitterImageViewPicture.setMaxWidth(70);
             twitterImageViewPicture.setMaxHeight(70);
             replaceView(profilePic, twitterImageViewPicture);
 
-            try {
-                twitterImageViewPicture.setImageURI(getTwitterProfileImage());
-            } catch (IOException e) {
-                Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            } catch (JSONException e) {
-                Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        twitterImageViewPicture.setImageURI(getTwitterProfileImage());
+                    } catch (IOException e) {
+                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
         } else {
             eMail.setText(current.getEmail());
         }
@@ -115,7 +122,8 @@ public class AccountActivity extends Activity {
         ParseTwitterUtils.getTwitter().signRequest(verifyGet);
         HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
         JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
-        String url = responseJson.getString("profile_image_url");
+        JSONArray mobile = responseJson.getJSONArray("sizes");
+        String url = "";
 
         Uri newUri = Uri.parse(url);
         Toast.makeText(AccountActivity.this, url, Toast.LENGTH_LONG).show();
@@ -137,7 +145,7 @@ public class AccountActivity extends Activity {
 
     public void replaceView(View currentView, View newView) {
         ViewGroup parent = (ViewGroup) currentView.getParent();
-        if(parent == null) {
+        if (parent == null) {
             return;
         }
         final int index = parent.indexOfChild(currentView);
@@ -148,7 +156,7 @@ public class AccountActivity extends Activity {
 
     public void removeView(View view) {
         ViewGroup parent = (ViewGroup) view.getParent();
-        if(parent != null) {
+        if (parent != null) {
             parent.removeView(view);
         }
     }
@@ -183,7 +191,7 @@ public class AccountActivity extends Activity {
         return new Account(currentUser.getUsername(),
                 currentUser.get("name").toString(),
                 currentUser.getEmail(),
-                (Boolean)currentUser.get("emailVerified"),
+                (Boolean) currentUser.get("emailVerified"),
                 Utility.formatDate(currentUser.getCreatedAt()));
     }
 }

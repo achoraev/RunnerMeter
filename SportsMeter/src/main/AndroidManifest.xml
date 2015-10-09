@@ -57,7 +57,16 @@
                   android:label="@string/menu_leaderboard">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.AccountActivity"
-                  android:label="My Account">
+                  android:label="@string/my_account">
+        </activity>
+        <activity android:name="com.runner.sportsmeter.activities.SaveSessionActivity"
+                  android:label="@string/saving_session">
+        </activity>
+        <activity android:name="com.runner.sportsmeter.activities.AboutActivity"
+                  android:label="@string/menu_about_application">
+        </activity>
+        <activity android:name="com.runner.sportsmeter.activities.HelpActivity"
+                  android:label="@string/menu_help">
         </activity>
         <activity
                 android:name="com.parse.ui.ParseLoginActivity"

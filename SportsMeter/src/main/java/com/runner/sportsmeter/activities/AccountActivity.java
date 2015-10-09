@@ -1,7 +1,6 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,14 +90,21 @@ public class AccountActivity extends Activity {
                 @Override
                 public void run() {
                     try {
-                        twitterImageViewPicture.setImageURI(getTwitterProfileImage());
+                        eMail.setText(getTwitterProfileImage());
                     } catch (IOException e) {
-                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     } catch (JSONException e) {
-                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                         e.printStackTrace();
                     }
+//                    try {
+//                        twitterImageViewPicture.setImageURI(getTwitterProfileImage());
+//                    } catch (IOException e) {
+//                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                        e.printStackTrace();
+//                    } catch (JSONException e) {
+//                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                        e.printStackTrace();
+//                    }
                 }
             });
             thread.start();
@@ -114,18 +119,20 @@ public class AccountActivity extends Activity {
         new Utility().setupAdds(mAdView, this);
     }
 
-    private Uri getTwitterProfileImage() throws IOException, JSONException {
+    private String getTwitterProfileImage() throws IOException, JSONException {
         String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-        HttpGet verifyGet = new HttpGet(
-                "https://api.twitter.com/1.1/users/profile_banner.json?screen_name=" + screenName);
+//        HttpGet verifyGet = new HttpGet(
+//                "https://api.twitter.com/1.1/users/profile_banner.json?screen_name=" + screenName);
 //        HttpGet verifyGet = new HttpGet("http://twitter.com/" + screenName + "/profile_image?size=bigger");
+        HttpGet verifyGet = new HttpGet(
+                "https://api.twitter.com/1.1/users/show.json?screen_name=" + screenName);
         ParseTwitterUtils.getTwitter().signRequest(verifyGet);
         HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
         JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
-        JSONArray mobile = responseJson.getJSONArray("sizes");
-        String url = "";
+//        JSONObject sizes = new JSONObject(responseJson.getString("sizes"));
+        String url = responseJson.get("profile_image_url").toString();
 
-        Uri newUri = Uri.parse(url);
+//        Uri newUri = Uri.parse(url);
         Toast.makeText(AccountActivity.this, url, Toast.LENGTH_LONG).show();
 //        URL newUrl = null;
 //        try {
@@ -140,7 +147,7 @@ public class AccountActivity extends Activity {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        return newUri;
+        return url;
     }
 
     public void replaceView(View currentView, View newView) {

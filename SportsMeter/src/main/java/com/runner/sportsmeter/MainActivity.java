@@ -1,7 +1,6 @@
 package com.runner.sportsmeter;
 
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -50,8 +49,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
-import com.runner.sportsmeter.activities.AccountActivity;
-import com.runner.sportsmeter.activities.LeaderBoardActivity;
+import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
@@ -277,36 +275,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);
-        currentSession = new Session(
-                sessionDistance,
-                sessionTimeDiff,
-                currentMaxSpeed,
-                averageSpeed,
-                "",
-                ParseUser.getCurrentUser(),
-                ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
-                        ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
-                        : null);
-        ParseObject saveSession = new ParseObject(getString(R.string.session_object));
-        saveSession.put(getString(R.string.session_name), currentSession.getUserName());
-        saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
-        saveSession.put(getString(R.string.session_max_speed), currentSession.getMaxSpeed());
-        saveSession.put(getString(R.string.session_average_speed), currentSession.getAverageSpeed());
-        saveSession.put(getString(R.string.session_distance), currentSession.getDistance());
-        saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
-        saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
-        saveSession.put(getString(R.string.session_sport_type), sportType.toString());
-        saveSession.setACL(acl);
-        saveSession.saveInBackground();
-
-        // set all to null
-        setVariablesToNull();
-
-        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
         if (currentCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
-            Thread newThread = new Thread(new Runnable() {
+            Thread snapShotThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
@@ -318,17 +290,53 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             Log.d("url", sessionImagePath);
                             // clear map
                             mMap.clear();
-//                    sendBroadcast(new Intent(
-//                            Intent.ACTION_MEDIA_MOUNTED,
-////                            Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-//                            Uri.parse("file://" + path)));
-
                         }
                     }, sessionScreenShot);
                 }
             });
-            newThread.start();
+            snapShotThread.start();
         }
+
+        // todo open other intent
+        Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
+
+        saveSessionIntent.putExtra("session_distance", sessionDistance);
+        saveSessionIntent.putExtra("session_time_diff", sessionTimeDiff);
+        saveSessionIntent.putExtra("current_max_speed", currentMaxSpeed);
+        saveSessionIntent.putExtra("average_speed", averageSpeed);
+        saveSessionIntent.putExtra("sport_type", sportType.toString());
+        if(sessionImagePath != null){
+            saveSessionIntent.putExtra("session_image_path", sessionImagePath);
+        }
+
+        startActivity(saveSessionIntent);
+
+//        currentSession = new Session(
+//                sessionDistance,
+//                sessionTimeDiff,
+//                currentMaxSpeed,
+//                averageSpeed,
+//                "",
+//                ParseUser.getCurrentUser(),
+//                ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
+//                        ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
+//                        : null);
+//        ParseObject saveSession = new ParseObject(getString(R.string.session_object));
+//        saveSession.put(getString(R.string.session_name), currentSession.getUserName());
+//        saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
+//        saveSession.put(getString(R.string.session_max_speed), currentSession.getMaxSpeed());
+//        saveSession.put(getString(R.string.session_average_speed), currentSession.getAverageSpeed());
+//        saveSession.put(getString(R.string.session_distance), currentSession.getDistance());
+//        saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
+//        saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
+//        saveSession.put(getString(R.string.session_sport_type), sportType.toString());
+//        saveSession.setACL(acl);
+//        saveSession.saveInBackground();
+
+        // set all to null
+        setVariablesToNull();
+
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
     private void setVariablesToNull() {
@@ -488,7 +496,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 fragment = null;
                 break;
             case R.id.nav_login_fragment:
-                fragment = null;
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)
                             .setMessage(getString(R.string.do_you_want_logout))
@@ -570,7 +577,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(leaderIntent);
                 break;
             case R.id.rate_app_fragment:
-//                fragment = new LeaderBoardFragment();
                 launchMarket();
                 break;
         }
@@ -629,17 +635,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Handle action button
         switch (item.getItemId()) {
-            case R.id.action_websearch:
-                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-                intent.putExtra(SearchManager.QUERY, "");
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-                }
+//            case R.id.action_websearch:
+//                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
+//                intent.putExtra(SearchManager.QUERY, "");
+//                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    startActivity(intent);
+//                } else {
+//                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
+//                }
+//                return true;
+            case R.id.action_about:
+                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+            case R.id.action_help:
+                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
                 return true;
             case R.id.action_logout:
                 logOutCurrentUser();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

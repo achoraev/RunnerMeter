@@ -111,6 +111,10 @@
     <string name="turn_on_data">Turn On Data</string>
     <string name="close">Close</string>
     <string name="twitter_email_not_present">not present</string>
+    <string name="my_account">My Account</string>
+    <string name="saving_session">Saving Session</string>
+    <string name="menu_about_application">About Application</string>
+    <string name="menu_help">Help</string>
 
     // facebook permissions
     <string-array name = "facePermissions">

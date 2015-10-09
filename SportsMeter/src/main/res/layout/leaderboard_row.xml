@@ -31,7 +31,7 @@
                    android:layout_marginRight="0dp"
                    android:id="@+id/runner"
                    android:contentDescription="@string/l_sess_image"
-                   android:src="@drawable/runner_logo"
+                   android:src="@drawable/icon_new"
                    android:layout_weight="0.40"/>
     </LinearLayout>
 

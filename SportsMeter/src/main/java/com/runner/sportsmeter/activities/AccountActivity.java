@@ -1,6 +1,7 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.HttpGetJson;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
 import org.apache.commons.io.IOUtils;
@@ -84,17 +86,19 @@ public class AccountActivity extends Activity {
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
             twitterImageViewPicture = new ImageView(AccountActivity.this);
+            twitterImageViewPicture.setId(R.id.image);
             twitterImageViewPicture.setMaxWidth(70);
             twitterImageViewPicture.setMaxHeight(70);
             replaceView(profilePic, twitterImageViewPicture);
 
-                    try {
-                        twitterImageUrl = getTwitterProfileImage();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        twitterImageUrl = getTwitterProfileImage();
+            startActivity(new Intent(AccountActivity.this, HttpGetJson.class));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
 //                    try {
 //                        twitterImageViewPicture.setImageURI(getTwitterProfileImage());
 //                    } catch (IOException e) {

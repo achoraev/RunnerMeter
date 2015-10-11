@@ -300,15 +300,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // todo open other intent
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
 
-        saveSessionIntent.putExtra("session_distance", sessionDistance);
-        saveSessionIntent.putExtra("session_time_diff", sessionTimeDiff);
-        saveSessionIntent.putExtra("current_max_speed", currentMaxSpeed);
-        saveSessionIntent.putExtra("average_speed", averageSpeed);
-        saveSessionIntent.putExtra("sport_type", sportType.toString());
+        Bundle saveBundle = new Bundle();
+        saveBundle.putDouble("session_distance", sessionDistance);
+        saveBundle.putDouble("session_time_diff", sessionTimeDiff);
+        saveBundle.putDouble("current_max_speed", currentMaxSpeed);
+        saveBundle.putDouble("average_speed", averageSpeed);
+        saveBundle.putString("sport_type", sportType.toString());
         if(sessionImagePath != null){
-            saveSessionIntent.putExtra("session_image_path", sessionImagePath);
+            saveBundle.putString("session_image_path", sessionImagePath);
         }
 
+        saveSessionIntent.putExtras(saveBundle);
         startActivity(saveSessionIntent);
 
 //        currentSession = new Session(

@@ -11,7 +11,7 @@ import com.runner.sportsmeter.models.Session;
 /**
  * Created by angelr on 09-Oct-15.
  */
-public class SaveSessionActivity extends Activity {
+public class  SaveSessionActivity extends Activity {
 
     private Session currentSession;
     private double sessionDistance;
@@ -30,6 +30,7 @@ public class SaveSessionActivity extends Activity {
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);
 
+        savedInstanceState = getIntent().getExtras();
         updateFromBundle(savedInstanceState);
 
         currentSession = new Session(
@@ -56,23 +57,25 @@ public class SaveSessionActivity extends Activity {
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {
-        if(savedInstanceState.getDouble("session_distance") != 0) {
-            sessionDistance = savedInstanceState.getDouble("session_distance");
-        }
-        if(savedInstanceState.getDouble("session_time_diff") != 0) {
-            sessionTimeDiff = savedInstanceState.getDouble("session_time_diff");
-        }
-        if(savedInstanceState.getDouble("current_max_speed") != 0) {
-            currentMaxSpeed = savedInstanceState.getDouble("current_max_speed");
-        }
-        if(savedInstanceState.getDouble("average_speed") != 0) {
-            averageSpeed = savedInstanceState.getDouble("average_speed");
-        }
-        if(savedInstanceState.getString("sport_type") != null) {
-            sportType = savedInstanceState.getString("sport_type");
-        }
-        if(savedInstanceState.getString("session_image_path") != null) {
-            sessionImagePath = savedInstanceState.getString("session_image_path");
+        if (savedInstanceState != null) {
+            if(savedInstanceState.keySet().contains("session_distance")) {
+                sessionDistance = savedInstanceState.getDouble("session_distance");
+            }
+            if(savedInstanceState.keySet().contains("session_time_diff")) {
+                sessionTimeDiff = savedInstanceState.getDouble("session_time_diff");
+            }
+            if(savedInstanceState.keySet().contains("current_max_speed")) {
+                currentMaxSpeed = savedInstanceState.getDouble("current_max_speed");
+            }
+            if(savedInstanceState.keySet().contains("average_speed")) {
+                averageSpeed = savedInstanceState.getDouble("average_speed");
+            }
+            if(savedInstanceState.keySet().contains("sport_type")) {
+                sportType = savedInstanceState.getString("sport_type");
+            }
+            if(savedInstanceState.keySet().contains("session_image_path")) {
+                sessionImagePath = savedInstanceState.getString("session_image_path");
+            }
         }
     }
 }

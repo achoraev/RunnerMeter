@@ -1,13 +1,14 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -39,7 +40,8 @@ public class AccountActivity extends Activity {
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
-    String facebookId;
+    String facebookId, twitterImageUrl;
+    ImageView twitterImageViewPicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +83,13 @@ public class AccountActivity extends Activity {
             facebookGraphMeRequestForUserInfo();
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
-            final ImageView twitterImageViewPicture = new ImageView(AccountActivity.this);
+            twitterImageViewPicture = new ImageView(AccountActivity.this);
             twitterImageViewPicture.setMaxWidth(70);
             twitterImageViewPicture.setMaxHeight(70);
             replaceView(profilePic, twitterImageViewPicture);
 
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
                     try {
-                        eMail.setText(getTwitterProfileImage());
+                        twitterImageUrl = getTwitterProfileImage();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -105,9 +104,10 @@ public class AccountActivity extends Activity {
 //                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
 //                        e.printStackTrace();
 //                    }
-                }
-            });
-            thread.start();
+
+            if (twitterImageUrl != null) {
+                twitterImageViewPicture.setImageURI(Uri.parse(twitterImageUrl));
+            }
         } else {
             eMail.setText(current.getEmail());
         }
@@ -133,7 +133,7 @@ public class AccountActivity extends Activity {
         String url = responseJson.get("profile_image_url").toString();
 
 //        Uri newUri = Uri.parse(url);
-        Toast.makeText(AccountActivity.this, url, Toast.LENGTH_LONG).show();
+//        Toast.makeText(AccountActivity.this, url, Toast.LENGTH_LONG).show();
 //        URL newUrl = null;
 //        try {
 //            newUrl = new URL(Url);

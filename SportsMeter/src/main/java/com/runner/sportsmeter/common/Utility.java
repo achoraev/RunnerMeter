@@ -18,10 +18,9 @@ import com.parse.ParseObject;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Session;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,11 +50,23 @@ public class Utility {
         }
     }
 
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(src).openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            return BitmapFactory.decodeStream(input);
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
+
     public static String saveToExternalStorage(Bitmap bitmapImage, Context cont) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/sport_meter_sessions");
         myDir.mkdirs();
-//        int n = new Random().nextInt(10000);
         String fileName = "img-" + new Date().getTime() + ".jpg";
         File file = new File(myDir, fileName);
         Log.i("file", "" + file);
@@ -71,13 +82,6 @@ public class Utility {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // other
-//        ContextWrapper cw = new ContextWrapper(cont);
-//        // path to /data/data/yourapp/app_data/imageDir
-//        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-//        // Create imageDir
-//        File mypath=new File(directory,"profile.jpg");
 
         return file.getAbsolutePath();
     }

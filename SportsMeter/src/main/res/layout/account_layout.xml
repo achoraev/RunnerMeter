@@ -20,13 +20,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="gone"
             facebook:preset_size="normal"/>
-    <!--<ProgressBar-->
-    <!--style="?android:attr/progressBarStyleSmall"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="20dp"-->
-    <!--android:id="@+id/progress_bar"-->
-    <!--android:layout_gravity="center_horizontal"/>-->
+    <ImageView android:layout_width="70dp"
+               android:layout_height="70dp"
+               android:id="@+id/twitter_image_view"/>
+    <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:id="@+id/progress_bar"
+            android:visibility="gone"
+            android:layout_gravity="center_horizontal"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

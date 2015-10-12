@@ -1,14 +1,15 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -19,11 +20,12 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.HttpGetJson;
+import com.runner.sportsmeter.common.JsonResponseHandler;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
@@ -31,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by angelr on 03-Sep-15.
@@ -38,7 +41,7 @@ import java.util.HashMap;
 public class AccountActivity extends Activity {
     private final HashMap accounts = new HashMap();
     ProfilePictureView profilePic;
-    //    ProgressBar progress;
+    ProgressBar progressBar;
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
@@ -51,7 +54,7 @@ public class AccountActivity extends Activity {
         setContentView(R.layout.account_layout);
 
         // init views
-//        progress = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         profilePic = (ProfilePictureView) findViewById(R.id.profile_picture);
         name = (TextView) findViewById(R.id.edit_name);
@@ -85,15 +88,14 @@ public class AccountActivity extends Activity {
             facebookGraphMeRequestForUserInfo();
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
-            twitterImageViewPicture = new ImageView(AccountActivity.this);
-            twitterImageViewPicture.setId(R.id.image);
-            twitterImageViewPicture.setMaxWidth(70);
-            twitterImageViewPicture.setMaxHeight(70);
-            replaceView(profilePic, twitterImageViewPicture);
+            twitterImageViewPicture = (ImageView) findViewById(R.id.twitter_image_view);
+//            twitterImageViewPicture.setMaxWidth(70);
+//            twitterImageViewPicture.setMaxHeight(70);
+//            replaceView(profilePic, twitterImageViewPicture);
 
 //                    try {
 //                        twitterImageUrl = getTwitterProfileImage();
-            startActivity(new Intent(AccountActivity.this, HttpGetJson.class));
+                    new HttpGetTask().execute();
 //                    } catch (IOException e) {
 //                        e.printStackTrace();
 //                    } catch (JSONException e) {
@@ -109,9 +111,9 @@ public class AccountActivity extends Activity {
 //                        e.printStackTrace();
 //                    }
 
-            if (twitterImageUrl != null) {
-                twitterImageViewPicture.setImageURI(Uri.parse(twitterImageUrl));
-            }
+//            if (twitterImageUrl != null) {
+//                twitterImageViewPicture.setImageURI(Uri.parse(twitterImageUrl));
+//            }
         } else {
             eMail.setText(current.getEmail());
         }
@@ -204,5 +206,44 @@ public class AccountActivity extends Activity {
                 currentUser.getEmail(),
                 (Boolean) currentUser.get("emailVerified"),
                 Utility.formatDate(currentUser.getCreatedAt()));
+    }
+
+    private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {
+
+        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+        private final String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
+                + screenName;
+
+        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+
+        @Override
+        protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            HttpGet request = new HttpGet(URL);
+            ParseTwitterUtils.getTwitter().signRequest(request);
+            JsonResponseHandler responseHandler = new JsonResponseHandler();
+            try {
+                return mClient.execute(request, responseHandler);
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<String> result) {
+//            if (null != mClient) {
+//                mClient.close();
+//            }
+
+            progressBar.setVisibility(View.GONE);
+            twitterImageViewPicture.setImageURI(Uri.parse(result.get(0)));
+        }
     }
 }

@@ -48,8 +48,6 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
             }
         });
 
-        new QueryMyBestResultsTask().execute();
-
         // for recycle
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
@@ -61,9 +59,30 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        ParseQueryMyBestResult();
+
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewLeaderBoard);
 //        new Utility().setupAdds(mAdView, this);
+    }
+
+    private void ParseQueryMyBestResult() {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
+        query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
+        query.orderByAscending(getString(R.string.session_time_per_kilometer));
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> sessions, ParseException e) {
+                if (e == null) {
+                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                    arrayOfSessions = new ArrayList<>();
+                    arrayOfSessions = Utility.convertFromParseObject(sessions);
+                    refreshListView();
+                } else {
+                    Log.e("session", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
@@ -71,14 +90,14 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
     }
 
-    private class QueryBestRunnersTask extends AsyncTask<Void,Void,Void> {
+    private class QueryBestRunnersTask extends AsyncTask<Void, Void, ArrayList<Session>> {
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             bar.setVisibility(View.VISIBLE);
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
+        protected ArrayList<Session> doInBackground(Void... arg0) {
             ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
             // todo make query by type of sport
             query.orderByAscending(getString(R.string.session_time_per_kilometer));
@@ -89,25 +108,25 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
                         Log.d("session", "Retrieved " + sessions.size() + " sessions");
                         arrayOfSessions = new ArrayList<>();
                         arrayOfSessions = Utility.convertFromParseObject(sessions);
-                        refreshListView();
+//                        refreshListView();
                     } else {
                         Log.e("session", "Error: " + e.getMessage());
                     }
                 }
             });
-            return null;
+            return arrayOfSessions;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(ArrayList<Session> result) {
             refreshListView();
             bar.setVisibility(View.GONE);
         }
     }
 
-    private class QueryMyBestResultsTask extends AsyncTask<Void,Void,Void> {
+    private class QueryMyBestResultsTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             bar.setVisibility(View.VISIBLE);
         }
 
@@ -123,7 +142,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
                         Log.d("session", "Retrieved " + sessions.size() + " sessions");
                         arrayOfSessions = new ArrayList<>();
                         arrayOfSessions = Utility.convertFromParseObject(sessions);
-                        refreshListView();
+//                        refreshListView();
                     } else {
                         Log.e("session", "Error: " + e.getMessage());
                     }
@@ -143,6 +162,6 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 //        adapter = new SessionAdapter(LeaderBoardActivity.this, R.layout.leaderboard_row, arrayOfSessions);
         mAdapter = new RecyclerAdapter(arrayOfSessions);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
     }
 }

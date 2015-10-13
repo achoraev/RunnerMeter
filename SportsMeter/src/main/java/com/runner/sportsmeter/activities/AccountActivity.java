@@ -45,8 +45,9 @@ public class AccountActivity extends Activity {
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
-    String facebookId, twitterImageUrl;
+    String facebookId, twitterImageUrl, twitterImagePath;
     ImageView twitterImageViewPicture;
+    Bitmap twitterBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,9 @@ public class AccountActivity extends Activity {
         eMail = (TextView) findViewById(R.id.edit_mail);
         isVerified = (TextView) findViewById(R.id.edit_is_verified);
         createdAt = (TextView) findViewById(R.id.edit_date);
-        closeBtn = (Button) findViewById(R.id.close_btn);
+        twitterImageViewPicture = (ImageView) findViewById(R.id.twitter_image_view);
 
+        closeBtn = (Button) findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +92,7 @@ public class AccountActivity extends Activity {
             facebookGraphMeRequestForUserInfo();
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
-            twitterImageViewPicture = (ImageView) findViewById(R.id.twitter_image_view);
+
 //            twitterImageViewPicture.setMaxWidth(70);
 //            twitterImageViewPicture.setMaxHeight(70);
 //            replaceView(profilePic, twitterImageViewPicture);
@@ -246,8 +248,14 @@ public class AccountActivity extends Activity {
 
             progressBar.setVisibility(View.GONE);
             twitterImageUrl = result.get(0);
-            Bitmap twitterBitmap = new Utility().getBitmapFromURL(twitterImageUrl);
-            String twitterImagePath = Utility.saveToExternalStorage(twitterBitmap, AccountActivity.this);
+            Thread netThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    twitterBitmap = new Utility().getBitmapFromURL(twitterImageUrl);
+                    twitterImagePath = Utility.saveToExternalStorage(twitterBitmap, AccountActivity.this);
+                }
+            });
+            netThread.start();
             twitterImageViewPicture.setImageBitmap(twitterBitmap);
         }
     }

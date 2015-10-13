@@ -1,7 +1,7 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -80,6 +80,8 @@ public class AccountActivity extends Activity {
 
         if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             facebookId = AccessToken.getCurrentAccessToken().getUserId();
+            twitterImageViewPicture.setVisibility(View.INVISIBLE);
+            profilePic.setVisibility(View.VISIBLE);
             profilePic.setProfileId(facebookId);
         }
         name.setText(current.getName());
@@ -211,7 +213,7 @@ public class AccountActivity extends Activity {
     private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {
 
         String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-        private final String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
+        String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
                 + screenName;
 
         AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
@@ -243,7 +245,10 @@ public class AccountActivity extends Activity {
 //            }
 
             progressBar.setVisibility(View.GONE);
-            twitterImageViewPicture.setImageURI(Uri.parse(result.get(0)));
+            twitterImageUrl = result.get(0);
+            Bitmap twitterBitmap = new Utility().getBitmapFromURL(twitterImageUrl);
+            String twitterImagePath = Utility.saveToExternalStorage(twitterBitmap, AccountActivity.this);
+            twitterImageViewPicture.setImageBitmap(twitterBitmap);
         }
     }
 }

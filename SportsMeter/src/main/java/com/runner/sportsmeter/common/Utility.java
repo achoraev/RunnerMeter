@@ -50,7 +50,7 @@ public class Utility {
         }
     }
 
-    public static Bitmap getBitmapFromURL(String src) {
+    public Bitmap getBitmapFromURL(String src) {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(src).openConnection();
             connection.setDoInput(true);
@@ -65,7 +65,7 @@ public class Utility {
 
     public static String saveToExternalStorage(Bitmap bitmapImage, Context cont) {
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/sport_meter_sessions");
+        File myDir = new File(root + "/sport_meter");
         myDir.mkdirs();
         String fileName = "img-" + new Date().getTime() + ".jpg";
         File file = new File(myDir, fileName);

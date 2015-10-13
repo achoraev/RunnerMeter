@@ -44,7 +44,8 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         bestRunners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new QueryBestRunnersTask().execute();
+                ParseQueryBestResultsTask();
+//                new QueryBestRunnersTask().execute();
             }
         });
 
@@ -66,7 +67,29 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 //        new Utility().setupAdds(mAdView, this);
     }
 
+    private void ParseQueryBestResultsTask() {
+        bar.setVisibility(View.VISIBLE);
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
+        // todo make query by type of sport
+        query.orderByAscending(getString(R.string.session_time_per_kilometer));
+        query.setLimit(15);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> sessions, ParseException e) {
+                if (e == null) {
+                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                    arrayOfSessions = new ArrayList<>();
+                    arrayOfSessions = Utility.convertFromParseObject(sessions);
+                    refreshListView();
+                    bar.setVisibility(View.GONE);
+                } else {
+                    Log.e("session", "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+
     private void ParseQueryMyBestResult() {
+        bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
         query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
@@ -78,6 +101,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
                     arrayOfSessions = new ArrayList<>();
                     arrayOfSessions = Utility.convertFromParseObject(sessions);
                     refreshListView();
+                    bar.setVisibility(View.GONE);
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
                 }
@@ -124,44 +148,10 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         }
     }
 
-    private class QueryMyBestResultsTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            bar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-            query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
-            query.orderByAscending(getString(R.string.session_time_per_kilometer));
-            query.setLimit(20);
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> sessions, ParseException e) {
-                    if (e == null) {
-                        Log.d("session", "Retrieved " + sessions.size() + " sessions");
-                        arrayOfSessions = new ArrayList<>();
-                        arrayOfSessions = Utility.convertFromParseObject(sessions);
-//                        refreshListView();
-                    } else {
-                        Log.e("session", "Error: " + e.getMessage());
-                    }
-                }
-            });
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            refreshListView();
-            bar.setVisibility(View.GONE);
-        }
-    }
-
     private void refreshListView() {
 //        adapter = new SessionAdapter(LeaderBoardActivity.this, R.layout.leaderboard_row, arrayOfSessions);
         mAdapter = new RecyclerAdapter(arrayOfSessions);
         mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
     }
 }

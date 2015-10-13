@@ -90,23 +90,22 @@ public class Utility {
         ArrayList<Session> arrayOfSessions = new ArrayList<>();
         for (ParseObject ses : sessions) {
             Session newSession = new Session(
-                    ses.getDouble(String.valueOf(R.string.session_distance)),
-                    ses.getDouble(String.valueOf(R.string.session_duration)),
-                    ses.getDouble(String.valueOf(R.string.session_max_speed)),
-                    ses.getDouble(String.valueOf(R.string.session_average_speed)),
-                    ses.getDouble(String.valueOf(R.string.session_time_per_kilometer)),
+                    ses.getDouble("distance"),
+                    ses.getDouble("duration"),
+                    ses.getDouble("maxSpeed"),
+                    ses.getDouble("averageSpeed"),
+                    ses.getDouble("timePerKilometer"),
                     Utility.formatDate(ses.getCreatedAt()),
                     ses.getParseUser("username"),
                     ses.getString("name"),
-                    ses.getString(String.valueOf(R.string.type_of_sport)) != null ? ses.getString(String.valueOf(R.string.type_of_sport)) : null);
+                    ses.getString("sportType"));
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;
     }
 
     public static String formatDate(Date createdAt) {
-        String formatted = new SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(createdAt);
-        return formatted;
+        return new SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(createdAt);
     }
 
     public static void hideKeyboard(View view, Context context) {

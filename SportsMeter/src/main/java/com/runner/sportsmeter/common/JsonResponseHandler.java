@@ -4,7 +4,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.impl.client.BasicResponseHandler;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by AMR on 11.10.2015 ã..
+ * Created by AMR on 11.10.2015 ..
  */
     public class JsonResponseHandler implements ResponseHandler<List<String>> {
 

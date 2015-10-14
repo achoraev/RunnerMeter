@@ -6,7 +6,6 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -19,13 +18,13 @@ import com.google.android.gms.ads.AdView;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
+import com.parse.signpost.http.HttpResponse;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.JsonResponseHandler;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
@@ -92,32 +91,7 @@ public class AccountActivity extends Activity {
             facebookGraphMeRequestForUserInfo();
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
-
-//            twitterImageViewPicture.setMaxWidth(70);
-//            twitterImageViewPicture.setMaxHeight(70);
-//            replaceView(profilePic, twitterImageViewPicture);
-
-//                    try {
-//                        twitterImageUrl = getTwitterProfileImage();
-                    new HttpGetTask().execute();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    try {
-//                        twitterImageViewPicture.setImageURI(getTwitterProfileImage());
-//                    } catch (IOException e) {
-//                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-//                        e.printStackTrace();
-//                    } catch (JSONException e) {
-//                        Toast.makeText(AccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-//                        e.printStackTrace();
-//                    }
-
-//            if (twitterImageUrl != null) {
-//                twitterImageViewPicture.setImageURI(Uri.parse(twitterImageUrl));
-//            }
+            new HttpGetTask().execute();
         } else {
             eMail.setText(current.getEmail());
         }
@@ -130,52 +104,22 @@ public class AccountActivity extends Activity {
     }
 
     private String getTwitterProfileImage() throws IOException, JSONException {
+        // 2
+//        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
+        // 1
         String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-//        HttpGet verifyGet = new HttpGet(
-//                "https://api.twitter.com/1.1/users/profile_banner.json?screen_name=" + screenName);
-//        HttpGet verifyGet = new HttpGet("http://twitter.com/" + screenName + "/profile_image?size=bigger");
-        HttpGet verifyGet = new HttpGet(
-                "https://api.twitter.com/1.1/users/show.json?screen_name=" + screenName);
-        ParseTwitterUtils.getTwitter().signRequest(verifyGet);
-        HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
-        JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
-//        JSONObject sizes = new JSONObject(responseJson.getString("sizes"));
-        String url = responseJson.get("profile_image_url").toString();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet verifyGetParse = new HttpGet(
+                "https://api.twitter.com/1.1/users/show.json?screen_name="
+                        + screenName);
+        ParseTwitterUtils.getTwitter().signRequest(verifyGetParse);
+        HttpResponse response = (HttpResponse) client.execute(verifyGetParse);
 
-//        Uri newUri = Uri.parse(url);
-//        Toast.makeText(AccountActivity.this, url, Toast.LENGTH_LONG).show();
-//        URL newUrl = null;
-//        try {
-//            newUrl = new URL(Url);
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Bitmap mIcon_val = null;
-//        try {
-//            mIcon_val = BitmapFactory.decodeStream(newUrl.openConnection().getInputStream());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        return url;
-    }
+//        HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
+//        JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
+//        String url = responseJson.get("profile_image_url").toString();
 
-    public void replaceView(View currentView, View newView) {
-        ViewGroup parent = (ViewGroup) currentView.getParent();
-        if (parent == null) {
-            return;
-        }
-        final int index = parent.indexOfChild(currentView);
-        removeView(currentView);
-        removeView(newView);
-        parent.addView(newView, index);
-    }
-
-    public void removeView(View view) {
-        ViewGroup parent = (ViewGroup) view.getParent();
-        if (parent != null) {
-            parent.removeView(view);
-        }
+        return response.toString();
     }
 
     private void facebookGraphMeRequestForUserInfo() {
@@ -248,6 +192,7 @@ public class AccountActivity extends Activity {
 
             progressBar.setVisibility(View.GONE);
             twitterImageUrl = result.get(0);
+            twitterImageUrl.replace("_normal", "_bigger");
             Thread netThread = new Thread(new Runnable() {
                 @Override
                 public void run() {

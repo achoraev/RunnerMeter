@@ -7,10 +7,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.parse.ParseACL;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Session;
+
+import java.util.Arrays;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -107,7 +110,9 @@ public class  SaveSessionActivity extends Activity {
     }
 
     private void postOnFacebookWall() {
-
+        ParseFacebookUtils.linkWithPublishPermissionsInBackground(
+                ParseUser.getCurrentUser(), SaveSessionActivity.this,
+                Arrays.asList("permissions"));
     }
 
     @Override

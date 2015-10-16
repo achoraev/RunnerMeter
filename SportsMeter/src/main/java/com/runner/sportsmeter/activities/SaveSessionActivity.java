@@ -1,6 +1,7 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,9 +12,11 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Session;
 
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -47,6 +50,7 @@ public class  SaveSessionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveParseSession();
+                finish();
             }
         });
 
@@ -76,7 +80,7 @@ public class  SaveSessionActivity extends Activity {
         saveMaxSpeed.setText(String.valueOf(currentSession.getMaxSpeed()));
         saveAvgSpeed.setText(String.valueOf(currentSession.getAverageSpeed()));
         saveTypeSport.setText(sportType);
-        saveCreatedAt.setText(String.valueOf(currentSession.getCreatedAt()));
+        saveCreatedAt.setText(Utility.formatDate(new Date()));
     }
 
     private void createCurrentSession() {
@@ -112,7 +116,8 @@ public class  SaveSessionActivity extends Activity {
     private void postOnFacebookWall() {
         ParseFacebookUtils.linkWithPublishPermissionsInBackground(
                 ParseUser.getCurrentUser(), SaveSessionActivity.this,
-                Arrays.asList("permissions"));
+                Arrays.asList("publish_actions"));
+        startActivity(new Intent(SaveSessionActivity.this, PostFacebookFragment.class));
     }
 
     @Override

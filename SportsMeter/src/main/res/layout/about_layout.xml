@@ -21,17 +21,17 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/company_address"
                   android:gravity="center_horizontal|bottom"/>
-        <Button
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Button"
                 android:id="@+id/company_email"
+                android:autoLink="web"
                 android:gravity="center_horizontal"/>
-        <Button
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Button"
                 android:id="@+id/company_facebook_page"
+                android:autoLink="web"
                 android:gravity="center_horizontal"/>
 
     </LinearLayout>

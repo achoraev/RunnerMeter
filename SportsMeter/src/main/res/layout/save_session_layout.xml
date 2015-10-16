@@ -121,7 +121,7 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:id="@+id/save_created_at"
                     android:text="Created"/>
         </LinearLayout>
@@ -131,19 +131,19 @@
                   android:layout_height="wrap_content"
                   android:orientation="horizontal">
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:text="NOT SAVE"
                 android:id="@+id/button_not_save"
                 android:layout_weight="1"/>
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:text="Post on Facebook and Save"
                 android:id="@+id/button_post_facebook"
                 android:layout_weight="1"/>
         <Button
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:text="SAVE"
                 android:id="@+id/button_save"

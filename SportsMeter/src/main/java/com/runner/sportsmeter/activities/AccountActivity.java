@@ -92,6 +92,13 @@ public class AccountActivity extends Activity {
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
             new HttpGetTask().execute();
+            try {
+                twitterImagePath = getTwitterProfileImage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else {
             eMail.setText(current.getEmail());
         }
@@ -105,9 +112,25 @@ public class AccountActivity extends Activity {
 
     private String getTwitterProfileImage() throws IOException, JSONException {
         // 2
+        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+        String url = "https://api.twitter.com/1.1/users/show.json?screen_name="
+                + screenName;
+
+//        ImageRequest request = new ImageRequest(url,
+//                new Response.Listener<Bitmap>() {
+//                    @Override
+//                    public void onResponse(Bitmap bitmap) {
+//                        twitterImageViewPicture.setImageBitmap(bitmap);
+//                    }
+//                }, 0, 0, null,
+//                new Response.ErrorListener() {
+//                    public void onErrorResponse(VolleyError error) {
+//                    }
+//                });
+//// Access the RequestQueue through your singleton class.
+//        MySingleton.getInstance(this).addToRequestQueue(request);
 //        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         // 1
-        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
         HttpClient client = new DefaultHttpClient();
         HttpGet verifyGetParse = new HttpGet(
                 "https://api.twitter.com/1.1/users/show.json?screen_name="
@@ -193,15 +216,15 @@ public class AccountActivity extends Activity {
             progressBar.setVisibility(View.GONE);
             twitterImageUrl = result.get(0);
             twitterImageUrl.replace("_normal", "_bigger");
-            Thread netThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    twitterBitmap = new Utility().getBitmapFromURL(twitterImageUrl);
-                    twitterImagePath = Utility.saveToExternalStorage(twitterBitmap, AccountActivity.this);
-                }
-            });
-            netThread.start();
-            twitterImageViewPicture.setImageBitmap(twitterBitmap);
+//            Thread netThread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    twitterBitmap = new Utility().getBitmapFromURL(twitterImageUrl);
+//                    twitterImagePath = Utility.saveToExternalStorage(twitterBitmap, AccountActivity.this);
+//                }
+//            });
+//            netThread.start();
+//            twitterImageViewPicture.setImageBitmap(twitterBitmap);
         }
     }
 }

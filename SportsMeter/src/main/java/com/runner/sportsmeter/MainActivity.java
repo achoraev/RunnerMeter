@@ -173,11 +173,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 if (!startButtonEnabled) {
                     startLogic();
                 } else {
+                    stopLogic();
                     if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
                     }
-
-                    stopLogic();
                 }
             }
         });
@@ -312,28 +311,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         saveSessionIntent.putExtras(saveBundle);
         startActivity(saveSessionIntent);
-
-//        currentSession = new Session(
-//                sessionDistance,
-//                sessionTimeDiff,
-//                currentMaxSpeed,
-//                averageSpeed,
-//                "",
-//                ParseUser.getCurrentUser(),
-//                ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
-//                        ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
-//                        : null);
-//        ParseObject saveSession = new ParseObject(getString(R.string.session_object));
-//        saveSession.put(getString(R.string.session_name), currentSession.getUserName());
-//        saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
-//        saveSession.put(getString(R.string.session_max_speed), currentSession.getMaxSpeed());
-//        saveSession.put(getString(R.string.session_average_speed), currentSession.getAverageSpeed());
-//        saveSession.put(getString(R.string.session_distance), currentSession.getDistance());
-//        saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
-//        saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
-//        saveSession.put(getString(R.string.session_sport_type), sportType.toString());
-//        saveSession.setACL(acl);
-//        saveSession.saveInBackground();
 
         // set all to null
         setVariablesToNull();

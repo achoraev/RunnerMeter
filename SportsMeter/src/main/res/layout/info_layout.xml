@@ -27,7 +27,8 @@
                     android:layout_height="wrap_content"
                     android:text="0 km"
                     android:textSize="20dp"
-                    android:gravity="center" android:textStyle="bold"/>
+                    android:gravity="center"
+                    android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -41,7 +42,8 @@
                     android:layout_height="wrap_content"
                     android:text="0 km/h"
                     android:textSize="20dp"
-                    android:gravity="center" android:textStyle="bold"/>
+                    android:gravity="center"
+                    android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="match_parent"
@@ -71,9 +73,10 @@
                     android:id="@+id/time_meter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="--:--:--"
+                    android:text="00:00:00"
                     android:textSize="20dp"
-                    android:gravity="center" android:textStyle="bold"/>
+                    android:gravity="center"
+                    android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

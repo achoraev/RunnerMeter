@@ -126,8 +126,6 @@
                 <action android:name="com.parse.push.intent.DELETE"/>
             </intent-filter>
         </receiver>
-
-        <service android:name="com.parse.PushService"/>
         <receiver android:name="com.parse.GcmBroadcastReceiver"
                   android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>

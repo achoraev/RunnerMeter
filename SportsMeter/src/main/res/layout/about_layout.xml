@@ -10,7 +10,9 @@
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/build_version"
-                  android:layout_gravity="center"/>
+                  android:layout_marginTop="30dp"
+                  android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:gravity="center_horizontal"/>
     </LinearLayout>
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
@@ -20,18 +22,21 @@
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/company_address"
+                  android:textAppearance="?android:attr/textAppearanceMedium"
                   android:gravity="center_horizontal|bottom"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_email"
                 android:autoLink="all"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_facebook_page"
                 android:autoLink="web"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"/>
 
     </LinearLayout>

@@ -115,9 +115,7 @@
     <string name="saving_session">Saving Session</string>
     <string name="menu_about_application">About Application</string>
     <string name="menu_help">Help</string>
-    <string name="app_address">46, str. Liaskovets, \n 1510, Sofia, Bulgaria</string>
-    <string name="app_facebook_page">https://www.facebook.com/sportmeter/</string>
-    <string name="app_version">"Version: "</string>
+    <string name="post_on_facebook">Post on facebook</string>
 
     // facebook permissions
     <string-array name = "facePermissions">

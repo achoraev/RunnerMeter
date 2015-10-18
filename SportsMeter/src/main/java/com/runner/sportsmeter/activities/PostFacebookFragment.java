@@ -27,10 +27,12 @@ public class PostFacebookFragment extends FragmentActivity {
 
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentTitle("Hello Facebook")
+                    .setContentTitle("Sport Meter")
+                            // todo set icon and custom
+//                    .setImageUrl()
                     .setContentDescription(
                             "The 'Hello Facebook' sample  showcases simple Facebook integration")
-                    .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                    .setContentUrl(Uri.parse("https://www.facebook.com/sportmeter/"))
                     .build();
 
             shareDialog.show(linkContent);
@@ -41,5 +43,6 @@ public class PostFacebookFragment extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        finish();
     }
 }

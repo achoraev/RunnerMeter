@@ -11,9 +11,9 @@ import com.runner.sportsmeter.R;
  */
 public class AboutActivity extends Activity {
 
-    private final String ADDRESS = getString(R.string.app_address);
-    private final String EMAIL = getString(R.string.app_email);
-    private final String FACEBOOK_PAGE = getString(R.string.app_facebook_page);
+    private final String ADDRESS = "46, str. Liaskovets, \\n 1510, Sofia, Bulgaria";
+    private final String EMAIL = "runner.meter@gmail.com";
+    private final String FACEBOOK_PAGE = "https://www.facebook.com/sportmeter/";
     TextView buildVersion, companyAddress, companyEmail, companyFacebookPage;
 
     @Override
@@ -26,7 +26,7 @@ public class AboutActivity extends Activity {
         companyEmail = (TextView) findViewById(R.id.company_email);
         companyFacebookPage = (TextView) findViewById(R.id.company_facebook_page);
 
-        buildVersion.setText(getString(R.string.app_version) + BuildConfig.VERSION_NAME);
+        buildVersion.setText("Version: " + BuildConfig.VERSION_NAME);
         companyAddress.setText(ADDRESS);
         companyEmail.setText(EMAIL);
         companyFacebookPage.setText(FACEBOOK_PAGE);

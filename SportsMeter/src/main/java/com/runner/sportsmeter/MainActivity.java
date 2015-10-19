@@ -297,7 +297,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             snapShotThread.start();
         }
 
-        // todo open other intent
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
 
         Bundle saveBundle = new Bundle();

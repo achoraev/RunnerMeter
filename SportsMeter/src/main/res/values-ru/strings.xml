@@ -1,0 +1,133 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Веб-поиск</string>
+    <string name="action_settings">Параметры</string>
+    <string name="action_about">О</string>
+    <string name="action_help">Справка</string>
+    // navigation menu
+    <string name="menu_leaderboard">Таблица лидеров</string>
+    <string name="menu_login">Логин</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="menu_account">Учетная запись</string>
+    <string name="menu_rate">Оцените этот app!</string>
+    // login/logout
+    <string name="action_logout">Выход</string>
+    <string name="successfully_logout">успешно вышли.</string>
+    <string name="msg_not_logged_in">не вошли в систему.</string>
+    <string name="already_logged_in">Вы уже зарегистрированы!</string>
+    <string name="do_you_want_logout">Вы хотите выйти?</string>
+    // common messages
+    <string name="ok">Хорошо</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="gps_not_available">GPS не имеется.</string>
+    <string name="app_not_available">К сожалению there\ в нет доступных веб-браузера</string>
+    <string name="press_back_again">Нажмите снова для выхода.</string>
+    <string name="need_internet_msg">Это приложение требуется доступ к сети Интернет!</string>
+    <string name="want_to_continue">Вы хотите продолжить?</string>
+    <string name="no_email_client_installed">Есть не почты клиентов установлена.</string>
+    <string name="unable_find_market_app">Не удается найти app рынка</string>
+    <string name="logged_in_as_guest">Вы вошли как гость</string>
+    <string name="connected_to_googleApi">Подключен к GoogleAPI</string>
+    <string name="no_internet">Нет подключение к Интернету</string>
+    <string name="no_net_message">Чтобы использовать приложение, вам нужно включить его.</string>
+    <string name="twitter_email_not_present">не присутствует</string>
+    // dialog messages
+    <string name="dialog_close_message">Закрыть сообщение</string>
+    <string name="dialog_see_details">Подробности см.</string>
+    <string name="turn_on_wifi">Включите Wifi</string>
+    <string name="turn_on_data">Включите данных</string>
+    <string name="close">Закрыть</string>
+    // other
+    <string name="guest">Гость</string>
+    <string name="welcome">«Добро пожаловать»</string>
+    // cookie message
+    <string name="cookies">Печенье</string>
+    <string name="cookie_policy">Мы используем идентификатор устройства, чтобы персонализировать содержание и объявления
+        для обеспечения функций, социальных
+        средства массовой информации и анализа трафика. Также поделиться со своим партнером таких идентификаторов и
+        другой информации с вашего устройства
+        социальные медиа, Реклама партнеров и партнеров для анализа.
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">Изображения сеанса</string>
+    <string name="l_time_per_km">Время / км:</string>
+    <string name="l_distance">Расстояние:</string>
+    <string name="l_duration">Продолжительность:</string>
+    <string name="l_max_speed">Максимальная скорость:</string>
+    <string name="l_average_speed">Средняя скорость:</string>
+    <string name="l_by_user">По:</string>
+    <string name="l_created_at">Размещено:</string>
+    // feedback
+    <string name="feedback_text">Ваш текст здесь...</string>
+    <string name="send_feedback">Отправьте отзыв:</string>
+    <string name="start_point">Начальная точка</string>
+    <string name="end_point">Конечная точка</string>
+    // labels
+    <string name="my_account">Мой счет</string>
+    <string name="saving_session">Сохранение сессии</string>
+    <string name="menu_about_application">О приложении</string>
+    <string name="menu_help">Справка</string>
+    <string name="post_on_facebook">Пост на facebook</string>
+
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+
+</resources>

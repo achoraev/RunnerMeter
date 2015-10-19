@@ -23,7 +23,7 @@
                   android:layout_height="115dp"
                   android:orientation="vertical"
                   android:layout_gravity="center_horizontal" android:weightSum="1">
-        <ImageView android:layout_height="70dp"
+        <ImageView android:layout_height="0dp"
                    android:layout_width="88dp"
                    android:layout_marginTop="10dp"
                    android:layout_marginBottom="10dp"
@@ -85,7 +85,7 @@
                 android:id="@+id/label_created"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/l_created_at"
+                android:text="@string/save_created_at"
                 android:layout_gravity="start"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>

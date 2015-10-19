@@ -39,40 +39,37 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/save_time_kilometer"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Time"/>
+                    android:text="@string/save_time"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="distance"/>
+                    android:text="@string/save_distance"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/save_distance"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Dist"/>
+                    android:textAppearance="?android:attr/textAppearanceLarge"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Duration"/>
+                    android:text="@string/save_duration"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/save_duration"
-                    android:text="Dur"/>
+                    android:id="@+id/save_duration"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="by"/>
+                    android:text="@string/save_by"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/save_username"
-                    android:text="User"/>
+                    android:id="@+id/save_username"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
@@ -84,46 +81,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="max speed"/>
+                    android:text="@string/save_max_speed"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/save_max_speed"
-                    android:text="Max"/>
+                    android:id="@+id/save_max_speed"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="average speed"/>
+                    android:text="@string/save_average_speed"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/save_average_speed"
-                    android:text="Avg"/>
+                    android:id="@+id/save_average_speed"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="type of sport"/>
+                    android:text="@string/save_type_of_sport"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/save_type_sport"
-                    android:text="Sport"/>
+                    android:id="@+id/save_type_sport"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="created at"/>
+                    android:text="@string/save_created_at"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:id="@+id/save_created_at"
-                    android:text="Created"/>
+                    android:id="@+id/save_created_at"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -133,19 +126,19 @@
         <Button
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="NOT SAVE"
+                android:text="@string/save_notsave_btn"
                 android:id="@+id/button_not_save"
                 android:layout_weight="1"/>
         <Button
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="Post on Facebook and Save"
+                android:text="@string/save_post_facebook_btn"
                 android:id="@+id/button_post_facebook"
                 android:layout_weight="1"/>
         <Button
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="SAVE"
+                android:text="@string/save_save_btn"
                 android:id="@+id/button_save"
                 android:layout_weight="1"/>
 

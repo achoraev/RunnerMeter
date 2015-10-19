@@ -8,14 +8,14 @@
     <TextView android:layout_height="25dp"
               android:layout_width="match_parent"
               android:text="@string/menu_leaderboard"
-              android:textSize="20dp"
+              android:textSize="20sp"
               android:gravity="center"
               android:layout_marginTop="30dp"/>
     <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Best runners"
-            android:textSize="20dp"
+            android:text="@string/leader_board_best_runners"
+            android:textSize="20sp"
             android:id="@+id/btn_best_runners"
             android:layout_gravity="center_horizontal"/>
     <ProgressBar

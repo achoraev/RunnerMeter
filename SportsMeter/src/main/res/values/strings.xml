@@ -49,15 +49,13 @@
     </string>
     // leaderboard row
     <string name="l_sess_image">Session image</string>
-    <string name="l_time_per_km">Time / km:</string>
     <string name="l_distance">Distance:</string>
     <string name="l_duration">Duration:</string>
     <string name="l_max_speed">Max Speed:</string>
     <string name="l_average_speed">Avg. Speed:</string>
     <string name="l_by_user">By:</string>
-    <string name="l_created_at">Created at:</string>
     // feedback
-    <string name="feedback_text">Your text here ...</string>
+    <string name="feedback_text">Your text here</string>
     <string name="send_feedback">Send Feedback:</string>
     <string name="start_point">Start point</string>
     <string name="end_point">End point</string>
@@ -67,7 +65,27 @@
     <string name="menu_about_application">About Application</string>
     <string name="menu_help">Help</string>
     <string name="post_on_facebook">Post on facebook</string>
-
+    <string name="account_page_label">Account Info</string>
+    <string name="leader_board_best_runners">Best runners</string>
+    // account
+    <string name="account_name_label">Your name:</string>
+    <string name="account_username_label">Username:</string>
+    <string name="account_email_label">E-mail address:</string>
+    <string name="account_verified_email">Verified e-mail:</string>
+    <string name="account_created_at">Created at:</string>
+    // save session
+    <string name="save_time">Time</string>
+    <string name="save_distance">distance</string>
+    <string name="save_duration">Duration</string>
+    <string name="save_by">by</string>
+    <string name="save_max_speed">max speed</string>
+    <string name="save_created_at">created at</string>
+    <string name="save_type_of_sport">type of sport</string>
+    <string name="save_average_speed">average speed</string>
+    // buttons
+    <string name="save_notsave_btn">NOT SAVE</string>
+    <string name="save_save_btn">SAVE</string>
+    <string name="save_post_facebook_btn">Post on Facebook and Save</string>
 
 
 
@@ -103,6 +121,7 @@
     <string name="session_distance">distance</string>
     <string name="session_duration">duration</string>
     <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
 
     // test device
     <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>

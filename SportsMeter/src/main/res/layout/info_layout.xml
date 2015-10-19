@@ -18,7 +18,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_marginTop="5dp"
-                    android:text="Distance"
+                    android:text="@string/l_distance"
                     android:gravity="center"
                     android:id="@+id/distance_label"/>
             <TextView
@@ -26,14 +26,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="0 km"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Average speed"
+                    android:text="@string/l_average_speed"
                     android:gravity="center"
                     android:id="@+id/speed_label"/>
             <TextView
@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="0 km/h"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:textStyle="bold"/>
         </LinearLayout>
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_marginTop="5dp"
-                    android:text="Duration"
+                    android:text="@string/l_duration"
                     android:gravity="center"
                     android:id="@+id/duration_label"/>
             <TextView
@@ -74,14 +74,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="00:00:00"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:textStyle="bold"/>
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Max speed"
+                    android:text="@string/l_max_speed"
                     android:gravity="center"
                     android:id="@+id/maxspeed_label"/>
             <TextView
@@ -89,10 +89,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="0 km/h"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:gravity="center"
-                    android:layout_gravity="left|bottom"
-                    android:autoText="false"
+                    android:layout_gravity="start|bottom"
                     android:textStyle="bold"
                     android:maxWidth="70dp"
                     android:nestedScrollingEnabled="false"/>

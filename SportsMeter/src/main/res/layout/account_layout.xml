@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Account Info"
+            android:text="@string/account_page_label"
             android:id="@+id/page_label"
             android:layout_gravity="center_horizontal"/>
     <com.facebook.login.widget.ProfilePictureView
@@ -36,21 +36,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Your name:"
+            android:text="@string/account_name_label"
             android:layout_gravity="center"
             android:id="@+id/label_name"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edit_name"
-            android:text="Test"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Username:"
+            android:text="@string/account_username_label"
             android:layout_gravity="center"
             android:id="@+id/label_username"/>
     <TextView
@@ -63,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="E-mail address:"
+            android:text="@string/account_email_label"
             android:layout_gravity="center"
             android:id="@+id/label_email"/>
     <TextView
@@ -76,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Verified e-mail:"
+            android:text="@string/account_verified_email"
             android:layout_gravity="center"
             android:id="@+id/label_verified"/>
     <TextView
@@ -89,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Created at:"
+            android:text="@string/account_created_at"
             android:layout_gravity="center"
             android:id="@+id/textView5"/>
     <TextView
@@ -101,7 +100,7 @@
     <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="@string/close"
             android:id="@+id/close_btn"
             android:layout_gravity="center"/>
 

@@ -30,7 +30,8 @@
                 android:id="@+id/company_email"
                 android:autoLink="all"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:gravity="center_horizontal"/>
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="15dp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -8,6 +8,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.runner.sportsmeter.R;
 
 /**
  * Created by angelr on 15-Oct-15.
@@ -27,12 +28,13 @@ public class PostFacebookFragment extends FragmentActivity {
 
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setContentTitle("Sport Meter")
+                    .setContentTitle(getString(R.string.app_name))
                             // todo set icon and custom
 //                    .setImageUrl()
                     .setContentDescription(
-                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
-                    .setContentUrl(Uri.parse("https://www.facebook.com/sportmeter/"))
+                            "The 'Hello Facebook' sample showcases simple Facebook integration")
+                    // todo post results
+                    .setContentUrl(Uri.parse(getString(R.string.facebook_page)))
                     .build();
 
             shareDialog.show(linkContent);

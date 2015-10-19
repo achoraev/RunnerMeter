@@ -11,7 +11,7 @@ import com.runner.sportsmeter.R;
  */
 public class AboutActivity extends Activity {
 
-    private final String ADDRESS = "46, str. Liaskovets, \\n 1510, Sofia, Bulgaria";
+    private final String ADDRESS = "46, str. Liaskovets, \n 1510, Sofia, Bulgaria";
     private final String EMAIL = "runner.meter@gmail.com";
     private final String FACEBOOK_PAGE = "https://www.facebook.com/sportmeter/";
     TextView buildVersion, companyAddress, companyEmail, companyFacebookPage;

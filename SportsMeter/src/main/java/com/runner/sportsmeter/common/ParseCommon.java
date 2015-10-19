@@ -47,11 +47,21 @@ public class ParseCommon {
     }
 
     public static void logOutUser(Context cont) {
+        String userName = getCurrentUserUsername() + " ";
         if (ParseUser.getCurrentUser() != null) {
-            Toast.makeText(cont, cont.getString(R.string.successfully_logout), Toast.LENGTH_SHORT).show();
+            Toast.makeText(cont, userName + cont.getString(R.string.successfully_logout), Toast.LENGTH_SHORT).show();
             ParseUser.logOutInBackground();
         } else {
-            Toast.makeText(cont, cont.getString(R.string.msg_not_logged_in), Toast.LENGTH_SHORT).show();
+            Toast.makeText(cont, userName + cont.getString(R.string.msg_not_logged_in), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private static String getCurrentUserUsername() {
+        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser()) ||
+                ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())){
+            return ParseUser.getCurrentUser().get("name").toString();
+        }else {
+            return ParseUser.getCurrentUser().getUsername();
         }
     }
 

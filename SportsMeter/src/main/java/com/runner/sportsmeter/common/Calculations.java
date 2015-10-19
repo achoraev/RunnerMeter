@@ -13,6 +13,15 @@ import java.util.Date;
  * Created by angelr on 29-Jul-15.
  */
 public class Calculations {
+
+    private static final int ONE_HUNDRED = 100;
+    private static final int SIXTY = 60;
+    private static final int TWENTY_FOUR = 24;
+    private static final int ONE_THOUSAND = 1000;
+    private static final int MAX_SPEED_RUNNER = 44;
+    private static final int MAX_SPEED_BIKER = 133;
+    private static final int MAX_SPEED_DRIVER = 350;
+
     private static double maxSpeed = 0;
 
     public static void setMaxSpeed(double speed) {
@@ -29,13 +38,13 @@ public class Calculations {
                 lastUpdatedCoord.longitude,
                 currentCoordinates.latitude,
                 currentCoordinates.longitude, result);
-        return (Math.round(result[0] * 100)) / 100;
+        return (Math.round(result[0] * ONE_HUNDRED)) / ONE_HUNDRED;
     }
 
     public static double calculateSpeed(Long time, Double distance) {
         double result = 0;
         if (time > 0) {
-            result = (distance / 1000) / (Double.valueOf(time) / (60 * 60 * 1000) % 24);
+            result = (distance / ONE_THOUSAND) / (Double.valueOf(time) / (SIXTY * SIXTY * ONE_THOUSAND) % TWENTY_FOUR);
             result = roundToTwoDigitsAfterDecimalPoint(result);
         }
         Log.d("time", String.valueOf(time));
@@ -62,20 +71,20 @@ public class Calculations {
     }
 
     public static String convertTimeToString(long diff) {
-        long diffSeconds = diff / 1000 % 60;
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
+        long diffSeconds = diff / ONE_THOUSAND % SIXTY;
+        long diffMinutes = diff / (SIXTY * ONE_THOUSAND) % SIXTY;
+        long diffHours = diff / (SIXTY * SIXTY * ONE_THOUSAND) % TWENTY_FOUR;
 
         return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
     }
 
     public static double calculateMaxSpeed(double currentSpeed, SportTypes runner) {
         if (currentSpeed > getMaxSpeed()) {
-            if (runner == SportTypes.runner && currentSpeed <= 44) {
+            if (runner == SportTypes.runner && currentSpeed <= MAX_SPEED_RUNNER) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (runner == SportTypes.biker && currentSpeed <= 133) {
+            } else if (runner == SportTypes.biker && currentSpeed <= MAX_SPEED_BIKER) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (runner == SportTypes.driver && currentSpeed <= 250) {
+            } else if (runner == SportTypes.driver && currentSpeed <= MAX_SPEED_DRIVER) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             }
         }
@@ -85,7 +94,7 @@ public class Calculations {
     }
 
     public static double roundToTwoDigitsAfterDecimalPoint(double in) {
-        double result = (Math.round(in * 100)) / 100.00;
+        double result = (Math.round(in * ONE_HUNDRED)) / 100.00;
         return result;
     }
 }

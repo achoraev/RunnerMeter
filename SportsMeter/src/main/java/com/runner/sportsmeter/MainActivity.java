@@ -148,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Bundle bundle = getIntent().getExtras();
         sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
-        Toast.makeText(this, sportType.toString(), Toast.LENGTH_LONG).show();
 
         updateValuesFromBundle(savedInstanceState);
 
@@ -231,8 +230,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 facebookId = AccessToken.getCurrentAccessToken().getUserId();
                 facebookProfilePicture.setProfileId(facebookId);
                 facebookProfilePicture.setCropped(true);
-            } else {
+            } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
                 setCurrentUserUsernameInHeader();
+            } else {
+                Toast.makeText(MainActivity.this, getString(R.string.logged_in_as_guest), Toast.LENGTH_LONG).show();
             }
         } else {
             showUsername.setText(getString(R.string.guest));
@@ -354,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             userName = currentUser.getUsername();
         }
         showUsername.setText(userName);
-        Toast.makeText(this, (getString(R.string.welcome) + userName), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.welcome) + userName, Toast.LENGTH_LONG).show();
     }
 
     private void setToolbarAndDrawer() {
@@ -528,7 +529,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             case R.id.nav_feedback_fragment:
 
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-//                emailIntent.setType("message/rfc822");
                 emailIntent.setData(Uri.parse("mailto:"));
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.app_email)});
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback));
@@ -543,12 +543,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 break;
             case R.id.nav_account_fragment:
-//                fragment = new AccountFragment();
                 Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
                 startActivity(accountIntent);
                 break;
             case R.id.nav_leaderboard_fragment:
-//                fragment = new LeaderBoardFragment();
                 Intent leaderIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
 //                Bundle bundle = new Bundle();
 //                bundle.putParcelableArrayList("list", arrayOfSessions);
@@ -657,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "Connected to GoogleApiClient");
-        Toast.makeText(this, "Connected to GoogleAPI", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.connected_to_googleApi), Toast.LENGTH_LONG).show();
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
@@ -856,7 +854,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
 //                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             } else {
-                // todo try to smooth this coordinates
 //                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 currentCoordinates = smoothLocation(currentLocation, currentLocation.getLatitude(), currentLocation.getLongitude());
                 startPointCoord = currentCoordinates;

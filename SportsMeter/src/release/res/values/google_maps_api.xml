@@ -1,11 +1,11 @@
 <resources>
     <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
     // parse
-    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
-    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="parse_app_id" translatable="false">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key" translatable="false">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
     // facebook
-    <string name="facebook_app_id">993071064060757</string>
+    <string name="facebook_app_id" translatable="false">993071064060757</string>
     // twitter
-    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
-    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+    <string name="twitter_consumer_key" translatable="false">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret" translatable="false">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
 </resources>

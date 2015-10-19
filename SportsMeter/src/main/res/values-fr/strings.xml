@@ -20,18 +20,18 @@
     <string name="ok">Bien</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
-    <string name="gps_not_available">GPS n'est pas disponible.</string>
+    <string name="gps_not_available">GPS n\'est pas disponible.</string>
     <string name="app_not_available">Désolé, there\ ne s aucun navigateur web disponible</string>
     <string name="press_back_again">Appuyez sur retour à la sortie.</string>
-    <string name="need_internet_msg">Cette application requiert un accès à internet !</string>
+    <string name="need_internet_msg">Cette application requiert un acces a internet !</string>
     <string name="want_to_continue">Voulez-vous continuer ?</string>
-    <string name="no_email_client_installed">Il n'y a aucun client de messagerie installé.</string>
-    <string name="unable_find_market_app">Impossible de trouver le marché app</string>
-    <string name="logged_in_as_guest">Vous êtes connecté en tant qu'invité</string>
+    <string name="no_email_client_installed">Il n\'y a aucun client de messagerie installé.</string>
+    <string name="unable_find_market_app">Impossible de trouver le marche app</string>
+    <string name="logged_in_as_guest">Vous etes connecte en tant qu\'invite</string>
     <string name="connected_to_googleApi">Connecté à GoogleAPI</string>
     <string name="no_internet">Pas de connexion internet</string>
-    <string name="no_net_message">Pour utiliser app, vous avez besoin de l'allumer.</string>
-    <string name="twitter_email_not_present">n'existe pas</string>
+    <string name="no_net_message">Pour utiliser app, vous avez besoin de l\'allumer.</string>
+    <string name="twitter_email_not_present">n\'existe pas</string>
     // dialog messages
     <string name="dialog_close_message">Message étroite</string>
     <string name="dialog_see_details">Voir les détails</string>
@@ -43,11 +43,11 @@
     <string name="welcome">« Bienvenue »</string>
     // cookie message
     <string name="cookies">Cookies</string>
-    <string name="cookie_policy">Nous utilisons l'identificateur de périphérique pour personnaliser le contenu et les
+    <string name="cookie_policy">Nous utilisons l\'identificateur de périphérique pour personnaliser le contenu et les
         annonces pour fournir des fonctions sociales
         médias et analyser le trafic. Également partager ces signes distinctifs et autres informations de votre appareil
         avec son partenaire
-        médias sociaux, publicité partenaires et partenaires pour l'analyse.
+        médias sociaux, publicité partenaires et partenaires pour l\'analyse.
     </string>
     // leaderboard row
     <string name="l_sess_image">Image de la session</string>
@@ -129,4 +129,10 @@
         <item>user_birthday</item>
         <item>user_likes</item>
     </string-array>
+    <string name="facebook_app_id">993071064060757</string>
+    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
+    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
 </resources>

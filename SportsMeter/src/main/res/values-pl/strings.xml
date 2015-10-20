@@ -21,7 +21,7 @@
     <string name="yes">Tak</string>
     <string name="no">Nr</string>
     <string name="gps_not_available">GPS nie jest dostępny.</string>
-    <string name="app_not_available">Przepraszamy There 's nie przeglądarki</string>
+    <string name="app_not_available">Przepraszamy nie przeglądarki</string>
     <string name="press_back_again">Naciśnij Wróć znowu do wyjścia.</string>
     <string name="need_internet_msg">Ta aplikacja wymaga dostępu do Internetu!</string>
     <string name="want_to_continue">Czy chcesz kontynuować?</string>

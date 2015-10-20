@@ -624,10 +624,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
                 startActivity(aboutIntent);
                 return true;
-            case R.id.action_help:
-                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
-                startActivity(helpIntent);
-                return true;
+//            case R.id.action_help:
+//                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+//                startActivity(helpIntent);
+//                return true;
             case R.id.action_logout:
                 logOutCurrentUser();
                 return true;

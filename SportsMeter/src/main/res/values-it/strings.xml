@@ -43,11 +43,11 @@
     <string name="welcome">Benvenuto</string>
     // cookie message
     <string name="cookies">Cookie</string>
-    <string name="cookie_policy">Usiamo l'identificatore del dispositivo per personalizzare i contenuti e gli annunci
+    <string name="cookie_policy">Usiamo l\'identificatore del dispositivo per personalizzare i contenuti e gli annunci
         per fornire funzioni di social
         media e analizzare il traffico. Anche condividere tali identificatori e altre informazioni dal dispositivo con
         il suo partner
-        social media, pubblicità partner e partner per l'analisi.
+        social media, pubblicità partner e partner per l\'analisi.
     </string>
     // leaderboard row
     <string name="l_sess_image">Immagine di sessione</string>
@@ -64,7 +64,7 @@
     // labels
     <string name="my_account">Il mio Account</string>
     <string name="saving_session">Salvataggio di sessione</string>
-    <string name="about_application">Sull'applicazione</string>
+    <string name="about_application">Sull\'applicazione</string>
     <string name="help_page">Guida</string>
     <string name="post_on_facebook">Postare su facebook</string>
     <string name="account_page_label">Info account</string>

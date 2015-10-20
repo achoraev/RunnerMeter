@@ -21,7 +21,7 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="gps_not_available">GPS no está disponible.</string>
-    <string name="app_not_available">Lo sentimos, there\ no 's ningún navegador web disponible</string>
+    <string name="app_not_available">Lo sentimos, no \'s ningún navegador web disponible</string>
     <string name="press_back_again">Presione nuevamente para salir.</string>
     <string name="need_internet_msg">Esta aplicación necesita acceso a internet!</string>
     <string name="want_to_continue">¿Desea continuar?</string>

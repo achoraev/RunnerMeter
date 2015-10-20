@@ -21,7 +21,7 @@
     <string name="yes">igen</string>
     <string name="no">nem</string>
     <string name="gps_not_available">GPS nem érhető el.</string>
-    <string name="app_not_available">Sajnáljuk, de 're meg nem elérhető web-böngésző</string>
+    <string name="app_not_available">Sajnáljuk, de \'re meg nem elérhető web-böngésző</string>
     <string name="press_back_again">A Back gomb megnyomásával újra kijárat.</string>
     <string name="need_internet_msg">Ez az alkalmazás az internet hozzáférésre van szüksége!</string>
     <string name="want_to_continue">Szeretné, hogy továbbra is?</string>

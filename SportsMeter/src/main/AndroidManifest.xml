@@ -63,10 +63,10 @@
                   android:label="@string/saving_session">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.AboutActivity"
-                  android:label="@string/menu_about_application">
+                  android:label="@string/about_application">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.HelpActivity"
-                  android:label="@string/menu_help">
+                  android:label="@string/help_page">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.PostFacebookFragment"
                   android:label="@string/post_on_facebook">

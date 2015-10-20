@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParsePush;
 import com.runner.sportsmeter.MainActivity;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.ParseCommon;
@@ -45,7 +46,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
         ParseCommon.createAnonymousUser();
         ParseCommon.logInGuestUser();
-//        ParsePush.subscribeInBackground();
+        ParsePush.subscribeInBackground("SportMeter");
 
         runnerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,27 +131,27 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     @Override
     public void onSwipe(int direction) {
-        String str = "";
-
-        switch (direction) {
-
-            case SimpleGestureFilter.SWIPE_RIGHT:
-                str = "Right";
-                startMainActivity(sportType);
-                break;
-            case SimpleGestureFilter.SWIPE_LEFT:
-                str = "Left";
-                startMainActivity(sportType);
-                break;
-            case SimpleGestureFilter.SWIPE_DOWN:
-                str = "Down";
-                break;
-            case SimpleGestureFilter.SWIPE_UP:
-                str = "Up";
-                break;
-
-        }
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+//        String str = "";
+//
+//        switch (direction) {
+//
+//            case SimpleGestureFilter.SWIPE_RIGHT:
+//                str = "Right";
+//                startMainActivity(sportType);
+//                break;
+//            case SimpleGestureFilter.SWIPE_LEFT:
+//                str = "Left";
+//                startMainActivity(sportType);
+//                break;
+//            case SimpleGestureFilter.SWIPE_DOWN:
+//                str = "Down";
+//                break;
+//            case SimpleGestureFilter.SWIPE_UP:
+//                str = "Up";
+//                break;
+//
+//        }
+//        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
     @Override

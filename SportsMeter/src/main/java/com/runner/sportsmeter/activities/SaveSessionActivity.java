@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * Created by angelr on 09-Oct-15.
  */
-public class  SaveSessionActivity extends Activity {
+public class SaveSessionActivity extends Activity {
 
     private Session currentSession;
     private double sessionDistance;
@@ -34,6 +34,7 @@ public class  SaveSessionActivity extends Activity {
             saveMaxSpeed, saveAvgSpeed, saveTypeSport, saveCreatedAt;
     private Button saveBtn, notSaveBtn, postOnFacebookBtn;
     private ImageView sessionScreenshot;
+    ParseObject saveSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,9 @@ public class  SaveSessionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveParseSession();
+                // todo check for logged user with facebook
                 postOnFacebookWall();
+                finish();
             }
         });
 
@@ -93,7 +96,8 @@ public class  SaveSessionActivity extends Activity {
                 ParseUser.getCurrentUser(),
                 ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
                         ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
-                        : null);
+                        : null,
+                sportType);
     }
 
     private void initializeViews() {
@@ -115,9 +119,14 @@ public class  SaveSessionActivity extends Activity {
 
     private void postOnFacebookWall() {
         ParseFacebookUtils.linkWithPublishPermissionsInBackground(
-                ParseUser.getCurrentUser(), SaveSessionActivity.this,
+                ParseUser.getCurrentUser(),
+                SaveSessionActivity.this,
                 Arrays.asList("publish_actions"));
-        startActivity(new Intent(SaveSessionActivity.this, PostFacebookFragment.class));
+        Intent postIntent = new Intent(SaveSessionActivity.this, PostFacebookFragment.class);
+        Bundle postBundle = new Bundle();
+        postBundle.putParcelable("Session", currentSession);
+        postIntent.putExtras(postBundle);
+        startActivity(postIntent);
     }
 
     @Override
@@ -131,7 +140,7 @@ public class  SaveSessionActivity extends Activity {
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);
 
-        ParseObject saveSession = new ParseObject(getString(R.string.session_object));
+        saveSession = new ParseObject(getString(R.string.session_object));
         saveSession.put(getString(R.string.session_name), currentSession.getUserName());
         saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
         saveSession.put(getString(R.string.session_max_speed), currentSession.getMaxSpeed());
@@ -139,29 +148,29 @@ public class  SaveSessionActivity extends Activity {
         saveSession.put(getString(R.string.session_distance), currentSession.getDistance());
         saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
         saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
-        saveSession.put(getString(R.string.session_sport_type), sportType);
+        saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
         saveSession.setACL(acl);
         saveSession.saveInBackground();
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            if(savedInstanceState.keySet().contains("session_distance")) {
+            if (savedInstanceState.keySet().contains("session_distance")) {
                 sessionDistance = savedInstanceState.getDouble("session_distance");
             }
-            if(savedInstanceState.keySet().contains("session_time_diff")) {
+            if (savedInstanceState.keySet().contains("session_time_diff")) {
                 sessionTimeDiff = savedInstanceState.getDouble("session_time_diff");
             }
-            if(savedInstanceState.keySet().contains("current_max_speed")) {
+            if (savedInstanceState.keySet().contains("current_max_speed")) {
                 currentMaxSpeed = savedInstanceState.getDouble("current_max_speed");
             }
-            if(savedInstanceState.keySet().contains("average_speed")) {
+            if (savedInstanceState.keySet().contains("average_speed")) {
                 averageSpeed = savedInstanceState.getDouble("average_speed");
             }
-            if(savedInstanceState.keySet().contains("sport_type")) {
+            if (savedInstanceState.keySet().contains("sport_type")) {
                 sportType = savedInstanceState.getString("sport_type");
             }
-            if(savedInstanceState.keySet().contains("session_image_path")) {
+            if (savedInstanceState.keySet().contains("session_image_path")) {
                 sessionImagePath = savedInstanceState.getString("session_image_path");
             }
         }

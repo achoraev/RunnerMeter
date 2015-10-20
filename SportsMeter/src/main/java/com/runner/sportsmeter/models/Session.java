@@ -35,11 +35,15 @@ public class Session implements Parcelable
         this.createdAt = createdAt;
     }
 
-    public Session(double distance, double duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser, String username) {
+    // use for save session
+    public Session(double distance, double duration, double maxSpeed, double averageSpeed,
+                   String createdAt, ParseUser currentUser, String username, String type) {
         this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
         this.userName = setUserName(username);
+        this.sportType = type;
     }
 
+    // use to convert from database
     public Session(double distance, double duration, double maxSpeed, double averageSpeed, double timePer,
                    String createdAt, ParseUser currentUser, String username, String type) {
         this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);

@@ -40,7 +40,7 @@
     <string name="close">Close</string>
     // other
     <string name="guest">Guest</string>
-    <string name="welcome">"Welcome "</string>
+    <string name="welcome">Welcome </string>
     // cookie message
     <string name="cookies">Cookies</string>
     <string name="cookie_policy">We use device identifier to personalize content and ads to provide functions of social
@@ -62,8 +62,8 @@
     // labels
     <string name="my_account">My Account</string>
     <string name="saving_session">Saving Session</string>
-    <string name="menu_about_application">About Application</string>
-    <string name="menu_help">Help</string>
+    <string name="about_application">About Application</string>
+    <string name="help_page">Help</string>
     <string name="post_on_facebook">Post on facebook</string>
     <string name="account_page_label">Account Info</string>
     <string name="leader_board_best_runners">Best runners</string>
@@ -85,7 +85,7 @@
     // buttons
     <string name="save_notsave_btn">NOT SAVE</string>
     <string name="save_save_btn">SAVE</string>
-    <string name="save_post_facebook_btn">Post on Facebook and Save</string>
+    <string name="save_post_facebook_btn">Post on Facebook</string>
 
 
 

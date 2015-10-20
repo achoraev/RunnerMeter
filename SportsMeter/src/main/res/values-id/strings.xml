@@ -1,0 +1,151 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Pencarian web</string>
+    <string name="action_settings">Pengaturan</string>
+    <string name="action_about">Tentang</string>
+    <string name="action_help">Tolong</string>
+    // navigation menu
+    <string name="menu_leaderboard">Leaderboard</string>
+    <string name="menu_login">Login</string>
+    <string name="feedback">Umpan balik</string>
+    <string name="menu_account">Akun</string>
+    <string name="menu_rate">Tingkat app ini!</string>
+    // login/logout
+    <string name="action_logout">Logout</string>
+    <string name="successfully_logout">berhasil log out.</string>
+    <string name="msg_not_logged_in">belum login.</string>
+    <string name="already_logged_in">Anda sudah masuk!</string>
+    <string name="do_you_want_logout">Apakah Anda ingin logout?</string>
+    // common messages
+    <string name="ok">Oke</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
+    <string name="gps_not_available">GPS tidak tersedia.</string>
+    <string name="app_not_available">Maaf, there\'s browser web tidak tersedia</string>
+    <string name="press_back_again">Tekan kembali lagi untuk keluar.</string>
+    <string name="need_internet_msg">Aplikasi ini membutuhkan akses ke internet!</string>
+    <string name="want_to_continue">Apakah Anda ingin melanjutkan?</string>
+    <string name="no_email_client_installed">Ada tidak ada klien email yang diinstal.</string>
+    <string name="unable_find_market_app">Tidak dapat menemukan aplikasi pasar</string>
+    <string name="logged_in_as_guest">Anda login sebagai tamu</string>
+    <string name="connected_to_googleApi">Terhubung ke GoogleAPI</string>
+    <string name="no_internet">Tidak ada koneksi internet</string>
+    <string name="no_net_message">Menggunakan app yang Anda butuhkan untuk menyalakannya.</string>
+    <string name="twitter_email_not_present">tidak ada</string>
+    // dialog messages
+    <string name="dialog_close_message">Dekat Pesan</string>
+    <string name="dialog_see_details">Lihat rincian</string>
+    <string name="turn_on_wifi">Menghidupkan Wifi</string>
+    <string name="turn_on_data">Aktifkan Data</string>
+    <string name="close">Tutup</string>
+    // other
+    <string name="guest">Tamu</string>
+    <string name="welcome">Selamat datang</string>
+    // cookie message
+    <string name="cookies">Cookie</string>
+    <string name="cookie_policy">Kami menggunakan pengenal perangkat untuk mempersonalisasi konten dan iklan untuk
+        menyediakan fungsi sosial
+        Media dan menganalisis lalu lintas. Juga berbagi pengidentifikasi tersebut dan informasi lainnya dari perangkat
+        Anda dengan mitra
+        media sosial, iklan mitra dan mitra untuk analisis.
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">Sesi foto</string>
+    <string name="l_distance">Jarak:</string>
+    <string name="l_duration">Durasi:</string>
+    <string name="l_max_speed">Kecepatan maksimum:</string>
+    <string name="l_average_speed">Kecepatan rata-rata:</string>
+    <string name="l_by_user">Oleh:</string>
+    // feedback
+    <string name="feedback_text">Teks Anda di sini</string>
+    <string name="send_feedback">Kirimkan umpan balik:</string>
+    <string name="start_point">Titik awal</string>
+    <string name="end_point">Titik akhir</string>
+    // labels
+    <string name="my_account">Account saya</string>
+    <string name="saving_session">Menyimpan sesi</string>
+    <string name="about_application">Tentang aplikasi</string>
+    <string name="help_page">Tolong</string>
+    <string name="post_on_facebook">Posting di facebook</string>
+    <string name="account_page_label">Info Akun</string>
+    <string name="leader_board_best_runners">Terbaik pelari</string>
+    // account
+    <string name="account_name_label">Namamu:</string>
+    <string name="account_username_label">Nama pengguna:</string>
+    <string name="account_email_label">Alamat e-mail:</string>
+    <string name="account_verified_email">Diverifikasi e-mail:</string>
+    <string name="account_created_at">Dibuat pada:</string>
+    // save session
+    <string name="save_time">Waktu</string>
+    <string name="save_distance">jarak</string>
+    <string name="save_duration">Durasi</string>
+    <string name="save_by">oleh</string>
+    <string name="save_max_speed">kecepatan maks</string>
+    <string name="save_created_at">dibuat pada</string>
+    <string name="save_type_of_sport">jenis olahraga</string>
+    <string name="save_average_speed">kecepatan rata-rata</string>
+    // buttons
+    <string name="save_notsave_btn">TIDAK SIMPAN</string>
+    <string name="save_save_btn">SIMPAN</string>
+    <string name="save_post_facebook_btn">Posting di Facebook</string>
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+</resources>

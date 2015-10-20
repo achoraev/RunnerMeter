@@ -1,0 +1,158 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Búsqueda en la web</string>
+    <string name="action_settings">Configuración</string>
+    <string name="action_about">Acerca de</string>
+    <string name="action_help">Ayuda</string>
+    // navigation menu
+    <string name="menu_leaderboard">Tabla de posiciones</string>
+    <string name="menu_login">Inicio de sesión</string>
+    <string name="feedback">Comentarios</string>
+    <string name="menu_account">Cuenta</string>
+    <string name="menu_rate">La tarifa esta aplicación!</string>
+    // login/logout
+    <string name="action_logout">Cierre de sesión</string>
+    <string name="successfully_logout">registrado con éxito hacia fuera.</string>
+    <string name="msg_not_logged_in">no iniciar sesión.</string>
+    <string name="already_logged_in">Ya está conectado!</string>
+    <string name="do_you_want_logout">¿Desea salir?</string>
+    // common messages
+    <string name="ok">Vale</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="gps_not_available">GPS no está disponible.</string>
+    <string name="app_not_available">Lo sentimos, there\ no 's ningún navegador web disponible</string>
+    <string name="press_back_again">Presione nuevamente para salir.</string>
+    <string name="need_internet_msg">Esta aplicación necesita acceso a internet!</string>
+    <string name="want_to_continue">¿Desea continuar?</string>
+    <string name="no_email_client_installed">No hay correo electrónico clientes instalados.</string>
+    <string name="unable_find_market_app">No se puede encontrar la aplicación market</string>
+    <string name="logged_in_as_guest">Estas conectado como invitado</string>
+    <string name="connected_to_googleApi">Conectado a GoogleAPI</string>
+    <string name="no_internet">No hay conexión a internet</string>
+    <string name="no_net_message">Para utilizar usted necesita para activar la aplicación.</string>
+    <string name="twitter_email_not_present">no presente</string>
+    // dialog messages
+    <string name="dialog_close_message">Mensaje de cierre</string>
+    <string name="dialog_see_details">Ver detalles</string>
+    <string name="turn_on_wifi">Activar Wifi</string>
+    <string name="turn_on_data">Activar datos</string>
+    <string name="close">Cerrar</string>
+    // other
+    <string name="guest">Huésped</string>
+    <string name="welcome">Bienvenida</string>
+    // cookie message
+    <string name="cookies">Galletas</string>
+    <string name="cookie_policy">Usamos el identificador de dispositivo para personalizar el contenido y anuncios para
+        proporcionar funciones de social
+        los medios de comunicación y analizar el tráfico. También compartir dichos identificadores y otra información
+        desde su dispositivo con su pareja
+        medios sociales, publicidad, socios y asociados para el análisis.
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">Imagen de sesión</string>
+    <string name="l_distance">Distancia:</string>
+    <string name="l_duration">Duración:</string>
+    <string name="l_max_speed">Velocidad máxima:</string>
+    <string name="l_average_speed">Velocidad promedio:</string>
+    <string name="l_by_user">Por:</string>
+    // feedback
+    <string name="feedback_text">Su texto aquí</string>
+    <string name="send_feedback">Enviar comentarios:</string>
+    <string name="start_point">Punto de partida</string>
+    <string name="end_point">Punto final</string>
+    // labels
+    <string name="my_account">Mi cuenta</string>
+    <string name="saving_session">Guardar sesión</string>
+    <string name="about_application">Acerca de la aplicación</string>
+    <string name="help_page">Ayuda</string>
+    <string name="post_on_facebook">Publicar en facebook</string>
+    <string name="account_page_label">Información de cuenta</string>
+    <string name="leader_board_best_runners">Mejores corredores</string>
+    // account
+    <string name="account_name_label">Te llamas:</string>
+    <string name="account_username_label">Nombre de usuario:</string>
+    <string name="account_email_label">Dirección de correo electrónico:</string>
+    <string name="account_verified_email">Correo electrónico verificado:</string>
+    <string name="account_created_at">Creado en:</string>
+    // save session
+    <string name="save_time">Tiempo</string>
+    <string name="save_distance">distancia</string>
+    <string name="save_duration">Duración</string>
+    <string name="save_by">por</string>
+    <string name="save_max_speed">velocidad máxima</string>
+    <string name="save_created_at">creado en el</string>
+    <string name="save_type_of_sport">tipo de deporte</string>
+    <string name="save_average_speed">velocidad media</string>
+    // buttons
+    <string name="save_notsave_btn">NO GUARDAR</string>
+    <string name="save_save_btn">GUARDAR</string>
+    <string name="save_post_facebook_btn">Post en Facebook</string>
+
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+    <string name="facebook_app_id">993071064060757</string>
+    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
+    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+</resources>

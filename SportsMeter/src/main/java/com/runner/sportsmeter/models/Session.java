@@ -124,6 +124,7 @@ public class Session implements Parcelable
         dest.writeDouble(timePerKilometer);
         dest.writeString(createdAt);
         dest.writeString(userName);
+        dest.writeString(sportType);
     }
 
     public static final Parcelable.Creator<Session> CREATOR
@@ -145,5 +146,6 @@ public class Session implements Parcelable
         timePerKilometer = in.readDouble();
         createdAt = in.readString();
         userName = in.readString();
+        sportType = in.readString();
     }
 }

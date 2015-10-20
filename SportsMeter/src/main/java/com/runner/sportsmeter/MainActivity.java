@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             userName = currentUser.getUsername();
         }
         showUsername.setText(userName);
-        Toast.makeText(this, getString(R.string.welcome) + userName, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.welcome) + " " + userName, Toast.LENGTH_LONG).show();
     }
 
     private void setToolbarAndDrawer() {

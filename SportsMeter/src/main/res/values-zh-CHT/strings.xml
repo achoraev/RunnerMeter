@@ -1,0 +1,149 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Web 搜索</string>
+    <string name="action_settings">設置</string>
+    <string name="action_about">關於</string>
+    <string name="action_help">説明</string>
+    // navigation menu
+    <string name="menu_leaderboard">排行榜</string>
+    <string name="menu_login">登錄</string>
+    <string name="feedback">回饋</string>
+    <string name="menu_account">帳戶</string>
+    <string name="menu_rate">評價這個應用程式!</string>
+    // login/logout
+    <string name="action_logout">登出</string>
+    <string name="successfully_logout">已成功登出。</string>
+    <string name="msg_not_logged_in">沒有登錄。</string>
+    <string name="already_logged_in">您已經登錄!</string>
+    <string name="do_you_want_logout">你想去登出嗎?</string>
+    // common messages
+    <string name="ok">還行</string>
+    <string name="yes">是啊</string>
+    <string name="no">沒有</string>
+    <string name="gps_not_available">沒有可供選擇的 GPS。</string>
+    <string name="app_not_available">對不起，採用箍筋的沒有可用的 web 瀏覽器</string>
+    <string name="press_back_again">按退出再回。</string>
+    <string name="need_internet_msg">此應用程式需要訪問互聯網!</string>
+    <string name="want_to_continue">你想要繼續嗎?</string>
+    <string name="no_email_client_installed">沒有電子郵件用戶端安裝。</string>
+    <string name="unable_find_market_app">無法找到市場的應用程式</string>
+    <string name="logged_in_as_guest">作為來賓登錄</string>
+    <string name="connected_to_googleApi">連接到 GoogleAPI</string>
+    <string name="no_internet">沒有互聯網連接</string>
+    <string name="no_net_message">你需要使用應用程式打開它。</string>
+    <string name="twitter_email_not_present">不存在</string>
+    // dialog messages
+    <string name="dialog_close_message">關閉消息</string>
+    <string name="dialog_see_details">查看詳細資訊</string>
+    <string name="turn_on_wifi">打開 wifi 上網</string>
+    <string name="turn_on_data">打開資料</string>
+    <string name="close">關閉</string>
+    // other
+    <string name="guest">客人</string>
+    <string name="welcome">歡迎</string>
+    // cookie message
+    <string name="cookies">餅乾</string>
+    <string name="cookie_policy">我們使用設備識別碼來個人化內容和廣告提供的社會功能
+        媒體和分析交通。也與它的夥伴分享這樣的識別碼和其他資訊從您的設備
+        社會媒體，廣告合作夥伴和合作夥伴進行分析。
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">會議圖像</string>
+    <string name="l_distance">距離:</string>
+    <string name="l_duration">持續時間:</string>
+    <string name="l_max_speed">最大速度:</string>
+    <string name="l_average_speed">平均速度:</string>
+    <string name="l_by_user">由:</string>
+    // feedback
+    <string name="feedback_text">此處輸入文字</string>
+    <string name="send_feedback">發送回饋意見:</string>
+    <string name="start_point">起始點</string>
+    <string name="end_point">終結點</string>
+    // labels
+    <string name="my_account">我的帳戶</string>
+    <string name="saving_session">保存會話</string>
+    <string name="about_application">有關應用程式</string>
+    <string name="help_page">説明</string>
+    <string name="post_on_facebook">在 facebook 上張貼</string>
+    <string name="account_page_label">帳戶資訊</string>
+    <string name="leader_board_best_runners">最好的選手</string>
+    // account
+    <string name="account_name_label">您的姓名：</string>
+    <string name="account_username_label">使用者名:</string>
+    <string name="account_email_label">電子郵件地址:</string>
+    <string name="account_verified_email">已驗證電子郵件:</string>
+    <string name="account_created_at">創建于:</string>
+    // save session
+    <string name="save_time">時間</string>
+    <string name="save_distance">距離</string>
+    <string name="save_duration">持續時間</string>
+    <string name="save_by">通過</string>
+    <string name="save_max_speed">最大速度</string>
+    <string name="save_created_at">在創建</string>
+    <string name="save_type_of_sport">類型的運動</string>
+    <string name="save_average_speed">平均速度</string>
+    // buttons
+    <string name="save_notsave_btn">不保存</string>
+    <string name="save_save_btn">保存</string>
+    <string name="save_post_facebook_btn">在 Facebook 上的帖子</string>
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+</resources>

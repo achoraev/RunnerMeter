@@ -1,0 +1,157 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Webes keresés</string>
+    <string name="action_settings">Beállítások</string>
+    <string name="action_about">Körülbelül</string>
+    <string name="action_help">segítség</string>
+    // navigation menu
+    <string name="menu_leaderboard">Ranglista</string>
+    <string name="menu_login">Bejelentkezés</string>
+    <string name="feedback">Visszajelzés</string>
+    <string name="menu_account">Számla</string>
+    <string name="menu_rate">Arány ez app!</string>
+    // login/logout
+    <string name="action_logout">Kijelentkezés</string>
+    <string name="successfully_logout">sikeresen kijelentkezett.</string>
+    <string name="msg_not_logged_in">nem vagy bejelentkezve.</string>
+    <string name="already_logged_in">Már bejelentkezett!</string>
+    <string name="do_you_want_logout">Szeretné kilépés?</string>
+    // common messages
+    <string name="ok">oké</string>
+    <string name="yes">igen</string>
+    <string name="no">nem</string>
+    <string name="gps_not_available">GPS nem érhető el.</string>
+    <string name="app_not_available">Sajnáljuk, de 're meg nem elérhető web-böngésző</string>
+    <string name="press_back_again">A Back gomb megnyomásával újra kijárat.</string>
+    <string name="need_internet_msg">Ez az alkalmazás az internet hozzáférésre van szüksége!</string>
+    <string name="want_to_continue">Szeretné, hogy továbbra is?</string>
+    <string name="no_email_client_installed">Vannak nem elektronikus levél ügyfelek telepítése.</string>
+    <string name="unable_find_market_app">Nem található a piac app</string>
+    <string name="logged_in_as_guest">Vendégként bejelentkezve</string>
+    <string name="connected_to_googleApi">Kapcsolódó GoogleAPI</string>
+    <string name="no_internet">Nincs internet-kapcsolat</string>
+    <string name="no_net_message">Használatához be kell kapcsolnia app.</string>
+    <string name="twitter_email_not_present">nincs jelen</string>
+    // dialog messages
+    <string name="dialog_close_message">Bezárási üzenet</string>
+    <string name="dialog_see_details">Részletek</string>
+    <string name="turn_on_wifi">Kapcsolja be a Wifi</string>
+    <string name="turn_on_data">Kapcsolja be a adatok</string>
+    <string name="close">Zár</string>
+    // other
+    <string name="guest">Az értékeléseket</string>
+    <string name="welcome">üdvözlet</string>
+    // cookie message
+    <string name="cookies">Cookie-k</string>
+    <string name="cookie_policy">Eszköz azonosító segítségével személyre a tartalmakat és a hirdetéseket a társadalmi
+        funkciók biztosítására
+        média és elemezheti a forgalom. A partner is megoszthatja keretein belül ilyen azonosítókat és egyéb
+        információkat az eszközről
+        szociális média, a reklám partnerek és a partnerek elemzésre.
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">Munkamenet-kép</string>
+    <string name="l_distance">Távolság:</string>
+    <string name="l_duration">Időtartam:</string>
+    <string name="l_max_speed">Maximális sebesség:</string>
+    <string name="l_average_speed">Átlag sebesség:</string>
+    <string name="l_by_user">Által:</string>
+    // feedback
+    <string name="feedback_text">A szöveg itt</string>
+    <string name="send_feedback">Visszajelzés küldése:</string>
+    <string name="start_point">Kiindulási pont</string>
+    <string name="end_point">Végpont</string>
+    // labels
+    <string name="my_account">Az én-m számla</string>
+    <string name="saving_session">Munkamenet mentése</string>
+    <string name="about_application">Alkalmazásról</string>
+    <string name="help_page">segítség</string>
+    <string name="post_on_facebook">Post a Facebook-on</string>
+    <string name="account_page_label">Fiók információ</string>
+    <string name="leader_board_best_runners">Legjobb futók</string>
+    // account
+    <string name="account_name_label">a neved:</string>
+    <string name="account_username_label">Felhasználónév:</string>
+    <string name="account_email_label">E-mail cím:</string>
+    <string name="account_verified_email">Ellenőrzött e-mail:</string>
+    <string name="account_created_at">Készítette:</string>
+    // save session
+    <string name="save_time">Idő</string>
+    <string name="save_distance">távolság</string>
+    <string name="save_duration">Időtartama</string>
+    <string name="save_by">által</string>
+    <string name="save_max_speed">max sebesség</string>
+    <string name="save_created_at">készítette:</string>
+    <string name="save_type_of_sport">sportág</string>
+    <string name="save_average_speed">Átlagsebesség</string>
+    // buttons
+    <string name="save_notsave_btn">NEM MENTHETŐ</string>
+    <string name="save_save_btn">MENTÉS</string>
+    <string name="save_post_facebook_btn">Post a Facebook-on</string>
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+    <string name="facebook_app_id">993071064060757</string>
+    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
+    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+</resources>

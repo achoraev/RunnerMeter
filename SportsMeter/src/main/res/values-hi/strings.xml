@@ -1,0 +1,157 @@
+<resources>
+    // right menu
+    <string name="action_websearch">वेब खोज</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="action_about">के बारे में</string>
+    <string name="action_help">मदद</string>
+    // navigation menu
+    <string name="menu_leaderboard">लीडरबोर्ड</string>
+    <string name="menu_login">लॉगिन</string>
+    <string name="feedback">आपके सुझाव</string>
+    <string name="menu_account">खाता</string>
+    <string name="menu_rate">दर इस app!</string>
+    // login/logout
+    <string name="action_logout">लॉग आउट</string>
+    <string name="successfully_logout">सफलतापूर्वक लॉग आउट।</string>
+    <string name="msg_not_logged_in">लॉग इन नहीं।</string>
+    <string name="already_logged_in">आप पहले ही लॉग ऑन हैं!</string>
+    <string name="do_you_want_logout">आप लॉग आउट करना चाहते हैं?</string>
+    // common messages
+    <string name="ok">ठीक है</string>
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+    <string name="gps_not_available">जीपीएस उपलब्ध नहीं है।</string>
+    <string name="app_not_available">क्षमा करें, कोई वेब ब्राउज़र उपलब्ध there\ है</string>
+    <string name="press_back_again">वापस फिर से बाहर निकलें करने के लिए दबाएँ।</string>
+    <string name="need_internet_msg">यह अनुप्रयोग इंटरनेट का उपयोग की जरूरत है!</string>
+    <string name="want_to_continue">क्या आप जारी रखना चाहेंगे?</string>
+    <string name="no_email_client_installed">वहाँ कोई ईमेल ग्राहकों के स्थापित कर रहे हैं।</string>
+    <string name="unable_find_market_app">बाजार app मिल करने में असमर्थ</string>
+    <string name="logged_in_as_guest">आप अतिथि के रूप में में लॉग इन कर रहे हैं</string>
+    <string name="connected_to_googleApi">GoogleAPI करने के लिए कनेक्ट</string>
+    <string name="no_internet">कोई इंटरनेट कनेक्शन</string>
+    <string name="no_net_message">App का उपयोग करने के लिए आप इसे चालू करने के लिए की जरूरत है।</string>
+    <string name="twitter_email_not_present">उपस्थित नहीं</string>
+    // dialog messages
+    <string name="dialog_close_message">बंद करें संदेश</string>
+    <string name="dialog_see_details">विवरण देखें</string>
+    <string name="turn_on_wifi">वाईफ़ाई पर बारी</string>
+    <string name="turn_on_data">डेटा पर चालू करें</string>
+    <string name="close">बंद करें</string>
+    // other
+    <string name="guest">अतिथि</string>
+    <string name="welcome">स्वागत है</string>
+    // cookie message
+    <string name="cookies">कुकीज़</string>
+    <string name="cookie_policy">हम सामग्री और सामाजिक के कार्य उपलब्ध कराने के लिए विज्ञापनों को वैयक्तिकृत करने के लिए
+        डिवाइस पहचानकर्ता का उपयोग करें
+        मीडिया और यातायात का विश्लेषण। भी ऐसी identifiers और अन्य जानकारी अपनी डिवाइस से अपने साथी के साथ साझा करें
+        सामाजिक मीडिया, विज्ञापन भागीदारों और विश्लेषण के लिए भागीदारों।
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">सत्र छवि</string>
+    <string name="l_distance">दूरी:</string>
+    <string name="l_duration">अवधि:</string>
+    <string name="l_max_speed">अधिकतम स्पीड:</string>
+    <string name="l_average_speed">औसत गति:</string>
+    <string name="l_by_user">द्वारा:</string>
+    // feedback
+    <string name="feedback_text">आपका पाठ यहाँ</string>
+    <string name="send_feedback">फीडबैक भेजें:</string>
+    <string name="start_point">प्रारंभ बिंदु</string>
+    <string name="end_point">अंत बिंदु</string>
+    // labels
+    <string name="my_account">मेरा खाता</string>
+    <string name="saving_session">सत्र की बचत</string>
+    <string name="about_application">आवेदन के बारे में</string>
+    <string name="help_page">मदद</string>
+    <string name="post_on_facebook">फेसबुक पर पोस्ट</string>
+    <string name="account_page_label">खाता जानकारी</string>
+    <string name="leader_board_best_runners">सर्वश्रेष्ठ धावकों</string>
+    // account
+    <string name="account_name_label">तुम्हारा नाम:</string>
+    <string name="account_username_label">उपयोगकर्ता नाम:</string>
+    <string name="account_email_label">ई-मेल पता:</string>
+    <string name="account_verified_email">ई-मेल सत्यापित:</string>
+    <string name="account_created_at">पर बनाया गया:</string>
+    // save session
+    <string name="save_time">समय</string>
+    <string name="save_distance">दूरी</string>
+    <string name="save_duration">अवधि</string>
+    <string name="save_by">द्वारा</string>
+    <string name="save_max_speed">अधिकतम गति</string>
+    <string name="save_created_at">पर बनाया</string>
+    <string name="save_type_of_sport">खेल के प्रकार</string>
+    <string name="save_average_speed">औसत स्पीड</string>
+    // buttons
+    <string name="save_notsave_btn">नहीं सहेजें</string>
+    <string name="save_save_btn">सहेजें</string>
+    <string name="save_post_facebook_btn">फेसबुक पर पोस्ट</string>
+
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+    <string name="facebook_app_id">993071064060757</string>
+    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
+    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+</resources>

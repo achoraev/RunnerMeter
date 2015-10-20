@@ -1,0 +1,158 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Web-Suche</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_about">Über</string>
+    <string name="action_help">Hilfe</string>
+    // navigation menu
+    <string name="menu_leaderboard">Leaderboard</string>
+    <string name="menu_login">Anmeldung</string>
+    <string name="feedback">Rückmeldungen</string>
+    <string name="menu_account">Konto</string>
+    <string name="menu_rate">Bewerten Sie diese app!</string>
+    // login/logout
+    <string name="action_logout">Logout</string>
+    <string name="successfully_logout">erfolgreich abgemeldet.</string>
+    <string name="msg_not_logged_in">nicht eingeloggt.</string>
+    <string name="already_logged_in">Sie sind bereits angemeldet!</string>
+    <string name="do_you_want_logout">Möchten Sie abmelden?</string>
+    // common messages
+    <string name="ok">Okay</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="gps_not_available">GPS nicht verfügbar.</string>
+    <string name="app_not_available">Tut mir leid, ist There\ kein Webbrowser verfügbar</string>
+    <string name="press_back_again">Drücken Sie erneut zurück zum Ausgang.</string>
+    <string name="need_internet_msg">Diese Anwendung benötigt Zugriff auf das Internet!</string>
+    <string name="want_to_continue">Möchten Sie fortfahren?</string>
+    <string name="no_email_client_installed">Es gibt keine e-Mail-Clients installiert.</string>
+    <string name="unable_find_market_app">Nicht in der Lage, Markt-app zu finden</string>
+    <string name="logged_in_as_guest">Sie sind angemeldet als Gast</string>
+    <string name="connected_to_googleApi">GoogleAPI verbunden</string>
+    <string name="no_internet">Keine Internetverbindung</string>
+    <string name="no_net_message">Um die app benutzen, Sie es einschalten müssen.</string>
+    <string name="twitter_email_not_present">nicht vorhanden</string>
+    // dialog messages
+    <string name="dialog_close_message">Schließen-Nachricht</string>
+    <string name="dialog_see_details">Siehe details</string>
+    <string name="turn_on_wifi">Wi-Fi einschalten</string>
+    <string name="turn_on_data">Schalten Sie Daten</string>
+    <string name="close">Schließen</string>
+    // other
+    <string name="guest">Gast</string>
+    <string name="welcome">Herzlich Willkommen</string>
+    // cookie message
+    <string name="cookies">Cookies</string>
+    <string name="cookie_policy">Wir verwenden Gerätekennzeichen Inhalte und Funktionen der sozialen Stellen-anzeigen zu
+        personalisieren
+        Medien und Datenverkehr analysieren. Auch teilen Sie diese Bezeichner und andere Informationen von Ihrem Gerät
+        mit seinem partner
+        soziale Medien, Werbung, Partner und Partner für Analyse.
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">Sitzung-Bild</string>
+    <string name="l_distance">Distanz:</string>
+    <string name="l_duration">Dauer:</string>
+    <string name="l_max_speed">Höchstgeschwindigkeit:</string>
+    <string name="l_average_speed">AVG-Speed:</string>
+    <string name="l_by_user">Von:</string>
+    // feedback
+    <string name="feedback_text">Ihren Text hier</string>
+    <string name="send_feedback">Senden Sie Ihr Feedback:</string>
+    <string name="start_point">Startpunkt</string>
+    <string name="end_point">Endpunkt</string>
+    // labels
+    <string name="my_account">Mein Konto</string>
+    <string name="saving_session">Session speichern</string>
+    <string name="about_application">Über die Anwendung</string>
+    <string name="help_page">Hilfe</string>
+    <string name="post_on_facebook">Post auf facebook</string>
+    <string name="account_page_label">Account-Info</string>
+    <string name="leader_board_best_runners">Besten Läuferinnen und Läufer</string>
+    // account
+    <string name="account_name_label">Ihr Name:</string>
+    <string name="account_username_label">Benutzername:</string>
+    <string name="account_email_label">E-Mail-Adresse:</string>
+    <string name="account_verified_email">Verifizierter E-mail:</string>
+    <string name="account_created_at">Erstellt am:</string>
+    // save session
+    <string name="save_time">Zeit</string>
+    <string name="save_distance">Entfernung</string>
+    <string name="save_duration">Dauer</string>
+    <string name="save_by">von</string>
+    <string name="save_max_speed">Max. Geschwindigkeit</string>
+    <string name="save_created_at">erstellt am</string>
+    <string name="save_type_of_sport">Sportart</string>
+    <string name="save_average_speed">durchschnittliche Geschwindigkeit</string>
+    // buttons
+    <string name="save_notsave_btn">NICHT SPEICHERN</string>
+    <string name="save_save_btn">SIE SPAREN</string>
+    <string name="save_post_facebook_btn">Post auf Facebook</string>
+
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+    <string name="facebook_app_id">993071064060757</string>
+    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
+    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+</resources>

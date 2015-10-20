@@ -1,0 +1,156 @@
+<resources>
+    // right menu
+    <string name="action_websearch">Web araması</string>
+    <string name="action_settings">Ayarlar</string>
+    <string name="action_about">Hakkında</string>
+    <string name="action_help">Yardım</string>
+    // navigation menu
+    <string name="menu_leaderboard">Lider Tablosu</string>
+    <string name="menu_login">Oturum açma</string>
+    <string name="feedback">Geri bildirim</string>
+    <string name="menu_account">Hesap</string>
+    <string name="menu_rate">Bu app oranı!</string>
+    // login/logout
+    <string name="action_logout">Oturum kapatma</string>
+    <string name="successfully_logout">başarıyla oturum açmış.</string>
+    <string name="msg_not_logged_in">Giriş yapmadınız.</string>
+    <string name="already_logged_in">Zaten logged içinde!</string>
+    <string name="do_you_want_logout">Logout için ister misin?</string>
+    // common messages
+    <string name="ok">Tamam</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="gps_not_available">GPS mevcut değil.</string>
+    <string name="app_not_available">Özür dilerim, ki hayır örümcek ağı kaş elde edilebilir</string>
+    <string name="press_back_again">Çıkmak için geri tuşuna basın.</string>
+    <string name="need_internet_msg">Bu uygulama internet erişimi ihtiyacı var!</string>
+    <string name="want_to_continue">Devam etmek istiyor musunuz?</string>
+    <string name="no_email_client_installed">Yüklü hiçbir e-posta istemcisi vardır.</string>
+    <string name="unable_find_market_app">Çarşı app bulunamıyor</string>
+    <string name="logged_in_as_guest">Konuk olarak oturum</string>
+    <string name="connected_to_googleApi">GoogleAPI için bağlı</string>
+    <string name="no_internet">Internet bağlantısı yok</string>
+    <string name="no_net_message">App kullanmak için açmak gerekir.</string>
+    <string name="twitter_email_not_present">mevcut değil</string>
+    // dialog messages
+    <string name="dialog_close_message">İletiyi kapat</string>
+    <string name="dialog_see_details">Detaylar</string>
+    <string name="turn_on_wifi">WiFi açın</string>
+    <string name="turn_on_data">Veriler üzerinde açmak</string>
+    <string name="close">Kapat</string>
+    // other
+    <string name="guest">Konuk</string>
+    <string name="welcome">Hoş geldiniz</string>
+    // cookie message
+    <string name="cookies">Tanımlama bilgileri</string>
+    <string name="cookie_policy">İçerik ve sosyal işlevlerini sağlamak için reklamları kişiselleştirmek için device
+        Identifier kullanın
+        medya ve trafiğini analiz. Ayrıca bu tür tanımlayıcıları ve diğer bilgileri aygıtınızdan, ortağı ile paylaşmak
+        sosyal medya, reklam ortakları ve analiz için ortaklar.
+    </string>
+    // leaderboard row
+    <string name="l_sess_image">Oturum görüntü</string>
+    <string name="l_distance">Mesafe:</string>
+    <string name="l_duration">Süre:</string>
+    <string name="l_max_speed">Max hız:</string>
+    <string name="l_average_speed">Ortalama hız:</string>
+    <string name="l_by_user">Tarafından:</string>
+    // feedback
+    <string name="feedback_text">Metni buraya</string>
+    <string name="send_feedback">Geri bildirim gönder:</string>
+    <string name="start_point">Başlangıç noktası</string>
+    <string name="end_point">Bitiş noktası</string>
+    // labels
+    <string name="my_account">Benim rapor</string>
+    <string name="saving_session">Oturum kaydetme</string>
+    <string name="about_application">Uygulama hakkında</string>
+    <string name="help_page">Yardım</string>
+    <string name="post_on_facebook">Facebook'ta mesaj</string>
+    <string name="account_page_label">Hesap bilgileri</string>
+    <string name="leader_board_best_runners">En iyi koşucu</string>
+    // account
+    <string name="account_name_label">Adınız:</string>
+    <string name="account_username_label">Kullanıcı adı:</string>
+    <string name="account_email_label">E-posta adresi:</string>
+    <string name="account_verified_email">Doğrulanmış e-posta:</string>
+    <string name="account_created_at">Oluşturulan:</string>
+    // save session
+    <string name="save_time">Zaman</string>
+    <string name="save_distance">mesafe</string>
+    <string name="save_duration">Süresi</string>
+    <string name="save_by">tarafından</string>
+    <string name="save_max_speed">azami hız</string>
+    <string name="save_created_at">oluşturulan</string>
+    <string name="save_type_of_sport">spor türü</string>
+    <string name="save_average_speed">ortalama hız</string>
+    // buttons
+    <string name="save_notsave_btn">DEĞİL KAYDET</string>
+    <string name="save_save_btn">KAYDET</string>
+    <string name="save_post_facebook_btn">Facebook yayında</string>
+
+    // not translate
+    <string name="app_name">Sport Meter</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="local_preferences">localPreferences</string>
+    <string name="global_is_started">isStarted</string>
+
+    // navigation drawer
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    // banner add
+    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
+    <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
+    <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
+    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+
+    // interestitial add
+    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+
+    // database objects
+    <string name="session_object">Sessions</string>
+    <string name="session_username">username</string>
+    <string name="session_time_per_kilometer">timePerKilometer</string>
+    <string name="session_name">name</string>
+    <string name="session_max_speed">maxSpeed</string>
+    <string name="session_average_speed">averageSpeed</string>
+    <string name="session_distance">distance</string>
+    <string name="session_duration">duration</string>
+    <string name="session_sport_type">sportType</string>
+    <string name="l_time_per_km">m/km:</string>
+
+    // test device
+    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+
+    //
+    <string name="type_of_sport">sportType</string>
+    <string name="is_first_run">isFirstRun</string>
+
+    // global variables
+    <string name="global_distance">distance</string>
+    <string name="global_average_speed">averageSpeed</string>
+    <string name="global_max_speed">maxSpeed</string>
+    <string name="global_duration">duration</string>
+    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email">runner.meter@gmail.com</string>
+
+    // facebook permissions
+    <string-array name = "facePermissions">
+        <item>public_profile</item>
+        <item>publish_actions</item>
+        <item>publish_pages</item>
+        <item>publish_stream</item>
+        <item>email</item>
+        <item>user_birthday</item>
+        <item>user_likes</item>
+    </string-array>
+    <string name="facebook_app_id">993071064060757</string>
+    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
+    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
+    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
+    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
+    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+</resources>

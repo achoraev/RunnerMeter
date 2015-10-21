@@ -87,7 +87,9 @@
     <string name="save_notsave_btn">नहीं सहेजें</string>
     <string name="save_save_btn">सहेजें</string>
     <string name="save_post_facebook_btn">फेसबुक पर पोस्ट</string>
-
+    <string name="bikers_click">बाईकर्स यहाँ क्लिक करें...</string>
+    <string name="runners_click">धावक यहाँ क्लिक करें...</string>
+    <string name="drivers_click">ड्राइवर्स यहाँ क्लिक करें...</string>
 
     // not translate
     <string name="app_name">Sport Meter</string>

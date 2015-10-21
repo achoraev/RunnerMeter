@@ -87,6 +87,10 @@
     <string name="save_notsave_btn">NIE ZAPISUJ</string>
     <string name="save_save_btn">ZAPISZ</string>
     <string name="save_post_facebook_btn">Post na Facebook</string>
+    <string name="bikers_click">Rowerzystów kliknij tutaj...</string>
+    <string name="runners_click">Biegaczy kliknij tutaj...</string>
+    <string name="drivers_click">Sterowniki kliknij tutaj...</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

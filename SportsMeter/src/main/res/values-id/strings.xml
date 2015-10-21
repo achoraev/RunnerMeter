@@ -94,6 +94,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="local_preferences">localPreferences</string>
     <string name="global_is_started">isStarted</string>
+    <string name="bikers_click">Bikers klik di sini...</string>
+    <string name="runners_click">Pelari klik di sini...</string>
+    <string name="drivers_click">Driver klik di sini...</string>
 
     // navigation drawer
     <string name="drawer_open">Open navigation drawer</string>

@@ -88,6 +88,10 @@
     <string name="save_notsave_btn">NEM MENTHETŐ</string>
     <string name="save_save_btn">MENTÉS</string>
     <string name="save_post_facebook_btn">Post a Facebook-on</string>
+    <string name="bikers_click">Motorosok kattintson ide...</string>
+    <string name="runners_click">Futók kattintson ide...</string>
+    <string name="drivers_click">Illesztőprogramok kattintson ide...</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

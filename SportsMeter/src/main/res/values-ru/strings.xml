@@ -88,6 +88,10 @@
     <string name="save_notsave_btn">НЕ СОХРАНИТЬ</string>
     <string name="save_save_btn">СОХРАНИТЬ</string>
     <string name="save_post_facebook_btn">Пост на Facebook</string>
+    <string name="bikers_click">Байкеры нажмите здесь...</string>
+    <string name="runners_click">Бегунов нажмите здесь...</string>
+    <string name="drivers_click">Драйвера нажмите здесь...</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

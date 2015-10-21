@@ -86,7 +86,10 @@
     <string name="save_notsave_btn">NOT SAVE</string>
     <string name="save_save_btn">SAVE</string>
     <string name="save_post_facebook_btn">Post on Facebook</string>
-
+    // start messages
+    <string name="bikers_click">Bikers click here...</string>
+    <string name="runners_click">Runners click here...</string>
+    <string name="drivers_click">Drivers click here...</string>
 
 
     // not translate

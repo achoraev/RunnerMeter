@@ -88,6 +88,10 @@
     <string name="save_notsave_btn">NIET OPSLAAN</string>
     <string name="save_save_btn">OPSLAAN</string>
     <string name="save_post_facebook_btn">Post op Facebook</string>
+    <string name="bikers_click">Fietsers Klik hier...</string>
+    <string name="runners_click">Lopers Klik hier...</string>
+    <string name="drivers_click">Stuurprogramma\'s Klik hier...</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

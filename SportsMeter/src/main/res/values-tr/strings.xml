@@ -87,6 +87,10 @@
     <string name="save_notsave_btn">DEĞİL KAYDET</string>
     <string name="save_save_btn">KAYDET</string>
     <string name="save_post_facebook_btn">Facebook yayında</string>
+    <string name="bikers_click">Bisikletçileri tıklayınız...</string>
+    <string name="runners_click">Koşucular tıklayınız...</string>
+    <string name="drivers_click">Sürücüler buraya tıklayın...</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

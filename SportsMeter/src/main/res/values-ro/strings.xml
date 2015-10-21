@@ -88,6 +88,10 @@
     <string name="save_notsave_btn">NU SALVA</string>
     <string name="save_save_btn">SALVAŢI</string>
     <string name="save_post_facebook_btn">Post de pe Facebook</string>
+    <string name="bikers_click">Motociclisti click aici...</string>
+    <string name="runners_click">Alergători click aici...</string>
+    <string name="drivers_click">Drivere click aici...</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

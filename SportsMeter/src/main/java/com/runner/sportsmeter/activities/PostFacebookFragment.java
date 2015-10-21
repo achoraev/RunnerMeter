@@ -9,6 +9,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.models.Session;
 
 /**
@@ -34,7 +35,7 @@ public class PostFacebookFragment extends FragmentActivity {
         String action = sportType.equals("runner") ? " runs " :
                         sportType.equals("biker") ? " bikes " :
                         sportType.equals("driver") ? " drives " : " ";
-        String message = userName + action + sessionDistance + "m for " + sessionTimeDiff + "s with Sport Meter";
+        String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToString((long) sessionTimeDiff) + " with Sport Meter";
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
                     .setContentTitle(getString(R.string.app_name))

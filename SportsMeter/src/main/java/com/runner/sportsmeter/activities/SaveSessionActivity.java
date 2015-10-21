@@ -74,14 +74,14 @@ public class SaveSessionActivity extends Activity {
     }
 
     private void setTextViewsFromSession() {
-        sessionScreenshot.setImageResource(R.drawable.runner_logo);
+        sessionScreenshot.setImageResource(R.drawable.icon_new);
 
-        saveTimeKm.setText(String.valueOf(currentSession.getTimePerKilometer()));
-        saveDistance.setText(String.valueOf(currentSession.getDistance()));
-        saveDuration.setText(String.valueOf(currentSession.getDuration() / 1000));
+        saveTimeKm.setText(String.valueOf(currentSession.getTimePerKilometer()) + " min/km");
+        saveDistance.setText(String.valueOf(currentSession.getDistance()) + " m");
+        saveDuration.setText(String.valueOf(currentSession.getDuration() / 1000) + " s");
         saveUsername.setText(String.valueOf(currentSession.getUserName()));
-        saveMaxSpeed.setText(String.valueOf(currentSession.getMaxSpeed()));
-        saveAvgSpeed.setText(String.valueOf(currentSession.getAverageSpeed()));
+        saveMaxSpeed.setText(String.valueOf(currentSession.getMaxSpeed()) + " km/h");
+        saveAvgSpeed.setText(String.valueOf(currentSession.getAverageSpeed()) + " km/h");
         saveTypeSport.setText(sportType);
         saveCreatedAt.setText(Utility.formatDate(new Date()));
     }

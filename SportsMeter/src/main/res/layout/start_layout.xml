@@ -9,7 +9,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
-                  android:background="@drawable/runner_start_background"
+                  android:background="@drawable/start_female_runner"
                   tools:context=".StartActivity">
 
         <LinearLayout android:layout_width="match_parent"
@@ -50,8 +50,10 @@
 
                 <Button android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
                         android:id="@+id/top_right"
                         android:layout_weight="2"
+                        android:text="@string/bikers_click"
                         android:background="@drawable/bike"
                         android:layout_marginBottom="10dp"
                         android:alpha="0.9"/>
@@ -59,6 +61,8 @@
                         android:layout_height="match_parent"
                         android:id="@+id/center_right"
                         android:layout_weight="2"
+                        android:text="@string/runners_click"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
                         android:background="@drawable/startrunner"
                         android:layout_marginBottom="15dp"
                         android:alpha="0.9"/>
@@ -66,6 +70,8 @@
                         android:layout_height="match_parent"
                         android:id="@+id/bottom_right"
                         android:layout_weight="2"
+                        android:text="@string/drivers_click"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
                         android:background="@drawable/drivers"
                         android:alpha="0.9"/>
 

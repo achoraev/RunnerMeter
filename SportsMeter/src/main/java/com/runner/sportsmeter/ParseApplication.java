@@ -1,6 +1,7 @@
 package com.runner.sportsmeter;
 
 import android.app.Application;
+import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseInstallation;
 import com.runner.sportsmeter.common.ParseCommon;
@@ -15,7 +16,7 @@ public class ParseApplication extends Application {
 //
 //        ParseObject.registerSubclass(Session.class);
 //        ParseCrashReporting.enable(this);
-//        Parse.enableLocalDatastore(this);
+        Parse.enableLocalDatastore(this);
         ParseCommon.ParseInitialize(this);
 //        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();

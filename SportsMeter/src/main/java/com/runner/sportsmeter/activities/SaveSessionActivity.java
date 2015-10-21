@@ -151,6 +151,7 @@ public class SaveSessionActivity extends Activity {
         saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
         saveSession.setACL(acl);
         saveSession.saveInBackground();
+        saveSession.pinInBackground();
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {

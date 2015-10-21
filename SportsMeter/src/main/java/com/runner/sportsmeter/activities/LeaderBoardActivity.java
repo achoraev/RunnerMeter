@@ -71,6 +71,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
         // todo make query by type of sport
+        query.fromLocalDatastore();
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(15);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -95,13 +96,19 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> sessions, ParseException e) {
+            public void done(final List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                     arrayOfSessions = new ArrayList<>();
                     arrayOfSessions = Utility.convertFromParseObject(sessions);
                     refreshListView();
                     bar.setVisibility(View.GONE);
+                    ParseObject.unpinAllInBackground("highScores", new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            ParseObject.pinAllInBackground("highScores", sessions);
+                        }
+                    });
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
                 }

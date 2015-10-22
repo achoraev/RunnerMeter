@@ -57,10 +57,9 @@ public class ParseCommon {
     }
 
     private static String getCurrentUserUsername() {
-        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser()) ||
-                ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())){
+        if (ParseUser.getCurrentUser().get("name") != null) {
             return ParseUser.getCurrentUser().get("name").toString();
-        }else {
+        } else {
             return ParseUser.getCurrentUser().getUsername();
         }
     }

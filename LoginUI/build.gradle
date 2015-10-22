@@ -5,6 +5,7 @@ repositories {
 }
 
 dependencies {
+//    compile 'com.parse:parse-android:1.10.3'
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'

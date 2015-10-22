@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng currentCoordinates = null;
     private LatLng lastUpdatedCoord = null;
     private LatLng startPointCoord = null;
+    private LatLng endPointCoord = null;
     private Location currentLocation;
     private Bitmap sessionScreenShot;
 
@@ -260,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         acl.setPublicWriteAccess(false);
 
         if (currentCoordinates != null) {
+            endPointCoord = currentCoordinates;
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
             Thread snapShotThread = new Thread(new Runnable() {
                 @Override
@@ -278,11 +280,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
             snapShotThread.start();
+            new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
         }
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
 
+        Session saveSession = new Session(
+                sessionDistance,
+                sessionTimeDiff,
+                currentMaxSpeed,
+                averageSpeed,
+                "",
+                ParseUser.getCurrentUser(),
+                userName,
+                sportType.toString());
         Bundle saveBundle = new Bundle();
+        saveBundle.putParcelable("Session", saveSession);
         saveBundle.putDouble("session_distance", sessionDistance);
         saveBundle.putDouble("session_time_diff", sessionTimeDiff);
         saveBundle.putDouble("current_max_speed", currentMaxSpeed);

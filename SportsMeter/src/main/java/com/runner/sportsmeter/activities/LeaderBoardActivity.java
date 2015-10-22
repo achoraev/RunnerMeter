@@ -96,7 +96,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(final List<ParseObject> sessions, ParseException e) {
+            public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
                     Log.d("session", "Retrieved " + sessions.size() + " sessions");
                     arrayOfSessions = new ArrayList<>();

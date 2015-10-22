@@ -3,8 +3,10 @@ package com.runner.sportsmeter.common;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import com.google.android.gms.maps.model.LatLng;
 import com.runner.sportsmeter.R;
 import com.parse.*;
+import com.runner.sportsmeter.models.Coordinates;
 
 import java.util.List;
 
@@ -84,5 +86,26 @@ public class ParseCommon {
         guestUser.put("name", "Guest");
         guestUser.signUpInBackground();
         return guestUser;
+    }
+
+    public void saveTraceStartAndEndCoord(LatLng startPointCoord, LatLng endPointCoord) {
+        ParseGeoPoint currentStart = new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude);
+        ParseGeoPoint currentEnd = new ParseGeoPoint(endPointCoord.latitude, endPointCoord.longitude);
+
+        ParseACL acl = new ParseACL();
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(false);
+
+        Coordinates saveCoords = new Coordinates();
+        saveCoords.setAcl(acl);
+        saveCoords.setCurrentUser(ParseUser.getCurrentUser());
+        saveCoords.setStartAndEndPoint(currentStart);
+        saveCoords.saveInBackground();
+
+        Coordinates saveCoordsEnd = new Coordinates();
+        saveCoordsEnd.setAcl(acl);
+        saveCoordsEnd.setCurrentUser(ParseUser.getCurrentUser());
+        saveCoordsEnd.setStartAndEndPoint(currentEnd);
+        saveCoordsEnd.saveInBackground();
     }
 }

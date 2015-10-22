@@ -12,6 +12,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Session;
 
@@ -78,7 +79,7 @@ public class SaveSessionActivity extends Activity {
 
         saveTimeKm.setText(String.valueOf(currentSession.getTimePerKilometer()) + " min/km");
         saveDistance.setText(String.valueOf(currentSession.getDistance()) + " m");
-        saveDuration.setText(String.valueOf(currentSession.getDuration() / 1000) + " s");
+        saveDuration.setText(Calculations.convertTimeToString((long) currentSession.getDuration()));
         saveUsername.setText(String.valueOf(currentSession.getUserName()));
         saveMaxSpeed.setText(String.valueOf(currentSession.getMaxSpeed()) + " km/h");
         saveAvgSpeed.setText(String.valueOf(currentSession.getAverageSpeed()) + " km/h");
@@ -150,12 +151,18 @@ public class SaveSessionActivity extends Activity {
         saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
         saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
         saveSession.setACL(acl);
-        saveSession.saveInBackground();
-        saveSession.pinInBackground();
+        // todo do not save fastest time from diff sports than world records
+        if(currentSession.getTimePerKilometer() != 0) {
+            saveSession.saveInBackground();
+            saveSession.pinInBackground();
+        }
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            if(savedInstanceState.keySet().contains("Session")){
+                // todo post session object
+            }
             if (savedInstanceState.keySet().contains("session_distance")) {
                 sessionDistance = savedInstanceState.getDouble("session_distance");
             }

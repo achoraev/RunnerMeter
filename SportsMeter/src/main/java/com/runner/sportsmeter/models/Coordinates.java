@@ -10,6 +10,8 @@ import java.util.Date;
 @ParseClassName("Coordinates")
 public class Coordinates extends ParseObject {
 
+    public Coordinates(){}
+
     public ParseUser getCurrentUser() {
         return getParseUser("user");
     }

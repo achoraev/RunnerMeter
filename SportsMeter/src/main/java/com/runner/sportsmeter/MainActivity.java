@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice(getString(R.string.huawei_device_id))
+//                .addTestDevice(getString(R.string.huawei_device_id))
                 .build();
 
         mInterstitialAd.loadAd(adRequest);

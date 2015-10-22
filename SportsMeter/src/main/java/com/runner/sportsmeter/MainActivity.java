@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
             snapShotThread.start();
-//            new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
+            new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
         }
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);

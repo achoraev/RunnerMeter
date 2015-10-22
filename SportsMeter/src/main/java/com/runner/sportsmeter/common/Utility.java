@@ -34,7 +34,7 @@ public class Utility {
     public void setupAdds(AdView mAdView, Context cont) {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .addTestDevice(cont.getString(R.string.huawei_device_id))
+//                .addTestDevice(cont.getString(R.string.huawei_device_id))
                 .build();
         mAdView.loadAd(adRequest);
     }

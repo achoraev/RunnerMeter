@@ -75,7 +75,7 @@ public class SaveSessionActivity extends Activity {
     }
 
     private void setTextViewsFromSession() {
-        sessionScreenshot.setImageResource(R.drawable.icon_new);
+        sessionScreenshot.setImageResource(R.mipmap.icon_new);
 
         saveTimeKm.setText(String.valueOf(currentSession.getTimePerKilometer()) + " min/km");
         saveDistance.setText(String.valueOf(currentSession.getDistance()) + " m");

@@ -102,10 +102,10 @@ public class ParseCommon {
         saveCoords.setStartAndEndPoint(currentStart);
         saveCoords.saveInBackground();
 
-        Coordinates saveCoordsEnd = new Coordinates();
-        saveCoordsEnd.setAcl(acl);
-        saveCoordsEnd.setCurrentUser(ParseUser.getCurrentUser());
-        saveCoordsEnd.setStartAndEndPoint(currentEnd);
-        saveCoordsEnd.saveInBackground();
+//        Coordinates saveCoordsEnd = new Coordinates();
+//        saveCoordsEnd.setAcl(acl);
+//        saveCoordsEnd.setCurrentUser(ParseUser.getCurrentUser());
+//        saveCoordsEnd.setStartAndEndPoint(currentEnd);
+//        saveCoordsEnd.saveInBackground();
     }
 }

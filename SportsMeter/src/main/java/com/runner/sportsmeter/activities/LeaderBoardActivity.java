@@ -103,12 +103,12 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
                     arrayOfSessions = Utility.convertFromParseObject(sessions);
                     refreshListView();
                     bar.setVisibility(View.GONE);
-                    ParseObject.unpinAllInBackground("highScores", new DeleteCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            ParseObject.pinAllInBackground("highScores", sessions);
-                        }
-                    });
+//                    ParseObject.unpinAllInBackground("highScores", new DeleteCallback() {
+//                        @Override
+//                        public void done(ParseException e) {
+//                            ParseObject.pinAllInBackground("highScores", sessions);
+//                        }
+//                    });
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
                 }

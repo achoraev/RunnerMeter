@@ -223,23 +223,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mInterstitialAd.loadAd(adRequest);
     }
 
-    private void setCurrentUserUsername() {
-        if (ParseCommon.isUserLoggedIn()) {
-            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                setCurrentUserUsernameInHeader();
-                facebookId = AccessToken.getCurrentAccessToken().getUserId();
-                facebookProfilePicture.setProfileId(facebookId);
-                facebookProfilePicture.setCropped(true);
-            } else if(ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
-                setCurrentUserUsernameInHeader();
-            } else {
-                Toast.makeText(MainActivity.this, getString(R.string.logged_in_as_guest), Toast.LENGTH_LONG).show();
-            }
-        } else {
-            showUsername.setText(getString(R.string.guest));
-        }
-    }
-
     private void initializeUiViews() {
         distanceMeter = (TextView) findViewById(R.id.distance_meter);
         speedMeter = (TextView) findViewById(R.id.speed_meter);
@@ -345,13 +328,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         result.setResultCallback(this);
     }
 
+    private void setCurrentUserUsername() {
+        if (ParseCommon.isUserLoggedIn()) {
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                setCurrentUserUsernameInHeader();
+                facebookId = AccessToken.getCurrentAccessToken().getUserId();
+                facebookProfilePicture.setProfileId(facebookId);
+                facebookProfilePicture.setCropped(true);
+            } else {
+                setCurrentUserUsernameInHeader();
+//                Toast.makeText(MainActivity.this, getString(R.string.logged_in_as_guest), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            showUsername.setText(getString(R.string.guest));
+        }
+    }
+
     private void setCurrentUserUsernameInHeader() {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (ParseFacebookUtils.isLinked(currentUser) ||
                 ParseTwitterUtils.isLinked(currentUser)) {
             userName = currentUser.get(getString(R.string.session_name)).toString();
         } else {
-            userName = currentUser.getUsername();
+            if(ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null){
+                userName = currentUser.get(getString(R.string.session_name)).toString();
+            } else {
+                userName = currentUser.getUsername();
+            }
         }
         showUsername.setText(userName);
         Toast.makeText(this, getString(R.string.welcome) + " " + userName, Toast.LENGTH_LONG).show();

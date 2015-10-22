@@ -54,22 +54,28 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.LeaderBoardActivity"
-                  android:label="@string/menu_leaderboard">
+                  android:label="@string/menu_leaderboard"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.AccountActivity"
-                  android:label="@string/my_account">
+                  android:label="@string/my_account"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.SaveSessionActivity"
-                  android:label="@string/saving_session">
+                  android:label="@string/saving_session"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.AboutActivity"
-                  android:label="@string/about_application">
+                  android:label="@string/about_application"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.HelpActivity"
-                  android:label="@string/help_page">
+                  android:label="@string/help_page"
+                  android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.runner.sportsmeter.activities.PostFacebookFragment"
-                  android:label="@string/post_on_facebook">
+                  android:label="@string/post_on_facebook"
+                  android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name="com.parse.ui.ParseLoginActivity"

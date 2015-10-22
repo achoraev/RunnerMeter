@@ -46,7 +46,7 @@ public class ParseCommon {
         }
     }
 
-    public static void logOutUser(Context cont) {
+    public void logOutUser(Context cont) {
         String userName = getCurrentUserUsername() + " ";
         if (ParseUser.getCurrentUser() != null) {
             Toast.makeText(cont, userName + cont.getString(R.string.successfully_logout), Toast.LENGTH_SHORT).show();
@@ -56,7 +56,7 @@ public class ParseCommon {
         }
     }
 
-    private static String getCurrentUserUsername() {
+    public String getCurrentUserUsername() {
         if (ParseUser.getCurrentUser().get("name") != null) {
             return ParseUser.getCurrentUser().get("name").toString();
         } else {

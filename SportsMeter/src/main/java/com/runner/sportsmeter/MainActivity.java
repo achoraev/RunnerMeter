@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         saveBundle.putDouble("current_max_speed", currentMaxSpeed);
         saveBundle.putDouble("average_speed", averageSpeed);
         saveBundle.putString("sport_type", sportType.toString());
-        if(sessionImagePath != null){
+        if (sessionImagePath != null) {
             saveBundle.putString("session_image_path", sessionImagePath);
         }
 
@@ -345,17 +345,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void setCurrentUserUsernameInHeader() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (ParseFacebookUtils.isLinked(currentUser) ||
-                ParseTwitterUtils.isLinked(currentUser)) {
-            userName = currentUser.get(getString(R.string.session_name)).toString();
-        } else {
-            if(ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null){
-                userName = currentUser.get(getString(R.string.session_name)).toString();
-            } else {
-                userName = currentUser.getUsername();
-            }
-        }
+        userName = new ParseCommon().getCurrentUserUsername();
         showUsername.setText(userName);
         Toast.makeText(this, getString(R.string.welcome) + " " + userName, Toast.LENGTH_LONG).show();
     }
@@ -586,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void logOutCurrentUser() {
-        ParseCommon.logOutUser(this);
+        new ParseCommon().logOutUser(this);
         facebookProfilePicture.setProfileId("");
     }
 

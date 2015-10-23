@@ -153,18 +153,18 @@ public class SaveSessionActivity extends Activity {
         saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
         saveSession.setACL(acl);
         Boolean isValid = new Calculations().isTimePerKilometerValid(currentSession.getTimePerKilometer(), currentSession.getSportType());
-        if(currentSession.getTimePerKilometer() != 0 && isValid) {
+        if (currentSession.getTimePerKilometer() != 0 && isValid) {
             saveSession.saveInBackground();
             saveSession.pinInBackground();
-        } else if(!isValid) {
-            String message = getString(R.string.this_time) + currentSession.getTimePerKilometer() + getString(R.string.time_is_fastest) + currentSession.getSportType();
+        } else if (!isValid) {
+            String message = getString(R.string.this_time) + " " + currentSession.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + currentSession.getSportType();
             Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
         }
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            if(savedInstanceState.keySet().contains("Session")){
+            if (savedInstanceState.keySet().contains("Session")) {
                 // todo post session object
             }
             if (savedInstanceState.keySet().contains("session_distance")) {

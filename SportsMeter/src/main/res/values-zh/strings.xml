@@ -89,6 +89,9 @@
     <string name="bikers_click">骑自行车的人请单击此处...</string>
     <string name="runners_click">跑步者单击此处...</string>
     <string name="drivers_click">驱动程序请单击此处...</string>
+    <string name="screen_shot_successfully_saved">屏幕快照已成功保存!</string>
+    <string name="this_time">时间/公里</string>
+    <string name="time_is_fastest">是比世界纪录快</string>
 
 
     // not translate
@@ -123,7 +126,7 @@
     <string name="session_distance">distance</string>
     <string name="session_duration">duration</string>
     <string name="session_sport_type">sportType</string>
-    <string name="l_time_per_km">m/km:</string>
+    <string name="l_time_per_km">min/km:</string>
 
     // test device
     <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>

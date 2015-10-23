@@ -91,6 +91,10 @@
     <string name="bikers_click">Motociclisti Clicca qui...</string>
     <string name="runners_click">Corridori Clicca qui...</string>
     <string name="drivers_click">Driver Clicca qui...</string>
+    <string name="screen_shot_successfully_saved">La schermata salvata correttamente!</string>
+    <string name="this_time">Tempo/km</string>
+    <string name="time_is_fastest">è più veloce rispetto a world record per</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>
@@ -124,7 +128,7 @@
     <string name="session_distance">distance</string>
     <string name="session_duration">duration</string>
     <string name="session_sport_type">sportType</string>
-    <string name="l_time_per_km">m/km:</string>
+    <string name="l_time_per_km">min/km:</string>
 
     // test device
     <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>

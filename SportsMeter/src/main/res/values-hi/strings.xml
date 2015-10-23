@@ -90,6 +90,10 @@
     <string name="bikers_click">बाईकर्स यहाँ क्लिक करें...</string>
     <string name="runners_click">धावक यहाँ क्लिक करें...</string>
     <string name="drivers_click">ड्राइवर्स यहाँ क्लिक करें...</string>
+    <string name="screen_shot_successfully_saved">स्क्रीन शॉट सफलतापूर्वक सहेजा गया!</string>
+    <string name="this_time">समय/किमी</string>
+    <string name="time_is_fastest">के लिए विश्व रिकार्ड से सबसे तेज है"</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>
@@ -123,7 +127,7 @@
     <string name="session_distance">distance</string>
     <string name="session_duration">duration</string>
     <string name="session_sport_type">sportType</string>
-    <string name="l_time_per_km">m/km:</string>
+    <string name="l_time_per_km">min/km:</string>
 
     // test device
     <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>

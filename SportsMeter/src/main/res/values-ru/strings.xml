@@ -91,6 +91,9 @@
     <string name="bikers_click">Байкеры нажмите здесь...</string>
     <string name="runners_click">Бегунов нажмите здесь...</string>
     <string name="drivers_click">Драйвера нажмите здесь...</string>
+    <string name="screen_shot_successfully_saved">Скриншот успешно сохранены!</string>
+    <string name="this_time">Время/км</string>
+    <string name="time_is_fastest">Это быстрый, чем мировой рекорд для</string>
 
 
     // not translate
@@ -125,7 +128,7 @@
     <string name="session_distance">distance</string>
     <string name="session_duration">duration</string>
     <string name="session_sport_type">sportType</string>
-    <string name="l_time_per_km">m/km:</string>
+    <string name="l_time_per_km">min/km:</string>
 
     // test device
     <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>

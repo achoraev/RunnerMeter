@@ -41,7 +41,7 @@
                 android:autoLink="web"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"
-                android:layout_margin="55dp"/>
+                android:layout_margin="5dp"/>
 
     </LinearLayout>
 </LinearLayout>

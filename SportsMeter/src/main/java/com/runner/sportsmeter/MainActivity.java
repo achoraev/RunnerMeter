@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         public void onSnapshotReady(Bitmap bitmap) {
                             sessionScreenShot = bitmap;
                             sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-                            Toast.makeText(MainActivity.this, sessionImagePath, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
                             Log.d("url", sessionImagePath);
                             // clear map
                             mMap.clear();

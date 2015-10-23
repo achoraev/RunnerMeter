@@ -21,6 +21,9 @@ public class Calculations {
     private static final int MAX_SPEED_RUNNER = 44;
     private static final int MAX_SPEED_BIKER = 133;
     private static final int MAX_SPEED_DRIVER = 350;
+    private static final double BEST_TIME_RUNNER = 1.36;
+    private static final double BEST_TIME_BIKER = 0.45;
+    private static final double BEST_TIME_DRIVER = 0.17;
 
     private static double maxSpeed = 0;
 
@@ -93,8 +96,42 @@ public class Calculations {
         return maxSpeed;
     }
 
+    public double calculateTimePerKilometer(double distance, double duration) {
+        double result = ((duration / ONE_THOUSAND / SIXTY) / (distance / ONE_THOUSAND));
+        double finalResult = result - (result % 1);
+        if(result % 1 != 0) {
+            finalResult += 0.60 * (result % 1);
+        } else if(result % 1 == 0.60) {
+            finalResult += 1.00;
+        }
+
+        finalResult = Math.round(finalResult * ONE_HUNDRED);
+        return finalResult / ONE_HUNDRED;
+    }
+
     public static double roundToTwoDigitsAfterDecimalPoint(double in) {
         double result = (Math.round(in * ONE_HUNDRED)) / 100.00;
         return result;
+    }
+
+    public Boolean isTimePerKilometerValid(double timePerKilometer, String sportType) {
+        switch (sportType){
+            case "biker" :
+                if(timePerKilometer <= BEST_TIME_BIKER){
+                    return false;
+                }
+                break;
+            case "runner" :
+                if(timePerKilometer <= BEST_TIME_RUNNER){
+                    return false;
+                }
+                break;
+            case "driver" :
+                if(timePerKilometer <= BEST_TIME_DRIVER){
+                    return false;
+                }
+                break;
+        }
+        return true;
     }
 }

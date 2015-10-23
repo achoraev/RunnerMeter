@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -151,10 +152,13 @@ public class SaveSessionActivity extends Activity {
         saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
         saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
         saveSession.setACL(acl);
-        // todo do not save fastest time from diff sports than world records
-        if(currentSession.getTimePerKilometer() != 0) {
+        Boolean isValid = new Calculations().isTimePerKilometerValid(currentSession.getTimePerKilometer(), currentSession.getSportType());
+        if(currentSession.getTimePerKilometer() != 0 && isValid) {
             saveSession.saveInBackground();
             saveSession.pinInBackground();
+        } else if(!isValid) {
+            String message = getString(R.string.this_time) + currentSession.getTimePerKilometer() + getString(R.string.time_is_fastest) + currentSession.getSportType();
+            Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
         }
     }
 

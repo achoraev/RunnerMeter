@@ -443,7 +443,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mInterstitialAd.show();
         }
 
-        if (!startButtonEnabled && mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
             mGoogleApiClient.disconnect();
         }

@@ -59,7 +59,7 @@ public class ParseCommon {
     }
 
     public String getCurrentUserUsername() {
-        if (ParseUser.getCurrentUser().get("name") != null) {
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().get("name") != null) {
             return ParseUser.getCurrentUser().get("name").toString();
         } else {
             return ParseUser.getCurrentUser().getUsername();

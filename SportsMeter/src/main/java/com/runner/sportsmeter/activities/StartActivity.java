@@ -101,6 +101,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                             Intent intent = new Intent();
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.setAction(Settings.ACTION_DATA_ROAMING_SETTINGS);
+                            overridePendingTransition(android.R.anim.fade_in,
+                                    android.R.anim.fade_out);
                             startActivity(intent);
                         }
                     })
@@ -125,6 +127,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
         startIntent.putExtras(bundle);
+        overridePendingTransition(android.R.anim.fade_in,
+                android.R.anim.fade_out);
         startActivity(startIntent);
         finish();
     }

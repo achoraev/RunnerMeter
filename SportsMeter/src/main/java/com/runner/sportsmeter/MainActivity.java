@@ -306,6 +306,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         saveSessionIntent.putExtras(saveBundle);
+        overridePendingTransition(android.R.anim.fade_in,
+                android.R.anim.fade_out);
         startActivity(saveSessionIntent);
 
         // set all to null
@@ -539,9 +541,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback));
                 emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_text));
                 if (emailIntent.resolveActivity(getPackageManager()) != null) {
+                    overridePendingTransition(android.R.anim.fade_in,
+                            android.R.anim.fade_out);
                     startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
                 } else {
                     emailIntent.setType("message/rfc822");
+                    overridePendingTransition(android.R.anim.fade_in,
+                            android.R.anim.fade_out);
                     startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
                     Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast.LENGTH_SHORT).show();
                 }
@@ -549,6 +555,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
             case R.id.nav_account_fragment:
                 Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
                 startActivity(accountIntent);
                 break;
             case R.id.nav_leaderboard_fragment:
@@ -556,6 +564,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                Bundle bundle = new Bundle();
 //                bundle.putParcelableArrayList("list", arrayOfSessions);
 //                leaderIntent.putExtras(bundle);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
                 startActivity(leaderIntent);
                 break;
             case R.id.rate_app_fragment:
@@ -581,6 +591,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Uri uri = Uri.parse("market://details?id=" + getPackageName());
         Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
         try {
+            overridePendingTransition(android.R.anim.fade_in,
+                    android.R.anim.fade_out);
             startActivity(myAppLinkToMarket);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -628,6 +640,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                return true;
             case R.id.action_about:
                 Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
                 startActivity(aboutIntent);
                 return true;
 //            case R.id.action_help:

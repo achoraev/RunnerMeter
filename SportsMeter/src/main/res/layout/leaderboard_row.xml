@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/darker_gray"
+              android:background="@drawable/screen_background_dark_transparent"
               android:orientation="horizontal"
-              android:padding="5dp"
+              android:padding="10dp"
               android:layout_marginBottom="5dp"
-              android:baselineAligned="true">
+              android:baselineAligned="true" style="@style/CardView.Light"
+              android:showDividers="end">
 
     <LinearLayout android:layout_width="20dp"
                   android:layout_height="wrap_content"
@@ -23,70 +24,67 @@
                   android:layout_height="115dp"
                   android:orientation="vertical"
                   android:layout_gravity="center_horizontal" android:weightSum="1">
-        <ImageView android:layout_height="0dp"
+        <ImageView android:layout_height="match_parent"
                    android:layout_width="88dp"
-                   android:layout_marginTop="10dp"
-                   android:layout_marginBottom="10dp"
-                   android:layout_marginLeft="0dp"
-                   android:layout_marginRight="0dp"
                    android:id="@+id/runner"
                    android:contentDescription="@string/l_sess_image"
                    android:src="@mipmap/icon_new"
-                   android:layout_weight="0.40"/>
+                   android:layout_weight="0.40"
+                   android:scaleType="fitXY"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
                   android:layout_weight="2"
-                  android:orientation="vertical">
+                  android:orientation="vertical" android:paddingRight="5dp">
         <TextView
                 android:id="@+id/label_timeperkm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/l_time_per_km"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/l_distance"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/l_duration"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_maxspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/l_max_speed"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_avrspeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/l_average_speed"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/by_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/l_by_user"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <TextView
                 android:id="@+id/label_created"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save_created_at"
-                android:layout_gravity="start"
+                android:layout_gravity="end"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
     <LinearLayout android:layout_width="0dp"

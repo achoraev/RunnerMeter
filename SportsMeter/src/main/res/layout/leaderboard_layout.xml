@@ -34,7 +34,7 @@
                 android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/advertise"/>
+                android:layout_above="@+id/advertise" android:padding="5dp"/>
 
          <!--The advertise-->
         <include layout="@layout/ad_layout_leaderboard"

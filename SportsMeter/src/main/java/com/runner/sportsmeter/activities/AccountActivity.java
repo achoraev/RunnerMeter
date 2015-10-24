@@ -81,10 +81,12 @@ public class AccountActivity extends Activity {
 
         if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             facebookId = AccessToken.getCurrentAccessToken().getUserId();
-            twitterImageViewPicture.setVisibility(View.INVISIBLE);
-            profilePic.setVisibility(View.VISIBLE);
             profilePic.setProfileId(facebookId);
+        } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
+            profilePic.setVisibility(View.INVISIBLE);
+            twitterImageViewPicture.setVisibility(View.VISIBLE);
         }
+
         name.setText(current.getName());
         userName.setText(current.getName());
         if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {

@@ -5,7 +5,6 @@ repositories {
 }
 
 dependencies {
-//    compile 'com.parse:parse-android:1.10.3'
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.android.support:support-v4:22.2.0'
     compile 'com.android.support:appcompat-v7:22.2.0'
@@ -14,6 +13,13 @@ dependencies {
     provided 'com.facebook.android:facebook-android-sdk:4.0.1'
     provided files("$rootProject.projectDir/SportsMeter/libs/Parse-1.9.3.jar")
     provided files("$rootProject.projectDir/SportsMeter/libs/ParseFacebookUtilsV4-1.9.3.jar")
+
+//    compile 'com.android.support:support-v4:23.0.1'
+//    compile 'com.parse:parse-android:1.10.3'
+//
+//    provided 'com.facebook.android:facebook-android-sdk:4.4.0'
+//    provided 'com.parse:parsefacebookutils-v4-android:1.10.3@aar'
+//    provided 'com.parse:parsetwitterutils-android:1.10.3'
 }
 
 android {

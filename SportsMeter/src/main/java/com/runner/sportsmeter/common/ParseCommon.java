@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
-import com.runner.sportsmeter.R;
 import com.parse.*;
+import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Coordinates;
 
 import java.util.List;

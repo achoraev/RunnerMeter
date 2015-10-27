@@ -649,7 +649,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                startActivity(helpIntent);
 //                return true;
             case R.id.action_logout:
-                logOutCurrentUser();
+                if (ParseCommon.isUserLoggedIn()) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(getString(R.string.do_you_want_logout))
+                            .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    logOutCurrentUser();
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .setCancelable(false)
+                            .create()
+                            .show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

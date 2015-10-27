@@ -2,12 +2,14 @@ package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -37,6 +39,7 @@ public class SaveSessionActivity extends Activity {
     private Button saveBtn, notSaveBtn, postOnFacebookBtn;
     private ImageView sessionScreenshot;
     ParseObject saveSession;
+    private LatLng startPointCoordinates, endPointCoordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,13 @@ public class SaveSessionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveParseSession();
+                String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
+                Uri gmmIntentUri = Uri.parse(url);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
                 finish();
             }
         });
@@ -165,7 +175,13 @@ public class SaveSessionActivity extends Activity {
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             if (savedInstanceState.keySet().contains("Session")) {
-                // todo post session object
+                currentSession = savedInstanceState.getParcelable("Session");
+            }
+            if (savedInstanceState.keySet().contains("start_coords")) {
+                startPointCoordinates = savedInstanceState.getParcelable("start_coords");
+            }
+            if (savedInstanceState.keySet().contains("end_coords")) {
+                endPointCoordinates = savedInstanceState.getParcelable("end_coords");
             }
             if (savedInstanceState.keySet().contains("session_distance")) {
                 sessionDistance = savedInstanceState.getDouble("session_distance");

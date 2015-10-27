@@ -47,9 +47,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.*;
+import com.parse.ParseACL;
+import com.parse.ParseAnalytics;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
-import com.runner.sportsmeter.activities.*;
+import com.runner.sportsmeter.activities.AboutActivity;
+import com.runner.sportsmeter.activities.AccountActivity;
+import com.runner.sportsmeter.activities.LeaderBoardActivity;
+import com.runner.sportsmeter.activities.SaveSessionActivity;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
@@ -238,14 +244,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         ParseCommon.logInGuestUser();
         startButtonEnabled = true;
-        startLocationUpdates();
+        if(mGoogleApiClient != null) {
+            startLocationUpdates();
+        }
         setVariablesToNull();
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (sessionStartTime == null) {
             sessionStartTime = currentUpdateTime;
         }
 
-        if (startPointCoord == null) {
+        if (startPointCoord == null && mMap.getMyLocation() != null) {
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
@@ -296,6 +304,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 sportType.toString());
         Bundle saveBundle = new Bundle();
         saveBundle.putParcelable("Session", saveSession);
+        saveBundle.putParcelable("start_coords", startPointCoord);
+        saveBundle.putParcelable("end_coords", endPointCoord);
         saveBundle.putDouble("session_distance", sessionDistance);
         saveBundle.putDouble("session_time_diff", sessionTimeDiff);
         saveBundle.putDouble("current_max_speed", currentMaxSpeed);

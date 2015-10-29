@@ -87,9 +87,9 @@
     <string name="save_save_btn">SAVE</string>
     <string name="save_post_facebook_btn">Post on Facebook</string>
     // start messages
-    <string name="bikers_click">Bikers click here...</string>
-    <string name="runners_click">Runners click here...</string>
-    <string name="drivers_click">Drivers click here...</string>
+    <string name="bikers_click">Bikers click here…</string>
+    <string name="runners_click">Runners click here…</string>
+    <string name="drivers_click">Drivers click here…</string>
     <string name="screen_shot_successfully_saved">Screen shot successfully saved!</string>
     <string name="this_time">"Time/km"</string>
     <string name="time_is_fastest">"is fastest than world record for"</string>

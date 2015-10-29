@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected static final String LOCATION_KEY = "location-key";
     protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
     public static String sessionImagePath;
@@ -262,13 +263,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void openDialogToLoginIfLoggedAsGuest() {
-        if(ParseUser.getCurrentUser().getUsername().equals("Guest")){
+        if(ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername().equals("Guest")){
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.logged_in_as_guest))
                     .setMessage(getString(R.string.do_u_want_to_login))
                     .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
+                            logOutCurrentUser();
                             openParseLoginActivity();
                             dialog.cancel();
                         }
@@ -624,7 +626,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                                                    "user_birthday",
 //                                                    "user_likes"))
                 .build();
-        startActivityForResult(parseLoginIntent, 0);
+        startActivityForResult(parseLoginIntent, REQUEST_LOGIN_FROM_RESULT);
     }
 
     private void launchMarket() {
@@ -806,17 +808,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.i(TAG, "User agreed to make required location settings changes.");
-//                        startLocationUpdates();
+                        // startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
                         Log.i(TAG, "User chose not to make required location settings changes.");
                         break;
                 }
                 break;
-        }
-        // todo check requestCode from parse and run this
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+            case REQUEST_LOGIN_FROM_RESULT:
+                // from parse login
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+
+                break;
         }
 
         // check current user

@@ -10,18 +10,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.3.1'
+        classpath 'com.android.tools.build:gradle:1.1.1'
     }
 }
 
 ext {
-    compileSdkVersion = 22
+    compileSdkVersion = 23
     buildToolsVersion = "23.0.1"
 
     minSdkVersion = 14
-    targetSdkVersion = 22
+    targetSdkVersion = 23
 
-    facebookSDK = 'com.facebook.android:facebook-android-sdk:4.6.0'
+    facebookSDK = 'com.facebook.android:facebook-android-sdk:4.4.0'
     androidSupport = 'com.android.support:support-v4:23.0.1'
     bolts = 'com.parse.bolts:bolts-android:1.2.1'
     parse = 'com.parse:parse-android:1.10.3'

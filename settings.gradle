@@ -1,1 +1,3 @@
+rootProject.name = 'RunnerMeter'
+
 include ':SportsMeter', ':LoginUI'

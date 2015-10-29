@@ -2,7 +2,6 @@ package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -18,15 +17,10 @@ import com.google.android.gms.ads.AdView;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
-import com.parse.signpost.http.HttpResponse;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.JsonResponseHandler;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -93,14 +87,14 @@ public class AccountActivity extends Activity {
             facebookGraphMeRequestForUserInfo();
         } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
             eMail.setText(getString(R.string.twitter_email_not_present));
-            new HttpGetTask().execute();
-            try {
-                twitterImagePath = getTwitterProfileImage();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+//            new HttpGetTask().execute();
+//            try {
+//                twitterImagePath = getTwitterProfileImage();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
         } else {
             eMail.setText(current.getEmail());
         }
@@ -133,18 +127,18 @@ public class AccountActivity extends Activity {
 //        MySingleton.getInstance(this).addToRequestQueue(request);
 //        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
         // 1
-        HttpClient client = new DefaultHttpClient();
-        HttpGet verifyGetParse = new HttpGet(
-                "https://api.twitter.com/1.1/users/show.json?screen_name="
-                        + screenName);
-        ParseTwitterUtils.getTwitter().signRequest(verifyGetParse);
-        HttpResponse response = (HttpResponse) client.execute(verifyGetParse);
+//        HttpClient client = new DefaultHttpClient();
+//        HttpGet verifyGetParse = new HttpGet(
+//                "https://api.twitter.com/1.1/users/show.json?screen_name="
+//                        + screenName);
+//        ParseTwitterUtils.getTwitter().signRequest(verifyGetParse);
+//        HttpResponse response = (HttpResponse) client.execute(verifyGetParse);
 
 //        HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
 //        JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
 //        String url = responseJson.get("profile_image_url").toString();
 
-        return response.toString();
+        return screenName;
     }
 
     private void facebookGraphMeRequestForUserInfo() {
@@ -187,7 +181,7 @@ public class AccountActivity extends Activity {
         String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
                 + screenName;
 
-        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
+//        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
 
         @Override
         protected void onPreExecute() {
@@ -196,16 +190,16 @@ public class AccountActivity extends Activity {
 
         @Override
         protected List<String> doInBackground(Void... params) {
-            HttpGet request = new HttpGet(URL);
-            ParseTwitterUtils.getTwitter().signRequest(request);
+//            HttpGet request = new HttpGet(URL);
+//            ParseTwitterUtils.getTwitter().signRequest(request);
             JsonResponseHandler responseHandler = new JsonResponseHandler();
-            try {
-                return mClient.execute(request, responseHandler);
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                return mClient.execute(request, responseHandler);
+//            } catch (ClientProtocolException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             return null;
         }
 

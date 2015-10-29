@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void startLogic() {
+        openDialogToLoginIfLoggedAsGuest();
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         ParseCommon.logInGuestUser();
         startButtonEnabled = true;
@@ -258,6 +259,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+    }
+
+    private void openDialogToLoginIfLoggedAsGuest() {
+        if(ParseUser.getCurrentUser().getUsername().equals("Guest")){
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.logged_in_as_guest))
+                    .setMessage(getString(R.string.do_u_want_to_login))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            openParseLoginActivity();
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
+        }
     }
 
     private void stopLogic() {
@@ -500,19 +531,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     logOutCurrentUser();
+                                    openParseLoginActivity();
                                     dialog.cancel();
-                                    ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-                                    Intent parseLoginIntent = builder
-                                            .setFacebookLoginPermissions(Arrays.asList(
-                                                    "public_profile",
-//                                                    "publish_actions",
-//                                                    "manage_pages",
-//                                                    "publish_pages",
-                                                    "email"))
-//                                                    "user_birthday",
-//                                                    "user_likes"))
-                                            .build();
-                                    startActivityForResult(parseLoginIntent, 0);
                                 }
                             })
                             .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -530,14 +550,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             .setCancelable(false)
                             .create()
                             .show();
-
                 } else {
                     if (!ParseCommon.isUserLoggedIn()) {
-                        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-                        startActivityForResult(builder.build(), 0);
-                        if (mInterstitialAd.isLoaded()) {
-                            mInterstitialAd.show();
-                        }
+                        openParseLoginActivity();
                     } else {
                         Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
                     }
@@ -595,6 +610,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
+    }
+
+    private void openParseLoginActivity() {
+        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        Intent parseLoginIntent = builder
+                .setFacebookLoginPermissions(Arrays.asList(
+                        "public_profile",
+//                                                    "publish_actions",
+//                                                    "manage_pages",
+//                                                    "publish_pages",
+                        "email"))
+//                                                    "user_birthday",
+//                                                    "user_likes"))
+                .build();
+        startActivityForResult(parseLoginIntent, 0);
     }
 
     private void launchMarket() {
@@ -783,6 +813,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                 }
                 break;
+        }
+        // todo check requestCode from parse and run this
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
         }
 
         // check current user

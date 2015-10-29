@@ -142,6 +142,7 @@
     <string name="global_duration">duration</string>
     <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
     <string name="app_email">runner.meter@gmail.com</string>
+    <string name="do_u_want_to_login">Do you want to Log In / Sign Up?</string>
 
     // facebook permissions
     <string-array name = "facePermissions">

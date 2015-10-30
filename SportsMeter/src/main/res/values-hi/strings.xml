@@ -84,15 +84,16 @@
     <string name="save_type_of_sport">खेल के प्रकार</string>
     <string name="save_average_speed">औसत स्पीड</string>
     // buttons
-    <string name="save_notsave_btn">नहीं सहेजें</string>
     <string name="save_save_btn">सहेजें</string>
     <string name="save_post_facebook_btn">फेसबुक पर पोस्ट</string>
-    <string name="bikers_click">बाईकर्स यहाँ क्लिक करें...</string>
-    <string name="runners_click">धावक यहाँ क्लिक करें...</string>
-    <string name="drivers_click">ड्राइवर्स यहाँ क्लिक करें...</string>
+    <string name="bikers_click">बाईकर्स यहाँ क्लिक करें…</string>
+    <string name="runners_click">धावक यहाँ क्लिक करें…</string>
+    <string name="drivers_click">ड्राइवर्स यहाँ क्लिक करें…</string>
     <string name="screen_shot_successfully_saved">स्क्रीन शॉट सफलतापूर्वक सहेजा गया!</string>
     <string name="this_time">समय/किमी</string>
     <string name="time_is_fastest">के लिए विश्व रिकार्ड से सबसे तेज है"</string>
+    <string name="do_u_want_to_login">तुम में लॉग इन करें / साइन अप करने के लिए चाहते हो?</string>
+    <string name="save_notsave_btn">न सहेजें</string>
 
 
     // not translate
@@ -154,10 +155,4 @@
         <item>user_birthday</item>
         <item>user_likes</item>
     </string-array>
-    <string name="facebook_app_id">993071064060757</string>
-    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
-    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
-    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
-    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
-    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
 </resources>

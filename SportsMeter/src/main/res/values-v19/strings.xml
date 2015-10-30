@@ -16,6 +16,7 @@
     <string name="msg_not_logged_in">not logged in.</string>
     <string name="already_logged_in">You are already logged in!</string>
     <string name="do_you_want_logout">Do you want to logout?</string>
+    <string name="do_u_want_to_login">Do you want to Log In / Sign Up?</string>
     // common messages
     <string name="ok">OK</string>
     <string name="yes">Yes</string>
@@ -83,16 +84,17 @@
     <string name="save_type_of_sport">type of sport</string>
     <string name="save_average_speed">average speed</string>
     // buttons
-    <string name="save_notsave_btn">NOT SAVE</string>
+    <string name="save_notsave_btn">DON\'T SAVE</string>
     <string name="save_save_btn">SAVE</string>
     <string name="save_post_facebook_btn">Post on Facebook</string>
     // start messages
-    <string name="bikers_click">Bikers click here...</string>
-    <string name="runners_click">Runners click here...</string>
-    <string name="drivers_click">Drivers click here...</string>
+    <string name="bikers_click">Bikers click here…</string>
+    <string name="runners_click">Runners click here…</string>
+    <string name="drivers_click">Drivers click here…</string>
     <string name="screen_shot_successfully_saved">Screen shot successfully saved!</string>
-    <string name="this_time">"Time/km "</string>
-    <string name="time_is_fastest">" is fastest than world record for "</string>
+    <string name="this_time">"Time/km"</string>
+    <string name="time_is_fastest">"is fastest than world record for"</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

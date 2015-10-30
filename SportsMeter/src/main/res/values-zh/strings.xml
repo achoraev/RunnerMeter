@@ -83,15 +83,16 @@
     <string name="save_type_of_sport">类型的运动</string>
     <string name="save_average_speed">平均速度</string>
     // buttons
-    <string name="save_notsave_btn">不保存</string>
     <string name="save_save_btn">保存</string>
     <string name="save_post_facebook_btn">在 Facebook 上的帖子</string>
-    <string name="bikers_click">骑自行车的人请单击此处...</string>
-    <string name="runners_click">跑步者单击此处...</string>
-    <string name="drivers_click">驱动程序请单击此处...</string>
+    <string name="bikers_click">骑自行车的人请单击此处…</string>
+    <string name="runners_click">跑步者单击此处…</string>
+    <string name="drivers_click">驱动程序请单击此处…</string>
     <string name="screen_shot_successfully_saved">屏幕快照已成功保存!</string>
     <string name="this_time">时间/公里</string>
     <string name="time_is_fastest">是比世界纪录快</string>
+    <string name="do_u_want_to_login">你想要登录 / 注册吗?</string>
+    <string name="save_notsave_btn">不保存</string>
 
 
     // not translate
@@ -153,10 +154,4 @@
         <item>user_birthday</item>
         <item>user_likes</item>
     </string-array>
-    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
-    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
-    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
-    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
-    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
-    <string name="facebook_app_id">993071064060757</string>
 </resources>

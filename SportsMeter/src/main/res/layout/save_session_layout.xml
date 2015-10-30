@@ -128,12 +128,17 @@
                 android:text="@string/save_notsave_btn"
                 android:id="@+id/button_not_save"
                 android:layout_weight="1"/>
-        <Button
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:text="@string/save_post_facebook_btn"
+        <com.facebook.share.widget.ShareButton
+                android:background="@color/Blue_800"
                 android:id="@+id/button_post_facebook"
-                android:layout_weight="1"/>
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        <!--<Button-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/save_post_facebook_btn"-->
+        <!--android:id="@+id/button_post_facebook"-->
+        <!--android:layout_weight="1"/>-->
         <Button
                 android:layout_width="80dp"
                 android:layout_height="match_parent"

@@ -85,15 +85,16 @@
     <string name="save_type_of_sport">tipo de deporte</string>
     <string name="save_average_speed">velocidad media</string>
     // buttons
-    <string name="save_notsave_btn">NO GUARDAR</string>
     <string name="save_save_btn">GUARDAR</string>
     <string name="save_post_facebook_btn">Post en Facebook</string>
-    <string name="bikers_click">Los ciclistas haga clic aquí...</string>
-    <string name="runners_click">Corredores haga clic aquí...</string>
-    <string name="drivers_click">Controladores, haga clic en aquí...</string>
+    <string name="bikers_click">Los ciclistas haga clic aquí…</string>
+    <string name="runners_click">Corredores haga clic aquí…</string>
+    <string name="drivers_click">Controladores, haga clic en aquí…</string>
     <string name="screen_shot_successfully_saved">Pantalla guardada con éxito!</string>
     <string name="this_time">Tiempo/km</string>
     <string name="time_is_fastest">es más rápido que el récord mundial</string>
+    <string name="do_u_want_to_login">¿Desea iniciar sesión / inscribirse?</string>
+    <string name="save_notsave_btn">NO GUARDAR</string>
 
 
     // not translate
@@ -155,10 +156,4 @@
         <item>user_birthday</item>
         <item>user_likes</item>
     </string-array>
-    <string name="facebook_app_id">993071064060757</string>
-    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
-    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
-    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
-    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
-    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
 </resources>

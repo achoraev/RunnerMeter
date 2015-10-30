@@ -85,12 +85,16 @@
     <string name="save_type_of_sport">jenis olahraga</string>
     <string name="save_average_speed">kecepatan rata-rata</string>
     // buttons
-    <string name="save_notsave_btn">TIDAK SIMPAN</string>
+    <string name="bikers_click">Bikers klik di sini…</string>
+    <string name="runners_click">Pelari klik di sini…</string>
+    <string name="drivers_click">Driver klik di sini…</string>
     <string name="save_save_btn">SIMPAN</string>
     <string name="save_post_facebook_btn">Posting di Facebook</string>
     <string name="screen_shot_successfully_saved">Layar ditembak berhasil disimpan!</string>
     <string name="this_time">Waktu/km</string>
     <string name="time_is_fastest">tercepat dari world record untuk</string>
+    <string name="do_u_want_to_login">Apakah Anda ingin masuk / mendaftar?</string>
+    <string name="save_notsave_btn">JANGAN SIMPAN</string>
 
 
     // not translate
@@ -98,9 +102,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="local_preferences">localPreferences</string>
     <string name="global_is_started">isStarted</string>
-    <string name="bikers_click">Bikers klik di sini...</string>
-    <string name="runners_click">Pelari klik di sini...</string>
-    <string name="drivers_click">Driver klik di sini...</string>
 
     // navigation drawer
     <string name="drawer_open">Open navigation drawer</string>
@@ -155,10 +156,4 @@
         <item>user_birthday</item>
         <item>user_likes</item>
     </string-array>
-    <string name="facebook_app_id">993071064060757</string>
-    <string name="google_maps_key">AIzaSyAo2mY35HY7RjN_UdCIBdHjzkqxzsG4uhs</string>
-    <string name="parse_app_id">qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN</string>
-    <string name="parse_client_key">aYeD0yfzCYfKtKQLxs1I6aMwODsR3iB5pfvyE8mx</string>
-    <string name="twitter_consumer_key">cDWGj2Dapfn8TnYTJamxXdFDo</string>
-    <string name="twitter_consumer_secret">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
 </resources>

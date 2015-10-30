@@ -166,7 +166,7 @@ public class SaveSessionActivity extends Activity {
         if (currentSession.getTimePerKilometer() != 0 && isValid) {
             saveSession.saveInBackground();
             saveSession.pinInBackground();
-        } else if (!isValid) {
+        } else if (currentSession.getTimePerKilometer() != 0 && !isValid) {
             String message = getString(R.string.this_time) + " " + currentSession.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + currentSession.getSportType();
             Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
         }

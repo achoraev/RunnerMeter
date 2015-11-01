@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.AccessToken;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private NavigationView nvDrawer;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
 
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -239,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startStopBtn = (Button) findViewById(R.id.start_stop_btn);
         showUsername = (TextView) findViewById(R.id.header_username);
         facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     private void startLogic() {
@@ -741,6 +744,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "Connected to GoogleApiClient");
+        progressBar.setVisibility(View.GONE);
+        startStopBtn.setVisibility(View.VISIBLE);
         Toast.makeText(this, getString(R.string.connected_to_googleApi), Toast.LENGTH_LONG).show();
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -995,6 +1000,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     protected synchronized void buildGoogleApiClient() {
         Log.d(TAG, "Building GoogleApiClient");
+        progressBar.setVisibility(View.VISIBLE);
 //        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
         Thread buildGoogleApiThread = new Thread(new Runnable() {
             @Override

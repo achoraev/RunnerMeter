@@ -31,13 +31,29 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.d("world_map", "Map is ready");
+        mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMyLocationEnabled(true);
+        LatLng startPoint = new LatLng(42.697748, 23.321658);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 1), 1000, null);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+        getCoordinatesFromParse();
+    }
+
+    private void getCoordinatesFromParse() {
         ParseQuery<Coordinates> query = Coordinates.getQuery();
         query.findInBackground(new FindCallback<Coordinates>() {
             public void done(List<Coordinates> coordinates, ParseException e) {
                 if (e == null) {
                     Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
-                    if(mMap != null) {
+                    if (mMap != null) {
                         iterateOverCoordinates(coordinates);
                     } else {
                         try {
@@ -61,17 +77,5 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
             String username = coord.getCurrentUser().getUsername();
             mMap.addMarker(new MarkerOptions().position(curPosition).title(username));
         }
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        Log.d("world_map", "Map is ready");
-        mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setMyLocationEnabled(true);
-        LatLng startPoint = new LatLng(42.697748, 23.321658);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 1), 1000, null);
-        mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 }

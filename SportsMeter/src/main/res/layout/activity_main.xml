@@ -25,6 +25,12 @@
 
             <!--Frame over the map-->
             <include layout="@layout/info_layout"/>
+            <com.facebook.share.widget.LikeView android:layout_width="100dp"
+                                                android:layout_height="60dp"
+                                                android:visibility="gone"
+                                                android:layout_gravity="center_horizontal|center_vertical"
+                                                android:id="@+id/like_page">
+            </com.facebook.share.widget.LikeView>
             <ProgressBar
                     android:id="@+id/progress_bar"
                     style="?android:attr/progressBarStyle"

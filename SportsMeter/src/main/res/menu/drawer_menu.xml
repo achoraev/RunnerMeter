@@ -26,6 +26,10 @@
                 android:icon="@drawable/ic_leaderboard"
                 android:title="@string/menu_leaderboard" />
         <item
+                android:id="@+id/like_on_facebook"
+                android:icon="@drawable/ic_action_like"
+                android:title="@string/like_on_facebook"/>
+        <item
                 android:id="@+id/rate_app_fragment"
                 android:icon="@drawable/ic_rating"
                 android:title="@string/menu_rate" />

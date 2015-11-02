@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
+import com.facebook.share.widget.LikeView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -53,10 +54,7 @@ import com.parse.ParseAnalytics;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
-import com.runner.sportsmeter.activities.AboutActivity;
-import com.runner.sportsmeter.activities.AccountActivity;
-import com.runner.sportsmeter.activities.LeaderBoardActivity;
-import com.runner.sportsmeter.activities.SaveSessionActivity;
+import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
@@ -77,20 +75,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         LocationListener,
         ResultCallback<LocationSettingsResult> {
 
-    public static final int ONE_SECOND = 1000;
     public static final int TWO_SECOND = 2000;
+    public static final int ONE_SECOND = 1000;
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    public static final int MAP_ZOOM = 19;
+    public static final int MAP_ZOOM = 17;
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.CYAN;
-    public static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
-    public static final String speedMetricUnit = " km/h";
-    protected static final String TAG = "location";
+
+    protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
     protected static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
-    protected static final String LOCATION_KEY = "location-key";
     protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
+    protected static final String LOCATION_KEY = "location-key";
+    protected static final String speedMetricUnit = " km/h";
+    protected static final String TAG = "location";
+
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProgressBar progressBar;
 
     private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
     private LatLng currentCoordinates = null;
     private LatLng lastUpdatedCoord = null;
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Bitmap sessionScreenShot;
 
     private Boolean exit = false;
-    private GoogleApiClient mGoogleApiClient;
+
     private String lastUpdateTime, currentUpdateTime, sessionStartTime = null;
     private boolean mRequestingLocationUpdates = true;
     protected LocationRequest mLocationRequest;
@@ -125,16 +126,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean startButtonEnabled;
 
     private String userName, facebookId;
-    private Session currentSession;
-    private ParseUser guestUser = null;
 
-    Fragment fragment = null;
-    TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
-    Button startStopBtn;
-    ProfilePictureView facebookProfilePicture;
+    private Fragment fragment = null;
+    private TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
+    private Button startStopBtn;
+    private ProfilePictureView facebookProfilePicture;
+    private LikeView likeView;
 
-    InterstitialAd mInterstitialAd;
-    AdView mAdView;
+    private InterstitialAd mInterstitialAd;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void startLogic() {
         openDialogToLoginIfLoggedAsGuest();
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
-        ParseCommon.logInGuestUser();
+        ParseCommon.logInGuestUser(this);
         startButtonEnabled = true;
         if(mGoogleApiClient != null) {
             startLocationUpdates();
@@ -263,37 +263,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
-    }
-
-    private void openDialogToLoginIfLoggedAsGuest() {
-        if(ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername().equals("Guest")){
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.logged_in_as_guest))
-                    .setMessage(getString(R.string.do_u_want_to_login))
-                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            logOutCurrentUser();
-                            openParseLoginActivity();
-                            dialog.cancel();
-                        }
-                    })
-                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            dialog.cancel();
-                        }
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show();
-        }
     }
 
     private void stopLogic() {
@@ -360,6 +329,37 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setVariablesToNull();
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+    }
+
+    private void openDialogToLoginIfLoggedAsGuest() {
+        if(ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername().equals("Guest")){
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.logged_in_as_guest))
+                    .setMessage(getString(R.string.do_u_want_to_login))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            logOutCurrentUser();
+                            openParseLoginActivity();
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            dialog.cancel();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
+        }
     }
 
     private void setVariablesToNull() {
@@ -598,6 +598,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         android.R.anim.fade_out);
                 startActivity(leaderIntent);
                 break;
+//            case R.id.like_on_facebook:
+//                likeView = (LikeView) findViewById(R.id.like_page);
+//                likeView.setObjectIdAndType(
+//                        getString(R.string.facebook_page),
+//                        LikeView.ObjectType.PAGE);
+//                likeView.setEnabled(true);
+//                likeView.setMinimumWidth(100);
+//                likeView.setMinimumHeight(60);
+//                likeView.setVisibility(View.VISIBLE);
+//                likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
+//                break;
             case R.id.rate_app_fragment:
                 launchMarket();
                 break;
@@ -616,55 +627,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
-
-    private void openParseLoginActivity() {
-        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
-        Intent parseLoginIntent = builder
-                .setFacebookLoginPermissions(Arrays.asList(
-                        "public_profile",
-//                                                    "publish_actions",
-//                                                    "manage_pages",
-//                                                    "publish_pages",
-                        "email"))
-//                                                    "user_birthday",
-//                                                    "user_likes"))
-                .build();
-        startActivityForResult(parseLoginIntent, REQUEST_LOGIN_FROM_RESULT);
-    }
-
-    private void launchMarket() {
-        Uri uri = Uri.parse("market://details?id=" + getPackageName());
-        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        try {
-            overridePendingTransition(android.R.anim.fade_in,
-                    android.R.anim.fade_out);
-            startActivity(myAppLinkToMarket);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.d("App", e.getMessage());
-        }
-    }
-
-    private void logOutCurrentUser() {
-        new ParseCommon().logOutUser(this);
-        facebookProfilePicture.setProfileId("");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    /* Called whenever we call invalidateOptionsMenu() */
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        // If the nav drawer is open, hide action items related to the content view
-//        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-//        return super.onPrepareOptionsMenu(menu);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -688,6 +650,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 startActivity(aboutIntent);
+                return true;
+            case R.id.action_world_map:
+                Intent worldMapIntent = new Intent(MainActivity.this, WorldMapActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(worldMapIntent);
                 return true;
 //            case R.id.action_help:
 //                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
@@ -725,6 +693,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void openParseLoginActivity() {
+        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        Intent parseLoginIntent = builder
+                .setFacebookLoginPermissions(Arrays.asList(
+                        "public_profile",
+//                                                    "publish_actions",
+//                                                    "manage_pages",
+//                                                    "publish_pages",
+                        "email"))
+//                                                    "user_birthday",
+//                                                    "user_likes"))
+                .build();
+        startActivityForResult(parseLoginIntent, REQUEST_LOGIN_FROM_RESULT);
+    }
+
+    private void launchMarket() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            overridePendingTransition(android.R.anim.fade_in,
+                    android.R.anim.fade_out);
+            startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
+            Log.d("App", e.getMessage());
+        }
+    }
+
+    private void logOutCurrentUser() {
+        new ParseCommon().logOutUser(this);
+        showUsername.setText(R.string.guest);
+        facebookProfilePicture.setProfileId("");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /* Called whenever we call invalidateOptionsMenu() */
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        // If the nav drawer is open, hide action items related to the content view
+//        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+//        return super.onPrepareOptionsMenu(menu);
+//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -828,7 +846,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 break;
         }
-
         // check current user
         setCurrentUserUsername();
 
@@ -838,6 +855,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         if (exit) {
+            if(new ParseCommon().getCurrentUserUsername() == "Guest"){
+                logOutCurrentUser();
+            }
+
             finish();
             super.onBackPressed();
         } else {

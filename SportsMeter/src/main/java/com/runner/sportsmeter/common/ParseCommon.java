@@ -42,9 +42,10 @@ public class ParseCommon {
         });
     }
 
-    public static void logInGuestUser() {
+    public static void logInGuestUser(Context cont) {
         if (!ParseCommon.isUserLoggedIn()) {
             ParseUser.logInInBackground("Guest", "123456");
+            Toast.makeText(cont, R.string.logged_in_as_guest, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -45,7 +45,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         turnOnWiFiOrDataInternet();
 
         ParseCommon.createAnonymousUser();
-        ParseCommon.logInGuestUser();
+        ParseCommon.logInGuestUser(this);
         ParsePush.subscribeInBackground("SportMeter");
 
         runnerBtn.setOnClickListener(new View.OnClickListener() {

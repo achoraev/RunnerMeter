@@ -74,8 +74,8 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     private void iterateOverCoordinates(List<Coordinates> coordinates) {
         for (Coordinates coord : coordinates) {
             LatLng curPosition = new LatLng(coord.getStartAndEndPoint().getLatitude(), coord.getStartAndEndPoint().getLongitude());
-            String username = coord.getCurrentUser().getUsername();
-            mMap.addMarker(new MarkerOptions().position(curPosition).title(username));
+//            String username = coord.getCurrentUser().getUsername();
+            mMap.addMarker(new MarkerOptions().position(curPosition));
         }
     }
 }

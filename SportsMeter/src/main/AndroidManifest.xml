@@ -77,6 +77,10 @@
                   android:label="@string/post_on_facebook"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.runner.sportsmeter.activities.WorldMapActivity"
+                  android:label="@string/world_map"
+                  android:screenOrientation="landscape">
+        </activity>
         <activity
                 android:name="com.parse.ui.ParseLoginActivity"
                 android:label="@string/app_name"

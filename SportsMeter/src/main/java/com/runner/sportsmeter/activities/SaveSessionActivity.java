@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.facebook.share.widget.LikeView;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
@@ -40,6 +41,7 @@ public class SaveSessionActivity extends Activity {
     private ImageView sessionScreenshot;
     ParseObject saveSession;
     private LatLng startPointCoordinates, endPointCoordinates;
+    private LikeView likeView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,14 @@ public class SaveSessionActivity extends Activity {
                 finish();
             }
         });
+
+        // initialize like for facebook likes
+        likeView = (LikeView) findViewById(R.id.like_page);
+        likeView.setObjectIdAndType(
+                getString(R.string.facebook_page),
+                LikeView.ObjectType.PAGE);
+        likeView.setVisibility(View.VISIBLE);
+        likeView.setLikeViewStyle(LikeView.Style.STANDARD);
     }
 
     private void setTextViewsFromSession() {

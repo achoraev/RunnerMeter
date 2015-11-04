@@ -598,17 +598,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         android.R.anim.fade_out);
                 startActivity(leaderIntent);
                 break;
-//            case R.id.like_on_facebook:
-//                likeView = (LikeView) findViewById(R.id.like_page);
-//                likeView.setObjectIdAndType(
-//                        getString(R.string.facebook_page),
-//                        LikeView.ObjectType.PAGE);
-//                likeView.setEnabled(true);
-//                likeView.setMinimumWidth(100);
-//                likeView.setMinimumHeight(60);
-//                likeView.setVisibility(View.VISIBLE);
-//                likeView.setLikeViewStyle(LikeView.Style.BOX_COUNT);
-//                break;
+            case R.id.like_on_facebook:
+                Intent likeFacebook = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/sportmeter/"));
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(likeFacebook);
+                break;
             case R.id.rate_app_fragment:
                 launchMarket();
                 break;

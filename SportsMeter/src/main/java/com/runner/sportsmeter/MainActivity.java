@@ -68,7 +68,6 @@ import java.util.Date;
  */
 public class MainActivity extends AppCompatActivity implements
         OnMapReadyCallback,
-        LocationSource,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private OnLocationChangedListener mMapLocationListener = null;
     private SupportMapFragment mapFragment;
     private LatLng currentCoordinates = null;
     private LatLng lastUpdatedCoord = null;
@@ -746,7 +744,6 @@ public class MainActivity extends AppCompatActivity implements
         mMap = googleMap;
 //        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
 //        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
-        mMap.setLocationSource(this);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
         LatLng startPoint = new LatLng(42.697748, 23.321658);
@@ -796,9 +793,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
-        if (mMapLocationListener != null) {
-            mMapLocationListener.onLocationChanged(location);
-        }
         currentLocation = location;
         lastUpdateTime = currentUpdateTime;
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
@@ -854,7 +848,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         if (exit) {
-            if(new ParseCommon().getCurrentUserUsername() == "Guest"){
+            if(new ParseCommon().getCurrentUserUsername().equals("Guest")){
                 logOutCurrentUser();
             }
 
@@ -1046,10 +1040,6 @@ public class MainActivity extends AppCompatActivity implements
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
-    private boolean hasGps() {
-        return getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-    }
-
     @Override
     public void onResult(LocationSettingsResult locationSettingsResult) {
         final Status status = locationSettingsResult.getStatus();
@@ -1075,15 +1065,5 @@ public class MainActivity extends AppCompatActivity implements
                         "not created.");
                 break;
         }
-    }
-
-    @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener) {
-        mMapLocationListener = onLocationChangedListener;
-    }
-
-    @Override
-    public void deactivate() {
-        mMapLocationListener = null;
     }
 }

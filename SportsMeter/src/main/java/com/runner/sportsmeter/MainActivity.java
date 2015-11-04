@@ -42,10 +42,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -69,7 +66,9 @@ import java.util.Date;
 /**
  * Created by Angel Raev on 29-April-15.
  */
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class MainActivity extends AppCompatActivity implements
+        OnMapReadyCallback,
+        LocationSource,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
+    private OnLocationChangedListener mMapLocationListener = null;
     private SupportMapFragment mapFragment;
     private LatLng currentCoordinates = null;
     private LatLng lastUpdatedCoord = null;
@@ -746,6 +746,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
 //        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
 //        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
+        mMap.setLocationSource(this);
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
         LatLng startPoint = new LatLng(42.697748, 23.321658);
@@ -795,6 +796,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onLocationChanged(Location location) {
         Log.d(TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
+        if (mMapLocationListener != null) {
+            mMapLocationListener.onLocationChanged(location);
+        }
         currentLocation = location;
         lastUpdateTime = currentUpdateTime;
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
@@ -1039,7 +1043,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
     private boolean hasGps() {
@@ -1071,5 +1075,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         "not created.");
                 break;
         }
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        mMapLocationListener = onLocationChangedListener;
+    }
+
+    @Override
+    public void deactivate() {
+        mMapLocationListener = null;
     }
 }

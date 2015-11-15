@@ -256,8 +256,10 @@ public class MainActivity extends AppCompatActivity implements
             sessionStartTime = currentUpdateTime;
         }
 
-        if (startPointCoord == null && mMap.getMyLocation() != null) {
+        if (mMap.getMyLocation() != null) {
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+        } else {
+            startPointCoord = new LatLng(40, 25);
         }
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
@@ -746,8 +748,8 @@ public class MainActivity extends AppCompatActivity implements
 //        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
-        LatLng startPoint = new LatLng(42.697748, 23.321658);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPoint, MAP_ZOOM), ONE_SECOND, null);
+        startPointCoord = new LatLng(42.697748, 23.321658);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }

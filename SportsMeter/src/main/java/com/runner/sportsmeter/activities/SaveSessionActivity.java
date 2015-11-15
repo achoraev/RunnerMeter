@@ -65,7 +65,6 @@ public class SaveSessionActivity extends Activity {
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
                     startActivity(mapIntent);
                 }
-                finish();
             }
         });
 

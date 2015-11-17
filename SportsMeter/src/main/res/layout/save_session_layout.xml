@@ -129,7 +129,8 @@
                 android:text="@string/save_notsave_btn"
                 android:id="@+id/button_not_save"
                 android:layout_weight="1"
-                android:layout_margin="0dp"/>
+                android:layout_margin="0dp"
+                android:padding="0dp"/>
         <com.facebook.share.widget.ShareButton
                 android:background="@color/Blue_800"
                 android:id="@+id/button_post_facebook"

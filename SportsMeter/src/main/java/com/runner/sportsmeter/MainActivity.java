@@ -2,7 +2,6 @@ package com.runner.sportsmeter;
 
 import android.app.Activity;
 import android.content.*;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -42,7 +41,10 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.*;
-import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -591,6 +593,9 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_leaderboard_fragment:
                 Intent leaderIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(getString(R.string.type_of_sport), sportType);
+                leaderIntent.putExtras(bundle);
 //                Bundle bundle = new Bundle();
 //                bundle.putParcelableArrayList("list", arrayOfSessions);
 //                leaderIntent.putExtras(bundle);

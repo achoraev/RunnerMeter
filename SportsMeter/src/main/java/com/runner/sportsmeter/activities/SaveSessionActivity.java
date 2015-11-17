@@ -39,9 +39,10 @@ public class SaveSessionActivity extends Activity {
             saveMaxSpeed, saveAvgSpeed, saveTypeSport, saveCreatedAt;
     private Button saveBtn, notSaveBtn, postOnFacebookBtn;
     private ImageView sessionScreenshot;
-    ParseObject saveSession;
+    private ParseObject saveSession;
     private LatLng startPointCoordinates, endPointCoordinates;
     private LikeView likeView;
+    private Boolean isSaveSession = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,11 +153,14 @@ public class SaveSessionActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        saveParseSession();
+        if(!isSaveSession) {
+            saveParseSession();
+        }
         super.onBackPressed();
     }
 
     private void saveParseSession() {
+        isSaveSession = true;
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(false);

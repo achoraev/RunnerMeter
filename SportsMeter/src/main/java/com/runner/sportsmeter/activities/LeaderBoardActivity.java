@@ -14,6 +14,7 @@ import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.RecyclerAdapter;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Session;
 
 import java.util.ArrayList;
@@ -32,11 +33,15 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private SportTypes sportType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboard_layout);
+
+        Bundle bundle = getIntent().getExtras();
+        sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
 
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
         bestRunners = (Button) findViewById(R.id.btn_best_runners);
@@ -70,7 +75,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     private void ParseQueryBestResultsTask() {
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-        // todo make query by type of sport
+        query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(15);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -91,9 +96,9 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     private void ParseQueryMyBestResult() {
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-//        query.fromLocalDatastore();
-        // todo make query by type of sport
+//        query.fromLocalDatastore()
         query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
+        query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {

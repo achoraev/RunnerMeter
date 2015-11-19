@@ -95,6 +95,8 @@
     <string name="time_is_fastest">, mint a világrekordot a leggyorsabb</string>
     <string name="do_u_want_to_login">Szeretné, hogy belépés / regisztráció?</string>
     <string name="save_notsave_btn">NINCS MENTÉS</string>
+    <string name="like_on_facebook">Mint a Facebook-on</string>
+    <string name="world_map">Világtérkép</string>
 
 
     // not translate

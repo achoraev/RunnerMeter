@@ -94,6 +94,8 @@
     <string name="screen_shot_successfully_saved">Screen shot successfully saved!</string>
     <string name="this_time">"Time/km"</string>
     <string name="time_is_fastest">"is fastest than world record for"</string>
+    <string name="like_on_facebook">Like on Facebook</string>
+    <string name="world_map">World map</string>
 
 
     // not translate

@@ -95,6 +95,8 @@
     <string name="time_is_fastest">Это быстрый, чем мировой рекорд для</string>
     <string name="do_u_want_to_login">Вы хотите войти / зарегистрироваться?</string>
     <string name="save_notsave_btn">НЕ СОХРАНЯТЬ</string>
+    <string name="like_on_facebook">Как на Facebook</string>
+    <string name="world_map">Карта мира</string>
 
 
     // not translate

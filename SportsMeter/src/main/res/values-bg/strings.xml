@@ -93,6 +93,9 @@
     <string name="this_time">Време/km</string>
     <string name="time_is_fastest">е по-бързо отколкото световен рекорд за</string>
     <string name="do_u_want_to_login">Искате ли да се логнете / регистрирате?</string>
+    <string name="like_on_facebook">Like Facebook страница</string>
+    <string name="world_map">Карта на света</string>
+
 
     // not translate
     <string name="app_name">Sport Meter</string>

@@ -95,6 +95,8 @@
     <string name="time_is_fastest">est plus rapide que le record du monde</string>
     <string name="do_u_want_to_login">Voulez vous ouvrir une session / s\'inscrire ?</string>
     <string name="save_notsave_btn">NE PAS ENREGISTRER</string>
+    <string name="like_on_facebook">Comme sur Facebook</string>
+    <string name="world_map">Carte du monde</string>
 
 
     // not translate

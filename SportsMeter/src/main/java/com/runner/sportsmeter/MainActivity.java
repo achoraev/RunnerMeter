@@ -48,10 +48,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseACL;
-import com.parse.ParseAnalytics;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
@@ -247,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements
     private void startLogic() {
         openDialogToLoginIfLoggedAsGuest();
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
-        ParseCommon.logInGuestUser(this);
         startButtonEnabled = true;
         if(mGoogleApiClient != null) {
             startLocationUpdates();
@@ -269,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
+        ParseCommon.logInGuestUser(this);
         stopLocationUpdates();
         startButtonEnabled = false;
         ParseACL acl = new ParseACL();
@@ -374,21 +371,6 @@ public class MainActivity extends AppCompatActivity implements
         currentTimeDiff = 0;
         currentDistance = 0;
         currentSpeed = 0;
-    }
-
-    protected void buildLocationSettingsRequest() {
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(mLocationRequest);
-        mLocationSettingsRequest = builder.build();
-    }
-
-    protected void checkLocationSettings() {
-        PendingResult<LocationSettingsResult> result =
-                LocationServices.SettingsApi.checkLocationSettings(
-                        mGoogleApiClient,
-                        mLocationSettingsRequest
-                );
-        result.setResultCallback(this);
     }
 
     private void setCurrentUserUsername() {
@@ -1038,6 +1020,21 @@ public class MainActivity extends AppCompatActivity implements
             }
         });
         buildGoogleApiThread.start();
+    }
+
+    protected void buildLocationSettingsRequest() {
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        mLocationSettingsRequest = builder.build();
+    }
+
+    protected void checkLocationSettings() {
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(
+                        mGoogleApiClient,
+                        mLocationSettingsRequest
+                );
+        result.setResultCallback(this);
     }
 
     protected void createLocationRequest() {

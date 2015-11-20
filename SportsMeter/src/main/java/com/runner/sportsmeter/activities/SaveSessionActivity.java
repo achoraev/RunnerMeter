@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Session;
 
@@ -50,6 +51,7 @@ public class SaveSessionActivity extends Activity {
         setContentView(R.layout.save_session_layout);
         savedInstanceState = getIntent().getExtras();
 
+        ParseCommon.logInGuestUser(this);
         updateFromBundle(savedInstanceState);
         initializeViews();
         createCurrentSession();
@@ -59,12 +61,14 @@ public class SaveSessionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveParseSession();
-                String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
-                Uri gmmIntentUri = Uri.parse(url);
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mapIntent);
+                if(endPointCoordinates != null) {
+                    String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
+                    Uri gmmIntentUri = Uri.parse(url);
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    }
                 }
             }
         });

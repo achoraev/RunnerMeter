@@ -77,6 +77,14 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         new Utility().setupAdds(mAdView, this);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(new ParseCommon().getCurrentUserUsername().equals("Guest")){
+            new ParseCommon().logOutUser(this);
+        }
+        super.onBackPressed();
+    }
+
     private void turnOnWiFiOrDataInternet() {
         if (!Utility.isNetworkConnected(StartActivity.this)) {
             new AlertDialog.Builder(StartActivity.this)

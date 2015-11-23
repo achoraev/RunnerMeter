@@ -101,8 +101,6 @@ public class Calculations {
         double finalResult = result - (result % 1);
         if(result % 1 != 0) {
             finalResult += 0.60 * (result % 1);
-        } else if(result % 1 == 0.60) {
-            finalResult += 1.00;
         }
 
         finalResult = Math.round(finalResult * ONE_HUNDRED);

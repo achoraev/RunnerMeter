@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements
         openDialogToLoginIfLoggedAsGuest();
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
-        if(mGoogleApiClient != null) {
+        if (mGoogleApiClient != null) {
             startLocationUpdates();
         }
         setVariablesToNull();
@@ -331,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void openDialogToLoginIfLoggedAsGuest() {
-        if(ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername().equals("Guest")){
+        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername().equals("Guest")) {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.logged_in_as_guest))
                     .setMessage(getString(R.string.do_u_want_to_login))
@@ -513,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements
                 fragment = null;
                 break;
             case R.id.nav_login_fragment:
-                if (ParseCommon.isUserLoggedIn()) {
+                if (ParseCommon.isUserLoggedIn() && !ParseUser.getCurrentUser().get("name").equals("Guest")) {
                     new AlertDialog.Builder(this)
                             .setMessage(getString(R.string.do_you_want_logout))
                             .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
@@ -540,11 +540,12 @@ public class MainActivity extends AppCompatActivity implements
                             .create()
                             .show();
                 } else {
-                    if (!ParseCommon.isUserLoggedIn()) {
-                        openParseLoginActivity();
-                    } else {
-                        Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
-                    }
+//                    if (!ParseCommon.isUserLoggedIn()) {
+                    logOutCurrentUser();
+                    openParseLoginActivity();
+//                    } else {
+//                        Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
+//                    }
                 }
                 break;
             case R.id.nav_feedback_fragment:
@@ -837,7 +838,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onBackPressed() {
         if (exit) {
-            if(new ParseCommon().getCurrentUserUsername().equals("Guest")){
+            if (new ParseCommon().getCurrentUserUsername().equals("Guest")) {
                 logOutCurrentUser();
             }
 
@@ -898,6 +899,10 @@ public class MainActivity extends AppCompatActivity implements
                 sessionTimeDiff = savedInstanceState.getLong(getString(R.string.global_duration));
             }
 
+            if (savedInstanceState.keySet().contains("sessionStartTime")) {
+                sessionStartTime = savedInstanceState.getString("sessionStartTime");
+            }
+
             if (savedInstanceState.keySet().contains(getString(R.string.global_is_started))) {
                 startButtonEnabled = savedInstanceState.getBoolean(getString(R.string.global_is_started));
                 if (startButtonEnabled) {
@@ -919,6 +924,7 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putDouble(getString(R.string.global_average_speed), averageSpeed);
         savedInstanceState.putDouble(getString(R.string.global_max_speed), currentMaxSpeed);
         savedInstanceState.putLong(getString(R.string.global_duration), sessionTimeDiff);
+        savedInstanceState.putString("sessionStartTime", sessionStartTime);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
 
         super.onSaveInstanceState(savedInstanceState);

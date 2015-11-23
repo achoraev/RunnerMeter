@@ -40,6 +40,7 @@
 
     <!--<color name="app_color">#6200EA</color>-->
     <color name="app_color">#00BFA5</color>
+    <color name="app_color2">#1DCCC6</color>
     <color name="safe_mode_text">#80ffffff</color>
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>

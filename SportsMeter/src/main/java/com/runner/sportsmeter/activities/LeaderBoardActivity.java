@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class LeaderBoardActivity extends Activity implements View.OnClickListener {
 
-    Button bestRunners;
+    Button bestRunners, bestBikers, bestDrivers, myBest;
     private ProgressBar bar;
     public ArrayList<Session> arrayOfSessions;
     AdView mAdView;
@@ -45,12 +45,36 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
         bestRunners = (Button) findViewById(R.id.btn_best_runners);
+        bestBikers = (Button) findViewById(R.id.btn_best_bikers);
+        bestDrivers = (Button) findViewById(R.id.btn_best_drivers);
+        myBest = (Button) findViewById(R.id.btn_my_best_result);
 
         bestRunners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask();
+                ParseQueryBestResultsTask(SportTypes.runner);
 //                new QueryBestRunnersTask().execute();
+            }
+        });
+
+        bestBikers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQueryBestResultsTask(SportTypes.biker);
+            }
+        });
+
+        bestDrivers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQueryBestResultsTask(SportTypes.driver);
+            }
+        });
+
+        myBest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseQueryMyBestResult();
             }
         });
 
@@ -72,10 +96,10 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 //        new Utility().setupAdds(mAdView, this);
     }
 
-    private void ParseQueryBestResultsTask() {
+    private void ParseQueryBestResultsTask(SportTypes type) {
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-        query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString());
+        query.whereEqualTo(getString(R.string.session_sport_type), type.toString());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(15);
         query.findInBackground(new FindCallback<ParseObject>() {

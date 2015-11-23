@@ -30,7 +30,7 @@
     <application
             android:allowBackup="true"
             android:name="com.runner.sportsmeter.ParseApplication"
-            android:icon="@mipmap/logo"
+            android:icon="@mipmap/logo_unique"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
         <meta-data

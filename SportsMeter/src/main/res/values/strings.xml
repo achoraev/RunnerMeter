@@ -68,6 +68,9 @@
     <string name="post_on_facebook">Post on facebook</string>
     <string name="account_page_label">Account Info</string>
     <string name="leader_board_best_runners">Best runners</string>
+    <string name="leader_board_best_bikers">Best bikers</string>
+    <string name="leader_board_best_drivers">Best drivers</string>
+    <string name="leader_board_my_best">My best results</string>
     // account
     <string name="account_name_label">Your name:</string>
     <string name="account_username_label">Username:</string>

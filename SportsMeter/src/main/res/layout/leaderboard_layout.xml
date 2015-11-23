@@ -1,22 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_height="match_parent"
               android:layout_width="match_parent"
               android:background="@color/background_floating_material_dark"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:padding="5dp"
+              tools:ignore="PrivateResource">
 
     <TextView android:layout_height="25dp"
               android:layout_width="match_parent"
               android:text="@string/menu_leaderboard"
               android:textSize="20sp"
               android:gravity="center"
-              android:layout_marginTop="30dp"/>
+              android:layout_marginTop="20dp"
+              android:layout_marginBottom="20dp"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/leader_board_best_bikers"
+                android:textSize="10sp"
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/btn_best_bikers"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/leader_board_best_runners"
+                android:textSize="10sp"
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/btn_best_runners"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/leader_board_best_drivers"
+                android:textSize="10sp"
+                style="?attr/buttonBarButtonStyle"
+                android:id="@+id/btn_best_drivers"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"/>
+    </LinearLayout>
     <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/leader_board_best_runners"
-            android:textSize="20sp"
-            android:id="@+id/btn_best_runners"
+            android:text="@string/leader_board_my_best"
+            android:textSize="10sp"
+            style="?attr/buttonBarButtonStyle"
+            android:id="@+id/btn_my_best_result"
             android:layout_gravity="center_horizontal"/>
     <ProgressBar
             android:id="@+id/progressBar"
@@ -34,9 +71,10 @@
                 android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/advertise" android:padding="5dp"/>
+                android:layout_above="@+id/advertise"
+                android:padding="5dp"/>
 
-         <!--The advertise-->
+        <!--The advertise-->
         <include layout="@layout/ad_layout_leaderboard"
                  android:id="@+id/advertise"/>
     </RelativeLayout>

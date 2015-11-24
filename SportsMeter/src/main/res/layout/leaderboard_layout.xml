@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:layout_height="match_parent"
               android:layout_width="match_parent"
               android:background="@color/app_color2"
               android:orientation="vertical"
-              android:padding="5dp"
-              tools:ignore="PrivateResource">
+              android:padding="5dp">
 
     <TextView android:layout_height="25dp"
               android:layout_width="match_parent"
@@ -23,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/leader_board_best_bikers"
-                android:textSize="10sp"
+                android:textSize="@dimen/leaderboard_btn_text_size"
                 style="@style/BtnCustomLeaderBoard"
                 android:id="@+id/btn_best_bikers"
                 android:layout_gravity="center_horizontal"
@@ -32,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/leader_board_best_runners"
-                android:textSize="10sp"
+                android:textSize="@dimen/leaderboard_btn_text_size"
                 style="@style/BtnCustomLeaderBoard"
                 android:id="@+id/btn_best_runners"
                 android:layout_gravity="center_horizontal"
@@ -41,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/leader_board_best_drivers"
-                android:textSize="10sp"
+                android:textSize="@dimen/leaderboard_btn_text_size"
                 style="@style/BtnCustomLeaderBoard"
                 android:id="@+id/btn_best_drivers"
                 android:layout_gravity="center_horizontal"
@@ -51,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/leader_board_my_best"
-            android:textSize="10sp"
+            android:textSize="@dimen/leaderboard_btn_text_size"
             style="@style/BtnCustomLeaderBoard"
             android:id="@+id/btn_my_best_result"
             android:layout_gravity="center_horizontal"/>

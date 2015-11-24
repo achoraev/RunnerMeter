@@ -6,6 +6,7 @@
     <dimen name="circle_corners">60dp</dimen>
     <dimen name="outside_margin">10dp</dimen>
     <dimen name="inside_padding">5dp</dimen>
+    <dimen name="leaderboard_btn_text_size">12sp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
          https://developer.android.com/design/patterns/navigation-drawer.html -->

@@ -3,6 +3,7 @@ package com.runner.sportsmeter.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,6 +22,7 @@ import java.util.List;
  * Created by angelr on 02-Nov-15.
  */
 public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private final int QUERY_LIMIT = 300;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
 
@@ -49,10 +51,12 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void getCoordinatesFromParse() {
         ParseQuery<Coordinates> query = Coordinates.getQuery();
+        query.setLimit(QUERY_LIMIT);
         query.findInBackground(new FindCallback<Coordinates>() {
             public void done(List<Coordinates> coordinates, ParseException e) {
                 if (e == null) {
                     Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
+                    Toast.makeText(WorldMapActivity.this, "Retrieved " + coordinates.size(), Toast.LENGTH_LONG).show();
                     if (mMap != null) {
                         iterateOverCoordinates(coordinates);
                     } else {
@@ -66,6 +70,7 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
 
                 } else {
                     Log.e("coordinates", "Error: " + e.getMessage());
+                    Toast.makeText(WorldMapActivity.this, "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });

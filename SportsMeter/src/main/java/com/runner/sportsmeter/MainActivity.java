@@ -23,14 +23,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.facebook.AccessToken;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
-import com.facebook.share.widget.LikeView;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -48,7 +44,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.*;
+import com.parse.ParseACL;
+import com.parse.ParseAnalytics;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
@@ -128,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements
     private TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
     private Button startStopBtn;
     private ProfilePictureView facebookProfilePicture;
-    private LikeView likeView;
+    private Spinner chooseTypeSport;
 
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
@@ -239,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements
         showUsername = (TextView) findViewById(R.id.header_username);
         facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        chooseTypeSport = (Spinner) findViewById(R.id.type_of_sports);
     }
 
     private void startLogic() {
@@ -644,6 +644,9 @@ public class MainActivity extends AppCompatActivity implements
 //                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
 //                startActivity(helpIntent);
 //                return true;
+            case R.id.type_of_sports:
+
+                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)

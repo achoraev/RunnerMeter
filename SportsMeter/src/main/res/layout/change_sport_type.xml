@@ -1,0 +1,6 @@
+<Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+         android:id="@+id/type_of_sports"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:background="@color/black"
+         android:entries="@array/order" />

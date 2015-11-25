@@ -99,6 +99,8 @@
     <string name="time_is_fastest">"is fastest than world record for"</string>
     <string name="like_on_facebook">Like on Facebook</string>
     <string name="world_map">World map</string>
+    <string name="change_type_of_sport">Change type</string>
+    <string name="map">Map</string>
 
 
     // not translate

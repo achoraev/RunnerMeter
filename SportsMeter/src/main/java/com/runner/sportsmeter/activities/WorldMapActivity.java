@@ -77,8 +77,8 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void iterateOverCoordinates(List<Coordinates> coordinates) {
-        for (Coordinates coord : coordinates) {
-            LatLng curPosition = new LatLng(coord.getStartAndEndPoint().getLatitude(), coord.getStartAndEndPoint().getLongitude());
+        for (int i = 0; i < coordinates.size(); i += 2) {
+            LatLng curPosition = new LatLng(coordinates.get(i).getStartAndEndPoint().getLatitude(), coordinates.get(i).getStartAndEndPoint().getLongitude());
 //            String username = coord.getCurrentUser().getUsername();
             mMap.addMarker(new MarkerOptions().position(curPosition));
         }

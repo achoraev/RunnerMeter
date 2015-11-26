@@ -157,18 +157,6 @@ public class MainActivity extends AppCompatActivity implements
 //                R.array.order, android.R.layout.simple_spinner_item);
 //        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        chooseTypeSport.setAdapter(adapter);
-//        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-////                String item = parent.getItemAtPosition(position).toString();
-//                Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
 
         Bundle bundle = getIntent().getExtras();
         sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
@@ -663,7 +651,18 @@ public class MainActivity extends AppCompatActivity implements
 //                startActivity(helpIntent);
 //                return true;
             case R.id.type_of_sports:
+                chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String item = parent.getItemAtPosition(position).toString();
+                        Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
+                    }
 
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
                 return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {

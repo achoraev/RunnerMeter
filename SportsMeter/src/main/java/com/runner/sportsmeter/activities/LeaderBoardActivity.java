@@ -93,7 +93,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewLeaderBoard);
-//        new Utility().setupAdds(mAdView, this);
+        new Utility().setupAdds(mAdView, this);
     }
 
     private void ParseQueryBestResultsTask(SportTypes type) {

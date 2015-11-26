@@ -152,6 +152,24 @@ public class MainActivity extends AppCompatActivity implements
             buildGoogleApiClient();
         }
 
+        // spinner
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.order, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         Bundle bundle = getIntent().getExtras();
         sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
 

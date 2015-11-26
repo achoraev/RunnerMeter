@@ -28,7 +28,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     private SimpleGestureFilter detector;
     AdView mAdView;
-    SportTypes sportType;
+    SportTypes sportType = SportTypes.runner;
     Button runnerBtn, bikerBtn, driveBtn;
 
     @Override
@@ -126,7 +126,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         // Call onTouchEvent of SimpleGestureFilter class
-//        this.detector.onTouchEvent(ev);
+        this.detector.onTouchEvent(ev);
         return super.dispatchTouchEvent(ev);
     }
 
@@ -143,32 +143,32 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     @Override
     public void onSwipe(int direction) {
-//        String str = "";
-//
-//        switch (direction) {
-//
-//            case SimpleGestureFilter.SWIPE_RIGHT:
-//                str = "Right";
-//                startMainActivity(sportType);
-//                break;
-//            case SimpleGestureFilter.SWIPE_LEFT:
-//                str = "Left";
-//                startMainActivity(sportType);
-//                break;
-//            case SimpleGestureFilter.SWIPE_DOWN:
-//                str = "Down";
-//                break;
-//            case SimpleGestureFilter.SWIPE_UP:
-//                str = "Up";
-//                break;
-//
-//        }
+        String str = "";
+
+        switch (direction) {
+
+            case SimpleGestureFilter.SWIPE_RIGHT:
+                str = "Right";
+                startMainActivity(sportType);
+                break;
+            case SimpleGestureFilter.SWIPE_LEFT:
+                str = "Left";
+                startMainActivity(sportType);
+                break;
+            case SimpleGestureFilter.SWIPE_DOWN:
+                str = "Down";
+                break;
+            case SimpleGestureFilter.SWIPE_UP:
+                str = "Up";
+                break;
+
+        }
 //        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDoubleTap() {
         Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
-//        startMainActivity(sportType);
+        startMainActivity(sportType);
     }
 }

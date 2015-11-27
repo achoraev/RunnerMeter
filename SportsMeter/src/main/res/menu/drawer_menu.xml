@@ -7,7 +7,7 @@
         <item
                 android:id="@+id/nav_map_fragment"
                 android:icon="@drawable/ic_maps"
-                android:title="@string/map"
+                android:title="@string/title_activity_maps"
                 android:checked="true"/>
         <item
                 android:id="@+id/nav_login_fragment"

@@ -18,7 +18,6 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.JsonResponseHandler;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
@@ -108,9 +107,9 @@ public class AccountActivity extends Activity {
 
     private String getTwitterProfileImage() throws IOException, JSONException {
         // 2
-        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-        String url = "https://api.twitter.com/1.1/users/show.json?screen_name="
-                + screenName;
+//        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+//        String url = "https://api.twitter.com/1.1/users/show.json?screen_name="
+//                + screenName;
 
 //        ImageRequest request = new ImageRequest(url,
 //                new Response.Listener<Bitmap>() {
@@ -138,7 +137,7 @@ public class AccountActivity extends Activity {
 //        JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
 //        String url = responseJson.get("profile_image_url").toString();
 
-        return screenName;
+        return null;
     }
 
     private void facebookGraphMeRequestForUserInfo() {
@@ -177,9 +176,9 @@ public class AccountActivity extends Activity {
 
     private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {
 
-        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-        String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
-                + screenName;
+//        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
+//        String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
+//                + screenName;
 
 //        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
 
@@ -192,7 +191,7 @@ public class AccountActivity extends Activity {
         protected List<String> doInBackground(Void... params) {
 //            HttpGet request = new HttpGet(URL);
 //            ParseTwitterUtils.getTwitter().signRequest(request);
-            JsonResponseHandler responseHandler = new JsonResponseHandler();
+//            JsonResponseHandler responseHandler = new JsonResponseHandler();
 //            try {
 //                return mClient.execute(request, responseHandler);
 //            } catch (ClientProtocolException e) {

@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="order">
+        <item>Колоездач</item>
+        <item>Бегач</item>
+        <item>Шофьор</item>
+    </string-array>
+</resources>

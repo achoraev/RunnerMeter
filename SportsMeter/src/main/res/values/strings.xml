@@ -99,67 +99,57 @@
     <string name="time_is_fastest">"is fastest than world record for"</string>
     <string name="like_on_facebook">Like on Facebook</string>
     <string name="world_map">World map</string>
-    <string name="change_type_of_sport">Change type</string>
-    <string name="map">Map</string>
+    <string name="title_activity_maps">Map</string>
 
 
     // not translate
-    <string name="app_name">Sport Meter</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="local_preferences">localPreferences</string>
-    <string name="global_is_started">isStarted</string>
+    <string name="app_name" translatable="false">Sport Meter</string>
+
+    <string name="local_preferences" translatable="false">localPreferences</string>
+    <string name="global_is_started" translatable="false">isStarted</string>
 
     // navigation drawer
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="drawer_close" translatable="false">Close navigation drawer</string>
 
     // banner add
-    <string name="banner_ad_unit_id">ca-app-pub-4902558855752732/5202510405</string>
-    <string name="banner_ad_unit_id_start">ca-app-pub-4902558855752732/2414249200</string>
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4902558855752732/5202510405</string>
+    <string name="banner_ad_unit_id_start" translatable="false">ca-app-pub-4902558855752732/2414249200</string>
     <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
     <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
     <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
-    <string name="banner_ad_unit_id_account">ca-app-pub-4902558855752732/4593182802</string>
-    <string name="banner_ad_unit_id_leaderboard">ca-app-pub-4902558855752732/6069916009</string>
+    <string name="banner_ad_unit_id_account" translatable="false">ca-app-pub-4902558855752732/4593182802</string>
+    <string name="banner_ad_unit_id_leaderboard" translatable="false">ca-app-pub-4902558855752732/6069916009</string>
 
     // interestitial add
-    <string name="interestitial_add">ca-app-pub-4902558855752732/8831484401</string>
+    <string name="interestitial_add" translatable="false">ca-app-pub-4902558855752732/8831484401</string>
 
     // database objects
-    <string name="session_object">Sessions</string>
-    <string name="session_username">username</string>
-    <string name="session_time_per_kilometer">timePerKilometer</string>
-    <string name="session_name">name</string>
-    <string name="session_max_speed">maxSpeed</string>
-    <string name="session_average_speed">averageSpeed</string>
-    <string name="session_distance">distance</string>
-    <string name="session_duration">duration</string>
-    <string name="session_sport_type">sportType</string>
-    <string name="l_time_per_km">min/km:</string>
+    <string name="session_object" translatable="false">Sessions</string>
+    <string name="session_username" translatable="false">username</string>
+    <string name="session_time_per_kilometer" translatable="false">timePerKilometer</string>
+    <string name="session_name" translatable="false">name</string>
+    <string name="session_max_speed" translatable="false">maxSpeed</string>
+    <string name="session_average_speed" translatable="false">averageSpeed</string>
+    <string name="session_distance" translatable="false">distance</string>
+    <string name="session_duration" translatable="false">duration</string>
+    <string name="session_sport_type" translatable="false">sportType</string>
+    <string name="l_time_per_km" translatable="false">min/km:</string>
 
     // test device
-    <string name="huawei_device_id">CA0A55C98B89F9F9F4844683B21D024A</string>
+    <string name="huawei_device_id" translatable="false">CA0A55C98B89F9F9F4844683B21D024A</string>
 
     //
-    <string name="type_of_sport">sportType</string>
-    <string name="is_first_run">isFirstRun</string>
+    <string name="type_of_sport" translatable="false">sportType</string>
+    <string name="is_first_run" translatable="false">isFirstRun</string>
 
     // global variables
-    <string name="global_distance">distance</string>
-    <string name="global_average_speed">averageSpeed</string>
-    <string name="global_max_speed">maxSpeed</string>
-    <string name="global_duration">duration</string>
-    <string name="facebook_page">https://www.facebook.com/sportmeter/</string>
-    <string name="app_email">runner.meter@gmail.com</string>
+    <string name="global_distance" translatable="false">distance</string>
+    <string name="global_average_speed" translatable="false">averageSpeed</string>
+    <string name="global_max_speed" translatable="false">maxSpeed</string>
+    <string name="global_duration" translatable="false">duration</string>
+    <string name="facebook_page" translatable="false">https://www.facebook.com/sportmeter/</string>
+    <string name="app_email" translatable="false">runner.meter@gmail.com</string>
+    <string name="change_type_of_sport" translatable="false">Change type</string>
 
-    // facebook permissions
-    <string-array name = "facePermissions">
-        <item>public_profile</item>
-        <item>publish_actions</item>
-        <item>publish_pages</item>
-        <item>publish_stream</item>
-        <item>email</item>
-        <item>user_birthday</item>
-        <item>user_likes</item>
-    </string-array>
 </resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="order">
+        <item>Motoros</item>
+        <item>Runner</item>
+        <item>Vezető</item>
+    </string-array>
+</resources>

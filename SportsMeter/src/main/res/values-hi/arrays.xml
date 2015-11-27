@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="order">
+        <item>बाइकर</item>
+        <item>धावक</item>
+        <item>चालक</item>
+    </string-array>
+</resources>

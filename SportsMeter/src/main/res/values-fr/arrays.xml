@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="order">
+        <item>Biker</item>
+        <item>Runner</item>
+        <item>Pilote</item>
+    </string-array>
+</resources>

@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements
         // EU user consent policy
         applyEUcookiePolicy();
 
+        ParseCommon.logInGuestUser(this);
+
         initializeUiViews();
 
         setToolbarAndDrawer();
@@ -271,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
-        ParseCommon.logInGuestUser(this);
         stopLocationUpdates();
         startButtonEnabled = false;
         ParseACL acl = new ParseACL();
@@ -298,7 +299,9 @@ public class MainActivity extends AppCompatActivity implements
                 }
             });
             snapShotThread.start();
-            new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
+            if(ParseUser.getCurrentUser() != null){
+                new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
+            }
         }
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
@@ -806,10 +809,12 @@ public class MainActivity extends AppCompatActivity implements
         currentLocation = location;
         lastUpdateTime = currentUpdateTime;
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        try {
-            updateUI();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (location != null) {
+            try {
+                updateUI();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 

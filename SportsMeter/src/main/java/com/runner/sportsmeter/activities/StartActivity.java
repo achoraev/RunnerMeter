@@ -168,7 +168,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     @Override
     public void onDoubleTap() {
-        Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Double Tap", Toast.LENGTH_SHORT).show();
         startMainActivity(sportType);
     }
 }

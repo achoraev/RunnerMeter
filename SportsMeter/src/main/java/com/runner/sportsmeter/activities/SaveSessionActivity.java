@@ -61,7 +61,7 @@ public class SaveSessionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 saveParseSession();
-                if(endPointCoordinates != null) {
+                if (endPointCoordinates != null) {
                     String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
                     Uri gmmIntentUri = Uri.parse(url);
                     Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -69,6 +69,8 @@ public class SaveSessionActivity extends Activity {
                     if (mapIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(mapIntent);
                     }
+                } else {
+                    finish();
                 }
             }
         });
@@ -119,8 +121,8 @@ public class SaveSessionActivity extends Activity {
                 currentMaxSpeed,
                 averageSpeed,
                 "",
-                ParseUser.getCurrentUser(),
-                ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
+                ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser(),
+                ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
                         ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
                         : null,
                 sportType);
@@ -157,7 +159,7 @@ public class SaveSessionActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if(!isSaveSession) {
+        if (!isSaveSession) {
             saveParseSession();
         }
         super.onBackPressed();

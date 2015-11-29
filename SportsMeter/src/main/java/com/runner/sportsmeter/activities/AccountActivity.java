@@ -1,9 +1,15 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +24,7 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
@@ -66,43 +73,85 @@ public class AccountActivity extends Activity {
         });
 
         // todo save account hashmap to local datastore
-        if (!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
-            accounts.put(ParseUser.getCurrentUser().getUsername(), convertFromUserToAccount(ParseUser.getCurrentUser()));
-        }
+        if (Utility.isNetworkConnected(AccountActivity.this) && ParseUser.getCurrentUser() != null) {
+            if (!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
+                accounts.put(ParseUser.getCurrentUser().getUsername(), convertFromUserToAccount(ParseUser.getCurrentUser()));
+            }
 
-        Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
+            Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
 
-        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-            facebookId = AccessToken.getCurrentAccessToken().getUserId();
-            profilePic.setProfileId(facebookId);
-        } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
-            profilePic.setVisibility(View.INVISIBLE);
-            twitterImageViewPicture.setVisibility(View.VISIBLE);
-        }
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                facebookId = AccessToken.getCurrentAccessToken().getUserId();
+                profilePic.setProfileId(facebookId);
+            } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
+                profilePic.setVisibility(View.INVISIBLE);
+                twitterImageViewPicture.setVisibility(View.VISIBLE);
+            }
 
-        name.setText(current.getName());
-        userName.setText(current.getName());
-        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-            facebookGraphMeRequestForUserInfo();
-        } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
-            eMail.setText(getString(R.string.twitter_email_not_present));
-//            new HttpGetTask().execute();
-//            try {
-//                twitterImagePath = getTwitterProfileImage();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            name.setText(current.getName());
+            userName.setText(current.getName());
+            if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                facebookGraphMeRequestForUserInfo();
+            } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
+                eMail.setText(getString(R.string.twitter_email_not_present));
+    //            new HttpGetTask().execute();
+    //            try {
+    //                twitterImagePath = getTwitterProfileImage();
+    //            } catch (IOException e) {
+    //                e.printStackTrace();
+    //            } catch (JSONException e) {
+    //                e.printStackTrace();
+    //            }
+            } else {
+                eMail.setText(current.getEmail());
+            }
+            isVerified.setText(current.getIsVerified().toString());
+            createdAt.setText(current.getCreatedAt());
         } else {
-            eMail.setText(current.getEmail());
+            turnOnWiFiOrDataInternet();
         }
-        isVerified.setText(current.getIsVerified().toString());
-        createdAt.setText(current.getCreatedAt());
 
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewAccount);
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private void turnOnWiFiOrDataInternet() {
+        if (!Utility.isNetworkConnected(AccountActivity.this)) {
+            new AlertDialog.Builder(AccountActivity.this)
+                    .setTitle(getString(R.string.no_internet))
+                    .setMessage(getString(R.string.no_net_message))
+                    .setPositiveButton(getString(R.string.turn_on_wifi), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            WifiManager wifi = (WifiManager) AccountActivity.this.getSystemService(Context.WIFI_SERVICE);
+                            wifi.setWifiEnabled(true);
+                        }
+                    })
+                    .setNeutralButton(getString(R.string.turn_on_data), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // prompt user
+                            // 1
+//                            Intent dialogIntent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+//                            dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(dialogIntent);
+                            // 5
+                            Intent intent = new Intent();
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setAction(Settings.ACTION_DATA_ROAMING_SETTINGS);
+                            overridePendingTransition(android.R.anim.fade_in,
+                                    android.R.anim.fade_out);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.close), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+        }
     }
 
     private String getTwitterProfileImage() throws IOException, JSONException {

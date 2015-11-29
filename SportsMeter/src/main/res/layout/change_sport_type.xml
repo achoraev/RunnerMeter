@@ -2,5 +2,5 @@
          android:id="@+id/type_of_sports"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:background="@color/darker_gray"
+         android:background="@drawable/screen_background_dark_transparent"
          android:entries="@array/order" />

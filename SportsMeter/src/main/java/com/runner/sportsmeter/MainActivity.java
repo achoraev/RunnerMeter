@@ -44,10 +44,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseACL;
-import com.parse.ParseAnalytics;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
@@ -58,8 +55,10 @@ import com.runner.sportsmeter.models.Session;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -110,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements
     private Location currentLocation;
     private Bitmap sessionScreenShot;
     private PolylineOptions currentSegment;
+    private ArrayList<ParseGeoPoint> listOfPoints = new ArrayList<>();
+    private int segmentId = 1;
 
     private Boolean exit = false;
 
@@ -287,23 +288,23 @@ public class MainActivity extends AppCompatActivity implements
         if (currentCoordinates != null) {
             endPointCoord = currentCoordinates;
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
-            Thread snapShotThread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
-                        @Override
-                        public void onSnapshotReady(Bitmap bitmap) {
-                            sessionScreenShot = bitmap;
-                            sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-                            Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
-                            Log.d("url", sessionImagePath);
-                            // clear map
-                            mMap.clear();
-                        }
-                    }, sessionScreenShot);
-                }
-            });
-            snapShotThread.start();
+//            Thread snapShotThread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+//                        @Override
+//                        public void onSnapshotReady(Bitmap bitmap) {
+//                            sessionScreenShot = bitmap;
+//                            sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
+//                            Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
+//                            Log.d("url", sessionImagePath);
+//                            // clear map
+//                            mMap.clear();
+//                        }
+//                    }, sessionScreenShot);
+//                }
+//            });
+//            snapShotThread.start();
             if(ParseUser.getCurrentUser() != null){
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
@@ -341,7 +342,37 @@ public class MainActivity extends AppCompatActivity implements
         // set all to null
         setVariablesToNull();
 
+        saveSegmentToParse(currentSegment);
+
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+    }
+
+    private void saveSegmentToParse(PolylineOptions segment) {
+        mMap.addPolyline(segment);
+
+        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+            @Override
+            public void onSnapshotReady(Bitmap bitmap) {
+                sessionScreenShot = bitmap;
+//                sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
+//                Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
+//                Log.d("url", sessionImagePath);
+                ParseObject newSegment = new ParseObject("Segments");
+                newSegment.put("segmentId", 2);
+                newSegment.put("segmentName", "test");
+//                newSegment.put("mapImage", new ParseFile("file.png", sessionScreenShot.getNinePatchChunk()));
+                newSegment.addAll("geoPoints", listOfPoints);
+                newSegment.saveInBackground();
+
+                segmentId++;
+                currentSegment = null;
+
+                // clear map
+                mMap.clear();
+            }
+        }, sessionScreenShot);
+
+
     }
 
     private void openDialogToLoginIfLoggedAsGuest() {
@@ -376,7 +407,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setVariablesToNull() {
-        currentSegment = null;
         sessionDistance = 0;
         sessionTimeDiff = 0;
         sessionStartTime = null;
@@ -996,6 +1026,7 @@ public class MainActivity extends AppCompatActivity implements
                 currentCoordinates = smoothLocation(currentLocation, currentLocation.getLatitude(), currentLocation.getLongitude());
                 startPointCoord = currentCoordinates;
                 lastUpdatedCoord = currentCoordinates;
+                listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             }
 
             currentDistance = Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
@@ -1016,6 +1047,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
+                    listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
                 }
 
 //                mMap.addPolyline(currentLine);

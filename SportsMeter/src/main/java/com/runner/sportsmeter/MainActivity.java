@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final int MAP_ZOOM = 17;
     public static final float POLYLINE_WIDTH = 17;
     public static final int POLYLINE_COLOR = Color.CYAN;
+    public static final int POLY_SEGMENT_COLOR = Color.BLUE;
 
     protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
     protected static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements
     private LatLng endPointCoord = null;
     private Location currentLocation;
     private Bitmap sessionScreenShot;
+    private PolylineOptions currentSegment;
 
     private Boolean exit = false;
 
@@ -251,6 +253,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private void startLogic() {
         openDialogToLoginIfLoggedAsGuest();
+        currentSegment = new PolylineOptions()
+                .width(POLYLINE_WIDTH)
+                .color(POLY_SEGMENT_COLOR);
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         if (mGoogleApiClient != null) {
@@ -371,6 +376,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setVariablesToNull() {
+        currentSegment = null;
         sessionDistance = 0;
         sessionTimeDiff = 0;
         sessionStartTime = null;
@@ -1002,12 +1008,18 @@ public class MainActivity extends AppCompatActivity implements
 
             updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
-            PolylineOptions line = new PolylineOptions()
-                    .add(lastUpdatedCoord, currentCoordinates)
-                    .width(POLYLINE_WIDTH)
-                    .color(POLYLINE_COLOR);
             if (mMap != null) {
-                mMap.addPolyline(line);
+                PolylineOptions currentLine = new PolylineOptions()
+                        .add(lastUpdatedCoord, currentCoordinates)
+                        .width(POLYLINE_WIDTH)
+                        .color(POLYLINE_COLOR);
+
+                if (currentSegment != null) {
+                    currentSegment.add(lastUpdatedCoord, currentCoordinates);
+                }
+
+//                mMap.addPolyline(currentLine);
+                mMap.addPolyline(currentSegment);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
             }
         }

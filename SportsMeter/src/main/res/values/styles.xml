@@ -39,6 +39,7 @@ please see styles_device_defaults.xml.
         <item name="colorPrimary">#00897B</item>
         <item name="colorPrimaryDark">#00695C</item>
         <item name="colorAccent">#FF4081</item>
+        <item name="android:textColor">@color/app_color2</item>
     </style>
 
     <style name="BtnCustomLeaderBoard">

@@ -51,6 +51,7 @@ import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
+import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 
 import java.io.ByteArrayOutputStream;
@@ -75,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    public static final int MAP_ZOOM = 17;
-    public static final float POLYLINE_WIDTH = 17;
+    public static final int MAP_ZOOM = 14;
+    public static final float POLYLINE_WIDTH = 20;
     public static final int POLYLINE_COLOR = Color.CYAN;
     public static final int POLY_SEGMENT_COLOR = Color.BLUE;
 
@@ -134,6 +135,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
+
+    private SharedPreferences settings = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void applyEUcookiePolicy() {
-        final SharedPreferences settings =
+        settings =
                 getSharedPreferences(getString(R.string.local_preferences), MODE_PRIVATE);
         if (settings.getBoolean(getString(R.string.is_first_run), true)) {
             new AlertDialog.Builder(this)
@@ -348,6 +351,10 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void saveSegmentToParse(PolylineOptions segment) {
+        if (settings.getInt("segmentId", segmentId) != 0) {
+            segmentId = settings.getInt("segmentId", segmentId);
+        }
+
         mMap.addPolyline(segment);
 
         mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
@@ -365,23 +372,25 @@ public class MainActivity extends AppCompatActivity implements
                 file.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(com.parse.ParseException e) {
-                        if(e == null){
-                            ParseObject newSegment = new ParseObject("Segments");
-                            newSegment.put("segmentId", segmentId);
-                            newSegment.put("segmentName", "test");
-                            newSegment.put("mapImage", file);
-                            newSegment.addAll("geoPoints", listOfPoints);
-                            newSegment.saveInBackground();
+                        if (e == null) {
+//                            ParseObject newSegment = new ParseObject("Segments");
+//                            newSegment.put("segmentId", segmentId);
+//                            newSegment.put("segmentName", "test");
+//                            newSegment.put("mapImage", file);
+//                            newSegment.addAll("geoPoints", listOfPoints);
+//                            newSegment.saveInBackground();
 
-//                            Segments currentSegment = new Segments();
-//                            currentSegment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-//                            currentSegment.setSegmentId(segmentId);
-//                            currentSegment.setName("test");
-//                            currentSegment.setMapImage(file);
-//                            currentSegment.setGeoPointsArray(listOfPoints);
-//                            currentSegment.saveInBackground();
+                            Segments segment = new Segments();
+
+                            segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+                            segment.setSegmentId(segmentId);
+                            segment.setName("test");
+                            segment.setMapImage(file);
+                            segment.setGeoPointsArray(listOfPoints);
+                            segment.saveInBackground();
 
                             segmentId++;
+                            settings.edit().putInt("segmentId", segmentId).apply();
                             currentSegment = null;
                             // clear map
                             mMap.clear();

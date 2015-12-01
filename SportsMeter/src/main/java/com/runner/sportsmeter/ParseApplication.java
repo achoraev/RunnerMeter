@@ -7,6 +7,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.models.Coordinates;
+import com.runner.sportsmeter.models.Segments;
 
 /**
  * Created by angelr on 30-Jul-15.
@@ -20,6 +21,7 @@ public class ParseApplication extends Application {
 //        ParseCrashReporting.enable(this);
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(Coordinates.class);
+        ParseObject.registerSubclass(Segments.class);
         ParseCommon.ParseInitialize(this);
 //        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();

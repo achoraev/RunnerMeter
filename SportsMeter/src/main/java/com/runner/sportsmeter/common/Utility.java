@@ -67,7 +67,7 @@ public class Utility {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/sport_meter");
         myDir.mkdirs();
-        String fileName = "img-" + new Date().getTime() + ".jpg";
+        String fileName = "img-" + new Date().getTime() + ".png";
         File file = new File(myDir, fileName);
         Log.i("file", "" + file);
         if (file.exists())

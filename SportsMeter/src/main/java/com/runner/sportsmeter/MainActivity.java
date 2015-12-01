@@ -53,12 +53,12 @@ import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Session;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -357,22 +357,39 @@ public class MainActivity extends AppCompatActivity implements
 //                sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
 //                Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
 //                Log.d("url", sessionImagePath);
-                ParseObject newSegment = new ParseObject("Segments");
-                newSegment.put("segmentId", 2);
-                newSegment.put("segmentName", "test");
-//                newSegment.put("mapImage", new ParseFile("file.png", sessionScreenShot.getNinePatchChunk()));
-                newSegment.addAll("geoPoints", listOfPoints);
-                newSegment.saveInBackground();
 
-                segmentId++;
-                currentSegment = null;
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] data = stream.toByteArray();
+                final ParseFile file = new ParseFile("test" + segmentId + ".png", data);
+                file.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(com.parse.ParseException e) {
+                        if(e == null){
+                            ParseObject newSegment = new ParseObject("Segments");
+                            newSegment.put("segmentId", segmentId);
+                            newSegment.put("segmentName", "test");
+                            newSegment.put("mapImage", file);
+                            newSegment.addAll("geoPoints", listOfPoints);
+                            newSegment.saveInBackground();
 
-                // clear map
-                mMap.clear();
+//                            Segments currentSegment = new Segments();
+//                            currentSegment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+//                            currentSegment.setSegmentId(segmentId);
+//                            currentSegment.setName("test");
+//                            currentSegment.setMapImage(file);
+//                            currentSegment.setGeoPointsArray(listOfPoints);
+//                            currentSegment.saveInBackground();
+
+                            segmentId++;
+                            currentSegment = null;
+                            // clear map
+                            mMap.clear();
+                        }
+                    }
+                });
             }
-        }, sessionScreenShot);
-
-
+        });
     }
 
     private void openDialogToLoginIfLoggedAsGuest() {
@@ -964,6 +981,10 @@ public class MainActivity extends AppCompatActivity implements
                 sessionStartTime = savedInstanceState.getString("sessionStartTime");
             }
 
+            if (savedInstanceState.keySet().contains("segmentId")) {
+                segmentId = savedInstanceState.getInt("segmentId");
+            }
+
             if (savedInstanceState.keySet().contains(getString(R.string.global_is_started))) {
                 startButtonEnabled = savedInstanceState.getBoolean(getString(R.string.global_is_started));
                 if (startButtonEnabled) {
@@ -987,6 +1008,7 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putLong(getString(R.string.global_duration), sessionTimeDiff);
         savedInstanceState.putString("sessionStartTime", sessionStartTime);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
+        savedInstanceState.putInt("segmentId", segmentId);
 
         super.onSaveInstanceState(savedInstanceState);
     }

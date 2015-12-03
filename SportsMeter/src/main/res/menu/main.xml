@@ -1,7 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       android:theme="@style/ThemeOverlay.AppCompat.Dark"
-      android:background="?attr/colorPrimaryDark">
+      android:background="@drawable/screen_background_dark_transparent"
+      app:itemTextColor="@color/app_color2">
     <!--<item android:id="@+id/action_websearch"-->
     <!--android:icon="@drawable/action_search"-->
     <!--android:title="@string/action_websearch"-->
@@ -31,9 +32,9 @@
           android:icon="@drawable/ic_logout"
           android:orderInCategory="400"
           app:showAsAction="never"/>
-    <item android:id="@+id/action_sport_type"
-          android:title="@string/change_type_of_sport"
-          android:orderInCategory="500"
-          app:actionLayout="@layout/change_sport_type"
-          app:showAsAction="ifRoom"/>
+    <!--<item android:id="@+id/action_sport_type"-->
+          <!--android:title="@string/change_type_of_sport"-->
+          <!--android:actionLayout="@layout/change_sport_type"-->
+          <!--android:orderInCategory="500"-->
+          <!--app:showAsAction="ifRoom"/>-->
 </menu>

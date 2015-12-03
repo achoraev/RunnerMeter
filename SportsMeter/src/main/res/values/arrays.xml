@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="order">
+    <string-array name="array_type_of_sports">
         <item>Biker</item>
         <item>Runner</item>
         <item>Driver</item>

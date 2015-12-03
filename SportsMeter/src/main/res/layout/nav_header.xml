@@ -12,15 +12,14 @@
     <com.facebook.login.widget.ProfilePictureView
             android:id="@+id/profile_picture"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/header_circle_background"/>
+            android:layout_height="wrap_content"/>
 
     <TextView
             android:id="@+id/header_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/guest"
-            android:textColor="@android:color/white"
+            android:textColor="@color/app_color2"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
 </LinearLayout>

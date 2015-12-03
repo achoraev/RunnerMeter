@@ -470,6 +470,26 @@ public class MainActivity extends AppCompatActivity implements
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // set spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                        R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        chooseTypeSport.setAdapter(adapter);
+
+        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(MainActivity.this, "Nothing", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -715,20 +735,27 @@ public class MainActivity extends AppCompatActivity implements
 //                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
 //                startActivity(helpIntent);
 //                return true;
-            case R.id.type_of_sports:
-                chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String item = parent.getItemAtPosition(position).toString();
-                        Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-                return true;
+            case R.id.action_sport_type:
+//                Toast.makeText(MainActivity.this, "selected", Toast.LENGTH_SHORT).show();
+//
+//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                        R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                chooseTypeSport.setAdapter(adapter);
+//
+//                chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+////                String item = parent.getItemAtPosition(position).toString();
+//                        Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> parent) {
+//                        Toast.makeText(MainActivity.this, "Nothing", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)

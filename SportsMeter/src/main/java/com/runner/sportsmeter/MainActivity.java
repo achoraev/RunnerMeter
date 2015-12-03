@@ -150,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements
 
         initializeUiViews();
 
+        Bundle bundle = getIntent().getExtras();
+        sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
+
         setToolbarAndDrawer();
 
         if (mapFragment == null) {
@@ -159,15 +162,6 @@ public class MainActivity extends AppCompatActivity implements
         if (mGoogleApiClient == null) {
             buildGoogleApiClient();
         }
-
-        // spinner
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.order, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        chooseTypeSport.setAdapter(adapter);
-
-        Bundle bundle = getIntent().getExtras();
-        sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
 
         updateValuesFromBundle(savedInstanceState);
 

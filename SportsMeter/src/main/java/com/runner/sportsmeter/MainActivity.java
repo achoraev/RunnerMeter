@@ -477,7 +477,17 @@ public class MainActivity extends AppCompatActivity implements
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
-        chooseTypeSport.setSelection(1);
+        switch (sportType) {
+            case biker:
+                chooseTypeSport.setSelection(0);
+                break;
+            case runner:
+                chooseTypeSport.setSelection(1);
+                break;
+            case driver:
+                chooseTypeSport.setSelection(2);
+                break;
+        }
 
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

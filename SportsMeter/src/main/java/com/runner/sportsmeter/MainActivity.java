@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements
 //                }
 //            });
 //            snapShotThread.start();
-            if(ParseUser.getCurrentUser() != null){
+            if (ParseUser.getCurrentUser() != null) {
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
         }
@@ -474,15 +474,25 @@ public class MainActivity extends AppCompatActivity implements
 
         // set spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                        R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setSelection(1);
 
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
+                switch (position) {
+                    case 0:
+                        sportType = SportTypes.biker;
+                        break;
+                    case 1:
+                        sportType = SportTypes.runner;
+                        break;
+                    case 2:
+                        sportType = SportTypes.driver;
+                        break;
+                }
             }
 
             @Override
@@ -735,7 +745,7 @@ public class MainActivity extends AppCompatActivity implements
 //                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
 //                startActivity(helpIntent);
 //                return true;
-            case R.id.action_sport_type:
+//            case R.id.action_sport_type:
 //                Toast.makeText(MainActivity.this, "selected", Toast.LENGTH_SHORT).show();
 //
 //                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,

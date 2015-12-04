@@ -729,10 +729,10 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(worldMapIntent);
                 return true;
-//            case R.id.action_help:
-//                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
-//                startActivity(helpIntent);
-//                return true;
+            case R.id.action_help:
+                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
+                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)

@@ -16,11 +16,11 @@
           android:icon="@drawable/ic_map"
           android:orderInCategory="300"
           app:showAsAction="never"/>
-    <!--<item android:id="@+id/action_help"-->
-    <!--android:title="@string/action_help"-->
-    <!--android:icon="@drawable/ic_help"-->
-    <!--android:orderInCategory="300"-->
-    <!--app:showAsAction="never"/>-->
+    <item android:id="@+id/action_help"
+          android:title="@string/action_help"
+          android:icon="@drawable/ic_help"
+          android:orderInCategory="300"
+          app:showAsAction="never"/>
     <item android:id="@+id/action_logout"
           android:title="@string/action_logout"
           android:icon="@drawable/ic_logout"

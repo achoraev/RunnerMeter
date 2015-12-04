@@ -32,9 +32,9 @@ public class PostFacebookFragment extends FragmentActivity {
         // this part is optional
 //        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() { ... });
 
-        String action = sportType.equals("runner") ? " runs " :
-                        sportType.equals("biker") ? " bikes " :
-                        sportType.equals("driver") ? " drives " : " ";
+        String action = sportType.toLowerCase().equals("runner") ? " runs " :
+                        sportType.toLowerCase().equals("biker") ? " bikes " :
+                        sportType.toLowerCase().equals("driver") ? " drives " : " ";
         String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToString((long) sessionTimeDiff) + " with Sport Meter";
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()

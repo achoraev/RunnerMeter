@@ -17,15 +17,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <!-- The main content view -->
+        <!-- The main_menu content view -->
         <FrameLayout
                 android:id="@+id/flContent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <include layout="@layout/map_layout"/>
+            <include layout="@layout/l_map_layout"/>
 
             <!--Frame over the map-->
-            <include layout="@layout/info_layout"/>
+            <include layout="@layout/l_info_layout"/>
             <ProgressBar
                     android:id="@+id/progress_bar"
                     style="?android:attr/progressBarStyle"
@@ -52,7 +52,7 @@
             android:layout_gravity="start"
             style="@style/AppTheme"
             app:itemTextColor="@color/app_color2"
-            app:headerLayout="@layout/nav_header"
+            app:headerLayout="@layout/drawer_nav_header"
             app:menu="@menu/drawer_menu"/>
 
 </android.support.v4.widget.DrawerLayout>

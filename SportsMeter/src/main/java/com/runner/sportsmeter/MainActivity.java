@@ -473,32 +473,14 @@ public class MainActivity extends AppCompatActivity implements
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.toolbar_spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
-        switch (sportType) {
-            case biker:
-                chooseTypeSport.setSelection(0);
-                break;
-            case runner:
-                chooseTypeSport.setSelection(1);
-                break;
-            case driver:
-                chooseTypeSport.setSelection(2);
-                break;
-        }
+
+        chooseTypeSport.setSelection(sportType.getIntValue(sportType.toString()));
 
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        sportType = SportTypes.biker;
-                        break;
-                    case 1:
-                        sportType = SportTypes.runner;
-                        break;
-                    case 2:
-                        sportType = SportTypes.driver;
-                        break;
-                }
+                sportType = sportType.getSportTypeValue(position);
+                Toast.makeText(MainActivity.this, sportType.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

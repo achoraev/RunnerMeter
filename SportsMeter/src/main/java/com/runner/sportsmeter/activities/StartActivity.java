@@ -27,7 +27,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     private SimpleGestureFilter detector;
     AdView mAdView;
-    SportTypes sportType = SportTypes.runner;
+    SportTypes sportType = SportTypes.RUNNER;
     Button runnerBtn, bikerBtn, driveBtn;
 
     @Override
@@ -50,24 +50,21 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         runnerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sportType = SportTypes.runner;
-                startMainActivity(sportType);
+                startMainActivity(SportTypes.RUNNER);
             }
         });
 
         bikerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sportType = SportTypes.biker;
-                startMainActivity(sportType);
+                startMainActivity(SportTypes.BIKER);
             }
         });
 
         driveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sportType = SportTypes.driver;
-                startMainActivity(sportType);
+                startMainActivity(SportTypes.DRIVER);
             }
         });
 
@@ -78,7 +75,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
 
     @Override
     public void onBackPressed() {
-        if(new ParseCommon().getCurrentUserUsername().equals("Guest")){
+        if (new ParseCommon().getCurrentUserUsername().equals("Guest")) {
             new ParseCommon().logOutUser(this);
         }
         super.onBackPressed();

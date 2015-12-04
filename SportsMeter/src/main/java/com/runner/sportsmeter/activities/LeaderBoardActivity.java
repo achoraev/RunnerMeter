@@ -52,7 +52,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         bestRunners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask(SportTypes.runner);
+                ParseQueryBestResultsTask(SportTypes.RUNNER);
 //                new QueryBestRunnersTask().execute();
             }
         });
@@ -60,14 +60,14 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         bestBikers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask(SportTypes.biker);
+                ParseQueryBestResultsTask(SportTypes.BIKER);
             }
         });
 
         bestDrivers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask(SportTypes.driver);
+                ParseQueryBestResultsTask(SportTypes.DRIVER);
             }
         });
 

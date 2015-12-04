@@ -11,7 +11,6 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
 import com.parse.ParsePush;
 import com.runner.sportsmeter.MainActivity;
@@ -34,7 +33,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.start_layout);
+        setContentView(R.layout.l_start_layout);
 
         bikerBtn = (Button) findViewById(R.id.top_right);
         runnerBtn = (Button) findViewById(R.id.center_right);

@@ -48,7 +48,7 @@ public class SaveSessionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.save_session_layout);
+        setContentView(R.layout.l_save_session_layout);
         savedInstanceState = getIntent().getExtras();
 
         ParseCommon.logInGuestUser(this);

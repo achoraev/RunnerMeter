@@ -24,7 +24,6 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
@@ -51,7 +50,7 @@ public class AccountActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_layout);
+        setContentView(R.layout.l_account_layout);
 
         // init views
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);

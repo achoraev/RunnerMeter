@@ -38,7 +38,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.leaderboard_layout);
+        setContentView(R.layout.l_leaderboard_layout);
 
         Bundle bundle = getIntent().getExtras();
         sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));

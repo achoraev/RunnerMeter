@@ -35,7 +35,7 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.connect_google_fit_layout);
+        setContentView(R.layout.l_connect_google_fit_layout);
 
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);

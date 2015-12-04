@@ -19,7 +19,7 @@ public class AboutActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.about_layout);
+        setContentView(R.layout.l_about_layout);
 
         // todo
         // this must be used for Services attribution text as part of a "Legal Notices" section in your application.

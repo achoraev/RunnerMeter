@@ -2,7 +2,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       android:theme="@style/ThemeOverlay.AppCompat.Dark"
       android:background="@drawable/screen_background_dark_transparent"
-      app:itemTextColor="@color/app_color2">
+      app:itemTextColor="@color/app_color">
     <!--<item android:id="@+id/action_websearch"-->
     <!--android:icon="@drawable/action_search"-->
     <!--android:title="@string/action_websearch"-->

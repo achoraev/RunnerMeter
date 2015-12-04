@@ -51,7 +51,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             style="@style/AppTheme"
-            app:itemTextColor="@color/app_color2"
+            app:itemTextColor="@color/app_color"
             app:headerLayout="@layout/drawer_nav_header"
             app:menu="@menu/drawer_menu"/>
 

@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.l_main_layout);
 
         // EU user consent policy
         applyEUcookiePolicy();
@@ -464,12 +464,14 @@ public class MainActivity extends AppCompatActivity implements
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         // set spinner
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.toolbar_spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
         switch (sportType) {
             case biker:
@@ -555,7 +557,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         // 3 land start
         super.onResume();
-        setTitle(getString(R.string.app_name));
+//        setTitle(getString(R.string.app_name));
 //        if (mGoogleApiClient.isConnected()) {
 //            startLocationUpdates();
 //        }
@@ -712,7 +714,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
+//        setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
 
@@ -748,27 +750,6 @@ public class MainActivity extends AppCompatActivity implements
 //            case R.id.action_help:
 //                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
 //                startActivity(helpIntent);
-//                return true;
-//            case R.id.action_sport_type:
-//                Toast.makeText(MainActivity.this, "selected", Toast.LENGTH_SHORT).show();
-//
-//                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                        R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
-//                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                chooseTypeSport.setAdapter(adapter);
-//
-//                chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-////                String item = parent.getItemAtPosition(position).toString();
-//                        Toast.makeText(MainActivity.this, position, Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//                        Toast.makeText(MainActivity.this, "Nothing", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
 //                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
@@ -840,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -923,7 +904,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        getSupportActionBar().setTitle(title);
+//        getSupportActionBar().setTitle(title);
     }
 
     @Override

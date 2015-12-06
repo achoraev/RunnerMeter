@@ -28,7 +28,7 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_4);
+        setContentView(R.layout.activity_main_5);
 
         setupNavigationView();
         setupToolbar();
@@ -85,13 +85,15 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     }
     private void setupToolbar(){
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        if(toolbar != null)
+        if (toolbar != null)
             setSupportActionBar(toolbar);
 
         // Show menu icon
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Coordinates;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,8 +93,9 @@ public class ParseCommon {
     }
 
     public void saveTraceStartAndEndCoord(LatLng startPointCoord, LatLng endPointCoord) {
-        ParseGeoPoint currentStart = new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude);
-        ParseGeoPoint currentEnd = new ParseGeoPoint(endPointCoord.latitude, endPointCoord.longitude);
+        ArrayList<ParseGeoPoint> coordinates = new ArrayList<>();
+        coordinates.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
+        coordinates.add(new ParseGeoPoint(endPointCoord.latitude, endPointCoord.longitude));
 
         ParseACL acl = new ParseACL();
         acl.setPublicReadAccess(true);
@@ -102,13 +104,7 @@ public class ParseCommon {
         Coordinates saveCoords = new Coordinates();
         saveCoords.setAcl(acl);
         saveCoords.setCurrentUser(ParseUser.getCurrentUser());
-        saveCoords.setStartAndEndPoint(currentStart);
+        saveCoords.setStartAndEndCoordinates(coordinates);
         saveCoords.saveInBackground();
-
-        Coordinates saveCoordsEnd = new Coordinates();
-        saveCoordsEnd.setAcl(acl);
-        saveCoordsEnd.setCurrentUser(ParseUser.getCurrentUser());
-        saveCoordsEnd.setStartAndEndPoint(currentEnd);
-        saveCoordsEnd.saveInBackground();
     }
 }

@@ -2,6 +2,7 @@ package com.runner.sportsmeter.models;
 
 import com.parse.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -26,6 +27,10 @@ public class Coordinates extends ParseObject {
 
     public void setStartAndEndPoint(ParseGeoPoint startAndEndPoint) {
         put("startAndEndPoint", startAndEndPoint);
+    }
+
+    public void setStartAndEndCoordinates(ArrayList<ParseGeoPoint> geoPoints) {
+        addAll("startAndEndCoordinates", geoPoints);
     }
 
     public void setAcl(ParseACL acl) {

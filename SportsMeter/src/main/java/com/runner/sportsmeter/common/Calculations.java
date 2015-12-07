@@ -35,7 +35,7 @@ public class Calculations {
         return maxSpeed;
     }
 
-    public static double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
+    public double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
         float[] result = new float[4];
         Location.distanceBetween(lastUpdatedCoord.latitude,
                 lastUpdatedCoord.longitude,

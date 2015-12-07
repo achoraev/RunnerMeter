@@ -38,11 +38,11 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
 //        setupNavigationView();
 //        setupToolbar();
-        setupTablayout();
-        setupCollapsingToolbarLayout();
+//        setupTablayout();
+//        setupCollapsingToolbarLayout();
         setupFab();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

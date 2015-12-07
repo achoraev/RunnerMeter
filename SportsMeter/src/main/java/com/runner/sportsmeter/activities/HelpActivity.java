@@ -30,7 +30,7 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_5);
 
-        setupNavigationView();
+//        setupNavigationView();
         setupToolbar();
         setupTablayout();
         setupCollapsingToolbarLayout();

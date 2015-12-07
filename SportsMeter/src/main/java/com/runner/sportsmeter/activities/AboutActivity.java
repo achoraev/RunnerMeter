@@ -21,7 +21,7 @@ public class AboutActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_about_layout);
 
-        // todo
+        // todo google legal notices
         // this must be used for Services attribution text as part of a "Legal Notices" section in your application.
         // Including legal notices as an independent menu item, or as part of an "About" menu item, is recommended.
 //        GoogleApiAvailability.getOpenSourceSoftwareLicenseInfo(AboutActivity.this);

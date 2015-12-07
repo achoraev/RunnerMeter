@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.ViewPagerAdapter;
+import com.runner.sportsmeter.fragments.HelpFragmentOne;
+import com.runner.sportsmeter.fragments.HelpFragmentThree;
+import com.runner.sportsmeter.fragments.HelpFragmentTwo;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -21,9 +26,10 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
     DrawerLayout drawerLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
-    Toolbar toolbar;
-    TabLayout tabLayout;
     FloatingActionButton fab;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +37,21 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main_5);
 
 //        setupNavigationView();
-        setupToolbar();
+//        setupToolbar();
         setupTablayout();
         setupCollapsingToolbarLayout();
         setupFab();
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -47,6 +63,14 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new HelpFragmentOne(), "ONE");
+        adapter.addFragment(new HelpFragmentTwo(), "TWO");
+        adapter.addFragment(new HelpFragmentThree(), "THREE");
+        viewPager.setAdapter(adapter);
     }
 
     private void setupNavigationView(){

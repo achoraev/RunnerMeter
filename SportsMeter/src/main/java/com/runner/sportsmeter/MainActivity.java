@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public static final int TWO_SECOND = 2000;
     public static final int ONE_SECOND = 1000;
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int MAP_ZOOM = 14;
@@ -270,7 +270,9 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             startPointCoord = new LatLng(40, 25);
         }
+        currentSegment.add(startPointCoord);
         mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
@@ -284,6 +286,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (currentCoordinates != null) {
             endPointCoord = currentCoordinates;
+            currentSegment.add(currentCoordinates);
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
 //            Thread snapShotThread = new Thread(new Runnable() {
 //                @Override
@@ -305,6 +308,17 @@ public class MainActivity extends AppCompatActivity implements
             if (ParseUser.getCurrentUser() != null) {
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
+        }
+
+        // draw all trace
+        mMap.addPolyline(currentSegment);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
+
+        // todo remove before release
+        try {
+            Thread.sleep(TWO_SECOND);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
@@ -336,15 +350,15 @@ public class MainActivity extends AppCompatActivity implements
                 android.R.anim.fade_out);
         startActivity(saveSessionIntent);
 
+        saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
+
         // set all to null
         setVariablesToNull();
-
-        saveSegmentToParse(currentSegment);
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
-    private void saveSegmentToParse(PolylineOptions segment) {
+    private void saveSegmentToParse(PolylineOptions segment, final ArrayList<ParseGeoPoint> points, final double dist) {
         if (settings.getInt("segmentId", segmentId) != 0) {
             segmentId = settings.getInt("segmentId", segmentId);
         }
@@ -367,20 +381,14 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void done(com.parse.ParseException e) {
                         if (e == null) {
-//                            ParseObject newSegment = new ParseObject("Segments");
-//                            newSegment.put("segmentId", segmentId);
-//                            newSegment.put("segmentName", "test");
-//                            newSegment.put("mapImage", file);
-//                            newSegment.addAll("geoPoints", listOfPoints);
-//                            newSegment.saveInBackground();
-
                             Segments segment = new Segments();
 
                             segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
                             segment.setSegmentId(segmentId);
-                            segment.setName("test");
+                            segment.setName("test" + segmentId);
+                            segment.setDistance(dist);
                             segment.setMapImage(file);
-                            segment.setGeoPointsArray(listOfPoints);
+                            segment.setGeoPointsArray(points);
                             segment.saveInBackground();
 
                             segmentId++;
@@ -1048,24 +1056,21 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void updateUI() throws ParseException {
-//        lastUpdatedCoord = new LatLng(42.679, 23.360);
         if (currentLocation != null) {
             Log.d(TAG, "Update UI");
 //            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
                 currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
-//                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             } else {
-//                currentCoordinates = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 currentCoordinates = smoothLocation(currentLocation, currentLocation.getLatitude(), currentLocation.getLongitude());
                 startPointCoord = currentCoordinates;
                 lastUpdatedCoord = currentCoordinates;
                 listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             }
 
-            currentDistance = Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
-            sessionDistance += Calculations.calculateDistance(lastUpdatedCoord, currentCoordinates);
+            currentDistance = new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
+            sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
             currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
             sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
@@ -1075,20 +1080,13 @@ public class MainActivity extends AppCompatActivity implements
             updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
             if (mMap != null) {
-                PolylineOptions currentLine = new PolylineOptions()
-                        .add(lastUpdatedCoord, currentCoordinates)
-                        .width(POLYLINE_WIDTH)
-                        .color(POLYLINE_COLOR);
-
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
                     listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
                 }
-
-//                mMap.addPolyline(currentLine);
-                mMap.addPolyline(currentSegment);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), TWO_SECOND, null);
             }
+
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
         }
     }
 

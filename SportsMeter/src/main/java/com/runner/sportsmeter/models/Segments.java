@@ -59,4 +59,11 @@ public class Segments extends ParseObject {
     public static ParseQuery<Segments> getQuery() {
         return ParseQuery.getQuery(Segments.class);
     }
+
+    public void setDistance(double dist) {
+        put("distance", dist);
+    }
+    public Double getDistance() {
+        return getDouble("distance");
+    }
 }

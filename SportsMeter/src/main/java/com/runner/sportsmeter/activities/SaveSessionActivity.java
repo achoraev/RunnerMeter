@@ -1,16 +1,23 @@
 package com.runner.sportsmeter.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.share.widget.LikeView;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
@@ -27,7 +34,7 @@ import java.util.Date;
 /**
  * Created by angelr on 09-Oct-15.
  */
-public class SaveSessionActivity extends Activity {
+public class SaveSessionActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Session currentSession;
     private double sessionDistance;
@@ -44,12 +51,17 @@ public class SaveSessionActivity extends Activity {
     private LatLng startPointCoordinates, endPointCoordinates;
     private LikeView likeView;
     private Boolean isSaveSession = false;
+    private SupportMapFragment mapFragment;
+    private GoogleMap mMap;
+    private PolylineOptions currentSegment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_save_session_layout);
         savedInstanceState = getIntent().getExtras();
+
+        initializeMap();
 
         ParseCommon.logInGuestUser(this);
         updateFromBundle(savedInstanceState);
@@ -69,9 +81,8 @@ public class SaveSessionActivity extends Activity {
                     if (mapIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(mapIntent);
                     }
-                } else {
-                    finish();
                 }
+                finish();
             }
         });
 
@@ -101,8 +112,13 @@ public class SaveSessionActivity extends Activity {
         likeView.setLikeViewStyle(LikeView.Style.STANDARD);
     }
 
+    private void initializeMap() {
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
     private void setTextViewsFromSession() {
-        sessionScreenshot.setImageResource(R.mipmap.icon_new);
+//        sessionScreenshot.setImageResource(R.mipmap.icon_new);
 
         saveTimeKm.setText(String.valueOf(currentSession.getTimePerKilometer()) + " min/km");
         saveDistance.setText(String.valueOf(currentSession.getDistance()) + " m");
@@ -125,11 +141,11 @@ public class SaveSessionActivity extends Activity {
                 ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
                         ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
                         : null,
-                sportType);
+                sportType.toLowerCase());
     }
 
     private void initializeViews() {
-        sessionScreenshot = (ImageView) findViewById(R.id.session_screenshot);
+//        sessionScreenshot = (ImageView) findViewById(R.id.session_screenshot);
 
         saveBtn = (Button) findViewById(R.id.button_save);
         notSaveBtn = (Button) findViewById(R.id.button_not_save);
@@ -193,6 +209,10 @@ public class SaveSessionActivity extends Activity {
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+
+            if (savedInstanceState.keySet().contains("currentSegment")) {
+                currentSegment = savedInstanceState.getParcelable("currentSegment");
+            }
             if (savedInstanceState.keySet().contains("Session")) {
                 currentSession = savedInstanceState.getParcelable("Session");
             }
@@ -220,6 +240,22 @@ public class SaveSessionActivity extends Activity {
             if (savedInstanceState.keySet().contains("session_image_path")) {
                 sessionImagePath = savedInstanceState.getString("session_image_path");
             }
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.d("save_map", "Map is ready");
+        mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        if(startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
+            mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoordinates, 14), 1000, null);
+            mMap.addPolyline(currentSegment);
+            mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
         }
     }
 }

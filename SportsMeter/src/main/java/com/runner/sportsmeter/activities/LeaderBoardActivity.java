@@ -99,7 +99,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     private void ParseQueryBestResultsTask(SportTypes type) {
         bar.setVisibility(View.VISIBLE);
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-        query.whereEqualTo(getString(R.string.session_sport_type), type.toString());
+        query.whereEqualTo(getString(R.string.session_sport_type), type.toString().toLowerCase());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(15);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -122,7 +122,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
 //        query.fromLocalDatastore()
         query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
-        query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString());
+        query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString().toLowerCase());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(20);
         query.findInBackground(new FindCallback<ParseObject>() {

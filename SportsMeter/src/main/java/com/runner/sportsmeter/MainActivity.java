@@ -76,10 +76,9 @@ public class MainActivity extends AppCompatActivity implements
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    public static final int MAP_ZOOM = 14;
+    public static final int MAP_ZOOM = 15;
     public static final float POLYLINE_WIDTH = 20;
-    public static final int POLYLINE_COLOR = Color.CYAN;
-    public static final int POLY_SEGMENT_COLOR = Color.BLUE;
+    public static final int POLYLINE_COLOR = Color.parseColor("#1DCCC6");
 
     protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
     protected static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
@@ -253,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements
         openDialogToLoginIfLoggedAsGuest();
         currentSegment = new PolylineOptions()
                 .width(POLYLINE_WIDTH)
-                .color(POLY_SEGMENT_COLOR);
+                .color(POLYLINE_COLOR);
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         if (mGoogleApiClient != null) {
@@ -1030,6 +1029,7 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putString("sessionStartTime", sessionStartTime);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
         savedInstanceState.putInt("segmentId", segmentId);
+        savedInstanceState.putParcelable("currentSegment", currentSegment);
 
         super.onSaveInstanceState(savedInstanceState);
     }

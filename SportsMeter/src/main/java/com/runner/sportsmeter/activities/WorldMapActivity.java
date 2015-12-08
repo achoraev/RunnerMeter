@@ -22,7 +22,7 @@ import java.util.List;
  * Created by angelr on 02-Nov-15.
  */
 public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private final int QUERY_LIMIT = 300;
+    private final int QUERY_LIMIT = 500;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
 

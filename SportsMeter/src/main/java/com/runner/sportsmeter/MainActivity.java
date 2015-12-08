@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements
                             segment.setDistance(dist);
                             segment.setMapImage(file);
                             segment.setGeoPointsArray(points);
-                            segment.saveInBackground();
+                            segment.saveEventually();
 
                             segmentId++;
                             settings.edit().putInt("segmentId", segmentId).apply();

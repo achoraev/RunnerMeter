@@ -199,7 +199,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         saveSession.setACL(acl);
         Boolean isValid = new Calculations().isTimePerKilometerValid(currentSession.getTimePerKilometer(), currentSession.getSportType());
         if (currentSession.getTimePerKilometer() != 0 && isValid) {
-            saveSession.saveInBackground();
+            saveSession.saveEventually();
             saveSession.pinInBackground();
         } else if (currentSession.getTimePerKilometer() != 0 && !isValid) {
             String message = getString(R.string.this_time) + " " + currentSession.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + currentSession.getSportType();

@@ -105,6 +105,6 @@ public class ParseCommon {
         saveCoords.setAcl(acl);
         saveCoords.setCurrentUser(ParseUser.getCurrentUser());
         saveCoords.setStartAndEndCoordinates(coordinates);
-        saveCoords.saveInBackground();
+        saveCoords.saveEventually();
     }
 }

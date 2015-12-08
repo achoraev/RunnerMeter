@@ -313,13 +313,6 @@ public class MainActivity extends AppCompatActivity implements
         mMap.addPolyline(currentSegment);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
 
-        // todo remove before release
-        try {
-            Thread.sleep(TWO_SECOND);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
 
         Session saveSession = new Session(
@@ -340,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements
         saveBundle.putDouble("current_max_speed", currentMaxSpeed);
         saveBundle.putDouble("average_speed", averageSpeed);
         saveBundle.putString("sport_type", sportType.toString());
+        saveBundle.putParcelable("currentSegment", currentSegment);
         if (sessionImagePath != null) {
             saveBundle.putString("session_image_path", sessionImagePath);
         }
@@ -843,7 +837,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Connected to GoogleApiClient");
         progressBar.setVisibility(View.GONE);
         startStopBtn.setVisibility(View.VISIBLE);
-        Toast.makeText(this, getString(R.string.connected_to_googleApi), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, getString(R.string.connected_to_googleApi), Toast.LENGTH_LONG).show();
         if (currentLocation == null) {
             currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
@@ -1029,7 +1023,6 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putString("sessionStartTime", sessionStartTime);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
         savedInstanceState.putInt("segmentId", segmentId);
-        savedInstanceState.putParcelable("currentSegment", currentSegment);
 
         super.onSaveInstanceState(savedInstanceState);
     }

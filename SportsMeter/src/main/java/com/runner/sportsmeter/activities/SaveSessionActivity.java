@@ -60,11 +60,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_save_session_layout);
         savedInstanceState = getIntent().getExtras();
-
-        initializeMap();
-
-        ParseCommon.logInGuestUser(this);
         updateFromBundle(savedInstanceState);
+        initializeMap();
+        ParseCommon.logInGuestUser(this);
         initializeViews();
         createCurrentSession();
         setTextViewsFromSession();

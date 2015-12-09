@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseACL;
@@ -245,13 +246,14 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         Log.d("save_map", "Map is ready");
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if(startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoordinates, 14), 1000, null);
+//            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoordinates, 14), 1000, null);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(startPointCoordinates, endPointCoordinates), 10));
             mMap.addPolyline(currentSegment);
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
         }

@@ -54,7 +54,6 @@ import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 
-import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -258,6 +257,9 @@ public class MainActivity extends AppCompatActivity implements
         if (mGoogleApiClient != null) {
             startLocationUpdates();
         }
+        // clear map
+        mMap.clear();
+
         setVariablesToNull();
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (sessionStartTime == null) {
@@ -351,49 +353,65 @@ public class MainActivity extends AppCompatActivity implements
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
-    private void saveSegmentToParse(PolylineOptions segment, final ArrayList<ParseGeoPoint> points, final double dist) {
+    private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
         if (settings.getInt("segmentId", segmentId) != 0) {
             segmentId = settings.getInt("segmentId", segmentId);
         }
 
-        mMap.addPolyline(segment);
+        mMap.addPolyline(polyLine);
 
-        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
-            @Override
-            public void onSnapshotReady(Bitmap bitmap) {
-                sessionScreenShot = bitmap;
-//                sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-//                Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
-//                Log.d("url", sessionImagePath);
+        Segments segment = new Segments();
 
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] data = stream.toByteArray();
-                final ParseFile file = new ParseFile("test" + segmentId + ".png", data);
-                file.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(com.parse.ParseException e) {
-                        if (e == null) {
-                            Segments segment = new Segments();
+        segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+        segment.setSegmentId(segmentId);
+        segment.setName("segment" + segmentId);
+        segment.setDistance(dist);
+//        segment.setMapImage(file);
+        segment.setGeoPointsArray(points);
+        segment.saveEventually();
 
-                            segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-                            segment.setSegmentId(segmentId);
-                            segment.setName("test" + segmentId);
-                            segment.setDistance(dist);
-                            segment.setMapImage(file);
-                            segment.setGeoPointsArray(points);
-                            segment.saveEventually();
+        segmentId++;
+        settings.edit().putInt("segmentId", segmentId).apply();
+        currentSegment = null;
 
-                            segmentId++;
-                            settings.edit().putInt("segmentId", segmentId).apply();
-                            currentSegment = null;
-                            // clear map
-                            mMap.clear();
-                        }
-                    }
-                });
-            }
-        });
+//        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+//            @Override
+//            public void onSnapshotReady(Bitmap bitmap) {
+//                sessionScreenShot = bitmap;
+//                // this save session image on sdcard
+////                sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
+////                Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
+////                Log.d("url", sessionImagePath);
+//
+//                // this save bitmap on parse and after callback save Segment
+////                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+////                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+////                byte[] data = stream.toByteArray();
+////                final ParseFile file = new ParseFile("test" + segmentId + ".png", data);
+////                file.saveInBackground(new SaveCallback() {
+////                    @Override
+////                    public void done(com.parse.ParseException e) {
+////                        if (e == null) {
+////                            Segments segment = new Segments();
+////
+////                            segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+////                            segment.setSegmentId(segmentId);
+////                            segment.setName("test" + segmentId);
+////                            segment.setDistance(dist);
+////                            segment.setMapImage(file);
+////                            segment.setGeoPointsArray(points);
+////                            segment.saveEventually();
+////
+////                            segmentId++;
+////                            settings.edit().putInt("segmentId", segmentId).apply();
+////                            currentSegment = null;
+////                            // clear map
+////                            mMap.clear();
+////                        }
+////                    }
+////                });
+//            }
+//        });
     }
 
     private void openDialogToLoginIfLoggedAsGuest() {
@@ -481,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportType = sportType.getSportTypeValue(position);
-                Toast.makeText(MainActivity.this, sportType.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, sportType.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -1076,10 +1094,10 @@ public class MainActivity extends AppCompatActivity implements
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
                     listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
+                    mMap.addPolyline(currentSegment);
                 }
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
             }
-
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
         }
     }
 

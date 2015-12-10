@@ -336,9 +336,9 @@ public class MainActivity extends AppCompatActivity implements
         saveBundle.putDouble("average_speed", averageSpeed);
         saveBundle.putString("sport_type", sportType.toString());
         saveBundle.putParcelable("currentSegment", currentSegment);
-        if (sessionImagePath != null) {
-            saveBundle.putString("session_image_path", sessionImagePath);
-        }
+//        if (sessionImagePath != null) {
+//            saveBundle.putString("session_image_path", sessionImagePath);
+//        }
 
         saveSessionIntent.putExtras(saveBundle);
         overridePendingTransition(android.R.anim.fade_in,
@@ -372,7 +372,6 @@ public class MainActivity extends AppCompatActivity implements
 
         segmentId++;
         settings.edit().putInt("segmentId", segmentId).apply();
-        currentSegment = null;
 
 //        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
 //            @Override
@@ -455,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements
         currentTimeDiff = 0;
         currentDistance = 0;
         currentSpeed = 0;
+        currentSegment = null;
     }
 
     private void setCurrentUserUsername() {
@@ -982,41 +982,35 @@ public class MainActivity extends AppCompatActivity implements
                 mRequestingLocationUpdates = savedInstanceState.getBoolean(
                         REQUESTING_LOCATION_UPDATES_KEY);
             }
-
             // Update the value of lastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
                 currentUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
-
             if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
                 currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
             }
-
             if (savedInstanceState.keySet().contains(getString(R.string.global_distance))) {
                 sessionDistance = savedInstanceState.getDouble(getString(R.string.global_distance));
             }
-
             if (savedInstanceState.keySet().contains(getString(R.string.global_average_speed))) {
                 averageSpeed = savedInstanceState.getDouble(getString(R.string.global_average_speed));
             }
-
             if (savedInstanceState.keySet().contains(getString(R.string.global_max_speed))) {
                 currentMaxSpeed = savedInstanceState.getDouble(getString(R.string.global_max_speed));
             }
-
             if (savedInstanceState.keySet().contains(getString(R.string.global_duration))) {
                 sessionTimeDiff = savedInstanceState.getLong(getString(R.string.global_duration));
             }
-
             if (savedInstanceState.keySet().contains("sessionStartTime")) {
                 sessionStartTime = savedInstanceState.getString("sessionStartTime");
             }
-
             if (savedInstanceState.keySet().contains("segmentId")) {
                 segmentId = savedInstanceState.getInt("segmentId");
             }
-
+            if (savedInstanceState.keySet().contains("currentSegment")) {
+                currentSegment = savedInstanceState.getParcelable("currentSegment");
+            }
             if (savedInstanceState.keySet().contains(getString(R.string.global_is_started))) {
                 startButtonEnabled = savedInstanceState.getBoolean(getString(R.string.global_is_started));
                 if (startButtonEnabled) {
@@ -1041,6 +1035,7 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putString("sessionStartTime", sessionStartTime);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
         savedInstanceState.putInt("segmentId", segmentId);
+        savedInstanceState.putParcelable("currentSegment", currentSegment);
 
         super.onSaveInstanceState(savedInstanceState);
     }

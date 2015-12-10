@@ -249,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void startLogic() {
         openDialogToLoginIfLoggedAsGuest();
+        setVariablesToNull();
         currentSegment = new PolylineOptions()
                 .width(POLYLINE_WIDTH)
                 .color(POLYLINE_COLOR);
@@ -260,7 +261,6 @@ public class MainActivity extends AppCompatActivity implements
         // clear map
         mMap.clear();
 
-        setVariablesToNull();
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (sessionStartTime == null) {
             sessionStartTime = currentUpdateTime;
@@ -309,11 +309,11 @@ public class MainActivity extends AppCompatActivity implements
             if (ParseUser.getCurrentUser() != null) {
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
-        }
 
-        // draw all trace
-        mMap.addPolyline(currentSegment);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
+            // draw all trace
+            mMap.addPolyline(currentSegment);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
+        }
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
 

@@ -137,9 +137,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 averageSpeed,
                 "",
                 ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser(),
-                ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().get(getString(R.string.session_name)) != null
-                        ? ParseUser.getCurrentUser().get(getString(R.string.session_name)).toString()
-                        : null,
+                new ParseCommon().getCurrentUserUsername(),
                 sportType.toLowerCase());
     }
 
@@ -253,7 +251,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         if(startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
 //            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoordinates, 14), 1000, null);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(startPointCoordinates, endPointCoordinates), 10));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(startPointCoordinates, endPointCoordinates), 0));
             mMap.addPolyline(currentSegment);
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
         }

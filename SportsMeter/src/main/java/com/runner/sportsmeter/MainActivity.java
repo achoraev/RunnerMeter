@@ -415,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void openDialogToLoginIfLoggedAsGuest() {
-        if (ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().getUsername().equals("Guest")) {
+        if (new ParseCommon().getCurrentUserUsername().equals("Guest")) {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.logged_in_as_guest))
                     .setMessage(getString(R.string.do_u_want_to_login))
@@ -621,7 +621,7 @@ public class MainActivity extends AppCompatActivity implements
                 fragment = null;
                 break;
             case R.id.nav_login_fragment:
-                if (ParseCommon.isUserLoggedIn() && !ParseUser.getCurrentUser().get("name").equals("Guest")) {
+                if (ParseCommon.isUserLoggedIn() && !new ParseCommon().getCurrentUserUsername().equals("Guest")) {
                     new AlertDialog.Builder(this)
                             .setMessage(getString(R.string.do_you_want_logout))
                             .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {

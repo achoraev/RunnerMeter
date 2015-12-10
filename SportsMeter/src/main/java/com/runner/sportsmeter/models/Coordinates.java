@@ -4,6 +4,7 @@ import com.parse.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by angelr on 22-Oct-15.
@@ -27,6 +28,10 @@ public class Coordinates extends ParseObject {
 
     public void setStartAndEndPoint(ParseGeoPoint startAndEndPoint) {
         put("startAndEndPoint", startAndEndPoint);
+    }
+
+    public List<Object> getStartAndEndCoordinates() {
+        return getList("startAndEndCoordinates");
     }
 
     public void setStartAndEndCoordinates(ArrayList<ParseGeoPoint> geoPoints) {

@@ -77,10 +77,17 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void iterateOverCoordinates(List<Coordinates> coordinates) {
-        for (int i = 0; i < coordinates.size(); i += 2) {
-            LatLng curPosition = new LatLng(coordinates.get(i).getStartAndEndPoint().getLatitude(), coordinates.get(i).getStartAndEndPoint().getLongitude());
-//            String username = coord.getCurrentUser().getUsername();
-            mMap.addMarker(new MarkerOptions().position(curPosition));
+        for (int i = 0; i < coordinates.size(); i ++) {
+            Coordinates current = coordinates.get(i);
+            if(current.getStartAndEndPoint() != null) {
+                LatLng curPosition = new LatLng(
+                        current.getStartAndEndPoint().getLatitude(),
+                        current.getStartAndEndPoint().getLongitude());
+                mMap.addMarker(new MarkerOptions().position(curPosition));
+            } else {
+                // todo get array
+//                List<Object> list = current.getStartAndEndCoordinates();
+            }
         }
     }
 }

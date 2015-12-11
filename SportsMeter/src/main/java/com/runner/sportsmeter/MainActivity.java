@@ -90,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements
     protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
-    public static String sessionImagePath;
-    public SportTypes sportType;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView nvDrawer;
     private DrawerLayout mDrawer;
@@ -115,13 +113,14 @@ public class MainActivity extends AppCompatActivity implements
 
     private String lastUpdateTime, currentUpdateTime, sessionStartTime = null;
     private boolean mRequestingLocationUpdates = true;
-    protected LocationRequest mLocationRequest;
-    protected LocationSettingsRequest mLocationSettingsRequest;
+    private LocationRequest mLocationRequest;
+    private LocationSettingsRequest mLocationSettingsRequest;
 
+    private static String sessionImagePath;
+    private SportTypes sportType;
     private double currentDistance, sessionDistance, currentSpeed, averageSpeed, currentMaxSpeed;
     private long currentTimeDiff, sessionTimeDiff;
-
-    public boolean startButtonEnabled;
+    private boolean startButtonEnabled;
 
     private String userName, facebookId;
 
@@ -279,11 +278,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
-        stopLocationUpdates();
         startButtonEnabled = false;
-        ParseACL acl = new ParseACL();
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(false);
 
         if (currentCoordinates != null) {
             endPointCoord = currentCoordinates;
@@ -316,7 +311,6 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
-
         Session saveSession = new Session(
                 sessionDistance,
                 sessionTimeDiff,
@@ -330,11 +324,11 @@ public class MainActivity extends AppCompatActivity implements
         saveBundle.putParcelable("Session", saveSession);
         saveBundle.putParcelable("start_coords", startPointCoord);
         saveBundle.putParcelable("end_coords", endPointCoord);
-        saveBundle.putDouble("session_distance", sessionDistance);
-        saveBundle.putDouble("session_time_diff", sessionTimeDiff);
-        saveBundle.putDouble("current_max_speed", currentMaxSpeed);
-        saveBundle.putDouble("average_speed", averageSpeed);
-        saveBundle.putString("sport_type", sportType.toString());
+//        saveBundle.putDouble("session_distance", sessionDistance);
+//        saveBundle.putDouble("session_time_diff", sessionTimeDiff);
+//        saveBundle.putDouble("current_max_speed", currentMaxSpeed);
+//        saveBundle.putDouble("average_speed", averageSpeed);
+//        saveBundle.putString("sport_type", sportType.toString());
         saveBundle.putParcelable("currentSegment", currentSegment);
 //        if (sessionImagePath != null) {
 //            saveBundle.putString("session_image_path", sessionImagePath);
@@ -349,8 +343,8 @@ public class MainActivity extends AppCompatActivity implements
 
         // set all to null
         setVariablesToNull();
-
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+        stopLocationUpdates();
     }
 
     private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
@@ -361,10 +355,9 @@ public class MainActivity extends AppCompatActivity implements
         mMap.addPolyline(polyLine);
 
         Segments segment = new Segments();
-
         segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
         segment.setSegmentId(segmentId);
-        segment.setName("segment" + segmentId);
+        segment.setName("segment_" + segmentId);
         segment.setDistance(dist);
 //        segment.setMapImage(file);
         segment.setGeoPointsArray(points);
@@ -1128,7 +1121,6 @@ public class MainActivity extends AppCompatActivity implements
                         .addApi(LocationServices.API)
                         .build();
                 createLocationRequest();
-                // check gps status and turn on if not
                 buildLocationSettingsRequest();
                 checkLocationSettings();
             }
@@ -1155,7 +1147,7 @@ public class MainActivity extends AppCompatActivity implements
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
     @Override

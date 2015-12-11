@@ -25,6 +25,8 @@ public class ParseApplication extends Application {
         ParseCommon.ParseInitialize(this);
 //        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
+        defaultACL.setPublicReadAccess(true);
+        defaultACL.setPublicWriteAccess(false);
         ParseACL.setDefaultACL(defaultACL, true);
         ParseInstallation.getCurrentInstallation().saveEventually();
     }

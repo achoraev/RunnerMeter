@@ -36,12 +36,21 @@ please see styles_device_defaults.xml.
         <!--<item name="colorPrimary">#673AB7</item>-->
         <!--<item name="colorPrimaryDark">#512DA8</item>-->
         <!--<item name="colorAccent">#FF4081</item>-->
-        <item name="colorPrimary">#00897B</item>
-        <item name="colorPrimaryDark">#00695C</item>
-        <item name="colorAccent">#FF4081</item>
-        <item name="android:textColor">@color/app_color</item>
+        <item name="colorPrimary">@color/app_color</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent_color</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/screen_background_dark_transparent</item>
         <item name="android:popupMenuStyle">@style/PopupMenu.MenuStyle</item>
+    </style>
+
+    <style name="BtnCustomSaveSession">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">50dp</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@color/primary_dark</item>
     </style>
 
     <style name="BtnCustomLeaderBoard">

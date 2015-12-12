@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements
     public static final int POLYLINE_COLOR = Color.parseColor("#1DCCC6");
 
     protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
-    protected static final String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
     protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
     protected static final String LOCATION_KEY = "location-key";
     protected static final String speedMetricUnit = " km/h";
@@ -99,20 +98,20 @@ public class MainActivity extends AppCompatActivity implements
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
-    private LatLng currentCoordinates = null;
-    private LatLng lastUpdatedCoord = null;
-    private LatLng startPointCoord = null;
-    private LatLng endPointCoord = null;
+    private LatLng currentCoordinates;
+    private LatLng lastUpdatedCoord;
+    private LatLng startPointCoord;
+    private LatLng endPointCoord;
+    private LatLng SOFIA_CENTER = new LatLng(42.697748, 23.321658);
     private Location currentLocation;
     private Bitmap sessionScreenShot;
     private PolylineOptions currentSegment;
     private ArrayList<ParseGeoPoint> listOfPoints = new ArrayList<>();
     private int segmentId = 1;
 
-    private Boolean exit = false;
+    private Boolean exit;
 
-    private String lastUpdateTime, currentUpdateTime, sessionStartTime = null;
-    private boolean mRequestingLocationUpdates = true;
+    private String lastUpdateTime, currentUpdateTime, sessionStartTime;
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
 
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private String userName, facebookId;
 
-    private Fragment fragment = null;
+    private Fragment fragment;
     private TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
     private Button startStopBtn;
     private ProfilePictureView facebookProfilePicture;
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
 
-    private SharedPreferences settings = null;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,16 +164,7 @@ public class MainActivity extends AppCompatActivity implements
         setCurrentUserUsername();
 
         // setup add
-        mAdView = (AdView) findViewById(R.id.adView);
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-                requestNewInterstitial();
-            }
-        });
-
+        setupInterstitialAd();
         requestNewInterstitial();
 
         startStopBtn.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +184,17 @@ public class MainActivity extends AppCompatActivity implements
         // setup adds
         new Utility().setupAdds(mAdView, this);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+    }
+
+    private void setupInterstitialAd() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
     }
 
     private void applyEUcookiePolicy() {
@@ -244,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements
         facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         chooseTypeSport = (Spinner) findViewById(R.id.type_of_sports);
+        mAdView = (AdView) findViewById(R.id.adView);
     }
 
     private void startLogic() {
@@ -260,19 +262,32 @@ public class MainActivity extends AppCompatActivity implements
         // clear map
         mMap.clear();
 
-        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (sessionStartTime == null) {
-            sessionStartTime = currentUpdateTime;
+            sessionStartTime = DateFormat.getTimeInstance().format(new Date());;
         }
 
-        if (mMap.getMyLocation() != null) {
-            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+        if (mMap.getMyLocation() != null && currentLocation != null) {
+            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         } else {
-            startPointCoord = new LatLng(40, 25);
+            buildGoogleApiClient();
+            try {
+                Thread.sleep(ONE_SECOND);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (mMap.getMyLocation() != null && currentLocation != null) {
+                startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            }
         }
-        currentSegment.add(startPointCoord);
-        mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
+        if (mMap.getMyLocation() != null && currentLocation != null) {
+            currentSegment.add(startPointCoord);
+            listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
+            mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
+        } else {
+            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
+        }
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
@@ -492,7 +507,6 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportType = sportType.getSportTypeValue(position);
-//                Toast.makeText(MainActivity.this, sportType.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -518,6 +532,17 @@ public class MainActivity extends AppCompatActivity implements
         drawerToggle = setupDrawerToggle();
         // Tie DrawerLayout events to the ActionBarToggle
         mDrawer.setDrawerListener(drawerToggle);
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
     }
 
     private void createGoogleMap() {
@@ -588,17 +613,6 @@ public class MainActivity extends AppCompatActivity implements
         return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
-
     public void selectDrawerItem(MenuItem menuItem) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -641,16 +655,11 @@ public class MainActivity extends AppCompatActivity implements
                             .create()
                             .show();
                 } else {
-//                    if (!ParseCommon.isUserLoggedIn()) {
                     logOutCurrentUser();
                     openParseLoginActivity();
-//                    } else {
-//                        Toast.makeText(this, getString(R.string.already_logged_in), Toast.LENGTH_LONG).show();
-//                    }
                 }
                 break;
             case R.id.nav_feedback_fragment:
-
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
                 emailIntent.setData(Uri.parse("mailto:"));
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.app_email)});
@@ -680,9 +689,6 @@ public class MainActivity extends AppCompatActivity implements
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(getString(R.string.type_of_sport), sportType);
                 leaderIntent.putExtras(bundle);
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("list", arrayOfSessions);
-//                leaderIntent.putExtras(bundle);
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 startActivity(leaderIntent);
@@ -699,12 +705,12 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         // Insert the fragment by replacing any existing fragment
-        if (fragment != null) {
-            fragmentManager.beginTransaction()
-                    .add(R.id.flContent, fragment)
-                    .addToBackStack(null)
-                    .commit();
-        }
+//        if (fragment != null) {
+//            fragmentManager.beginTransaction()
+//                    .add(R.id.flContent, fragment)
+//                    .addToBackStack(null)
+//                    .commit();
+//        }
 
         // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
@@ -718,17 +724,7 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         }
 
-        // Handle action button
         switch (item.getItemId()) {
-//            case R.id.action_websearch:
-//                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//                intent.putExtra(SearchManager.QUERY, "");
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(this, R.string.app_not_available, Toast.LENGTH_LONG).show();
-//                }
-//                return true;
             case R.id.action_about:
                 Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
                 overridePendingTransition(android.R.anim.fade_in,
@@ -837,7 +833,7 @@ public class MainActivity extends AppCompatActivity implements
 //        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setMyLocationEnabled(true);
-        startPointCoord = new LatLng(42.697748, 23.321658);
+        startPointCoord = SOFIA_CENTER;
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -848,21 +844,10 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Connected to GoogleApiClient");
         progressBar.setVisibility(View.GONE);
         startStopBtn.setVisibility(View.VISIBLE);
-//        Toast.makeText(this, getString(R.string.connected_to_googleApi), Toast.LENGTH_LONG).show();
-        if (currentLocation == null) {
-            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        }
-        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
-
-//        if (sessionStartTime == null) {
-//            sessionStartTime = currentUpdateTime;
+//        if (currentLocation == null) {
+//            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //        }
-
-        if (mRequestingLocationUpdates) {
-            Log.d(TAG, "Starting updates");
-//            startLocationUpdates();
-        }
+        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
     }
 
     @Override
@@ -889,7 +874,7 @@ public class MainActivity extends AppCompatActivity implements
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (location != null) {
             try {
-                updateUI();
+                updateUI(currentLocation);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -932,7 +917,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 break;
         }
-        // check current user
+
         setCurrentUserUsername();
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -970,12 +955,6 @@ public class MainActivity extends AppCompatActivity implements
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
-            // Update the value of mRequestingLocationUpdates from the Bundle
-            if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
-                mRequestingLocationUpdates = savedInstanceState.getBoolean(
-                        REQUESTING_LOCATION_UPDATES_KEY);
-            }
-            // Update the value of lastUpdateTime from the Bundle and update the UI.
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
                 currentUpdateTime = savedInstanceState.getString(
                         LAST_UPDATED_TIME_STRING_KEY);
@@ -995,6 +974,7 @@ public class MainActivity extends AppCompatActivity implements
             if (savedInstanceState.keySet().contains(getString(R.string.global_duration))) {
                 sessionTimeDiff = savedInstanceState.getLong(getString(R.string.global_duration));
             }
+            // todo extract to constants
             if (savedInstanceState.keySet().contains("sessionStartTime")) {
                 sessionStartTime = savedInstanceState.getString("sessionStartTime");
             }
@@ -1016,8 +996,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
-                mRequestingLocationUpdates);
         // todo save mGoogleApiClient and mLocationRequest
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
         savedInstanceState.putBoolean(getString(R.string.global_is_started), startButtonEnabled);
@@ -1054,18 +1032,16 @@ public class MainActivity extends AppCompatActivity implements
                 });
     }
 
-    private void updateUI() throws ParseException {
-        if (currentLocation != null) {
+    private void updateUI(Location currLoc) throws ParseException {
+        if (currLoc != null) {
             Log.d(TAG, "Update UI");
-//            Toast.makeText(this, "Update UI", Toast.LENGTH_LONG).show();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
-                currentCoordinates = smoothLocation(currentLocation, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
+                currentCoordinates = smoothLocation(currLoc, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
             } else {
-                currentCoordinates = smoothLocation(currentLocation, currentLocation.getLatitude(), currentLocation.getLongitude());
+                currentCoordinates = smoothLocation(currLoc, currLoc.getLatitude(), currLoc.getLongitude());
                 startPointCoord = currentCoordinates;
                 lastUpdatedCoord = currentCoordinates;
-                listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             }
 
             currentDistance = new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
@@ -1099,7 +1075,6 @@ public class MainActivity extends AppCompatActivity implements
     private LatLng smoothLocation(Location location, double oldLat, double oldLon) {
         double lat = smooth(location.getLatitude(), oldLat);
         double lon = smooth(location.getLongitude(), oldLon);
-
         return new LatLng(lat, lon);
     }
 
@@ -1111,7 +1086,6 @@ public class MainActivity extends AppCompatActivity implements
     protected synchronized void buildGoogleApiClient() {
         Log.d(TAG, "Building GoogleApiClient");
         progressBar.setVisibility(View.VISIBLE);
-//        Toast.makeText(this, "Building Google Api", Toast.LENGTH_LONG).show();
         Thread buildGoogleApiThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -1161,7 +1135,6 @@ public class MainActivity extends AppCompatActivity implements
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                 Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
                         "upgrade location settings ");
-
                 try {
                     // Show the dialog by calling startResolutionForResult(), and check the result
                     // in onActivityResult().

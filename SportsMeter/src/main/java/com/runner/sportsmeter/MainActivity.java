@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements
     private ArrayList<ParseGeoPoint> listOfPoints = new ArrayList<>();
     private int segmentId = 1;
 
-    private Boolean exit;
+    private Boolean exit = false;
 
     private String lastUpdateTime, currentUpdateTime, sessionStartTime;
     private LocationRequest mLocationRequest;
@@ -266,21 +266,21 @@ public class MainActivity extends AppCompatActivity implements
             sessionStartTime = DateFormat.getTimeInstance().format(new Date());;
         }
 
-        if (mMap.getMyLocation() != null && currentLocation != null) {
+        if (currentLocation != null) {
             startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         } else {
-            buildGoogleApiClient();
+//            buildGoogleApiClient();
             try {
                 Thread.sleep(ONE_SECOND);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            if (mMap.getMyLocation() != null && currentLocation != null) {
+            if (currentLocation != null) {
                 startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             }
         }
-        if (mMap.getMyLocation() != null && currentLocation != null) {
+        if (currentLocation != null) {
             currentSegment.add(startPointCoord);
             listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
@@ -534,6 +534,10 @@ public class MainActivity extends AppCompatActivity implements
         mDrawer.setDrawerListener(drawerToggle);
     }
 
+    private ActionBarDrawerToggle setupDrawerToggle() {
+        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+    }
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -543,74 +547,6 @@ public class MainActivity extends AppCompatActivity implements
                         return true;
                     }
                 });
-    }
-
-    private void createGoogleMap() {
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-
-    @Override
-    protected void onStart() {
-        // 3- pause
-        // 1 - land start onCreate
-        // 2 - land start
-        super.onStart();
-        if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        // 1 land
-        super.onPause();
-//        if (mGoogleApiClient.isConnected()) {
-//            stopLocationUpdates();
-//        }
-        // for facebook API
-        AppEventsLogger.deactivateApp(this);
-    }
-
-    @Override
-    protected void onResume() {
-        // 3 land start
-        super.onResume();
-//        setTitle(getString(R.string.app_name));
-//        if (mGoogleApiClient.isConnected()) {
-//            startLocationUpdates();
-//        }
-        // for facebook API
-        AppEventsLogger.activateApp(this);
-    }
-
-    @Override
-    protected void onStop() {
-        // 2 land
-        super.onStop();
-//        if (mGoogleApiClient.isConnected()) {
-//            stopLocationUpdates();
-//            mGoogleApiClient.disconnect();
-//        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        // 3 - land
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        }
-
-        if (mGoogleApiClient.isConnected()) {
-            stopLocationUpdates();
-            mGoogleApiClient.disconnect();
-        }
-
-        super.onDestroy();
-    }
-
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -716,6 +652,65 @@ public class MainActivity extends AppCompatActivity implements
         menuItem.setChecked(true);
 //        setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
+    }
+
+    @Override
+    protected void onStart() {
+        // 3- pause
+        // 1 - land start onCreate
+        // 2 - land start
+        super.onStart();
+        if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        // 1 land
+        super.onPause();
+//        if (mGoogleApiClient.isConnected()) {
+//            stopLocationUpdates();
+//        }
+        // for facebook API
+        AppEventsLogger.deactivateApp(this);
+    }
+
+    @Override
+    protected void onResume() {
+        // 3 land start
+        super.onResume();
+//        setTitle(getString(R.string.app_name));
+//        if (mGoogleApiClient.isConnected()) {
+//            startLocationUpdates();
+//        }
+        // for facebook API
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onStop() {
+        // 2 land
+        super.onStop();
+//        if (mGoogleApiClient.isConnected()) {
+//            stopLocationUpdates();
+//            mGoogleApiClient.disconnect();
+//        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // 3 - land
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+
+        if (mGoogleApiClient.isConnected()) {
+            stopLocationUpdates();
+            mGoogleApiClient.disconnect();
+        }
+
+        super.onDestroy();
     }
 
     @Override
@@ -844,9 +839,9 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Connected to GoogleApiClient");
         progressBar.setVisibility(View.GONE);
         startStopBtn.setVisibility(View.VISIBLE);
-//        if (currentLocation == null) {
-//            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//        }
+        if (currentLocation == null) {
+            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        }
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
     }
 
@@ -921,6 +916,32 @@ public class MainActivity extends AppCompatActivity implements
         setCurrentUserUsername();
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onResult(LocationSettingsResult locationSettingsResult) {
+        final Status status = locationSettingsResult.getStatus();
+        switch (status.getStatusCode()) {
+            case LocationSettingsStatusCodes.SUCCESS:
+                Log.i(TAG, "All location settings are satisfied.");
+//                startLocationUpdates();
+                break;
+            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
+                        "upgrade location settings ");
+                try {
+                    // Show the dialog by calling startResolutionForResult(), and check the result
+                    // in onActivityResult().
+                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+                } catch (IntentSender.SendIntentException e) {
+                    Log.i(TAG, "PendingIntent unable to execute request.");
+                }
+                break;
+            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                Log.i(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
+                        "not created.");
+                break;
+        }
     }
 
     @Override
@@ -1083,6 +1104,11 @@ public class MainActivity extends AppCompatActivity implements
         return (newVal * SMOOTH_FACTOR) + oldVal * (1 - SMOOTH_FACTOR);
     }
 
+    private void createGoogleMap() {
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
+
     protected synchronized void buildGoogleApiClient() {
         Log.d(TAG, "Building GoogleApiClient");
         progressBar.setVisibility(View.VISIBLE);
@@ -1102,6 +1128,13 @@ public class MainActivity extends AppCompatActivity implements
         buildGoogleApiThread.start();
     }
 
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     protected void buildLocationSettingsRequest() {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
@@ -1115,38 +1148,5 @@ public class MainActivity extends AppCompatActivity implements
                         mLocationSettingsRequest
                 );
         result.setResultCallback(this);
-    }
-
-    protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-    }
-
-    @Override
-    public void onResult(LocationSettingsResult locationSettingsResult) {
-        final Status status = locationSettingsResult.getStatus();
-        switch (status.getStatusCode()) {
-            case LocationSettingsStatusCodes.SUCCESS:
-                Log.i(TAG, "All location settings are satisfied.");
-//                startLocationUpdates();
-                break;
-            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
-                        "upgrade location settings ");
-                try {
-                    // Show the dialog by calling startResolutionForResult(), and check the result
-                    // in onActivityResult().
-                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
-                } catch (IntentSender.SendIntentException e) {
-                    Log.i(TAG, "PendingIntent unable to execute request.");
-                }
-                break;
-            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                Log.i(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
-                        "not created.");
-                break;
-        }
     }
 }

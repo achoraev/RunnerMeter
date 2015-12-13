@@ -44,7 +44,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.*;
+import com.parse.ParseAnalytics;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
@@ -269,7 +272,6 @@ public class MainActivity extends AppCompatActivity implements
         if (currentLocation != null) {
             startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         } else {
-//            buildGoogleApiClient();
             try {
                 Thread.sleep(ONE_SECOND);
             } catch (InterruptedException e) {
@@ -321,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             // draw all trace
-            mMap.addPolyline(currentSegment);
+//            mMap.addPolyline(currentSegment);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
         }
 

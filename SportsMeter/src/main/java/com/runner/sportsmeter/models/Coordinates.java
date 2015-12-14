@@ -30,7 +30,7 @@ public class Coordinates extends ParseObject {
         put("startAndEndPoint", startAndEndPoint);
     }
 
-    public List<Object> getStartAndEndCoordinates() {
+    public List<ParseGeoPoint> getStartAndEndCoordinates() {
         return getList("startAndEndCoordinates");
     }
 

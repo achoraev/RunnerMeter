@@ -10,9 +10,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Coordinates;
 
@@ -77,16 +75,21 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     private void iterateOverCoordinates(List<Coordinates> coordinates) {
-        for (int i = 0; i < coordinates.size(); i ++) {
+        for (int i = 0; i < coordinates.size(); i++) {
             Coordinates current = coordinates.get(i);
-            if(current.getStartAndEndPoint() != null) {
+            if (current.getStartAndEndPoint() != null) {
                 LatLng curPosition = new LatLng(
                         current.getStartAndEndPoint().getLatitude(),
                         current.getStartAndEndPoint().getLongitude());
                 mMap.addMarker(new MarkerOptions().position(curPosition));
-            } else {
-                // todo get array
-//                List<Object> list = current.getStartAndEndCoordinates();
+            } else if (current.getStartAndEndCoordinates() != null) {
+                List<ParseGeoPoint> list = current.getStartAndEndCoordinates();
+                for (ParseGeoPoint coord : list) {
+                    LatLng pos = new LatLng(
+                            coord.getLatitude(),
+                            coord.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(pos));
+                }
             }
         }
     }

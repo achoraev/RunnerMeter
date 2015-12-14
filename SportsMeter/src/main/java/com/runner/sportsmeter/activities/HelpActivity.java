@@ -34,31 +34,31 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_5);
+        setContentView(R.layout.l_help_layout);
 
 //        setupNavigationView();
 //        setupToolbar();
-//        setupTablayout();
 //        setupCollapsingToolbarLayout();
+        initializeViewPager();
+        setupTablayout();
         setupFab();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        setSupportActionBar(toolbar);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar2);
+//        setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    private void initializeViewPager() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(drawerLayout != null)
+                if (drawerLayout != null)
                     drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -67,50 +67,44 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HelpFragmentOne(), "ONE");
-        adapter.addFragment(new HelpFragmentTwo(), "TWO");
+        adapter.addFragment(new HelpFragmentOne(), "Start page");
+        adapter.addFragment(new HelpFragmentTwo(), "Main page");
         adapter.addFragment(new HelpFragmentThree(), "THREE");
         viewPager.setAdapter(adapter);
     }
 
-    private void setupNavigationView(){
+    private void setupNavigationView() {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     }
 
-    private void setupCollapsingToolbarLayout(){
+    private void setupCollapsingToolbarLayout() {
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        if(collapsingToolbarLayout != null){
+        if (collapsingToolbarLayout != null) {
             collapsingToolbarLayout.setTitle(toolbar.getTitle());
             //collapsingToolbarLayout.setCollapsedTitleTextColor(0xED1C24);
             //collapsingToolbarLayout.setExpandedTitleColor(0xED1C24);
         }
     }
 
-    private void setupTablayout(){
-
+    private void setupTablayout() {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-
-        if(tabLayout == null)
-            return;
-
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 4"));
+        tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void setupFab(){
+    private void setupFab() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        if(fab != null)
+        if (fab != null) {
             fab.setOnClickListener(this);
+        }
     }
-    private void setupToolbar(){
+
+    private void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar2);
-        if (toolbar != null)
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
+        }
 
         // Show menu icon
         final ActionBar ab = getSupportActionBar();
@@ -123,11 +117,15 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.fab){
-
+        if (view.getId() == R.id.fab) {
             Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), "This is Snackbar", Snackbar.LENGTH_LONG)
-                    .setAction("Action", this)
+                    .make(findViewById(R.id.coordinatorLayout), "Skip How to start", Snackbar.LENGTH_LONG)
+                    .setAction("Skip", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    })
                     .show(); // Don’t forget to show!
         }
     }

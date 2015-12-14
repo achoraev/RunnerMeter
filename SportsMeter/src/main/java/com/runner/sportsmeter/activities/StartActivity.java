@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -25,15 +26,23 @@ import com.runner.sportsmeter.enums.SportTypes;
  */
 public class StartActivity extends Activity implements SimpleGestureFilter.SimpleGestureListener {
 
+    private final String FIRST_RUN = "firstRun";
     private SimpleGestureFilter detector;
-    AdView mAdView;
-    SportTypes sportType = SportTypes.RUNNER;
-    Button runnerBtn, bikerBtn, driveBtn;
+    private AdView mAdView;
+    private SportTypes sportType = SportTypes.RUNNER;
+    private Button runnerBtn, bikerBtn, driveBtn;
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_start_layout);
+
+        settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
+        if(settings.getBoolean(FIRST_RUN, true)){
+            startActivity(new Intent(StartActivity.this, HelpActivity.class));
+            settings.edit().putBoolean(FIRST_RUN, false).commit();
+        }
 
         bikerBtn = (Button) findViewById(R.id.top_right);
         runnerBtn = (Button) findViewById(R.id.center_right);

@@ -265,12 +265,13 @@ public class MainActivity extends AppCompatActivity implements
         // clear map
         mMap.clear();
 
+        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         if (sessionStartTime == null) {
-            sessionStartTime = DateFormat.getTimeInstance().format(new Date());;
+            sessionStartTime = currentUpdateTime;
         }
 
-        if (currentLocation != null) {
-            startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        if (mMap.getMyLocation() != null) {
+            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         } else {
             try {
                 Thread.sleep(ONE_SECOND);
@@ -278,11 +279,11 @@ public class MainActivity extends AppCompatActivity implements
                 e.printStackTrace();
             }
 
-            if (currentLocation != null) {
-                startPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            if (mMap.getMyLocation() != null) {
+                startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
             }
         }
-        if (currentLocation != null) {
+        if (mMap.getMyLocation() != null) {
             currentSegment.add(startPointCoord);
             listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
@@ -841,9 +842,9 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Connected to GoogleApiClient");
         progressBar.setVisibility(View.GONE);
         startStopBtn.setVisibility(View.VISIBLE);
-        if (currentLocation == null) {
-            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        }
+//        if (currentLocation == null) {
+//            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        }
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
     }
 

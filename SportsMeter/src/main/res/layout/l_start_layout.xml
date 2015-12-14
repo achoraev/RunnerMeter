@@ -55,7 +55,7 @@
                         android:layout_weight="2"
                         android:text="@string/bikers_click"
                         android:textColor="@color/app_color"
-                        android:background="@drawable/bike"
+                        android:background="@drawable/bike_christmas"
                         android:layout_marginBottom="10dp"
                         android:alpha="0.9"/>
                 <Button android:layout_width="match_parent"

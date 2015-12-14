@@ -328,6 +328,8 @@ public class MainActivity extends AppCompatActivity implements
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
         }
 
+        stopLocationUpdates();
+
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
         Session saveSession = new Session(
                 sessionDistance,
@@ -362,7 +364,6 @@ public class MainActivity extends AppCompatActivity implements
         // set all to null
         setVariablesToNull();
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
-        stopLocationUpdates();
     }
 
     private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {

@@ -55,6 +55,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private PolylineOptions currentSegment;
+    private LatLngBounds bound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,9 +256,13 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if(startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
+            if (startPointCoordinates.latitude < endPointCoordinates.latitude) {
+                bound = new LatLngBounds(startPointCoordinates, endPointCoordinates);
+            } else {
+                bound = new LatLngBounds(endPointCoordinates, startPointCoordinates);
+            }
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(
-                    new LatLngBounds(startPointCoordinates, endPointCoordinates), 20));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, 20));
             mMap.addPolyline(currentSegment);
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
         }

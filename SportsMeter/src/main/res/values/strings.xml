@@ -151,5 +151,6 @@
     <string name="facebook_page" translatable="false">https://www.facebook.com/sportmeter/</string>
     <string name="app_email" translatable="false">runner.meter@gmail.com</string>
     <string name="change_type_of_sport" translatable="false">Change type</string>
+    <string name="copyright">Copyright © 2010 by Angel Raev. All rights reserved.</string>
 
 </resources>

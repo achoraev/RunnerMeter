@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:padding="30dp"
-
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/app_color"
+              android:padding="30dp">
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="2">
@@ -12,6 +12,7 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/build_version"
                   android:layout_margin="30dp"
+                  android:textColor="@color/white"
                   android:textAppearance="?android:attr/textAppearanceMedium"
                   android:gravity="center_horizontal"/>
     </LinearLayout>
@@ -23,25 +24,38 @@
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/company_address"
+                  android:textColor="@color/white"
                   android:textAppearance="?android:attr/textAppearanceMedium"
                   android:gravity="center_horizontal|bottom"
-                  android:layout_margin="15dp"/>
+                  android:layout_margin="5dp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_email"
                 android:autoLink="all"
+                android:textColor="@color/white"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"
-                android:layout_margin="15dp"/>
+                android:layout_margin="5dp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_facebook_page"
+                android:textColor="@color/white"
                 android:autoLink="web"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"
                 android:layout_margin="5dp"/>
 
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@color/white"/>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="20dp">
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center"
+                  android:text="@string/copyright"/>
     </LinearLayout>
 </LinearLayout>

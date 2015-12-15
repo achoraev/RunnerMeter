@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements
         LocationListener,
         ResultCallback<LocationSettingsResult> {
 
+    public static final int THREE_SECOND = 3000;
     public static final int TWO_SECOND = 2000;
     public static final int ONE_SECOND = 1000;
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
@@ -291,6 +292,30 @@ public class MainActivity extends AppCompatActivity implements
         } else {
             Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
+
+        // todo make async update of the info panel on every sec.
+//        AsyncTask updateTask = new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected Void doInBackground(Void... params) {
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+//            }
+//        };
+//
+//        while (startButtonEnabled) {
+//            updateTask.execute(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+//            try {
+//                Thread.sleep(ONE_SECOND);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
@@ -730,15 +755,23 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(aboutIntent);
                 return true;
+            case R.id.action_help:
+                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(helpIntent);
+                return true;
+            case R.id.action_list_lite_map:
+                Intent liteMap = new Intent(MainActivity.this, LiteMapListActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(liteMap);
+                return true;
             case R.id.action_world_map:
                 Intent worldMapIntent = new Intent(MainActivity.this, WorldMapActivity.class);
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 startActivity(worldMapIntent);
-                return true;
-            case R.id.action_help:
-                Intent helpIntent = new Intent(MainActivity.this, HelpActivity.class);
-                startActivity(helpIntent);
                 return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {

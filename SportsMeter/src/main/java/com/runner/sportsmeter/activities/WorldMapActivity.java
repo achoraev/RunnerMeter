@@ -50,10 +50,12 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     private void getCoordinatesFromParse() {
         ParseQuery<Coordinates> query = Coordinates.getQuery();
         query.setLimit(QUERY_LIMIT);
+        query.fromPin("worldCoordinates");
         query.findInBackground(new FindCallback<Coordinates>() {
             public void done(List<Coordinates> coordinates, ParseException e) {
                 if (e == null) {
                     Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
+                    // todo remove before release
                     Toast.makeText(WorldMapActivity.this, "Retrieved " + coordinates.size(), Toast.LENGTH_LONG).show();
                     if (mMap != null) {
                         iterateOverCoordinates(coordinates);
@@ -65,7 +67,7 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
                         }
                         iterateOverCoordinates(coordinates);
                     }
-
+                    ParseObject.pinAllInBackground("worldCoordinates", coordinates);
                 } else {
                     Log.e("coordinates", "Error: " + e.getMessage());
                     Toast.makeText(WorldMapActivity.this, "Error " + e.getMessage(), Toast.LENGTH_LONG).show();

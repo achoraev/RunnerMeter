@@ -11,7 +11,7 @@
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/build_version"
-                  android:layout_margin="30dp"
+                  android:layout_margin="40dp"
                   android:textColor="@color/white"
                   android:textAppearance="?android:attr/textAppearanceMedium"
                   android:gravity="center_horizontal"/>
@@ -20,6 +20,15 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:layout_weight="2">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="60dp"
+                  android:scrollbars="horizontal"
+                  android:id="@+id/google_legal"
+                  android:textColor="@color/white"
+                  android:textAppearance="?android:attr/textAppearanceSmall"
+                  android:gravity="center_horizontal|bottom"
+                  android:layout_margin="5dp"/>
 
         <TextView android:layout_width="match_parent"
                   android:layout_height="wrap_content"
@@ -33,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/company_email"
                 android:autoLink="all"
-                android:textColor="@color/white"
+                android:textColorLink="@color/white"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"
                 android:layout_margin="5dp"/>
@@ -41,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/company_facebook_page"
-                android:textColor="@color/white"
+                android:textColorLink="@color/white"
                 android:autoLink="web"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:gravity="center_horizontal"

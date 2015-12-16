@@ -32,6 +32,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements
     private SportTypes sportType;
     private double currentDistance, sessionDistance, currentSpeed, averageSpeed, currentMaxSpeed;
     private long currentTimeDiff, sessionTimeDiff;
-    private boolean startButtonEnabled;
+    private Boolean startButtonEnabled = false;
 
     private String userName, facebookId;
 
@@ -294,27 +295,28 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         // todo make async update of the info panel on every sec.
-//        AsyncTask updateTask = new AsyncTask<Void, Void, Void>() {
+//        AsyncTask updateTask = new AsyncTask<Boolean, Void, String>() {
 //            @Override
-//            protected Void doInBackground(Void... params) {
+//            protected String doInBackground(Boolean... param) {
+//                while (param[0]){
+//                    try {
+//                        Thread.sleep(ONE_SECOND);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 //                return null;
 //            }
 //
 //            @Override
-//            protected void onPostExecute(Void aVoid) {
+//            protected void onPostExecute(String aVoid) {
 //                super.onPostExecute(aVoid);
-//        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+//                lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+//                sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
+//                timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
 //            }
 //        };
-//
-//        while (startButtonEnabled) {
-//            updateTask.execute(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
-//            try {
-//                Thread.sleep(ONE_SECOND);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+//        updateTask.execute(new Boolean[]{startButtonEnabled});
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
@@ -766,6 +768,14 @@ public class MainActivity extends AppCompatActivity implements
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 startActivity(liteMap);
+                return true;
+            case R.id.action_legal_notice:
+                String licenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(
+                        getApplicationContext());
+                AlertDialog.Builder licenseDialog = new AlertDialog.Builder(MainActivity.this);
+                licenseDialog.setTitle(R.string.google_legal_notices);
+                licenseDialog.setMessage(licenseInfo);
+                licenseDialog.show();
                 return true;
             case R.id.action_world_map:
                 Intent worldMapIntent = new Intent(MainActivity.this, WorldMapActivity.class);

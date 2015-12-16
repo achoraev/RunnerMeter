@@ -100,7 +100,7 @@
     <string name="like_on_facebook">Like on Facebook</string>
     <string name="world_map">World map</string>
     <string name="title_activity_maps">Map</string>
-
+    <string name="google_legal_notices">Google legal notices</string>
 
     // not translate
     <string name="app_name" translatable="false">Sport Meter</string>

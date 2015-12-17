@@ -3,6 +3,8 @@ package com.runner.sportsmeter.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,14 +25,20 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     private final int QUERY_LIMIT = 500;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_world_map_layout);
 
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        getCoordinatesFromParse();
     }
 
     @Override
@@ -43,16 +51,14 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 1), 1000, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-        getCoordinatesFromParse();
     }
 
     private void getCoordinatesFromParse() {
         ParseQuery<Coordinates> query = Coordinates.getQuery();
         query.setLimit(QUERY_LIMIT);
-        query.fromPin("worldCoordinates");
         query.findInBackground(new FindCallback<Coordinates>() {
             public void done(List<Coordinates> coordinates, ParseException e) {
+                progressBar.setVisibility(View.INVISIBLE);
                 if (e == null) {
                     Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
                     // todo remove before release

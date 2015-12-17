@@ -24,7 +24,6 @@ public class AboutActivity extends Activity {
         // todo google legal notices
         // this must be used for Services attribution text as part of a "Legal Notices" section in your application.
         // Including legal notices as an independent menu item, or as part of an "About" menu item, is recommended.
-//        String legal = getOpenSourceSoftwareLicenseInfo(AboutActivity.this);
         buildVersion = (TextView) findViewById(R.id.build_version);
         googleLegalInfo = (TextView) findViewById(R.id.google_legal);
         companyAddress = (TextView) findViewById(R.id.company_address);
@@ -33,7 +32,6 @@ public class AboutActivity extends Activity {
 
         buildVersion.setText(getString(R.string.app_name) + " v. " + BuildConfig.VERSION_NAME);
         companyAddress.setText(ADDRESS);
-//        googleLegalInfo.setText(legal);
         companyEmail.setText(EMAIL);
         companyFacebookPage.setText(FACEBOOK_PAGE);
     }

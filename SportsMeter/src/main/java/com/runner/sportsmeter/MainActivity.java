@@ -32,7 +32,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -294,29 +293,25 @@ public class MainActivity extends AppCompatActivity implements
             Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
 
-        // todo make async update of the info panel on every sec.
-//        AsyncTask updateTask = new AsyncTask<Boolean, Void, String>() {
+//        timerThread = new Thread(new Runnable() {
 //            @Override
-//            protected String doInBackground(Boolean... param) {
-//                while (param[0]){
+//            public void run() {
+//                while (startButtonEnabled) {
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
+//                        }
+//                    });
 //                    try {
 //                        Thread.sleep(ONE_SECOND);
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
 //                    }
 //                }
-//                return null;
 //            }
-//
-//            @Override
-//            protected void onPostExecute(String aVoid) {
-//                super.onPostExecute(aVoid);
-//                lastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-//                sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
-//                timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
-//            }
-//        };
-//        updateTask.execute(new Boolean[]{startButtonEnabled});
+//        });
+//        timerThread.start();
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
@@ -763,20 +758,21 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(helpIntent);
                 return true;
-            case R.id.action_list_lite_map:
-                Intent liteMap = new Intent(MainActivity.this, LiteMapListActivity.class);
-                overridePendingTransition(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                startActivity(liteMap);
-                return true;
-            case R.id.action_legal_notice:
-                String licenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(
-                        getApplicationContext());
-                AlertDialog.Builder licenseDialog = new AlertDialog.Builder(MainActivity.this);
-                licenseDialog.setTitle(R.string.google_legal_notices);
-                licenseDialog.setMessage(licenseInfo);
-                licenseDialog.show();
-                return true;
+//            case R.id.action_list_lite_map:
+//                Intent liteMap = new Intent(MainActivity.this, LiteMapListActivity.class);
+//                overridePendingTransition(android.R.anim.fade_in,
+//                        android.R.anim.fade_out);
+//                startActivity(liteMap);
+//                return true;
+//            case R.id.action_legal_notice:
+//                // todo find to show google license
+////                String licenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(
+////                        getApplicationContext());
+////                AlertDialog.Builder licenseDialog = new AlertDialog.Builder(MainActivity.this);
+////                licenseDialog.setTitle(R.string.google_legal_notices);
+////                licenseDialog.setMessage(licenseInfo);
+////                licenseDialog.show();
+//                return true;
             case R.id.action_world_map:
                 Intent worldMapIntent = new Intent(MainActivity.this, WorldMapActivity.class);
                 overridePendingTransition(android.R.anim.fade_in,

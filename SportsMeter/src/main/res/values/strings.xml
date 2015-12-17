@@ -100,7 +100,7 @@
     <string name="like_on_facebook">Like on Facebook</string>
     <string name="world_map">World map</string>
     <string name="title_activity_maps">Map</string>
-    <string name="google_legal_notices">Google legal notices</string>
+    <!--<string name="google_legal_notices">Google legal notices</string>-->
 
     // not translate
     <string name="app_name" translatable="false">Sport Meter</string>
@@ -151,6 +151,6 @@
     <string name="facebook_page" translatable="false">https://www.facebook.com/sportmeter/</string>
     <string name="app_email" translatable="false">runner.meter@gmail.com</string>
     <string name="change_type_of_sport" translatable="false">Change type</string>
-    <string name="copyright">Copyright © 2015 by Angel Raev. All rights reserved.</string>
+    <string name="copyright" translatable="false">Copyright © 2015 by Angel Raev. All rights reserved.</string>
 
 </resources>

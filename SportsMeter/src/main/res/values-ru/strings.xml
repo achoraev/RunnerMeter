@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">Лучшие водители</string>
     <string name="leader_board_my_best">Мои лучшие результаты</string>
     <string name="title_activity_maps">Карта</string>
+    <string name="how_to_start">Как начать:</string>
+    <string name="help_login_text">Нажмите на кнопку войти на левой стороне меню, чтобы зарегистрироваться/войти</string>
+    <string name="help_login_image">Помогите войти изображение</string>
+    <string name="help_type_sport_text">Нажмите на изображение вида спорта, что вы играете</string>
+    <string name="help_start_image">помощь начала изображение</string>
+    <string name="help_main_text">Нажмите на кнопку Пуск для запуска вашей деятельности</string>
+    <string name="help_main_image">изображение Главная страница справки</string>
+    <string name="help_save_text">Нажмите на Save/Share сохранить ваши сведения об активности</string>
+    <string name="help_save_image">Помогите сохранить изображение страницы</string>
+    <string name="skip_how_start">Пропустить как начать</string>
+    <string name="skip">Скип</string>
+    <string name="tab_how_to_login">Как войти</string>
+    <string name="tab_how_start_page">Стартовая страница</string>
+    <string name="tab_main_page">Главная страница</string>
+    <string name="tab_save_page">Сохранить страницу</string>
 
 </resources>

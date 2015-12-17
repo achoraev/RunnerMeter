@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">Besten Fahrer</string>
     <string name="leader_board_my_best">Meine besten Ergebnisse</string>
     <string name="title_activity_maps">Karte</string>
+    <string name="how_to_start">Gewusst wie: starten:</string>
+    <string name="help_login_text">Klicken Sie auf Login, Links im Menü auf registrieren/login</string>
+    <string name="help_login_image">Hilfe Anmeldung Bilder</string>
+    <string name="help_type_sport_text">Klicken Sie auf Bild der Sportart, die Sie spielen</string>
+    <string name="help_start_image">Hilfe-Startbild</string>
+    <string name="help_main_text">Klicken Sie auf die Schaltfläche "Start", um Ihre Aktivität zu starten</string>
+    <string name="help_main_image">Hilfe Startseite Bilder</string>
+    <string name="help_save_text">Klicken Sie auf Speichern/teilen Ihre Aktivitätsdetails speichern</string>
+    <string name="help_save_image">Hilfe Seitenbild speichern</string>
+    <string name="skip_how_start">So starten Sie überspringen</string>
+    <string name="skip">Skip</string>
+    <string name="tab_how_to_login">Zum Login</string>
+    <string name="tab_how_start_page">Startseite</string>
+    <string name="tab_main_page">Main Page</string>
+    <string name="tab_save_page">Seite speichern</string>
 
 </resources>

@@ -100,5 +100,20 @@
     <string name="leader_board_best_drivers">सर्वश्रेष्ठ चालकों</string>
     <string name="leader_board_my_best">मेरा सबसे अच्छा परिणाम</string>
     <string name="title_activity_maps">मानचित्र</string>
+    <string name="how_to_start">कैसे शुरू करने के लिए:</string>
+    <string name="help_login_text">पर लॉगिन साइनअप/लॉगिन करने के लिए बाईं ओर मेनू पर क्लिक करें</string>
+    <string name="help_login_image">लॉगिन छवि में मदद</string>
+    <string name="help_type_sport_text">खेल है कि आप खेल के प्रकार के चित्र पर क्लिक करें</string>
+    <string name="help_start_image">मदद प्रारंभ छवि</string>
+    <string name="help_main_text">अपनी गतिविधि शुरू करने के लिए प्रारंभ बटन पर क्लिक करें</string>
+    <string name="help_main_image">सहायता मुख्य पृष्ठ छवि</string>
+    <string name="help_save_text">सहेजें/अपने गतिविधि के विवरण को बचाने के लिए साझा करें पर क्लिक करें</string>
+    <string name="help_save_image">पृष्ठ छवि बचाने के लिए मदद</string>
+    <string name="skip_how_start">कैसे शुरू करने के लिए छोड़ें</string>
+    <string name="skip">छोड़ें</string>
+    <string name="tab_how_to_login">लॉगिन करने के लिए कैसे</string>
+    <string name="tab_how_start_page">पृष्ठ प्रारंभ करें</string>
+    <string name="tab_main_page">मुख्य पृष्ठ</string>
+    <string name="tab_save_page">पृष्ठ सहेजें</string>
 
 </resources>

@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">Beste coureurs</string>
     <string name="leader_board_my_best">Mijn beste resultaten</string>
     <string name="title_activity_maps">Kaart</string>
+    <string name="how_to_start">Hoe om te beginnen:</string>
+    <string name="help_login_text">Klik op Login op linkerkant menu aanmelden/inloggen</string>
+    <string name="help_login_image">Help login afbeelding</string>
+    <string name="help_type_sport_text">Klik op foto van soort sport die u afspeelt</string>
+    <string name="help_start_image">Help begin image</string>
+    <string name="help_main_text">Tikken voort voorsprong knop om te beginnen uw activiteit</string>
+    <string name="help_main_image">Help belangrijkste pagina-afbeelding</string>
+    <string name="help_save_text">Klik op Opslaan/Share uw activiteit details op te slaan</string>
+    <string name="help_save_image">Help slaan pagina-afbeelding</string>
+    <string name="skip_how_start">Overslaan van hoe te beginnen</string>
+    <string name="skip">Overslaan</string>
+    <string name="tab_how_to_login">Hoe in te loggen</string>
+    <string name="tab_how_start_page">Startpagina</string>
+    <string name="tab_main_page">Main Page</string>
+    <string name="tab_save_page">Pagina opslaan</string>
 
 </resources>

@@ -99,5 +99,20 @@
     <string name="leader_board_best_drivers">Най-добрите шофьори</string>
     <string name="leader_board_my_best">Моите най-добри резултати</string>
     <string name="title_activity_maps">Карта</string>
+    <string name="how_to_start">Как да започнете:</string>
+    <string name="help_login_text">Кликнете върху вход в лявата страна меню за регистрация/вход</string>
+    <string name="help_login_image">помощ вход изображение</string>
+    <string name="help_type_sport_text">Кликнете върху снимката на вида спорт, който играете</string>
+    <string name="help_start_image">помощ Старт изображение</string>
+    <string name="help_main_text">Кликнете върху бутона "Старт" за да започнете вашата дейност</string>
+    <string name="help_main_image">помощ главната страница изображение</string>
+    <string name="help_save_text">Кликнете върху Запазване/Споделяне за да запишете данните за дейността си</string>
+    <string name="help_save_image">помощ за запазване на страницата</string>
+    <string name="skip_how_start">Пропуснете как да започнете</string>
+    <string name="skip">Пропусни</string>
+    <string name="tab_how_to_login">Как да вляза</string>
+    <string name="tab_how_start_page">Начална страница</string>
+    <string name="tab_main_page">Главна страница</string>
+    <string name="tab_save_page">Страница за запазване</string>
 
 </resources>

@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">Cele mai bune drivere</string>
     <string name="leader_board_my_best">Mele cele mai bune rezultate</string>
     <string name="title_activity_maps">Hartă</string>
+    <string name="how_to_start">Cum de a începe:</string>
+    <string name="help_login_text">Faceţi clic pe Login pe partea stângă meniul la inregistrare/login</string>
+    <string name="help_login_image">imagine de conectare ajutor</string>
+    <string name="help_type_sport_text">Faceţi clic pe imagine tip de sport care vă joace</string>
+    <string name="help_start_image">imaginea de pornire ajutor</string>
+    <string name="help_main_text">Faceţi clic pe butonul Start pentru a începe activitatea ta</string>
+    <string name="help_main_image">imaginea de pagina principală ajutor</string>
+    <string name="help_save_text">Faceţi clic pe salvare/Share pentru a salva datele de activitate</string>
+    <string name="help_save_image">Ajutor Salvaţi pagina de imagine</string>
+    <string name="skip_how_start">Săriţi peste cum să începeţi</string>
+    <string name="skip">Skip</string>
+    <string name="tab_how_to_login">Cum la spre Login</string>
+    <string name="tab_how_start_page">Pagina de start</string>
+    <string name="tab_main_page">Main filme</string>
+    <string name="tab_save_page">Salvaţi pagina</string>
 
 </resources>

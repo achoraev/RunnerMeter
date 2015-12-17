@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">A legjobb</string>
     <string name="leader_board_my_best">Legjobb eredményeim</string>
     <string name="title_activity_maps">Megjelenítése</string>
+    <string name="how_to_start">Hogyan kezdjük el:</string>
+    <string name="help_login_text">Kattintson a bal oldali menüben a regisztráció/login</string>
+    <string name="help_login_image">bejelentkezési kép segít</string>
+    <string name="help_type_sport_text">Kattintson a kép típusú sport, hogy játszunk</string>
+    <string name="help_start_image">Súgó start kép</string>
+    <string name="help_main_text">Kattintson a Start gombra, hogy elindítsa a tevékenység</string>
+    <string name="help_main_image">fő oldal kép segít</string>
+    <string name="help_save_text">Kattintson a Mentés/Share tevékenység adatainak mentéséhez</string>
+    <string name="help_save_image">segítsen megmenteni a lap képe</string>
+    <string name="skip_how_start">Hogyan viselkedni elkezd ugrál</string>
+    <string name="skip">Ugrás</string>
+    <string name="tab_how_to_login">Hogyan lehet bejelentkezni</string>
+    <string name="tab_how_start_page">Elkezd oldal</string>
+    <string name="tab_main_page">Fő oldal</string>
+    <string name="tab_save_page">Mentése</string>
 
 </resources>

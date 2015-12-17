@@ -100,5 +100,20 @@
     <string name="leader_board_best_drivers">Najlepsze sterowniki</string>
     <string name="leader_board_my_best">Moje najlepsze wyniki</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="how_to_start">Jak zacząć:</string>
+    <string name="help_login_text">Kliknij na Zaloguj się menu po lewej stronie do rejestracji/logowania</string>
+    <string name="help_login_image">pomoc Zaloguj obrazu</string>
+    <string name="help_type_sport_text">Kliknij na zdjęcie tego typu sportu, że grasz</string>
+    <string name="help_start_image">pomoc start obrazu</string>
+    <string name="help_main_text">Kliknij przycisk Start, aby rozpocząć działanie</string>
+    <string name="help_main_image">Pomoc Strona główna obrazu</string>
+    <string name="help_save_text">Kliknij na Zapisz/udział, aby zapisać swoje dane działanie</string>
+    <string name="help_save_image">pomoc Zapisz obraz strony</string>
+    <string name="skip_how_start">Przejdź jak zacząć</string>
+    <string name="skip">Pomiń</string>
+    <string name="tab_how_to_login">Jak się zalogować</string>
+    <string name="tab_how_start_page">Strona startowa</string>
+    <string name="tab_main_page">Main Page</string>
+    <string name="tab_save_page">Zapisz stronę</string>
 
 </resources>

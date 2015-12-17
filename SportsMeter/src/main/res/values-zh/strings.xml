@@ -99,5 +99,20 @@
     <string name="leader_board_best_drivers">最好的驱动程序</string>
     <string name="leader_board_my_best">我最好的结果</string>
     <string name="title_activity_maps">地图</string>
+    <string name="how_to_start">如何启动:</string>
+    <string name="help_login_text">登录注册登录左侧菜单上单击</string>
+    <string name="help_login_image">帮助登录图像</string>
+    <string name="help_type_sport_text">单击图片的你玩的运动类型</string>
+    <string name="help_start_image">帮助开始图像</string>
+    <string name="help_main_text">单击开始按钮，开始您的活动</string>
+    <string name="help_main_image">帮助主页图像</string>
+    <string name="help_save_text">单击保存/共享来保存您的活动详细信息</string>
+    <string name="help_save_image">保存页面图像帮助</string>
+    <string name="skip_how_start">跳过如何启动</string>
+    <string name="skip">跳过</string>
+    <string name="tab_how_to_login">如何登录</string>
+    <string name="tab_how_start_page">起始页</string>
+    <string name="tab_main_page">主页面</string>
+    <string name="tab_save_page">保存网页</string>
 
 </resources>

@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">Melhores pilotos</string>
     <string name="leader_board_my_best">Meus melhores resultados</string>
     <string name="title_activity_maps">Mapa</string>
+    <string name="how_to_start">Como começar:</string>
+    <string name="help_login_text">Clique em Login no menu do lado esquerdo para inscrição/login</string>
+    <string name="help_login_image">imagem de logon ajuda</string>
+    <string name="help_type_sport_text">Clique na imagem do tipo de esporte que você joga</string>
+    <string name="help_start_image">imagem de início de ajuda</string>
+    <string name="help_main_text">Clique no botão Iniciar para iniciar a sua actividade</string>
+    <string name="help_main_image">imagem da página principal de ajuda</string>
+    <string name="help_save_text">Clique em Save/compartilhamento para salvar seus dados de actividade</string>
+    <string name="help_save_image">ajudar a salvar a imagem da página</string>
+    <string name="skip_how_start">Pular como começar</string>
+    <string name="skip">Skip</string>
+    <string name="tab_how_to_login">Como fazer o Login</string>
+    <string name="tab_how_start_page">Página inicial</string>
+    <string name="tab_main_page">Principal página</string>
+    <string name="tab_save_page">Salvar página</string>
 
 </resources>

@@ -101,5 +101,20 @@
     <string name="leader_board_best_drivers">Driver terbaik</string>
     <string name="leader_board_my_best">Hasil terbaik saya</string>
     <string name="title_activity_maps">Peta</string>
+    <string name="how_to_start">Cara memulai:</string>
+    <string name="help_login_text">Klik pada Login di menu sebelah kiri untuk pendaftaran/login</string>
+    <string name="help_login_image">Bantuan login gambar</string>
+    <string name="help_type_sport_text">Klik pada gambar jenis olahraga yang Anda bermain</string>
+    <string name="help_start_image">Bantuan mulai gambar</string>
+    <string name="help_main_text">Klik tombol Start untuk memulai aktivitas Anda</string>
+    <string name="help_main_image">gambar utama halaman bantuan</string>
+    <string name="help_save_text">Klik pada Simpan/saham untuk menyimpan rincian kegiatan</string>
+    <string name="help_save_image">membantu menyelamatkan gambar halaman</string>
+    <string name="skip_how_start">Skip cara memulai</string>
+    <string name="skip">Skip</string>
+    <string name="tab_how_to_login">Cara Login</string>
+    <string name="tab_how_start_page">Halaman awal</string>
+    <string name="tab_main_page">Utama Halaman</string>
+    <string name="tab_save_page">Simpan halaman</string>
 
 </resources>

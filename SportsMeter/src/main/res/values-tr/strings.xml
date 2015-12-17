@@ -100,5 +100,20 @@
     <string name="leader_board_best_drivers">En iyi sürücüleri</string>
     <string name="leader_board_my_best">Benim en iyi-den sonuçlanmak</string>
     <string name="title_activity_maps">Harita</string>
+    <string name="how_to_start">Nasıl başlatmak için:</string>
+    <string name="help_login_text">Oturum açma sol yan menü kayıt/giriş için tıklayın</string>
+    <string name="help_login_image">Yardım giriş resim</string>
+    <string name="help_type_sport_text">Sen oyun spor türü resminin üzerini týklayýn</string>
+    <string name="help_start_image">Yardım Başlangıç görüntü</string>
+    <string name="help_main_text">Etkinlik başlatmak için Başlat düğmesini</string>
+    <string name="help_main_image">Yardım ana sayfa görüntüsü</string>
+    <string name="help_save_text">Kaydet/Share üzerinde etkinliği bilgilerinizi kaydetmek için tıklatın</string>
+    <string name="help_save_image">Sayfa Resmi Kaydet yardım</string>
+    <string name="skip_how_start">Nasıl başlatmak için atlamak</string>
+    <string name="skip">Atla</string>
+    <string name="tab_how_to_login">Nasıl giriş</string>
+    <string name="tab_how_start_page">Başlangıç sayfası</string>
+    <string name="tab_main_page">Ana sayfa</string>
+    <string name="tab_save_page">Sayfayı kaydedin</string>
 
 </resources>

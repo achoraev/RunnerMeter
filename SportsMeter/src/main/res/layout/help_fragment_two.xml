@@ -13,11 +13,19 @@
               android:textSize="20sp"
               android:textColor="@color/black"
               android:textStyle="bold"
-              android:text="How to start: click on start button to start activity"
-              android:id="@+id/textView2"/>
+              android:text="@string/how_to_start"
+              android:id="@+id/how2"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textSize="20sp"
+              android:textColor="@color/black"
+              android:textStyle="bold"
+              android:text="@string/help_type_sport_text"
+              android:id="@+id/text_start"/>
     <ImageView android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:contentDescription="help main image"
-               android:src="@drawable/help_main"/>
+               android:contentDescription="@string/help_start_image"
+               android:src="@drawable/help_start"/>
 
 </LinearLayout>

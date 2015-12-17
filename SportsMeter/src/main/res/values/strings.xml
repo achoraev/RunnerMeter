@@ -100,7 +100,24 @@
     <string name="like_on_facebook">Like on Facebook</string>
     <string name="world_map">World map</string>
     <string name="title_activity_maps">Map</string>
+
+    <string name="how_to_start">How to start:</string>
+    <string name="help_login_text">Click on Login on left side menu to signUp/login</string>
+    <string name="help_login_image">help login image</string>
+    <string name="help_type_sport_text">Click on picture of type of sport that you play</string>
+    <string name="help_start_image">help start image</string>
+    <string name="help_main_text">Click on Start button to start your Activity</string>
+    <string name="help_main_image">help main page image</string>
+    <string name="help_save_text">Click on Save/Share to save your Activity details</string>
+    <string name="help_save_image">help save page image</string>
+    <string name="skip_how_start">Skip How to start</string>
+    <string name="skip">Skip</string>
+    <string name="tab_how_to_login">How to Login</string>
+    <string name="tab_how_start_page">Start Page</string>
+    <string name="tab_main_page">Main Page</string>
+    <string name="tab_save_page">Save Page</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
+
 
     // not translate
     <string name="app_name" translatable="false">Sport Meter</string>

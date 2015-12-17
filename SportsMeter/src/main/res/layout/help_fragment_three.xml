@@ -13,10 +13,19 @@
               android:textSize="20sp"
               android:textColor="@color/black"
               android:textStyle="bold"
-              android:text="How to start: "
-              android:id="@+id/textView2"/>
+              android:text="@string/how_to_start"
+              android:id="@+id/how3"/>
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textSize="20sp"
+              android:textColor="@color/black"
+              android:textStyle="bold"
+              android:text="@string/help_main_text"
+              android:id="@+id/text3"/>
     <ImageView android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:contentDescription="help start image"/>
+               android:contentDescription="@string/help_main_image"
+               android:src="@drawable/help_main"/>
 
 </LinearLayout>

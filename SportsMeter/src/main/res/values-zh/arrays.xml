@@ -1,5 +1,5 @@
 <resources>
-    <string-array name="order">
+    <string-array name="array_type_of_sports">
         <item>骑自行车的人</item>
         <item>赛跑者</item>
         <item>驱动程序</item>

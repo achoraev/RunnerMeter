@@ -1,5 +1,5 @@
 <resources>
-    <string-array name="order">
+    <string-array name="array_type_of_sports">
         <item>बाइकर</item>
         <item>धावक</item>
         <item>चालक</item>

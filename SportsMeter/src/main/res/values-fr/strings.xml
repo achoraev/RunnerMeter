@@ -107,13 +107,13 @@
     <string name="help_type_sport_text">Cliquez sur la photo du type de sport que vous jouez</string>
     <string name="help_start_image">image de démarrage aide</string>
     <string name="help_main_text">Cliquez sur le bouton Démarrer pour démarrer votre activité</string>
-    <string name="help_main_image">image de page d'accueil aide</string>
+    <string name="help_main_image">image de page d\'accueil aide</string>
     <string name="help_save_text">Cliquez sur Enregistrer/partager pour enregistrer les détails de votre activité</string>
-    <string name="help_save_image">Aidez-nous à sauver l'image de la page</string>
+    <string name="help_save_image">Aidez-nous à sauver l\'image de la page</string>
     <string name="skip_how_start">Sauter comment démarrer</string>
     <string name="skip">Skip</string>
     <string name="tab_how_to_login">Comment se connecter</string>
-    <string name="tab_how_start_page">Page d'accueil</string>
+    <string name="tab_how_start_page">Page d\'accueil</string>
     <string name="tab_main_page">Main Page</string>
     <string name="tab_save_page">Enregistrez la Page</string>
 

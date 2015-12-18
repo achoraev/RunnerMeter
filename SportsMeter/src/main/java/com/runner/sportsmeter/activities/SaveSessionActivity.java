@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -130,7 +129,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         saveCreatedAt.setText(Utility.formatDate(new Date()));
     }
 
-    private void createCurrentSession() {
+    public void createCurrentSession() {
         currentSession = new Session(
                 sessionDistance,
                 sessionTimeDiff,
@@ -179,12 +178,8 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         super.onBackPressed();
     }
 
-    private void saveParseSession() {
+    public void saveParseSession() {
         isSaveSession = true;
-        ParseACL acl = new ParseACL();
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(false);
-
         saveSession = new ParseObject(getString(R.string.session_object));
         saveSession.put(getString(R.string.session_name), currentSession.getUserName());
         saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
@@ -194,7 +189,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
         saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
         saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
-        saveSession.setACL(acl);
         Boolean isValid = new Calculations().isTimePerKilometerValid(currentSession.getTimePerKilometer(), currentSession.getSportType());
         if (currentSession.getTimePerKilometer() != 0 && isValid) {
             saveSession.saveEventually();

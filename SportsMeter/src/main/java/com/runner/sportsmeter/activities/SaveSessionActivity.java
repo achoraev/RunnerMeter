@@ -65,13 +65,13 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         initializeMap();
         ParseCommon.logInGuestUser(this);
         initializeViews();
-        createCurrentSession();
-        setTextViewsFromSession();
+        currentSession = createCurrentSession(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType);
+        setTextViewsFromSession(currentSession);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveParseSession();
+                saveParseSession(currentSession);
                 if (endPointCoordinates != null) {
                     String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
                     Uri gmmIntentUri = Uri.parse(url);
@@ -88,7 +88,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         postOnFacebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveParseSession();
+                saveParseSession(currentSession);
                 // todo check for logged user with facebook
                 postOnFacebookWall();
                 finish();
@@ -116,29 +116,30 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
     }
 
-    private void setTextViewsFromSession() {
+    private void setTextViewsFromSession(Session session) {
 //        sessionScreenshot.setImageResource(R.mipmap.icon_new);
 
-        saveTimeKm.setText(String.valueOf(currentSession.getTimePerKilometer()) + " min/km");
-        saveDistance.setText(String.valueOf(currentSession.getDistance()) + " m");
-        saveDuration.setText(Calculations.convertTimeToString((long) currentSession.getDuration()));
-        saveUsername.setText(String.valueOf(currentSession.getUserName()));
-        saveMaxSpeed.setText(String.valueOf(currentSession.getMaxSpeed()) + " km/h");
-        saveAvgSpeed.setText(String.valueOf(currentSession.getAverageSpeed()) + " km/h");
+        saveTimeKm.setText(String.valueOf(session.getTimePerKilometer()) + " min/km");
+        saveDistance.setText(String.valueOf(session.getDistance()) + " m");
+        saveDuration.setText(Calculations.convertTimeToString((long) session.getDuration()));
+        saveUsername.setText(String.valueOf(session.getUserName()));
+        saveMaxSpeed.setText(String.valueOf(session.getMaxSpeed()) + " km/h");
+        saveAvgSpeed.setText(String.valueOf(session.getAverageSpeed()) + " km/h");
         saveTypeSport.setText(sportType);
         saveCreatedAt.setText(Utility.formatDate(new Date()));
     }
 
-    public void createCurrentSession() {
-        currentSession = new Session(
-                sessionDistance,
-                sessionTimeDiff,
-                currentMaxSpeed,
-                averageSpeed,
+    public Session createCurrentSession(double dist, double time, double max, double average, String type) {
+        Session current = new Session(
+                dist,
+                time,
+                max,
+                average,
                 "",
                 ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser(),
                 new ParseCommon().getCurrentUserUsername(),
-                sportType.toLowerCase());
+                type.toLowerCase());
+        return current;
     }
 
     private void initializeViews() {
@@ -173,28 +174,28 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onBackPressed() {
         if (!isSaveSession) {
-            saveParseSession();
+            saveParseSession(currentSession);
         }
         super.onBackPressed();
     }
 
-    public void saveParseSession() {
+    public void saveParseSession(Session current) {
         isSaveSession = true;
-        saveSession = new ParseObject(getString(R.string.session_object));
-        saveSession.put(getString(R.string.session_name), currentSession.getUserName());
-        saveSession.put(getString(R.string.session_username), currentSession.getCurrentUser());
-        saveSession.put(getString(R.string.session_max_speed), currentSession.getMaxSpeed());
-        saveSession.put(getString(R.string.session_average_speed), currentSession.getAverageSpeed());
-        saveSession.put(getString(R.string.session_distance), currentSession.getDistance());
-        saveSession.put(getString(R.string.session_duration), currentSession.getDuration() / 1000);
-        saveSession.put(getString(R.string.session_time_per_kilometer), currentSession.getTimePerKilometer());
-        saveSession.put(getString(R.string.session_sport_type), currentSession.getSportType());
-        Boolean isValid = new Calculations().isTimePerKilometerValid(currentSession.getTimePerKilometer(), currentSession.getSportType());
-        if (currentSession.getTimePerKilometer() != 0 && isValid) {
+        saveSession = new ParseObject("Sessions");
+        saveSession.put(getString(R.string.session_name), current.getUserName());
+        saveSession.put(getString(R.string.session_username), current.getCurrentUser());
+        saveSession.put(getString(R.string.session_max_speed), current.getMaxSpeed());
+        saveSession.put(getString(R.string.session_average_speed), current.getAverageSpeed());
+        saveSession.put(getString(R.string.session_distance), current.getDistance());
+        saveSession.put(getString(R.string.session_duration), current.getDuration() / 1000);
+        saveSession.put(getString(R.string.session_time_per_kilometer), current.getTimePerKilometer());
+        saveSession.put(getString(R.string.session_sport_type), current.getSportType());
+        Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
+        if (current.getTimePerKilometer() != 0 && isValid) {
             saveSession.saveEventually();
             saveSession.pinInBackground();
-        } else if (currentSession.getTimePerKilometer() != 0 && !isValid) {
-            String message = getString(R.string.this_time) + " " + currentSession.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + currentSession.getSportType();
+        } else if (current.getTimePerKilometer() != 0 && !isValid) {
+            String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
             Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
         }
     }
@@ -249,7 +250,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        if(startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
+        if (startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
             if (startPointCoordinates.latitude < endPointCoordinates.latitude) {
                 bound = new LatLngBounds(startPointCoordinates, endPointCoordinates);
             } else {

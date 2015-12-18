@@ -736,6 +736,15 @@ public class MainActivity extends AppCompatActivity implements
             mGoogleApiClient.disconnect();
         }
 
+        if(startButtonEnabled){
+            if (ParseUser.getCurrentUser() != null) {
+                endPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
+            }
+            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
+//            Session current = new SaveSessionActivity().createCurrentSession(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType.toString());
+//            new SaveSessionActivity().saveParseSession(current);
+        }
         super.onDestroy();
     }
 
@@ -1076,13 +1085,17 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     protected void startLocationUpdates() {
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
-                .setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
+        try {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
+                    .setResultCallback(new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
 
-                    }
-                });
+                        }
+                    });
+        } catch (Throwable e) {
+            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     protected void stopLocationUpdates() {

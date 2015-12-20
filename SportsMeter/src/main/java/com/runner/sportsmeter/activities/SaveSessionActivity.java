@@ -260,6 +260,14 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, 20));
             mMap.addPolyline(currentSegment);
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
+        } else if(startPointCoordinates != null && endPointCoordinates != null){
+            mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
+            mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
+        } else if(startPointCoordinates != null && currentSegment != null){
+            mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
+            mMap.addPolyline(currentSegment);
         }
     }
 }

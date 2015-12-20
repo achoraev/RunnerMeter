@@ -1014,7 +1014,7 @@ public class MainActivity extends AppCompatActivity implements
                 public void run() {
                     exit = false;
                 }
-            }, 3 * ONE_SECOND);
+            }, THREE_SECOND);
         }
     }
 

@@ -41,7 +41,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
         if(settings.getBoolean(FIRST_RUN, true)){
             startActivity(new Intent(StartActivity.this, HelpActivity.class));
-            settings.edit().putBoolean(FIRST_RUN, false).commit();
+            settings.edit().putBoolean(FIRST_RUN, false).apply();
         }
 
         bikerBtn = (Button) findViewById(R.id.top_right);

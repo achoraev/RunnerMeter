@@ -217,13 +217,13 @@ public class MainActivity extends AppCompatActivity implements
                     .setNeutralButton(getString(R.string.dialog_close_message), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            settings.edit().putBoolean(getString(R.string.is_first_run), false).commit();
+                            settings.edit().putBoolean(getString(R.string.is_first_run), false).apply();
                         }
                     })
                     .setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            settings.edit().putBoolean(getString(R.string.is_first_run), false).commit();
+                            settings.edit().putBoolean(getString(R.string.is_first_run), false).apply();
                         }
                     })
                     .show();

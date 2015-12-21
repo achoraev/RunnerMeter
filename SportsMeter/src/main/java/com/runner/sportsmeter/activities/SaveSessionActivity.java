@@ -36,6 +36,9 @@ import java.util.Date;
  */
 public class SaveSessionActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    public static final int MAP_WIDTH = 400;
+    public static final int MAP_HEIGHT = 200;
+    public static final int MAP_PADDING = 20;
     private Session currentSession;
     private double sessionDistance;
     private double sessionTimeDiff;
@@ -257,7 +260,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 bound = new LatLngBounds(endPointCoordinates, startPointCoordinates);
             }
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, 20));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_WIDTH, MAP_HEIGHT, MAP_PADDING));
             mMap.addPolyline(currentSegment);
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
         } else if(startPointCoordinates != null && endPointCoordinates != null){

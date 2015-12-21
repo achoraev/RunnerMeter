@@ -1,6 +1,8 @@
 package com.runner.sportsmeter;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseInstallation;
@@ -29,5 +31,11 @@ public class ParseApplication extends Application {
         defaultACL.setPublicWriteAccess(false);
         ParseACL.setDefaultACL(defaultACL, true);
         ParseInstallation.getCurrentInstallation().saveEventually();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

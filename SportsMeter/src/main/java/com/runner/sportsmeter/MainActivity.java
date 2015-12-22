@@ -253,6 +253,22 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void startLogic() {
+
+        // check on 6.0 for permission
+//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                // Request missing location permission.
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                        2);
+//            } else {
+//                // Location permission has been granted, continue as usual.
+//                Location myLocation =
+//                        LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//            }
+//        }
+
         openDialogToLoginIfLoggedAsGuest();
         setVariablesToNull();
         currentSegment = new PolylineOptions()
@@ -290,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements
             mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
         } else {
-            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
+//            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
 
 //        timerThread = new Thread(new Runnable() {
@@ -736,7 +752,7 @@ public class MainActivity extends AppCompatActivity implements
             mGoogleApiClient.disconnect();
         }
 
-        if(startButtonEnabled){
+        if (startButtonEnabled) {
             if (ParseUser.getCurrentUser() != null) {
                 endPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
@@ -1094,7 +1110,7 @@ public class MainActivity extends AppCompatActivity implements
                         }
                     });
         } catch (Throwable e) {
-            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -1125,7 +1141,10 @@ public class MainActivity extends AppCompatActivity implements
             sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
             currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
             sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
+            Toast.makeText(this, String.valueOf(currentTimeDiff), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(currentDistance), Toast.LENGTH_SHORT).show();
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
+            Toast.makeText(this, String.valueOf(currentSpeed), Toast.LENGTH_SHORT).show();
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, sportType);
 

@@ -13,6 +13,7 @@
               android:textSize="20sp"
               android:textColor="@color/black"
               android:textStyle="bold"
+              android:background="@color/app_color"
               android:text="@string/how_to_start"
               android:id="@+id/how4"/>
     <TextView android:layout_width="wrap_content"
@@ -21,11 +22,13 @@
               android:textSize="20sp"
               android:textColor="@color/black"
               android:textStyle="bold"
+              android:background="@color/app_color"
               android:text="@string/help_save_text"
               android:id="@+id/text4"/>
     <ImageView android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:contentDescription="@string/help_save_image"
+               android:background="@color/app_color"
                android:src="@drawable/help_save"/>
 
 </LinearLayout>

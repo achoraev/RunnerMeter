@@ -30,6 +30,7 @@ import com.runner.sportsmeter.models.Session;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -235,8 +236,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentSegment != null) {
-            startPointCoordinates = currentSegment.getPoints().get(0);
-            endPointCoordinates = currentSegment.getPoints().get((int) currentSegment.getWidth());
+            List<LatLng> list = currentSegment.getPoints();
+            startPointCoordinates = list.get(0);
+            endPointCoordinates = list.get(list.size() - 1);
             if (startPointCoordinates.latitude < endPointCoordinates.latitude) {
                 bound = new LatLngBounds(startPointCoordinates, endPointCoordinates);
             } else {

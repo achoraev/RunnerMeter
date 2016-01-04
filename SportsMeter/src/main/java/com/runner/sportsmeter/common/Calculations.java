@@ -8,6 +8,7 @@ import com.runner.sportsmeter.enums.SportTypes;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by angelr on 29-Jul-15.
@@ -58,14 +59,15 @@ public class Calculations {
 
     public static long calculateTime(String lastUpdateTime, String startTime) {
         Date lastDate = null;
+        Date startDate = null;
         try {
-            lastDate = new SimpleDateFormat("HH:mm:ss").parse(lastUpdateTime);
+            // todo check this
+            lastDate = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).parse(lastUpdateTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Date startDate = null;
         try {
-            startDate = new SimpleDateFormat("HH:mm:ss").parse(startTime);
+            startDate = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).parse(startTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }

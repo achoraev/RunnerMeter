@@ -58,7 +58,6 @@ import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final int THREE_SECOND = 3000;
     public static final int TWO_SECOND = 2000;
     public static final int ONE_SECOND = 1000;
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int MAP_ZOOM = 15;
@@ -116,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements
     private Boolean exit = false;
 
     private String lastUpdateTime, currentUpdateTime, sessionStartTime;
+    private long lastUpdateTimeMilis, currentUpdateTimeMilis, sessionStartTimeMilis;
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
 
@@ -283,8 +283,10 @@ public class MainActivity extends AppCompatActivity implements
         mMap.clear();
 
         currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        currentUpdateTimeMilis = new Date().getTime();
         if (sessionStartTime == null) {
             sessionStartTime = currentUpdateTime;
+            sessionStartTimeMilis = currentUpdateTimeMilis;
         }
 
         if (mMap.getMyLocation() != null) {
@@ -382,11 +384,6 @@ public class MainActivity extends AppCompatActivity implements
         saveBundle.putParcelable("Session", saveSession);
         saveBundle.putParcelable("start_coords", startPointCoord);
         saveBundle.putParcelable("end_coords", endPointCoord);
-//        saveBundle.putDouble("session_distance", sessionDistance);
-//        saveBundle.putDouble("session_time_diff", sessionTimeDiff);
-//        saveBundle.putDouble("current_max_speed", currentMaxSpeed);
-//        saveBundle.putDouble("average_speed", averageSpeed);
-//        saveBundle.putString("sport_type", sportType.toString());
         saveBundle.putParcelable("currentSegment", currentSegment);
 //        if (sessionImagePath != null) {
 //            saveBundle.putString("session_image_path", sessionImagePath);
@@ -397,7 +394,9 @@ public class MainActivity extends AppCompatActivity implements
                 android.R.anim.fade_out);
         startActivity(saveSessionIntent);
 
-        saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
+        if (listOfPoints.size() != 0 && sessionDistance != 0) {
+            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
+        }
 
         // set all to null
         setVariablesToNull();
@@ -929,22 +928,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        Log.d(TAG, "Location changed");
-//        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
-        currentLocation = location;
-        lastUpdateTime = currentUpdateTime;
-        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        if (location != null) {
-            try {
-                updateUI(currentLocation);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
     public void setTitle(CharSequence title) {
 //        getSupportActionBar().setTitle(title);
     }
@@ -1125,9 +1108,23 @@ public class MainActivity extends AppCompatActivity implements
                 });
     }
 
-    private void updateUI(Location currLoc) throws ParseException {
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.d(TAG, "Location changed");
+//        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
+        currentLocation = location;
+        if (location != null) {
+            updateUI(currentLocation);
+        }
+    }
+
+    private void updateUI(Location currLoc) {
         if (currLoc != null) {
             Log.d(TAG, "Update UI");
+            lastUpdateTime = currentUpdateTime;
+            lastUpdateTimeMilis = currentUpdateTimeMilis;
+            currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+            currentUpdateTimeMilis = new Date().getTime();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
                 currentCoordinates = smoothLocation(currLoc, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
@@ -1141,10 +1138,14 @@ public class MainActivity extends AppCompatActivity implements
             sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
             currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
             sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
-            Toast.makeText(this, String.valueOf(currentTimeDiff), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, String.valueOf(currentDistance), Toast.LENGTH_SHORT).show();
+//            currentTimeDiff = currentUpdateTimeMilis - lastUpdateTimeMilis;
+//            sessionTimeDiff = lastUpdateTimeMilis - sessionStartTimeMilis;
+            // todo fix problem with time interval
+            Toast.makeText(this, "last " + String.valueOf(lastUpdateTime), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, String.valueOf(currentUpdateTime), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "milis " + String.valueOf(currentUpdateTimeMilis - lastUpdateTimeMilis), Toast.LENGTH_SHORT).show();
+
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
-            Toast.makeText(this, String.valueOf(currentSpeed), Toast.LENGTH_SHORT).show();
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, sportType);
 

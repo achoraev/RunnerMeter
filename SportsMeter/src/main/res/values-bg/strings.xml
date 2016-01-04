@@ -50,8 +50,8 @@
     // leaderboard row
     <string name="l_sess_image">Сесия изображение</string>
     <string name="l_distance">Разстояние:</string>
-    <string name="l_duration">Продължителност:</string>
-    <string name="l_max_speed">Максимална скорост:</string>
+    <string name="l_duration">Време:</string>
+    <string name="l_max_speed">Макс. скорост:</string>
     <string name="l_average_speed">Средна скорост:</string>
     <string name="l_by_user">От:</string>
     // feedback

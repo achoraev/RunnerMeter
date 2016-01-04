@@ -32,7 +32,7 @@
                    android:layout_width="match_parent"
                    android:id="@+id/runner"
                    android:contentDescription="@string/l_sess_image"
-                   android:src="@mipmap/logo_christmas"
+                   android:src="@mipmap/logo"
                    android:layout_weight="0.40"
                    android:scaleType="fitXY"/>
     </LinearLayout>

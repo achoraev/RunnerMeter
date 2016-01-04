@@ -6,16 +6,16 @@
     <group android:checkableBehavior="all">
 	    <item
 	        android:id="@+id/navigation_item_1"
-	        android:icon="@drawable/ic_action_location_found_dark"
+	        android:icon="@drawable/ic_action_location_found"
 	        android:title="Toolbar"/>
 	    <item
 	        android:id="@+id/navigation_item_2"
-	        android:icon="@drawable/ic_action_location_found_dark"
+	        android:icon="@drawable/ic_action_location_found"
 	        android:title="FloatActionButton"/>
 	    
 	    <item
 	        android:id="@+id/navigation_item_3"
-	        android:icon="@drawable/ic_action_location_found_dark"
+	        android:icon="@drawable/ic_action_location_found"
 	        android:title="NavigationView"/>
 	</group>
 

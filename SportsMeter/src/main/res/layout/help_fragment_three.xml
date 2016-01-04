@@ -4,6 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:padding="20dp"
+              style="@style/AppTheme"
               android:background="@color/app_color"
               tools:context="info.androidhive.materialtabs.fragments.OneFragment">
 
@@ -13,7 +14,6 @@
               android:textSize="20sp"
               android:textColor="@color/black"
               android:textStyle="bold"
-              android:background="@color/app_color"
               android:text="@string/how_to_start"
               android:id="@+id/how3"/>
     <TextView android:layout_width="wrap_content"
@@ -22,13 +22,11 @@
               android:textSize="20sp"
               android:textColor="@color/black"
               android:textStyle="bold"
-              android:background="@color/app_color"
               android:text="@string/help_main_text"
               android:id="@+id/text3"/>
     <ImageView android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:contentDescription="@string/help_main_image"
-               android:background="@color/app_color"
                android:src="@drawable/help_main"/>
 
 </LinearLayout>

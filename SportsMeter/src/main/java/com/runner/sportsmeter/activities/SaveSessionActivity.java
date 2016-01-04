@@ -223,25 +223,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             if (savedInstanceState.keySet().contains("currentSegment")) {
                 currentSegment = savedInstanceState.getParcelable("currentSegment");
             }
-
-//            if (savedInstanceState.keySet().contains("session_distance")) {
-//                sessionDistance = savedInstanceState.getDouble("session_distance");
-//            }
-//            if (savedInstanceState.keySet().contains("session_time_diff")) {
-//                sessionTimeDiff = savedInstanceState.getDouble("session_time_diff");
-//            }
-//            if (savedInstanceState.keySet().contains("current_max_speed")) {
-//                currentMaxSpeed = savedInstanceState.getDouble("current_max_speed");
-//            }
-//            if (savedInstanceState.keySet().contains("average_speed")) {
-//                averageSpeed = savedInstanceState.getDouble("average_speed");
-//            }
-//            if (savedInstanceState.keySet().contains("sport_type")) {
-//                sportType = savedInstanceState.getString("sport_type");
-//            }
-//            if (savedInstanceState.keySet().contains("session_image_path")) {
-//                sessionImagePath = savedInstanceState.getString("session_image_path");
-//            }
         }
     }
 
@@ -253,7 +234,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        if (startPointCoordinates != null && endPointCoordinates != null && currentSegment != null) {
+        if (currentSegment != null) {
+            startPointCoordinates = currentSegment.getPoints().get(0);
+            endPointCoordinates = currentSegment.getPoints().get((int) currentSegment.getWidth());
             if (startPointCoordinates.latitude < endPointCoordinates.latitude) {
                 bound = new LatLngBounds(startPointCoordinates, endPointCoordinates);
             } else {
@@ -267,7 +250,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
-        } else if(startPointCoordinates != null && currentSegment != null){
+        } else if(startPointCoordinates != null){
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
             mMap.addPolyline(currentSegment);

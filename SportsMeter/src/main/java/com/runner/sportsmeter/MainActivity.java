@@ -57,7 +57,6 @@ import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements
     private Boolean exit = false;
 
     private String lastUpdateTime, currentUpdateTime, sessionStartTime;
-    private long lastUpdateTimeMilis, currentUpdateTimeMilis, sessionStartTimeMilis;
+    private long lastUpdateTimeMilis, currentUpdateTimeMilis, sessionStartTimeMilis = 0;
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
 
@@ -289,10 +288,10 @@ public class MainActivity extends AppCompatActivity implements
         // clear map
         mMap.clear();
 
-        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+//        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         currentUpdateTimeMilis = new Date().getTime();
-        if (sessionStartTime == null) {
-            sessionStartTime = currentUpdateTime;
+        if (sessionStartTimeMilis == 0) {
+//            sessionStartTime = currentUpdateTime;
             sessionStartTimeMilis = currentUpdateTimeMilis;
         }
 
@@ -916,7 +915,8 @@ public class MainActivity extends AppCompatActivity implements
 //        if (currentLocation == null) {
 //            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //        }
-        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+//        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        currentUpdateTimeMilis = new Date().getTime();
     }
 
     @Override
@@ -1035,7 +1035,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
-                currentUpdateTime = savedInstanceState.getString(
+                currentUpdateTimeMilis = savedInstanceState.getLong(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
             if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
@@ -1054,7 +1054,7 @@ public class MainActivity extends AppCompatActivity implements
                 sessionTimeDiff = savedInstanceState.getLong(GLOBAL_DURATION);
             }
             if (savedInstanceState.keySet().contains(SESSION_START_TIME)) {
-                sessionStartTime = savedInstanceState.getString(SESSION_START_TIME);
+                sessionStartTimeMilis = savedInstanceState.getLong(SESSION_START_TIME);
             }
             if (savedInstanceState.keySet().contains("segmentId")) {
                 segmentId = savedInstanceState.getInt("segmentId");
@@ -1081,8 +1081,8 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putDouble(GLOBAL_AVERAGE_SPEED, averageSpeed);
         savedInstanceState.putDouble(GLOBAL_MAX_SPEED, currentMaxSpeed);
         savedInstanceState.putLong(GLOBAL_DURATION, sessionTimeDiff);
-        savedInstanceState.putString(SESSION_START_TIME, sessionStartTime);
-        savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
+        savedInstanceState.putLong(SESSION_START_TIME, sessionStartTimeMilis);
+        savedInstanceState.putLong(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMilis);
         savedInstanceState.putInt("segmentId", segmentId);
         savedInstanceState.putParcelable(CURRENT_SEGMENT, currentSegment);
 
@@ -1127,9 +1127,9 @@ public class MainActivity extends AppCompatActivity implements
     private void updateUI(Location currLoc) {
         if (currLoc != null) {
             Log.d(TAG, "Update UI");
-            lastUpdateTime = currentUpdateTime;
+//            lastUpdateTime = currentUpdateTime;
             lastUpdateTimeMilis = currentUpdateTimeMilis;
-            currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
+//            currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
             currentUpdateTimeMilis = new Date().getTime();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;

@@ -2,16 +2,16 @@ package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import com.google.android.gms.ads.AdView;
 import com.parse.ParsePush;
 import com.runner.sportsmeter.MainActivity;
@@ -27,21 +27,34 @@ import com.runner.sportsmeter.enums.SportTypes;
 public class StartActivity extends Activity implements SimpleGestureFilter.SimpleGestureListener {
 
     private final String FIRST_RUN = "firstRun";
+    private final String FIVE_RUN = "fiveRun";
     private SimpleGestureFilter detector;
     private AdView mAdView;
     private SportTypes sportType = SportTypes.RUNNER;
     private Button runnerBtn, bikerBtn, driveBtn;
-    private SharedPreferences settings;
+    private int runCount = 1;
+    private int maxCountForAskRateMe = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_start_layout);
 
-        settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
+        SharedPreferences settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
         if(settings.getBoolean(FIRST_RUN, true)){
             startActivity(new Intent(StartActivity.this, HelpActivity.class));
             settings.edit().putBoolean(FIRST_RUN, false).apply();
+        }
+
+        SharedPreferences fiveRunSettings = getSharedPreferences(FIVE_RUN, MODE_PRIVATE);
+        runCount = fiveRunSettings.getInt(FIVE_RUN, 1);
+        if(fiveRunSettings.getInt(FIVE_RUN, runCount) == maxCountForAskRateMe){
+            askUserToRateApp();
+            runCount = 1;
+            fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
+        } else {
+            runCount++;
+            fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
         }
 
         bikerBtn = (Button) findViewById(R.id.top_right);
@@ -80,6 +93,49 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewStart);
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private void askUserToRateApp() {
+        new AlertDialog.Builder(StartActivity.this)
+                .setTitle(getString(R.string.menu_rate))
+                .setMessage(R.string.do_you_like_sport_meter)
+                .setPositiveButton(R.string.like, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        new AlertDialog.Builder(StartActivity.this)
+                                .setTitle(getString(R.string.menu_rate))
+                                .setMessage(R.string.do_you_want_rate_now)
+                                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+//                                        Uri uri = Uri.parse("https://play.google.com/store/ereview?docId=" + getPackageName());
+                                        try {
+                                            overridePendingTransition(android.R.anim.fade_in,
+                                                    android.R.anim.fade_out);
+                                            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                                        } catch (ActivityNotFoundException e) {
+                                            Toast.makeText(StartActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
+                                            Log.d("App", e.getMessage());
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
+                })
+                .setNegativeButton(R.string.do_not_like, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     @Override

@@ -859,13 +859,13 @@ public class MainActivity extends AppCompatActivity implements
 
     private void launchMarket() {
         Uri uri = Uri.parse("market://details?id=" + getPackageName());
-        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+//        Uri uri = Uri.parse("https://play.google.com/store/ereview?docId=" + getPackageName());
         try {
             overridePendingTransition(android.R.anim.fade_in,
                     android.R.anim.fade_out);
-            startActivity(myAppLinkToMarket);
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
             Log.d("App", e.getMessage());
         }
     }

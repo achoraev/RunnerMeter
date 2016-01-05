@@ -116,5 +116,8 @@
     <string name="tab_how_start_page">Pagina de start</string>
     <string name="tab_main_page">Main filme</string>
     <string name="tab_save_page">Salvaţi pagina</string>
+    <string name="do_you_like_sport_meter">Iti place sportul metru?</string>
+    <string name="like">Ca</string>
+    <string name="do_you_want_rate_now">Vrei să rata Sport metru acum?</string>
 
 </resources>

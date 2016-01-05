@@ -115,5 +115,8 @@
     <string name="tab_how_start_page">Strona startowa</string>
     <string name="tab_main_page">Main Page</string>
     <string name="tab_save_page">Zapisz stronę</string>
+    <string name="do_you_like_sport_meter">Czy lubisz Sport licznik?</string>
+    <string name="like">Jak</string>
+    <string name="do_you_want_rate_now">Czy chcesz teraz Oceń Sport licznik?</string>
 
 </resources>

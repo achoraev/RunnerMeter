@@ -114,5 +114,8 @@
     <string name="tab_how_start_page">起始页</string>
     <string name="tab_main_page">主页面</string>
     <string name="tab_save_page">保存网页</string>
+    <string name="do_you_like_sport_meter">你喜欢体育米吗?</string>
+    <string name="like">像</string>
+    <string name="do_you_want_rate_now">你想要现在率体育米吗?</string>
 
 </resources>

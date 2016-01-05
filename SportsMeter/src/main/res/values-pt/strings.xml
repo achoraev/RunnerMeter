@@ -116,5 +116,8 @@
     <string name="tab_how_start_page">Página inicial</string>
     <string name="tab_main_page">Principal página</string>
     <string name="tab_save_page">Salvar página</string>
+    <string name="do_you_like_sport_meter">Você gosta de esporte medidor?</string>
+    <string name="like">Como</string>
+    <string name="do_you_want_rate_now">Você quer taxa medidor de esporte agora?</string>
 
 </resources>

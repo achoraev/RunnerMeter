@@ -115,5 +115,8 @@
     <string name="tab_how_start_page">Başlangıç sayfası</string>
     <string name="tab_main_page">Ana sayfa</string>
     <string name="tab_save_page">Sayfayı kaydedin</string>
+    <string name="do_you_like_sport_meter">Spor metre sever misin?</string>
+    <string name="like">Gibi</string>
+    <string name="do_you_want_rate_now">Spor metre şimdi oranı istiyor musunuz?</string>
 
 </resources>

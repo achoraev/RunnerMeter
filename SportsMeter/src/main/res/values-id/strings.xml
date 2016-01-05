@@ -116,5 +116,8 @@
     <string name="tab_how_start_page">Halaman awal</string>
     <string name="tab_main_page">Utama Halaman</string>
     <string name="tab_save_page">Simpan halaman</string>
+    <string name="do_you_like_sport_meter">Apakah Anda suka olahraga Meter?</string>
+    <string name="like">Seperti</string>
+    <string name="do_you_want_rate_now">Apakah Anda ingin menilai olahraga Meter sekarang?</string>
 
 </resources>

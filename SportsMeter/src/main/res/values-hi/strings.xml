@@ -115,5 +115,8 @@
     <string name="tab_how_start_page">पृष्ठ प्रारंभ करें</string>
     <string name="tab_main_page">मुख्य पृष्ठ</string>
     <string name="tab_save_page">पृष्ठ सहेजें</string>
+    <string name="do_you_like_sport_meter">आप खेल मीटर पसंद है?</string>
+    <string name="like">की तरह</string>
+    <string name="do_you_want_rate_now">क्या तुम अब खेल मीटर दर करने के लिए चाहते हैं?</string>
 
 </resources>

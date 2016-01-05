@@ -116,5 +116,8 @@
     <string name="tab_how_start_page">Elkezd oldal</string>
     <string name="tab_main_page">Fő oldal</string>
     <string name="tab_save_page">Mentése</string>
+    <string name="do_you_like_sport_meter">Tetszik Önnek a Sport mérő?</string>
+    <string name="like">Mint</string>
+    <string name="do_you_want_rate_now">Kívánt sebesség mérő Sport most?</string>
 
 </resources>

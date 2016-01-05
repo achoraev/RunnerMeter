@@ -116,5 +116,8 @@
     <string name="tab_how_start_page">Página de inicio</string>
     <string name="tab_main_page">Principal página</string>
     <string name="tab_save_page">Guardar página</string>
+    <string name="do_you_like_sport_meter">Te gusta deporte metro?</string>
+    <string name="like">Como</string>
+    <string name="do_you_want_rate_now">Quieres para deporte metro ahora?</string>
 
 </resources>

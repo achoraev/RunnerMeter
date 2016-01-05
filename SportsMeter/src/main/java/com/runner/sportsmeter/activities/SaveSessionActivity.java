@@ -245,17 +245,16 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 bound = new LatLngBounds(endPointCoordinates, startPointCoordinates);
             }
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_WIDTH, MAP_HEIGHT, MAP_PADDING));
-            mMap.addPolyline(currentSegment);
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
+            mMap.addPolyline(currentSegment);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_WIDTH, MAP_HEIGHT, MAP_PADDING));
         } else if(startPointCoordinates != null && endPointCoordinates != null){
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
         } else if(startPointCoordinates != null){
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
-            mMap.addPolyline(currentSegment);
         }
     }
 }

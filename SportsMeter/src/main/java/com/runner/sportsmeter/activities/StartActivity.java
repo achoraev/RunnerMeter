@@ -129,7 +129,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                                 .show();
                     }
                 })
-                .setNegativeButton(R.string.do_not_like, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

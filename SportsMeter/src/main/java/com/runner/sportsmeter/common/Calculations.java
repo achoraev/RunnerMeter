@@ -61,7 +61,6 @@ public class Calculations {
         Date lastDate = null;
         Date startDate = null;
         try {
-            // todo check this
             lastDate = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).parse(lastUpdateTime);
         } catch (ParseException e) {
             e.printStackTrace();

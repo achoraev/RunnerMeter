@@ -123,7 +123,6 @@
     <string name="app_name" translatable="false">Sport Meter</string>
 
     <string name="local_preferences" translatable="false">localPreferences</string>
-    <string name="global_is_started" translatable="false">isStarted</string>
 
     // navigation drawer
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
@@ -161,10 +160,6 @@
     <string name="is_first_run" translatable="false">isFirstRun</string>
 
     // global variables
-    <string name="global_distance" translatable="false">distance</string>
-    <string name="global_average_speed" translatable="false">averageSpeed</string>
-    <string name="global_max_speed" translatable="false">maxSpeed</string>
-    <string name="global_duration" translatable="false">duration</string>
     <string name="facebook_page" translatable="false">https://www.facebook.com/sportmeter/</string>
     <string name="app_email" translatable="false">runner.meter@gmail.com</string>
     <string name="change_type_of_sport" translatable="false">Change type</string>

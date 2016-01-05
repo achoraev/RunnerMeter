@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final int THREE_SECOND = 3000;
     public static final int TWO_SECOND = 2000;
     public static final int ONE_SECOND = 1000;
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = ONE_SECOND;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int MAP_ZOOM = 15;
@@ -84,6 +84,13 @@ public class MainActivity extends AppCompatActivity implements
 
     protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
     protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
+    protected static final String SESSION_START_TIME = "sessionStartTime";
+    protected static final String CURRENT_SEGMENT = "currentSegment";
+    protected static final String GLOBAL_DISTANCE = "distance";
+    protected static final String GLOBAL_AVERAGE_SPEED = "averageSpeed";
+    protected static final String GLOBAL_MAX_SPEED = "maxSpeed";
+    protected static final String GLOBAL_DURATION = "duration";
+    protected static final String IS_STARTED = "isStarted";
     protected static final String LOCATION_KEY = "location-key";
     protected static final String speedMetricUnit = " km/h";
     protected static final String TAG = "location";
@@ -1034,30 +1041,29 @@ public class MainActivity extends AppCompatActivity implements
             if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
                 currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
             }
-            if (savedInstanceState.keySet().contains(getString(R.string.global_distance))) {
-                sessionDistance = savedInstanceState.getDouble(getString(R.string.global_distance));
+            if (savedInstanceState.keySet().contains(GLOBAL_DISTANCE)) {
+                sessionDistance = savedInstanceState.getDouble(GLOBAL_DISTANCE);
             }
-            if (savedInstanceState.keySet().contains(getString(R.string.global_average_speed))) {
-                averageSpeed = savedInstanceState.getDouble(getString(R.string.global_average_speed));
+            if (savedInstanceState.keySet().contains(GLOBAL_AVERAGE_SPEED)) {
+                averageSpeed = savedInstanceState.getDouble(GLOBAL_AVERAGE_SPEED);
             }
-            if (savedInstanceState.keySet().contains(getString(R.string.global_max_speed))) {
-                currentMaxSpeed = savedInstanceState.getDouble(getString(R.string.global_max_speed));
+            if (savedInstanceState.keySet().contains(GLOBAL_MAX_SPEED)) {
+                currentMaxSpeed = savedInstanceState.getDouble(GLOBAL_MAX_SPEED);
             }
-            if (savedInstanceState.keySet().contains(getString(R.string.global_duration))) {
-                sessionTimeDiff = savedInstanceState.getLong(getString(R.string.global_duration));
+            if (savedInstanceState.keySet().contains(GLOBAL_DURATION)) {
+                sessionTimeDiff = savedInstanceState.getLong(GLOBAL_DURATION);
             }
-            // todo extract to constants
-            if (savedInstanceState.keySet().contains("sessionStartTime")) {
-                sessionStartTime = savedInstanceState.getString("sessionStartTime");
+            if (savedInstanceState.keySet().contains(SESSION_START_TIME)) {
+                sessionStartTime = savedInstanceState.getString(SESSION_START_TIME);
             }
             if (savedInstanceState.keySet().contains("segmentId")) {
                 segmentId = savedInstanceState.getInt("segmentId");
             }
-            if (savedInstanceState.keySet().contains("currentSegment")) {
-                currentSegment = savedInstanceState.getParcelable("currentSegment");
+            if (savedInstanceState.keySet().contains(CURRENT_SEGMENT)) {
+                currentSegment = savedInstanceState.getParcelable(CURRENT_SEGMENT);
             }
-            if (savedInstanceState.keySet().contains(getString(R.string.global_is_started))) {
-                startButtonEnabled = savedInstanceState.getBoolean(getString(R.string.global_is_started));
+            if (savedInstanceState.keySet().contains(IS_STARTED)) {
+                startButtonEnabled = savedInstanceState.getBoolean(IS_STARTED);
                 if (startButtonEnabled) {
                     startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
@@ -1070,15 +1076,15 @@ public class MainActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // todo save mGoogleApiClient and mLocationRequest
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
-        savedInstanceState.putBoolean(getString(R.string.global_is_started), startButtonEnabled);
-        savedInstanceState.putDouble(getString(R.string.global_distance), sessionDistance);
-        savedInstanceState.putDouble(getString(R.string.global_average_speed), averageSpeed);
-        savedInstanceState.putDouble(getString(R.string.global_max_speed), currentMaxSpeed);
-        savedInstanceState.putLong(getString(R.string.global_duration), sessionTimeDiff);
-        savedInstanceState.putString("sessionStartTime", sessionStartTime);
+        savedInstanceState.putBoolean(IS_STARTED, startButtonEnabled);
+        savedInstanceState.putDouble(GLOBAL_DISTANCE, sessionDistance);
+        savedInstanceState.putDouble(GLOBAL_AVERAGE_SPEED, averageSpeed);
+        savedInstanceState.putDouble(GLOBAL_MAX_SPEED, currentMaxSpeed);
+        savedInstanceState.putLong(GLOBAL_DURATION, sessionTimeDiff);
+        savedInstanceState.putString(SESSION_START_TIME, sessionStartTime);
         savedInstanceState.putString(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTime);
         savedInstanceState.putInt("segmentId", segmentId);
-        savedInstanceState.putParcelable("currentSegment", currentSegment);
+        savedInstanceState.putParcelable(CURRENT_SEGMENT, currentSegment);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -1136,14 +1142,11 @@ public class MainActivity extends AppCompatActivity implements
 
             currentDistance = new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
             sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
-            currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
-            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
-//            currentTimeDiff = currentUpdateTimeMilis - lastUpdateTimeMilis;
-//            sessionTimeDiff = lastUpdateTimeMilis - sessionStartTimeMilis;
-            // todo fix problem with time interval
-            Toast.makeText(this, "last " + String.valueOf(lastUpdateTime), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, String.valueOf(currentUpdateTime), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "milis " + String.valueOf(currentUpdateTimeMilis - lastUpdateTimeMilis), Toast.LENGTH_SHORT).show();
+//            currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
+//            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
+            currentTimeDiff = currentUpdateTimeMilis - lastUpdateTimeMilis;
+            sessionTimeDiff = lastUpdateTimeMilis - sessionStartTimeMilis;
+//            Toast.makeText(this, "milis " + String.valueOf(currentTimeDiff), Toast.LENGTH_SHORT).show();
 
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);

@@ -50,8 +50,6 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
         runCount = fiveRunSettings.getInt(FIVE_RUN, 1);
         if(fiveRunSettings.getInt(FIVE_RUN, runCount) == maxCountForAskRateMe){
             askUserToRateApp();
-            runCount = 1;
-            fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
         } else {
             runCount++;
             fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();

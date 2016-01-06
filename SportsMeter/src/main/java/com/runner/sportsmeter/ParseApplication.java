@@ -1,8 +1,8 @@
 package com.runner.sportsmeter;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseInstallation;
@@ -14,7 +14,7 @@ import com.runner.sportsmeter.models.Segments;
 /**
  * Created by angelr on 30-Jul-15.
  */
-public class ParseApplication extends Application {
+public class ParseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();

@@ -18,14 +18,14 @@
 -keepclassmembers class com.dom925.xxxx {
    public *;
 }
--dontwarn com.google.android.gms.internal.**
--dontwarn com.parse.ParseApacheHttpClient
--dontwarn com.parse.ParseOkHttpClient
--dontwarn com.parse.ParseApacheHttpClient$ParseApacheHttpEntity
--dontwarn com.parse.ParseOkHttpClient$1
--dontwarn com.parse.ParseOkHttpClient$1$1
--dontwarn com.parse.ParseOkHttpClient$1$2
--dontwarn com.parse.ParseOkHttpClient$ParseOkHttpRequestBody
--dontwarn com.parse.twitter.Twitter
--dontwarn com.parse.internal.signpost.**
--dontwarn com.parse.NotificationCompat$NotificationCompatImplBase
+#-dontwarn com.google.android.gms.internal.**
+#-dontwarn com.parse.ParseApacheHttpClient
+#-dontwarn com.parse.ParseOkHttpClient
+#-dontwarn com.parse.ParseApacheHttpClient$ParseApacheHttpEntity
+#-dontwarn com.parse.ParseOkHttpClient$1
+#-dontwarn com.parse.ParseOkHttpClient$1$1
+#-dontwarn com.parse.ParseOkHttpClient$1$2
+#-dontwarn com.parse.ParseOkHttpClient$ParseOkHttpRequestBody
+#-dontwarn com.parse.twitter.Twitter
+#-dontwarn com.parse.internal.signpost.**
+#-dontwarn com.parse.NotificationCompat$NotificationCompatImplBase

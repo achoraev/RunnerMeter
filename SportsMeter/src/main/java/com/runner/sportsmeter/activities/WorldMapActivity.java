@@ -1,6 +1,11 @@
 package com.runner.sportsmeter.activities;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +27,7 @@ import java.util.List;
  * Created by angelr on 02-Nov-15.
  */
 public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 123456;
     private final int QUERY_LIMIT = 500;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
@@ -42,10 +48,49 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(WorldMapActivity.this, "Permissions granted", Toast.LENGTH_LONG).show();
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    Toast.makeText(WorldMapActivity.this, "Need GPS to use this app", Toast.LENGTH_LONG).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d("world_map", "Map is ready");
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         LatLng startPoint = new LatLng(42.697748, 23.321658);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 1), 1000, null);

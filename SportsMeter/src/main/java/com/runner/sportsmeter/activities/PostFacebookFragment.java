@@ -18,14 +18,14 @@ import com.runner.sportsmeter.models.Session;
 public class PostFacebookFragment extends FragmentActivity {
     CallbackManager callbackManager;
     ShareDialog shareDialog;
-    private double sessionDistance, sessionTimeDiff;
+    private Long sessionTimeDiff;
+    private double sessionDistance;
     private String sportType, userName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        savedInstanceState = getIntent().getExtras();
-        updateFromBundle(savedInstanceState);
+        updateFromBundle(getIntent().getExtras());
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
@@ -35,7 +35,7 @@ public class PostFacebookFragment extends FragmentActivity {
         String action = sportType.toLowerCase().equals("runner") ? " runs " :
                         sportType.toLowerCase().equals("biker") ? " bikes " :
                         sportType.toLowerCase().equals("driver") ? " drives " : " ";
-        String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToString((long) sessionTimeDiff) + " with Sport Meter";
+        String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToString(sessionTimeDiff) + " with Sport Meter";
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
                     .setContentTitle(getString(R.string.app_name))

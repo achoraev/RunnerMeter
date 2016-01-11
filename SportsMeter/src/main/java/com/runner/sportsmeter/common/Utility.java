@@ -17,6 +17,7 @@ import com.google.android.gms.ads.AdView;
 import com.parse.ParseObject;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.models.Sessions;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -91,7 +92,7 @@ public class Utility {
         for (ParseObject ses : sessions) {
             Session newSession = new Session(
                     ses.getDouble("distance"),
-                    ses.getDouble("duration"),
+                    ses.getLong("duration"),
                     ses.getDouble("maxSpeed"),
                     ses.getDouble("averageSpeed"),
                     ses.getDouble("timePerKilometer"),
@@ -102,6 +103,33 @@ public class Utility {
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;
+    }
+
+    public static Session convertParseSessionsToSession(Sessions sess) {
+        Session newSession = new Session(
+                sess.getDistance(),
+                sess.getDuration(),
+                sess.getMaxSpeed(),
+                sess.getAverageSpeed(),
+                sess.getTimePerKilometer(),
+                Utility.formatDate(sess.getCreatedAt()),
+                sess.getParseUser(),
+                sess.getName(),
+                sess.getSportType());
+        return newSession;
+    }
+
+    public static Sessions convertSessionToParseSessions(Session sess) {
+        Sessions newSession = new Sessions();
+        newSession.setDistance(sess.getDistance());
+        newSession.setDuration(sess.getDuration());
+        newSession.setMaxSpeed(sess.getMaxSpeed());
+        newSession.setAverageSpeed(sess.getAverageSpeed());
+        newSession.setTimePerKilometer(sess.getTimePerKilometer());
+        newSession.setParseUser(sess.getCurrentUser());
+        newSession.setName(sess.getUserName());
+        newSession.setSportType(sess.getSportType());
+        return newSession;
     }
 
     public static String formatDate(Date createdAt) {

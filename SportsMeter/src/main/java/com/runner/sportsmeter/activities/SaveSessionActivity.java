@@ -33,6 +33,7 @@ import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.models.Sessions;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -48,11 +49,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     public static final int MAP_PADDING = 20;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 123456;
     private Session currentSession;
-    private double sessionDistance;
-    private double sessionTimeDiff;
-    private double currentMaxSpeed;
-    private double averageSpeed;
-    private String sportType;
     private String sessionImagePath;
     private TextView saveTimeKm, saveDistance, saveDuration, saveUsername,
             saveMaxSpeed, saveAvgSpeed, saveTypeSport, saveCreatedAt;
@@ -66,6 +62,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     private GoogleMap mMap;
     private PolylineOptions currentSegment;
     private LatLngBounds bound;
+    private Sessions currentParseSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,13 +73,14 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         initializeMap();
         ParseCommon.logInGuestUser(this);
         initializeViews();
-        currentSession = createCurrentSession(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType);
+        currentParseSession = new Utility().convertSessionToParseSessions(currentSession);
+//        currentSession = createCurrentSessions(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType);
         setTextViewsFromSession(currentSession);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveParseSession(currentSession);
+                saveParseSession(currentParseSession);
                 if (endPointCoordinates != null) {
                     String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
                     Uri gmmIntentUri = Uri.parse(url);
@@ -99,7 +97,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         postOnFacebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveParseSession(currentSession);
+                saveParseSession(currentParseSession);
                 // todo check for logged user with facebook
                 postOnFacebookWall();
                 finish();
@@ -132,26 +130,35 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
         saveTimeKm.setText(String.valueOf(session.getTimePerKilometer()) + " min/km");
         saveDistance.setText(String.valueOf(session.getDistance()) + " m");
-        saveDuration.setText(Calculations.convertTimeToString((long) session.getDuration()));
+        saveDuration.setText(Calculations.convertTimeToString(session.getDuration()));
         saveUsername.setText(String.valueOf(session.getUserName()));
         saveMaxSpeed.setText(String.valueOf(session.getMaxSpeed()) + " km/h");
         saveAvgSpeed.setText(String.valueOf(session.getAverageSpeed()) + " km/h");
-        saveTypeSport.setText(sportType);
+        saveTypeSport.setText(session.getSportType());
         saveCreatedAt.setText(Utility.formatDate(new Date()));
     }
 
-    public Session createCurrentSession(double dist, double time, double max, double average, String type) {
-        Session current = new Session(
-                dist,
-                time,
-                max,
-                average,
-                "",
-                ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser(),
-                new ParseCommon().getCurrentUserUsername(),
-                type.toLowerCase());
-        return current;
-    }
+//    public Sessions createCurrentSessions(double dist, Long time, double max, double average, String type) {
+//        Sessions current = new Sessions();
+//        current.setDistance(dist);
+//        current.setDuration(time);
+//        current.setMaxSpeed(max);
+//        current.setAverageSpeed(average);
+//        current.setSportType(type.toLowerCase());
+//        current.setParseUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+//        current.setName(new ParseCommon().getCurrentUserUsername());
+//        current.setTimePerKilometer(new Calculations().calculateTimePerKilometer(dist, time));
+////        Session current = new Session(
+////                dist,
+////                time,
+////                max,
+////                average,
+////                "",
+////                ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser(),
+////                new ParseCommon().getCurrentUserUsername(),
+////                type.toLowerCase());
+//        return current;
+//    }
 
     private void initializeViews() {
 //        sessionScreenshot = (ImageView) findViewById(R.id.session_screenshot);
@@ -185,26 +192,17 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onBackPressed() {
         if (!isSaveSession) {
-            saveParseSession(currentSession);
+            saveParseSession(currentParseSession);
         }
         super.onBackPressed();
     }
 
-    public void saveParseSession(Session current) {
+    public void saveParseSession(Sessions current) {
         isSaveSession = true;
-        saveSession = new ParseObject("Sessions");
-        saveSession.put(getString(R.string.session_name), current.getUserName());
-        saveSession.put(getString(R.string.session_username), current.getCurrentUser());
-        saveSession.put(getString(R.string.session_max_speed), current.getMaxSpeed());
-        saveSession.put(getString(R.string.session_average_speed), current.getAverageSpeed());
-        saveSession.put(getString(R.string.session_distance), current.getDistance());
-        saveSession.put(getString(R.string.session_duration), current.getDuration() / 1000);
-        saveSession.put(getString(R.string.session_time_per_kilometer), current.getTimePerKilometer());
-        saveSession.put(getString(R.string.session_sport_type), current.getSportType());
         Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
         if (current.getTimePerKilometer() != 0 && isValid) {
-            saveSession.saveEventually();
-            saveSession.pinInBackground();
+            current.saveEventually();
+            current.pinInBackground();
         } else if (current.getTimePerKilometer() != 0 && !isValid) {
             String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
             Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
@@ -216,11 +214,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
             if (savedInstanceState.keySet().contains("Session")) {
                 currentSession = savedInstanceState.getParcelable("Session");
-                sessionDistance = currentSession.getDistance();
-                sessionTimeDiff = currentSession.getDuration();
-                currentMaxSpeed = currentSession.getMaxSpeed();
-                averageSpeed = currentSession.getAverageSpeed();
-                sportType = currentSession.getSportType();
             }
             if (savedInstanceState.keySet().contains("start_coords")) {
                 startPointCoordinates = savedInstanceState.getParcelable("start_coords");
@@ -240,22 +233,24 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         Log.d("save_map", "Map is ready");
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(SaveSessionActivity.this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                ActivityCompat.requestPermissions(SaveSessionActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
 
 
-            // TODO: Consider calling
-            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-            return;
+                // TODO: Consider calling
+                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for Activity#requestPermissions for more details.
+                return;
+            }
         }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
@@ -273,11 +268,11 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
             mMap.addPolyline(currentSegment);
             mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_WIDTH, MAP_HEIGHT, MAP_PADDING));
-        } else if(startPointCoordinates != null && endPointCoordinates != null){
+        } else if (startPointCoordinates != null && endPointCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
-        } else if(startPointCoordinates != null){
+        } else if (startPointCoordinates != null) {
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
         }
@@ -292,6 +287,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    Toast.makeText(SaveSessionActivity.this, "Permissions granted", Toast.LENGTH_LONG).show();
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 

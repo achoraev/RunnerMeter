@@ -12,32 +12,79 @@ import java.util.Date;
  */
 @ParseClassName("Sessions")
 public class Sessions extends ParseObject {
-    public Number getMaxSpeed() {
+
+    public Sessions(){}
+
+    public Double getMaxSpeed() {
         return getDouble("maxSpeed");
     }
 
-    public Number getAverageSpeed() {
+    public void setMaxSpeed(Double max) {
+        put("maxSpeed", max);
+    }
+
+    public Double getAverageSpeed() {
         return getDouble("averageSpeed");
     }
 
-    public Number getDistance() {
+    public void setAverageSpeed(Double avr) {
+        put("averageSpeed", avr);
+    }
+
+    public Double getDistance() {
         return getDouble("distance");
     }
 
-    public Number getDuration() {
-        return getDouble("duration");
+    public void setDistance(Double dist) {
+        put("distance", dist);
     }
 
-    public Number getTimePerKilometer() {
+    public Long getDuration() {
+        return getLong("duration");
+    }
+
+    public void setDuration(Long dur) {
+        put("duration", dur / 1000);
+    }
+
+    public Double getTimePerKilometer() {
         return getDouble("timePerKilometer");
     }
 
-    public ParseUser getAuthor() {
+    public void setTimePerKilometer(Double pace) {
+        put("timePerKilometer", pace);
+    }
+
+    public ParseUser getParseUser() {
         return getParseUser("username");
+    }
+
+    public void setParseUser(ParseUser user) {
+        put("username", user);
+    }
+
+    public String getName() {
+        return getString("name");
+    }
+
+    public void setName(String name) {
+        put("name", name);
+    }
+
+    public String getSportType() {
+        return getString("sportType");
+    }
+
+    public void setSportType(String name) {
+        put("sportType", name);
     }
 
     public Date getCreatedAt(){
         return getDate("createdAt");
+    }
+
+    public String getObjectId(){
+        return getString("objectId");
     }
 
     public static ParseQuery<Sessions> getQuery() {

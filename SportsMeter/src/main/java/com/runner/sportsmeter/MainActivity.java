@@ -1,5 +1,6 @@
 package com.runner.sportsmeter;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.*;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -58,7 +60,7 @@ import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Segments;
-import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements
     private Boolean exit = false;
 
     private String lastUpdateTime, currentUpdateTime, sessionStartTime;
-    private long lastUpdateTimeMilis, currentUpdateTimeMilis, sessionStartTimeMilis = 0;
+    private long lastUpdateTimeMillis, currentUpdateTimeMillis, sessionStartTimeMillis = 0;
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
 
@@ -160,8 +162,7 @@ public class MainActivity extends AppCompatActivity implements
 
         initializeUiViews();
 
-        Bundle bundle = getIntent().getExtras();
-        sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
+        sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
 
         setToolbarAndDrawer();
 
@@ -293,10 +294,10 @@ public class MainActivity extends AppCompatActivity implements
         mMap.clear();
 
 //        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        currentUpdateTimeMilis = new Date().getTime();
-        if (sessionStartTimeMilis == 0) {
+        currentUpdateTimeMillis = new Date().getTime();
+        if (sessionStartTimeMillis == 0) {
 //            sessionStartTime = currentUpdateTime;
-            sessionStartTimeMilis = currentUpdateTimeMilis;
+            sessionStartTimeMillis = currentUpdateTimeMillis;
         }
 
         if (mMap.getMyLocation() != null) {
@@ -381,17 +382,26 @@ public class MainActivity extends AppCompatActivity implements
         stopLocationUpdates();
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
-        Session saveSession = new Session(
-                sessionDistance,
-                sessionTimeDiff,
-                currentMaxSpeed,
-                averageSpeed,
-                "",
-                ParseUser.getCurrentUser(),
-                userName,
-                sportType.toString());
+        Sessions saveNewSession = new Sessions();
+        saveNewSession.setDistance(sessionDistance);
+        saveNewSession.setDuration(sessionTimeDiff);
+        saveNewSession.setMaxSpeed(currentMaxSpeed);
+        saveNewSession.setAverageSpeed(averageSpeed);
+        saveNewSession.setParseUser(ParseUser.getCurrentUser());
+        saveNewSession.setName(userName);
+        saveNewSession.setSportType(sportType.toString());
+
+//        Session saveSession = new Session(
+//                sessionDistance,
+//                sessionTimeDiff,
+//                currentMaxSpeed,
+//                averageSpeed,
+//                "",
+//                ParseUser.getCurrentUser(),
+//                userName,
+//                sportType.toString());
         Bundle saveBundle = new Bundle();
-        saveBundle.putParcelable("Session", saveSession);
+        saveBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(saveNewSession));
         saveBundle.putParcelable("start_coords", startPointCoord);
         saveBundle.putParcelable("end_coords", endPointCoord);
         saveBundle.putParcelable("currentSegment", currentSegment);
@@ -896,6 +906,7 @@ public class MainActivity extends AppCompatActivity implements
 //        return super.onPrepareOptionsMenu(menu);
 //    }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d(TAG, "Map is ready");
@@ -921,7 +932,6 @@ public class MainActivity extends AppCompatActivity implements
                 // for Activity#requestPermissions for more details.
                 return;
             }
-
         }
 
         mMap.setMyLocationEnabled(true);
@@ -929,6 +939,33 @@ public class MainActivity extends AppCompatActivity implements
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(MainActivity.this, "Permissions granted", Toast.LENGTH_LONG).show();
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+
+                    Toast.makeText(MainActivity.this, "Need GPS to use this app", Toast.LENGTH_LONG).show();
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -940,7 +977,7 @@ public class MainActivity extends AppCompatActivity implements
 //            currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //        }
 //        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        currentUpdateTimeMilis = new Date().getTime();
+        currentUpdateTimeMillis = new Date().getTime();
     }
 
     @Override
@@ -979,7 +1016,7 @@ public class MainActivity extends AppCompatActivity implements
                 switch (resultCode) {
                     case Activity.RESULT_OK:
                         Log.i(TAG, "User agreed to make required location settings changes.");
-                        // startLocationUpdates();
+                        startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
                         Log.i(TAG, "User chose not to make required location settings changes.");
@@ -1059,7 +1096,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
-                currentUpdateTimeMilis = savedInstanceState.getLong(
+                currentUpdateTimeMillis = savedInstanceState.getLong(
                         LAST_UPDATED_TIME_STRING_KEY);
             }
             if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
@@ -1078,7 +1115,7 @@ public class MainActivity extends AppCompatActivity implements
                 sessionTimeDiff = savedInstanceState.getLong(GLOBAL_DURATION);
             }
             if (savedInstanceState.keySet().contains(SESSION_START_TIME)) {
-                sessionStartTimeMilis = savedInstanceState.getLong(SESSION_START_TIME);
+                sessionStartTimeMillis = savedInstanceState.getLong(SESSION_START_TIME);
             }
             if (savedInstanceState.keySet().contains("segmentId")) {
                 segmentId = savedInstanceState.getInt("segmentId");
@@ -1105,8 +1142,8 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putDouble(GLOBAL_AVERAGE_SPEED, averageSpeed);
         savedInstanceState.putDouble(GLOBAL_MAX_SPEED, currentMaxSpeed);
         savedInstanceState.putLong(GLOBAL_DURATION, sessionTimeDiff);
-        savedInstanceState.putLong(SESSION_START_TIME, sessionStartTimeMilis);
-        savedInstanceState.putLong(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMilis);
+        savedInstanceState.putLong(SESSION_START_TIME, sessionStartTimeMillis);
+        savedInstanceState.putLong(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMillis);
         savedInstanceState.putInt("segmentId", segmentId);
         savedInstanceState.putParcelable(CURRENT_SEGMENT, currentSegment);
 
@@ -1152,9 +1189,9 @@ public class MainActivity extends AppCompatActivity implements
         if (currLoc != null) {
             Log.d(TAG, "Update UI");
 //            lastUpdateTime = currentUpdateTime;
-            lastUpdateTimeMilis = currentUpdateTimeMilis;
+            lastUpdateTimeMillis = currentUpdateTimeMillis;
 //            currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
-            currentUpdateTimeMilis = new Date().getTime();
+            currentUpdateTimeMillis = new Date().getTime();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
                 currentCoordinates = smoothLocation(currLoc, lastUpdatedCoord.latitude, lastUpdatedCoord.longitude);
@@ -1168,8 +1205,8 @@ public class MainActivity extends AppCompatActivity implements
             sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
 //            currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
 //            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
-            currentTimeDiff = currentUpdateTimeMilis - lastUpdateTimeMilis;
-            sessionTimeDiff = lastUpdateTimeMilis - sessionStartTimeMilis;
+            currentTimeDiff = currentUpdateTimeMillis - lastUpdateTimeMillis;
+            sessionTimeDiff = lastUpdateTimeMillis - sessionStartTimeMillis;
 //            Toast.makeText(this, "milis " + String.valueOf(currentTimeDiff), Toast.LENGTH_SHORT).show();
 
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);

@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;
@@ -111,8 +112,7 @@ public class Utility {
                 sess.getDuration(),
                 sess.getMaxSpeed(),
                 sess.getAverageSpeed(),
-                sess.getTimePerKilometer(),
-                Utility.formatDate(sess.getCreatedAt()),
+                "",
                 sess.getParseUser(),
                 sess.getName(),
                 sess.getSportType());
@@ -126,7 +126,7 @@ public class Utility {
         newSession.setMaxSpeed(sess.getMaxSpeed());
         newSession.setAverageSpeed(sess.getAverageSpeed());
         newSession.setTimePerKilometer(sess.getTimePerKilometer());
-        newSession.setParseUser(sess.getCurrentUser());
+        newSession.setParseUser(ParseUser.getCurrentUser());
         newSession.setName(sess.getUserName());
         newSession.setSportType(sess.getSportType());
         return newSession;

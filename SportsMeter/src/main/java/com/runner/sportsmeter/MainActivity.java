@@ -516,11 +516,12 @@ public class MainActivity extends AppCompatActivity implements
     private void setVariablesToNull() {
         sessionDistance = 0;
         sessionTimeDiff = 0;
-        sessionStartTime = null;
+        sessionStartTimeMillis = 0;
         Calculations.setMaxSpeed(0);
         averageSpeed = 0;
         currentMaxSpeed = 0;
         currentTimeDiff = 0;
+        currentUpdateTimeMillis = 0;
         currentDistance = 0;
         currentSpeed = 0;
         currentSegment = null;

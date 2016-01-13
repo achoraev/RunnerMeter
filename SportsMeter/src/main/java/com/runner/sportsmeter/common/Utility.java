@@ -106,12 +106,13 @@ public class Utility {
         return arrayOfSessions;
     }
 
-    public static Session convertParseSessionsToSession(Sessions sess) {
+    public Session convertParseSessionsToSession(Sessions sess) {
         Session newSession = new Session(
                 sess.getDistance(),
                 sess.getDuration(),
                 sess.getMaxSpeed(),
                 sess.getAverageSpeed(),
+                sess.getTimePerKilometer(),
                 "",
                 sess.getParseUser(),
                 sess.getName(),
@@ -119,7 +120,7 @@ public class Utility {
         return newSession;
     }
 
-    public static Sessions convertSessionToParseSessions(Session sess) {
+    public Sessions convertSessionToParseSessions(Session sess) {
         Sessions newSession = new Sessions();
         newSession.setDistance(sess.getDistance());
         newSession.setDuration(sess.getDuration());

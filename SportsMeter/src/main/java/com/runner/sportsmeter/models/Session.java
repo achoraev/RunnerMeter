@@ -3,7 +3,6 @@ package com.runner.sportsmeter.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.parse.ParseUser;
-import com.runner.sportsmeter.common.Calculations;
 
 /**
  * Created by angelr on 27-Jul-15.
@@ -20,33 +19,32 @@ public class Session implements Parcelable {
     private String createdAt;
     private String sportType;
 
-    public Session(double dis, Long dur, double max, double avr, ParseUser curUser) {
+    public Session(double dis, Long dur, double max, double avr, double pace, ParseUser curUser) {
         this.distance = dis;
         this.duration = dur;
         this.maxSpeed = max;
         this.averageSpeed = avr;
-        setTimePerKilometer(dis, dur);
+        this.timePerKilometer = pace;
         this.currentUser = curUser;
     }
 
-    public Session(double distance, Long duration, double maxSpeed, double averageSpeed, String createdAt, ParseUser currentUser) {
-        this(distance, duration, maxSpeed, averageSpeed, currentUser);
+    public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double pace,  String createdAt, ParseUser currentUser) {
+        this(distance, duration, maxSpeed, averageSpeed, pace, currentUser);
         this.createdAt = createdAt;
     }
 
     // use for save session
-    public Session(double distance, Long duration, double maxSpeed, double averageSpeed,
-                   String createdAt, ParseUser currentUser, String username, String type) {
-        this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
-        this.userName = setUserName(username);
-        this.sportType = type;
-    }
+//    public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double pace,
+//                   String createdAt, ParseUser currentUser, String username, String type) {
+//        this(distance, duration, maxSpeed, averageSpeed, pace, createdAt, currentUser);
+//        this.userName = setUserName(username);
+//        this.sportType = type;
+//    }
 
     // use to convert from database
     public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double timePer,
                    String createdAt, ParseUser currentUser, String username, String type) {
-        this(distance, duration, maxSpeed, averageSpeed, createdAt, currentUser);
-        this.timePerKilometer = timePer;
+        this(distance, duration, maxSpeed, averageSpeed, timePer, createdAt, currentUser);
         this.userName = setUserName(username);
         this.sportType = type;
     }
@@ -92,8 +90,8 @@ public class Session implements Parcelable {
         return this.timePerKilometer;
     }
 
-    public void setTimePerKilometer(double distance, double duration) {
-        this.timePerKilometer = new Calculations().calculateTimePerKilometer(distance, duration);
+    public void setTimePerKilometer(double pace) {
+        this.timePerKilometer = pace;
     }
 
     @Override

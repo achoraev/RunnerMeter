@@ -68,13 +68,11 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_save_session_layout);
-        Bundle readBundleFromMain = getIntent().getExtras();
-        updateFromBundle(readBundleFromMain);
+        updateFromBundle(getIntent().getExtras());
         initializeMap();
         ParseCommon.logInGuestUser(this);
         initializeViews();
         currentParseSession = new Utility().convertSessionToParseSessions(currentSession);
-//        currentSession = createCurrentSessions(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType);
         setTextViewsFromSession(currentSession);
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +191,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     public void onBackPressed() {
         if (!isSaveSession) {
             saveParseSession(currentParseSession);
+            isSaveSession = false;
         }
         super.onBackPressed();
     }

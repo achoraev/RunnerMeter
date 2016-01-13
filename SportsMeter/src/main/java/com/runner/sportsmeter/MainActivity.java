@@ -387,19 +387,11 @@ public class MainActivity extends AppCompatActivity implements
         saveNewSession.setDuration(sessionTimeDiff);
         saveNewSession.setMaxSpeed(currentMaxSpeed);
         saveNewSession.setAverageSpeed(averageSpeed);
+        saveNewSession.setTimePerKilometer(new Calculations().calculateTimePerKilometer(sessionDistance, sessionTimeDiff));
         saveNewSession.setParseUser(ParseUser.getCurrentUser());
         saveNewSession.setName(userName);
         saveNewSession.setSportType(sportType.toString());
 
-//        Session saveSession = new Session(
-//                sessionDistance,
-//                sessionTimeDiff,
-//                currentMaxSpeed,
-//                averageSpeed,
-//                "",
-//                ParseUser.getCurrentUser(),
-//                userName,
-//                sportType.toString());
         Bundle saveBundle = new Bundle();
         saveBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(saveNewSession));
         saveBundle.putParcelable("start_coords", startPointCoord);

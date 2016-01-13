@@ -97,7 +97,7 @@ public class Calculations {
         return maxSpeed;
     }
 
-    public double calculateTimePerKilometer(double distance, double duration) {
+    public double calculateTimePerKilometer(double distance, Long duration) {
         double result = ((duration / ONE_THOUSAND / SIXTY) / (distance / ONE_THOUSAND));
         double finalResult = result - (result % 1);
         if(result % 1 != 0) {

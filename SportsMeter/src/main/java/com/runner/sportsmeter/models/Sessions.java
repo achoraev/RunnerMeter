@@ -44,7 +44,7 @@ public class Sessions extends ParseObject {
     }
 
     public void setDuration(Long dur) {
-        put("duration", dur / 1000);
+        put("duration", dur);
     }
 
     public Double getTimePerKilometer() {

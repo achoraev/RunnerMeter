@@ -129,7 +129,7 @@ public class Utility {
         newSession.setTimePerKilometer(sess.getTimePerKilometer());
         newSession.setParseUser(ParseUser.getCurrentUser());
         newSession.setName(sess.getUserName());
-        newSession.setSportType(sess.getSportType());
+        newSession.setSportType(sess.getSportType().toLowerCase());
         return newSession;
     }
 

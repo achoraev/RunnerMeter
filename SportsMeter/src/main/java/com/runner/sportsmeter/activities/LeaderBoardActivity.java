@@ -1,7 +1,6 @@
 package com.runner.sportsmeter.activities;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,7 @@ import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.RecyclerAdapter;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
-import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +26,11 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
     Button bestRunners, bestBikers, bestDrivers, myBest;
     private ProgressBar bar;
-    public ArrayList<Session> arrayOfSessions;
+    public ArrayList<Sessions> arrayOfSessions;
     AdView mAdView;
 
+    private static final int LIMIT_FOR_SPORT_TYPE = 15;
+    private static final int LIMIT_FOR_USER_QUERY = 15;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -40,46 +41,37 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_leaderboard_layout);
 
-        Bundle bundle = getIntent().getExtras();
-        sportType = (SportTypes) bundle.get(getString(R.string.type_of_sport));
+        sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
 
-        bar = (ProgressBar) this.findViewById(R.id.progressBar);
-        bestRunners = (Button) findViewById(R.id.btn_best_runners);
-        bestBikers = (Button) findViewById(R.id.btn_best_bikers);
-        bestDrivers = (Button) findViewById(R.id.btn_best_drivers);
-        myBest = (Button) findViewById(R.id.btn_my_best_result);
+        initializeViews();
 
         bestRunners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask(SportTypes.RUNNER);
-//                new QueryBestRunnersTask().execute();
+                ParseQuery(SportTypes.RUNNER, LIMIT_FOR_SPORT_TYPE, null);
             }
         });
 
         bestBikers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask(SportTypes.BIKER);
+                ParseQuery(SportTypes.BIKER, LIMIT_FOR_SPORT_TYPE, null);
             }
         });
 
         bestDrivers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryBestResultsTask(SportTypes.DRIVER);
+                ParseQuery(SportTypes.DRIVER, LIMIT_FOR_SPORT_TYPE, null);
             }
         });
 
         myBest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQueryMyBestResult();
+                ParseQuery(sportType, LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
             }
         });
-
-        // for recycle
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -89,100 +81,63 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ParseQueryMyBestResult();
+        ParseQuery(sportType, LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
 
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewLeaderBoard);
         new Utility().setupAdds(mAdView, this);
     }
 
-    private void ParseQueryBestResultsTask(SportTypes type) {
+    private void initializeViews() {
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+        bestRunners = (Button) findViewById(R.id.btn_best_runners);
+        bestBikers = (Button) findViewById(R.id.btn_best_bikers);
+        bestDrivers = (Button) findViewById(R.id.btn_best_drivers);
+        myBest = (Button) findViewById(R.id.btn_my_best_result);
+        // for recycle
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+    }
+
+    private void BestResultByType(List<Sessions> sessions) {
+        Log.d("session", "Retrieved " + sessions.size() + " sessions");
+        arrayOfSessions = new ArrayList<>();
+        arrayOfSessions.addAll(sessions);
+        refreshListView();
+        bar.setVisibility(View.GONE);
+    }
+
+    private void ParseQueryMyBestResult(List<Sessions> sessions) {
+        Log.d("session", "Retrieved " + sessions.size() + " sessions");
+        arrayOfSessions = new ArrayList<>();
+        arrayOfSessions.addAll(sessions);
+        refreshListView();
+        bar.setVisibility(View.GONE);
+        ParseObject.pinAllInBackground("myBestResult", sessions);
+    }
+
+    private void ParseQuery(SportTypes type, int limit, final ParseUser user) {
         bar.setVisibility(View.VISIBLE);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
+        ParseQuery<Sessions> query = Sessions.getQuery();
+        if (user != null) {
+            query.whereEqualTo(getString(R.string.session_username), user);
+        }
         query.whereEqualTo(getString(R.string.session_sport_type), type.toString().toLowerCase());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
-        query.setLimit(15);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> sessions, ParseException e) {
+        query.setLimit(limit);
+        query.findInBackground(new FindCallback<Sessions>() {
+            public void done(List<Sessions> sessions, ParseException e) {
                 if (e == null) {
-                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
-                    arrayOfSessions = new ArrayList<>();
-                    arrayOfSessions = Utility.convertFromParseObject(sessions);
-                    refreshListView();
-                    bar.setVisibility(View.GONE);
+                    if(user != null) {
+                        ParseQueryMyBestResult(sessions);
+                    } else {
+                        BestResultByType(sessions);
+                    }
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
+                    finish();
                 }
             }
         });
-    }
-
-    private void ParseQueryMyBestResult() {
-        bar.setVisibility(View.VISIBLE);
-        ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-//        query.fromLocalDatastore()
-        query.whereEqualTo(getString(R.string.session_username), ParseUser.getCurrentUser());
-        query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString().toLowerCase());
-        query.orderByAscending(getString(R.string.session_time_per_kilometer));
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> sessions, ParseException e) {
-                if (e == null) {
-                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
-                    arrayOfSessions = new ArrayList<>();
-                    arrayOfSessions = Utility.convertFromParseObject(sessions);
-                    refreshListView();
-                    bar.setVisibility(View.GONE);
-                    ParseObject.pinAllInBackground("myBestResult", sessions);
-//                    ParseObject.unpinAllInBackground("highScores", new DeleteCallback() {
-//                        @Override
-//                        public void done(ParseException e) {
-//                            ParseObject.pinAllInBackground("highScores", sessions);
-//                        }
-//                    });
-                } else {
-                    Log.e("session", "Error: " + e.getMessage());
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    private class QueryBestRunnersTask extends AsyncTask<Void, Void, ArrayList<Session>> {
-        @Override
-        protected void onPreExecute() {
-            bar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected ArrayList<Session> doInBackground(Void... arg0) {
-//            ParseQuery<ParseObject> query = ParseQuery.getQuery(getString(R.string.session_object));
-//            query.orderByAscending(getString(R.string.session_time_per_kilometer));
-//            query.setLimit(15);
-//            query.findInBackground(new FindCallback<ParseObject>() {
-//                public void done(List<ParseObject> sessions, ParseException e) {
-//                    if (e == null) {
-//                        Log.d("session", "Retrieved " + sessions.size() + " sessions");
-//                        arrayOfSessions = new ArrayList<>();
-//                        arrayOfSessions = Utility.convertFromParseObject(sessions);
-////                        refreshListView();
-//                    } else {
-//                        Log.e("session", "Error: " + e.getMessage());
-//                    }
-//                }
-//            });
-            return arrayOfSessions;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Session> result) {
-            refreshListView();
-            bar.setVisibility(View.GONE);
-        }
     }
 
     private void refreshListView() {
@@ -190,5 +145,10 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         mAdapter = new RecyclerAdapter(arrayOfSessions);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

@@ -80,12 +80,13 @@ public class Sessions extends ParseObject {
     }
 
     public Date getCreatedAt(){
-        return getDate("createdAt");
+        long createdAt = getLong("createdAt");
+        return createdAt > 0L?new Date(createdAt):null;
     }
 
-    public String getObjectId(){
-        return getString("objectId");
-    }
+//    public String getObjectId(){
+//        return getString("objectId");
+//    }
 
     public static ParseQuery<Sessions> getQuery() {
         return ParseQuery.getQuery(Sessions.class);

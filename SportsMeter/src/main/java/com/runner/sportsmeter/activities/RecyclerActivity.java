@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.RecyclerAdapter;
-import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class RecyclerActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        ArrayList<Session> myDataset = new ArrayList<>();
+        ArrayList<Sessions> myDataset = new ArrayList<>();
         mAdapter = new RecyclerAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
     }

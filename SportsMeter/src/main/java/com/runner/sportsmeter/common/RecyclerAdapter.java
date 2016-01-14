@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by angelr on 17-Sep-15.
  */
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private ArrayList<Session> dataList;
+    private ArrayList<Sessions> dataList;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -36,7 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapter(ArrayList<Session> myDataset) {
+    public RecyclerAdapter(ArrayList<Sessions> myDataset) {
         dataList = myDataset;
     }
 
@@ -48,7 +48,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.leaderboard_row, parent, false);
         // set the view's size, margins, paddings and layout parameters
-
 
         ViewHolder vh = new ViewHolder(v);
         return vh;
@@ -66,7 +65,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " km/h");
         holder.timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
         holder.createdAt.setText(String.valueOf(dataList.get(position).getCreatedAt()));
-        holder.user.setText(String.valueOf(dataList.get(position).getUserName()));
+        holder.user.setText(String.valueOf(dataList.get(position).getName()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -16,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -605,18 +604,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void selectDrawerItem(MenuItem menuItem) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
         switch (menuItem.getItemId()) {
-            case R.id.nav_map_fragment:
-                if (fragment != null) {
-                    fragmentManager.beginTransaction()
-                            .remove(fragment)
-                            .addToBackStack(null)
-                            .commit();
-                }
-                fragment = null;
-                break;
             case R.id.nav_login_fragment:
                 if (ParseCommon.isUserLoggedIn() && !new ParseCommon().getCurrentUserUsername().equals("Guest")) {
                     new AlertDialog.Builder(this)
@@ -648,6 +636,12 @@ public class MainActivity extends AppCompatActivity implements
                     logOutCurrentUser();
                     openParseLoginActivity();
                 }
+                break;
+            case R.id.nav_history_fragment:
+                Intent historyIntent = new Intent(MainActivity.this, HistoryLiteMapListActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(historyIntent);
                 break;
             case R.id.nav_feedback_fragment:
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
@@ -694,17 +688,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
         }
 
-        // Insert the fragment by replacing any existing fragment
-//        if (fragment != null) {
-//            fragmentManager.beginTransaction()
-//                    .add(R.id.flContent, fragment)
-//                    .addToBackStack(null)
-//                    .commit();
-//        }
-
-        // Highlight the selected item, update the title, and close the drawer
         menuItem.setChecked(true);
-//        setTitle(menuItem.getTitle());
         mDrawer.closeDrawers();
     }
 
@@ -795,12 +779,6 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(helpIntent);
                 return true;
-//            case R.id.action_list_lite_map:
-//                Intent liteMap = new Intent(MainActivity.this, LiteMapListActivity.class);
-//                overridePendingTransition(android.R.anim.fade_in,
-//                        android.R.anim.fade_out);
-//                startActivity(liteMap);
-//                return true;
 //            case R.id.action_legal_notice:
 //                // todo find to show google license
 ////                String licenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(

@@ -85,7 +85,7 @@
         <activity android:name="com.runner.sportsmeter.activities.ConnectGoogleFitActivity"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.runner.sportsmeter.activities.LiteMapListActivity"
+        <activity android:name=".activities.HistoryLiteMapListActivity"
                   android:screenOrientation="portrait">
         </activity>
         <activity

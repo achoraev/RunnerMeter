@@ -19,7 +19,7 @@ import java.util.HashSet;
 /**
  * Created by angelr on 15-Dec-15.
  */
-public class LiteMapListActivity extends AppCompatActivity {
+public class HistoryLiteMapListActivity extends AppCompatActivity {
     private ListFragment mList;
 
     private MapAdapter mAdapter;

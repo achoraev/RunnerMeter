@@ -123,7 +123,7 @@ public class Utility {
     public Sessions convertSessionToParseSessions(Session sess) {
         Sessions newSession = new Sessions();
         newSession.setDistance(sess.getDistance());
-        newSession.setDuration(sess.getDuration());
+        newSession.setDuration(sess.getDuration() / 1000);
         newSession.setMaxSpeed(sess.getMaxSpeed());
         newSession.setAverageSpeed(sess.getAverageSpeed());
         newSession.setTimePerKilometer(sess.getTimePerKilometer());

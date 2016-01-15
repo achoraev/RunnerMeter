@@ -5,8 +5,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.Date;
-
 /**
  * Created by angelr on 21-Aug-15.
  */
@@ -59,6 +57,14 @@ public class Sessions extends ParseObject {
         return getParseUser("username");
     }
 
+    public void setSegmentId(Segments segment) {
+        put("segmentId", segment);
+    }
+
+    public Segments getSegmentId() {
+        return getSegmentId();
+    }
+
     public void setParseUser(ParseUser user) {
         put("username", user);
     }
@@ -78,15 +84,6 @@ public class Sessions extends ParseObject {
     public void setSportType(String name) {
         put("sportType", name);
     }
-
-    public Date getCreatedAt(){
-        long createdAt = getLong("createdAt");
-        return createdAt > 0L?new Date(createdAt):null;
-    }
-
-//    public String getObjectId(){
-//        return getString("objectId");
-//    }
 
     public static ParseQuery<Sessions> getQuery() {
         return ParseQuery.getQuery(Sessions.class);

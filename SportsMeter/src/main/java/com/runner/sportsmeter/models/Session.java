@@ -28,10 +28,10 @@ public class Session implements Parcelable {
         this.currentUser = curUser;
     }
 
-    public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double pace,  String createdAt, ParseUser currentUser) {
-        this(distance, duration, maxSpeed, averageSpeed, pace, currentUser);
-        this.createdAt = createdAt;
-    }
+//    public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double pace,  String createdAt, ParseUser currentUser) {
+//        this(distance, duration, maxSpeed, averageSpeed, pace, currentUser);
+//        this.createdAt = createdAt;
+//    }
 
     // use for save session
 //    public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double pace,
@@ -44,7 +44,8 @@ public class Session implements Parcelable {
     // use to convert from database
     public Session(double distance, Long duration, double maxSpeed, double averageSpeed, double timePer,
                    String createdAt, ParseUser currentUser, String username, String type) {
-        this(distance, duration, maxSpeed, averageSpeed, timePer, createdAt, currentUser);
+        this(distance, duration, maxSpeed, averageSpeed, timePer, currentUser);
+        this.createdAt = createdAt;
         this.userName = setUserName(username);
         this.sportType = type;
     }

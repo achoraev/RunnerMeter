@@ -25,19 +25,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -63,6 +60,8 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     private PolylineOptions currentSegment;
     private LatLngBounds bound;
     private Sessions currentParseSession;
+    private List<LatLng> listOfPoints;
+    private ArrayList<ParseGeoPoint> arrayListOfParseGeoPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,15 +196,35 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void saveParseSession(Sessions current) {
-        isSaveSession = true;
-        Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
-        if (current.getTimePerKilometer() != 0 && isValid) {
-            current.saveEventually();
-            current.pinInBackground();
-        } else if (current.getTimePerKilometer() != 0 && !isValid) {
-            String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
-            Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
-        }
+        saveSegmentToParse(arrayListOfParseGeoPoints, current.getDistance(), current);
+    }
+
+    private void saveSegmentToParse(ArrayList<ParseGeoPoint> points, double dist, final Sessions current) {
+        Random rand = new Random();
+        final Segments segment = new Segments();
+        segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+        segment.setName("segment_" + rand.nextInt(123456));
+        segment.setDistance(dist);
+        segment.setGeoPointsArray(points);
+        segment.saveEventually(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null){
+                    isSaveSession = true;
+                    Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
+                    if (isValid) {
+                        current.setSegmentId(segment);
+                        current.saveEventually();
+                        current.pinInBackground();
+                    } else if (current.getTimePerKilometer() != 0 && !isValid) {
+                        String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
+                        Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(SaveSessionActivity.this, R.string.save_notsave_btn, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {
@@ -222,8 +241,21 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             }
             if (savedInstanceState.keySet().contains("currentSegment")) {
                 currentSegment = savedInstanceState.getParcelable("currentSegment");
+                if(currentSegment != null) {
+                    listOfPoints = currentSegment.getPoints();
+                    arrayListOfParseGeoPoints = convertListToArrayListOfParseGeoPoint(listOfPoints);
+                }
             }
         }
+    }
+
+    private ArrayList<ParseGeoPoint> convertListToArrayListOfParseGeoPoint(List<LatLng> listOfPoints) {
+        ArrayList<ParseGeoPoint> result = new ArrayList<>();
+        for(LatLng l : listOfPoints){
+            result.add(new ParseGeoPoint(l.latitude, l.longitude));
+        }
+
+        return result;
     }
 
     @TargetApi(Build.VERSION_CODES.M)

@@ -117,7 +117,8 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
     private void ParseQuery(SportTypes type, int limit, final ParseUser user) {
         bar.setVisibility(View.VISIBLE);
-        ParseQuery<Sessions> query = Sessions.getQuery();
+        // todo revert to parse object to use createdAt
+        ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
         if (user != null) {
             query.whereEqualTo(getString(R.string.session_username), user);
         }

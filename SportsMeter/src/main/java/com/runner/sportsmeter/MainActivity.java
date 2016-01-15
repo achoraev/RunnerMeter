@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
@@ -13,9 +12,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -59,7 +58,7 @@ import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Segments;
-import com.runner.sportsmeter.models.Sessions;
+import com.runner.sportsmeter.models.Session;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,6 +68,7 @@ import java.util.Date;
  * Created by Angel Raev on 29-April-15.
  */
 public class MainActivity extends AppCompatActivity implements
+        View.OnClickListener,
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private ProgressBar progressBar;
+    private FloatingActionButton fab;
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
@@ -118,19 +119,15 @@ public class MainActivity extends AppCompatActivity implements
     private LatLng endPointCoord;
     private LatLng SOFIA_CENTER = new LatLng(42.697748, 23.321658);
     private Location currentLocation;
-    private Bitmap sessionScreenShot;
     private PolylineOptions currentSegment;
     private ArrayList<ParseGeoPoint> listOfPoints = new ArrayList<>();
-    private int segmentId = 1;
 
     private Boolean exit = false;
 
-    private String lastUpdateTime, currentUpdateTime, sessionStartTime;
     private long lastUpdateTimeMillis, currentUpdateTimeMillis, sessionStartTimeMillis = 0;
     private LocationRequest mLocationRequest;
     private LocationSettingsRequest mLocationSettingsRequest;
 
-    private static String sessionImagePath;
     private SportTypes sportType;
     private double currentDistance, sessionDistance, currentSpeed, averageSpeed, currentMaxSpeed;
     private long currentTimeDiff, sessionTimeDiff;
@@ -138,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private String userName, facebookId;
 
-    private Fragment fragment;
     private TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
     private Button startStopBtn;
     private ProfilePictureView facebookProfilePicture;
@@ -181,19 +177,7 @@ public class MainActivity extends AppCompatActivity implements
         setupInterstitialAd();
         requestNewInterstitial();
 
-        startStopBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!startButtonEnabled) {
-                    startLogic();
-                } else {
-                    stopLogic();
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
-                    }
-                }
-            }
-        });
+        startStopBtn.setOnClickListener(MainActivity.this);
 
         // setup adds
         new Utility().setupAdds(mAdView, this);
@@ -260,6 +244,10 @@ public class MainActivity extends AppCompatActivity implements
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         chooseTypeSport = (Spinner) findViewById(R.id.type_of_sports);
         mAdView = (AdView) findViewById(R.id.adView);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (fab != null) {
+            fab.setOnClickListener(MainActivity.this);
+        }
     }
 
     private void startLogic() {
@@ -381,33 +369,41 @@ public class MainActivity extends AppCompatActivity implements
         stopLocationUpdates();
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
-        Sessions saveNewSession = new Sessions();
-        saveNewSession.setDistance(sessionDistance);
-        saveNewSession.setDuration(sessionTimeDiff);
-        saveNewSession.setMaxSpeed(currentMaxSpeed);
-        saveNewSession.setAverageSpeed(averageSpeed);
-        saveNewSession.setTimePerKilometer(new Calculations().calculateTimePerKilometer(sessionDistance, sessionTimeDiff));
-        saveNewSession.setParseUser(ParseUser.getCurrentUser());
-        saveNewSession.setName(userName);
-        saveNewSession.setSportType(sportType.toString());
+//        Sessions saveNewSession = new Sessions();
+//        saveNewSession.setDistance(sessionDistance);
+//        saveNewSession.setDuration(sessionTimeDiff);
+//        saveNewSession.setMaxSpeed(currentMaxSpeed);
+//        saveNewSession.setAverageSpeed(averageSpeed);
+//        saveNewSession.setTimePerKilometer(new Calculations().calculateTimePerKilometer(sessionDistance, sessionTimeDiff));
+//        saveNewSession.setParseUser(ParseUser.getCurrentUser());
+//        saveNewSession.setName(userName);
+//        saveNewSession.setSportType(sportType.toString());
+
+        Session saveSession = new Session(
+                sessionDistance,
+                sessionTimeDiff,
+                currentMaxSpeed,
+                averageSpeed,
+                new Calculations().calculateTimePerKilometer(sessionDistance, sessionTimeDiff),
+                "",
+                ParseUser.getCurrentUser(),
+                userName,
+                sportType.toString());
 
         Bundle saveBundle = new Bundle();
-        saveBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(saveNewSession));
+        saveBundle.putParcelable("Session", saveSession);
         saveBundle.putParcelable("start_coords", startPointCoord);
         saveBundle.putParcelable("end_coords", endPointCoord);
         saveBundle.putParcelable("currentSegment", currentSegment);
-//        if (sessionImagePath != null) {
-//            saveBundle.putString("session_image_path", sessionImagePath);
-//        }
 
         saveSessionIntent.putExtras(saveBundle);
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
         startActivity(saveSessionIntent);
 
-        if (listOfPoints.size() != 0 && sessionDistance != 0) {
-            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
-        }
+//        if (listOfPoints.size() != 0 && sessionDistance != 0) {
+//            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
+//        }
 
         // set all to null
         setVariablesToNull();
@@ -415,23 +411,14 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
-        if (settings.getInt("segmentId", segmentId) != 0) {
-            segmentId = settings.getInt("segmentId", segmentId);
-        }
-
         mMap.addPolyline(polyLine);
 
         Segments segment = new Segments();
         segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-        segment.setSegmentId(segmentId);
-        segment.setName("segment_" + segmentId);
+        segment.setName("current_segment");
         segment.setDistance(dist);
-//        segment.setMapImage(file);
         segment.setGeoPointsArray(points);
         segment.saveEventually();
-
-        segmentId++;
-        settings.edit().putInt("segmentId", segmentId).apply();
 
 //        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
 //            @Override
@@ -512,7 +499,6 @@ public class MainActivity extends AppCompatActivity implements
         averageSpeed = 0;
         currentMaxSpeed = 0;
         currentTimeDiff = 0;
-        currentUpdateTimeMillis = 0;
         currentDistance = 0;
         currentSpeed = 0;
         currentSegment = null;
@@ -1087,9 +1073,6 @@ public class MainActivity extends AppCompatActivity implements
             if (savedInstanceState.keySet().contains(SESSION_START_TIME)) {
                 sessionStartTimeMillis = savedInstanceState.getLong(SESSION_START_TIME);
             }
-            if (savedInstanceState.keySet().contains("segmentId")) {
-                segmentId = savedInstanceState.getInt("segmentId");
-            }
             if (savedInstanceState.keySet().contains(CURRENT_SEGMENT)) {
                 currentSegment = savedInstanceState.getParcelable(CURRENT_SEGMENT);
             }
@@ -1114,7 +1097,6 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putLong(GLOBAL_DURATION, sessionTimeDiff);
         savedInstanceState.putLong(SESSION_START_TIME, sessionStartTimeMillis);
         savedInstanceState.putLong(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMillis);
-        savedInstanceState.putInt("segmentId", segmentId);
         savedInstanceState.putParcelable(CURRENT_SEGMENT, currentSegment);
 
         super.onSaveInstanceState(savedInstanceState);
@@ -1150,7 +1132,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
-        if (location != null) {
+        if (startButtonEnabled && location != null) {
             updateUI(currentLocation);
         }
     }
@@ -1258,5 +1240,24 @@ public class MainActivity extends AppCompatActivity implements
                         mLocationSettingsRequest
                 );
         result.setResultCallback(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.fab:
+                Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.start_stop_btn:
+                if (!startButtonEnabled) {
+                    startLogic();
+                } else {
+                    stopLogic();
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    }
+                }
+                break;
+        }
     }
 }

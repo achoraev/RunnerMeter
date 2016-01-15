@@ -88,19 +88,28 @@ public class Utility {
         return file.getAbsolutePath();
     }
 
-    public static ArrayList<Session> convertFromParseObject(List<ParseObject> sessions) {
-        ArrayList<Session> arrayOfSessions = new ArrayList<>();
+    public static ArrayList<Sessions> convertFromParseObject(List<ParseObject> sessions) {
+        ArrayList<Sessions> arrayOfSessions = new ArrayList<>();
         for (ParseObject ses : sessions) {
-            Session newSession = new Session(
-                    ses.getDouble("distance"),
-                    ses.getLong("duration"),
-                    ses.getDouble("maxSpeed"),
-                    ses.getDouble("averageSpeed"),
-                    ses.getDouble("timePerKilometer"),
-                    Utility.formatDate(ses.getCreatedAt()),
-                    ses.getParseUser("username"),
-                    ses.getString("name"),
-                    ses.getString("sportType"));
+            Sessions newSession = new Sessions();
+            newSession.setDistance(ses.getDouble("distance"));
+            newSession.setDuration(ses.getLong("duration"));
+            newSession.setMaxSpeed(ses.getDouble("maxSpeed"));
+            newSession.setAverageSpeed(ses.getDouble("averageSpeed"));
+            newSession.setParseUser(ses.getParseUser("username"));
+            newSession.setName(ses.getString("name"));
+            newSession.setSportType(ses.getString("sportType"));
+
+//            Session newSession = new Session(
+//                    ses.getDouble("distance"),
+//                    ses.getLong("duration"),
+//                    ses.getDouble("maxSpeed"),
+//                    ses.getDouble("averageSpeed"),
+//                    ses.getDouble("timePerKilometer"),
+//                    Utility.formatDate(ses.getCreatedAt()),
+//                    ses.getParseUser("username"),
+//                    ses.getString("name"),
+//                    ses.getString("sportType"));
             arrayOfSessions.add(newSession);
         }
         return arrayOfSessions;

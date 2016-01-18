@@ -26,16 +26,6 @@ public class Calculations {
     private static final double BEST_TIME_BIKER = 0.45;
     private static final double BEST_TIME_DRIVER = 0.17;
 
-    private static double maxSpeed = 0;
-
-    public static void setMaxSpeed(double speed) {
-        maxSpeed = speed;
-    }
-
-    public static double getMaxSpeed() {
-        return maxSpeed;
-    }
-
     public double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
         float[] result = new float[4];
         Location.distanceBetween(lastUpdatedCoord.latitude,
@@ -82,8 +72,9 @@ public class Calculations {
         return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
     }
 
-    public static double calculateMaxSpeed(double currentSpeed, SportTypes runner) {
-        if (currentSpeed > getMaxSpeed()) {
+    public static double calculateMaxSpeed(double currentSpeed, double currentMaxSpeed, SportTypes runner) {
+        double maxSpeed = 0.00;
+        if (currentSpeed > currentMaxSpeed) {
             if (runner == SportTypes.RUNNER && currentSpeed <= MAX_SPEED_RUNNER) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             } else if (runner == SportTypes.BIKER && currentSpeed <= MAX_SPEED_BIKER) {

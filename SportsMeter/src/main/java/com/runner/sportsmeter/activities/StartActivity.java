@@ -38,6 +38,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
     private Button runnerBtn, bikerBtn, driveBtn;
     private int runCount = 1;
     private int maxCountForAskRateMe = 5;
+    private SharedPreferences fiveRunSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
             settings.edit().putBoolean(FIRST_RUN, false).apply();
         }
 
-        SharedPreferences fiveRunSettings = getSharedPreferences(FIVE_RUN, MODE_PRIVATE);
+        fiveRunSettings = getSharedPreferences(FIVE_RUN, MODE_PRIVATE);
         runCount = fiveRunSettings.getInt(FIVE_RUN, 1);
         if(fiveRunSettings.getInt(FIVE_RUN, runCount) == maxCountForAskRateMe){
             askUserToRateApp();
@@ -137,6 +138,8 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                                             overridePendingTransition(android.R.anim.fade_in,
                                                     android.R.anim.fade_out);
                                             startActivity(new Intent(Intent.ACTION_VIEW, uri));
+                                            runCount = maxCountForAskRateMe + 1;
+                                            fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
                                         } catch (ActivityNotFoundException e) {
                                             Toast.makeText(StartActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
                                             Log.d("App", e.getMessage());

@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements
     protected static final String GLOBAL_MAX_SPEED = "maxSpeed";
     protected static final String GLOBAL_DURATION = "duration";
     protected static final String IS_STARTED = "isStarted";
+    protected static final String IS_PAUSED = "isPausedActivityEnable";
+    protected static final String PAUSED_SESSION = "pausedSession";
+
     protected static final String LOCATION_KEY = "location-key";
     protected static final String speedMetricUnit = " km/h";
     protected static final String TAG = "location";
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements
     private double currentDistance, sessionDistance, currentSpeed, averageSpeed, currentMaxSpeed;
     private long currentTimeDiff, sessionTimeDiff;
     private Boolean startButtonEnabled = false;
+    private boolean isPausedActivityEnable = false;
 
     private String userName, facebookId;
 
@@ -138,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements
     private Button startStopBtn;
     private ProfilePictureView facebookProfilePicture;
     private Spinner chooseTypeSport;
+    private Session pausedSession;
 
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
@@ -331,6 +336,34 @@ public class MainActivity extends AppCompatActivity implements
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
+    private void pauseLogic(){
+        Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
+        isPausedActivityEnable = true;
+        fab.setBackgroundResource(R.drawable.resume_btn);
+        pausedSession = new Session(
+                sessionDistance,
+                sessionTimeDiff,
+                currentMaxSpeed,
+                averageSpeed,
+                new Calculations().calculateTimePerKilometer(sessionDistance, sessionTimeDiff),
+                "",
+                ParseUser.getCurrentUser(),
+                userName,
+                sportType.toString());
+    }
+
+    private void resumeLogic(){
+        Toast.makeText(MainActivity.this, "Activity resumed", Toast.LENGTH_SHORT).show();
+        isPausedActivityEnable = false;
+        fab.setBackgroundResource(R.drawable.pause_btn);
+        sessionDistance = pausedSession.getDistance();
+        sessionTimeDiff = pausedSession.getDuration();
+        currentMaxSpeed = pausedSession.getMaxSpeed();
+        averageSpeed = pausedSession.getAverageSpeed();
+        sessionStartTimeMillis = new Date().getTime();
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+    }
+
     private void stopLogic() {
         startStopBtn.setBackgroundResource(R.drawable.start_btn);
         startButtonEnabled = false;
@@ -360,23 +393,12 @@ public class MainActivity extends AppCompatActivity implements
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
 
-            // draw all trace
-//            mMap.addPolyline(currentSegment);
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
         }
 
         stopLocationUpdates();
 
         Intent saveSessionIntent = new Intent(MainActivity.this, SaveSessionActivity.class);
-//        Sessions saveNewSession = new Sessions();
-//        saveNewSession.setDistance(sessionDistance);
-//        saveNewSession.setDuration(sessionTimeDiff);
-//        saveNewSession.setMaxSpeed(currentMaxSpeed);
-//        saveNewSession.setAverageSpeed(averageSpeed);
-//        saveNewSession.setTimePerKilometer(new Calculations().calculateTimePerKilometer(sessionDistance, sessionTimeDiff));
-//        saveNewSession.setParseUser(ParseUser.getCurrentUser());
-//        saveNewSession.setName(userName);
-//        saveNewSession.setSportType(sportType.toString());
 
         Session saveSession = new Session(
                 sessionDistance,
@@ -1053,6 +1075,9 @@ public class MainActivity extends AppCompatActivity implements
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
+            if(savedInstanceState.keySet().contains(PAUSED_SESSION)){
+                pausedSession = savedInstanceState.getParcelable(PAUSED_SESSION);
+            }
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
                 currentUpdateTimeMillis = savedInstanceState.getLong(
                         LAST_UPDATED_TIME_STRING_KEY);
@@ -1086,6 +1111,14 @@ public class MainActivity extends AppCompatActivity implements
                     updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
                 }
             }
+
+            if (savedInstanceState.keySet().contains(IS_PAUSED)) {
+                startButtonEnabled = savedInstanceState.getBoolean(IS_PAUSED);
+                if (isPausedActivityEnable) {
+                    fab.setBackgroundResource(R.drawable.resume_btn);
+                    updateInfoPanel(pausedSession.getDistance(), pausedSession.getAverageSpeed(), pausedSession.getMaxSpeed(), pausedSession.getDuration(), speedMetricUnit);
+                }
+            }
         }
     }
 
@@ -1093,6 +1126,7 @@ public class MainActivity extends AppCompatActivity implements
         // todo save mGoogleApiClient and mLocationRequest
         savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
         savedInstanceState.putBoolean(IS_STARTED, startButtonEnabled);
+        savedInstanceState.putBoolean(IS_PAUSED, isPausedActivityEnable);
         savedInstanceState.putDouble(GLOBAL_DISTANCE, sessionDistance);
         savedInstanceState.putDouble(GLOBAL_AVERAGE_SPEED, averageSpeed);
         savedInstanceState.putDouble(GLOBAL_MAX_SPEED, currentMaxSpeed);
@@ -1100,6 +1134,7 @@ public class MainActivity extends AppCompatActivity implements
         savedInstanceState.putLong(SESSION_START_TIME, sessionStartTimeMillis);
         savedInstanceState.putLong(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMillis);
         savedInstanceState.putParcelable(CURRENT_SEGMENT, currentSegment);
+        savedInstanceState.putParcelable(PAUSED_SESSION, pausedSession);
 
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -1134,7 +1169,7 @@ public class MainActivity extends AppCompatActivity implements
         Log.d(TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
-        if (startButtonEnabled && location != null) {
+        if (startButtonEnabled && !isPausedActivityEnable && location != null) {
             updateUI(currentLocation);
         }
     }
@@ -1250,7 +1285,11 @@ public class MainActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab:
-                Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
+                if(!isPausedActivityEnable){
+                    pauseLogic();
+                } else {
+                    resumeLogic();
+                }
                 break;
             case R.id.start_stop_btn:
                 if (!startButtonEnabled) {

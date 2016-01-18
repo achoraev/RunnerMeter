@@ -270,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements
 //                        LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //            }
 //        }
-
+        fab.setVisibility(View.VISIBLE);
         openDialogToLoginIfLoggedAsGuest();
         setVariablesToNull();
         currentSegment = new PolylineOptions()
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
-    private void pauseLogic(){
+    private void pauseLogic() {
         Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = true;
         fab.setBackgroundResource(R.drawable.resume_btn);
@@ -352,7 +352,7 @@ public class MainActivity extends AppCompatActivity implements
                 sportType.toString());
     }
 
-    private void resumeLogic(){
+    private void resumeLogic() {
         Toast.makeText(MainActivity.this, "Activity resumed", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = false;
         fab.setBackgroundResource(R.drawable.pause_btn);
@@ -431,8 +431,9 @@ public class MainActivity extends AppCompatActivity implements
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        installation.put("user",ParseUser.getCurrentUser());
+        installation.put("user", ParseUser.getCurrentUser());
         installation.saveEventually();
+        fab.setVisibility(View.GONE);
     }
 
     private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
@@ -1075,7 +1076,7 @@ public class MainActivity extends AppCompatActivity implements
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         Log.d(TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
-            if(savedInstanceState.keySet().contains(PAUSED_SESSION)){
+            if (savedInstanceState.keySet().contains(PAUSED_SESSION)) {
                 pausedSession = savedInstanceState.getParcelable(PAUSED_SESSION);
             }
             if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
@@ -1203,7 +1204,7 @@ public class MainActivity extends AppCompatActivity implements
             if (mMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
-                    if(currentMaxSpeed > 50.00){
+                    if (currentMaxSpeed > 50.00) {
                         currentSegment.color(POLYLINE_COLOR_RED);
                     } else {
                         currentSegment.color(POLYLINE_COLOR);
@@ -1283,9 +1284,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.fab:
-                if(!isPausedActivityEnable){
+                if (!isPausedActivityEnable) {
                     pauseLogic();
                 } else {
                     resumeLogic();

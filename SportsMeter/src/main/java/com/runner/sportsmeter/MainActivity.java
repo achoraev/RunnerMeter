@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements
     public static final int MAP_ZOOM = 15;
     public static final float POLYLINE_WIDTH = 20;
     public static final int POLYLINE_COLOR = Color.parseColor("#1DCCC6");
+    public static final int POLYLINE_COLOR_RED = Color.RED;
+    public static final int POLYLINE_COLOR_GREEN = Color.GREEN;
 
     protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
     protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
@@ -496,7 +498,6 @@ public class MainActivity extends AppCompatActivity implements
         sessionDistance = 0;
         sessionTimeDiff = 0;
         sessionStartTimeMillis = 0;
-        Calculations.setMaxSpeed(0);
         averageSpeed = 0;
         currentMaxSpeed = 0;
         currentTimeDiff = 0;
@@ -1156,21 +1157,23 @@ public class MainActivity extends AppCompatActivity implements
 
             currentDistance = new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
             sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
-//            currentTimeDiff = Calculations.calculateTime(currentUpdateTime, lastUpdateTime);
-//            sessionTimeDiff = Calculations.calculateTime(lastUpdateTime, sessionStartTime);
             currentTimeDiff = currentUpdateTimeMillis - lastUpdateTimeMillis;
             sessionTimeDiff = lastUpdateTimeMillis - sessionStartTimeMillis;
-//            Toast.makeText(this, "milis " + String.valueOf(currentTimeDiff), Toast.LENGTH_SHORT).show();
-
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
-            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, sportType);
+            currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, currentMaxSpeed, sportType);
 
             updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
 
             if (mMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
+                    if(currentMaxSpeed > 50.00){
+                        currentSegment.color(POLYLINE_COLOR_RED);
+                    } else {
+                        currentSegment.color(POLYLINE_COLOR);
+                    }
+
                     listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
                     mMap.addPolyline(currentSegment);
                 }

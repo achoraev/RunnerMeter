@@ -47,10 +47,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseAnalytics;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseUser;
+import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
@@ -408,6 +405,10 @@ public class MainActivity extends AppCompatActivity implements
         // set all to null
         setVariablesToNull();
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("user",ParseUser.getCurrentUser());
+        installation.saveEventually();
     }
 
     private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {

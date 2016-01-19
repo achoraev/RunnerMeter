@@ -4,32 +4,73 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.models.Sessions;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by angelr on 15-Dec-15.
  */
 public class HistoryLiteMapListActivity extends AppCompatActivity {
     private ListFragment mList;
-
     private MapAdapter mAdapter;
+    private ProgressBar bar;
+    private ArrayList<Object> arrayOfSessions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.lite_list_layout);
 
+        ParseQuery(15, ParseUser.getCurrentUser());
+
+        bar = (ProgressBar) this.findViewById(R.id.progressBar);
+    }
+
+    private void ParseQuery(int limit, final ParseUser user) {
+        bar.setVisibility(View.VISIBLE);
+        ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
+        query.whereEqualTo(getString(R.string.session_username), user);
+        query.orderByAscending(getString(R.string.session_time_per_kilometer));
+        query.setLimit(limit);
+        query.findInBackground(new FindCallback<Sessions>() {
+            public void done(List<Sessions> sessions, ParseException e) {
+                if (e == null) {
+                    if(user != null) {
+                        AssignSessions(sessions);
+                    } else {
+
+                    }
+                } else {
+                    Log.e("session", "Error: " + e.getMessage());
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void AssignSessions(List<Sessions> sessions) {
+        Log.d("session", "Retrieved " + sessions.size() + " sessions");
+        arrayOfSessions = new ArrayList<>();
+        arrayOfSessions.addAll(sessions);
+        bar.setVisibility(View.GONE);
         // Set a custom list adapter for a list of locations
         mAdapter = new MapAdapter(this, LIST_LOCATIONS);
         mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);

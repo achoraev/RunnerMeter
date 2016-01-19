@@ -361,6 +361,7 @@ public class MainActivity extends AppCompatActivity implements
         currentMaxSpeed = pausedSession.getMaxSpeed();
         averageSpeed = pausedSession.getAverageSpeed();
         sessionStartTimeMillis = new Date().getTime();
+        currentUpdateTimeMillis = sessionStartTimeMillis;
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 
@@ -1178,9 +1179,7 @@ public class MainActivity extends AppCompatActivity implements
     private void updateUI(Location currLoc) {
         if (currLoc != null) {
             Log.d(TAG, "Update UI");
-//            lastUpdateTime = currentUpdateTime;
             lastUpdateTimeMillis = currentUpdateTimeMillis;
-//            currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
             currentUpdateTimeMillis = new Date().getTime();
             if (currentCoordinates != null) {
                 lastUpdatedCoord = currentCoordinates;
@@ -1192,9 +1191,9 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             currentDistance = new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
-            sessionDistance += new Calculations().calculateDistance(lastUpdatedCoord, currentCoordinates);
+            sessionDistance += currentDistance;
             currentTimeDiff = currentUpdateTimeMillis - lastUpdateTimeMillis;
-            sessionTimeDiff = lastUpdateTimeMillis - sessionStartTimeMillis;
+            sessionTimeDiff += currentTimeDiff;
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, currentMaxSpeed, sportType);
@@ -1204,7 +1203,7 @@ public class MainActivity extends AppCompatActivity implements
             if (mMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
-                    if (currentMaxSpeed > 50.00) {
+                    if (currentMaxSpeed > 20.00) {
                         currentSegment.color(POLYLINE_COLOR_RED);
                     } else {
                         currentSegment.color(POLYLINE_COLOR);

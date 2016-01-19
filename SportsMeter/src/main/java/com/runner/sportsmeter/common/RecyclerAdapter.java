@@ -64,7 +64,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " km/h" );
         holder.averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " km/h");
         holder.timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
-        holder.createdAt.setText(String.valueOf(dataList.get(position).getCreatedAt()));
+        holder.createdAt.setText(Utility.formatDate(dataList.get(position).getCreatedAt()));
         holder.user.setText(String.valueOf(dataList.get(position).getName()));
     }
 

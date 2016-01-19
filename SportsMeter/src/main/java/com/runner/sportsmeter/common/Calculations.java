@@ -73,8 +73,8 @@ public class Calculations {
     }
 
     public static double calculateMaxSpeed(double currentSpeed, double currentMaxSpeed, SportTypes runner) {
-        double maxSpeed = 0.00;
-        if (currentSpeed > currentMaxSpeed) {
+        double maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentMaxSpeed);
+        if (currentSpeed > maxSpeed) {
             if (runner == SportTypes.RUNNER && currentSpeed <= MAX_SPEED_RUNNER) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             } else if (runner == SportTypes.BIKER && currentSpeed <= MAX_SPEED_BIKER) {

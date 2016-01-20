@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 123456;
+    private static final double MAX_SPEED_LIMIT = 50.00;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
     private ActionBarDrawerToggle drawerToggle;
@@ -1203,7 +1204,7 @@ public class MainActivity extends AppCompatActivity implements
             if (mMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
-                    if (currentMaxSpeed > 20.00) {
+                    if (currentSpeed > MAX_SPEED_LIMIT) {
                         currentSegment.color(POLYLINE_COLOR_RED);
                     } else {
                         currentSegment.color(POLYLINE_COLOR);

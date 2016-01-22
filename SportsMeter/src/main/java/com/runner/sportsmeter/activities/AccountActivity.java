@@ -19,11 +19,13 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.UserMetrics;
 import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,24 +45,15 @@ public class AccountActivity extends Activity {
     String facebookId, twitterImageUrl, twitterImagePath;
     ImageView twitterImageViewPicture;
     Bitmap twitterBitmap;
+    private String userEmail = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_account_layout);
 
-        // init views
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        initializeViews();
 
-        profilePic = (ProfilePictureView) findViewById(R.id.profile_picture);
-        name = (TextView) findViewById(R.id.edit_name);
-        userName = (TextView) findViewById(R.id.edit_username);
-        eMail = (TextView) findViewById(R.id.edit_mail);
-        isVerified = (TextView) findViewById(R.id.edit_is_verified);
-        createdAt = (TextView) findViewById(R.id.edit_date);
-        twitterImageViewPicture = (ImageView) findViewById(R.id.twitter_image_view);
-
-        closeBtn = (Button) findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +83,7 @@ public class AccountActivity extends Activity {
                 facebookGraphMeRequestForUserInfo();
             } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
                 eMail.setText(getString(R.string.twitter_email_not_present));
+                userEmail = getString(R.string.twitter_email_not_present);
     //            new HttpGetTask().execute();
     //            try {
     //                twitterImagePath = getTwitterProfileImage();
@@ -100,16 +94,29 @@ public class AccountActivity extends Activity {
     //            }
             } else {
                 eMail.setText(current.getEmail());
+                userEmail = current.getEmail();
             }
             isVerified.setText(current.getIsVerified().toString());
-            createdAt.setText(current.getCreatedAt());
+            createdAt.setText(Utility.formatDate(current.getMemberSince()));
+            createAndSaveAccount(userEmail, current);
         } else {
             turnOnWiFiOrDataInternet();
         }
-
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewAccount);
         new Utility().setupAdds(mAdView, this);
+    }
+
+    private void initializeViews() {
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        profilePic = (ProfilePictureView) findViewById(R.id.profile_picture);
+        name = (TextView) findViewById(R.id.edit_name);
+        userName = (TextView) findViewById(R.id.edit_username);
+        eMail = (TextView) findViewById(R.id.edit_mail);
+        isVerified = (TextView) findViewById(R.id.edit_is_verified);
+        createdAt = (TextView) findViewById(R.id.edit_date);
+        twitterImageViewPicture = (ImageView) findViewById(R.id.twitter_image_view);
+        closeBtn = (Button) findViewById(R.id.close_btn);
     }
 
     private void turnOnWiFiOrDataInternet() {
@@ -198,8 +205,8 @@ public class AccountActivity extends Activity {
 //                            firstName = object.getString("first_name");
 //                            lastName = object.getString("last_name");
                         try {
-                            String mail = object.getString("email");
-                            eMail.setText(mail);
+                            userEmail = object.getString("email");
+                            eMail.setText(userEmail);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -211,12 +218,27 @@ public class AccountActivity extends Activity {
         request.executeAsync();
     }
 
+    private void createAndSaveAccount(String mail, Account currentUser) {
+        ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+        Account usersAccount = currentUser;
+        usersAccount.setEmail(mail);
+        usersAccount.setACL(acl);
+        usersAccount.saveEventually();
+    }
+
     private Account convertFromUserToAccount(ParseUser currentUser) {
-        return new Account(currentUser.getUsername(),
-                currentUser.get("name").toString(),
-                currentUser.getEmail(),
-                (Boolean) currentUser.get("emailVerified"),
-                Utility.formatDate(currentUser.getCreatedAt()));
+        Account usersAccount = new Account();
+        usersAccount.setCurrentUser(currentUser);
+        usersAccount.setIsVerified((Boolean) currentUser.get("emailVerified"));
+        usersAccount.setMemberSince(currentUser.getCreatedAt());
+        usersAccount.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : getString(R.string.anonymous));
+        usersAccount.setUserHeight(0.00);
+        usersAccount.setUsersMetricsUnits(UserMetrics.METRIC);
+        usersAccount.setUserWeight(0.00);
+        usersAccount.setEmail(currentUser.getEmail());
+        return usersAccount;
     }
 
 //    private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {

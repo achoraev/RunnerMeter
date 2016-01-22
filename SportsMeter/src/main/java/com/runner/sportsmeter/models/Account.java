@@ -1,65 +1,96 @@
 package com.runner.sportsmeter.models;
 
+import com.parse.ParseClassName;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.runner.sportsmeter.enums.UserMetrics;
+
+import java.util.Date;
+
 /**
  * Created by angelr on 02-Sep-15.
  */
-public class Account {
+@ParseClassName("Account")
+public class Account extends ParseObject {
 
-    private String userName;
-    private String name;
-    private String Email;
-    private Boolean isVerified;
-    private String createdAt;
+//    private String userName;
+//    private String name;
+//    private String Email;
+//    private ParseUser currentUser;
+//    private Boolean isVerified;
+//    private Double userWeight;
+//    private Double userHeight;
+//    private Date memberSince;
+//    private UserMetrics usersMetricsUnits;
 
-    public Account (){
+    public Account (){}
 
+    public ParseUser getCurrentUser() {
+        return getParseUser("user");
     }
 
-    public Account (String user, String nam, String mail, Boolean verified, String created){
-        this.userName = user;
-        this.name = nam;
-        this.Email = mail;
-        this.isVerified = setIsVerified(verified);
-        this.createdAt = created;
+    public void setCurrentUser(ParseUser currentUser) {
+        put("user", currentUser);
     }
 
-    public String getUserName() {
-        return userName;
+    public Double getUserWeight() {
+        return getDouble("userWeight");
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserWeight(Double userWeight) {
+        put("userWeight", userWeight);
+    }
+
+    public Double getUserHeight() {
+        return getDouble("userHeight");
+    }
+
+    public void setUserHeight(Double userHeight) {
+        put("userHeight", userHeight);
+    }
+
+    public Date getMemberSince() {
+        return getDate("memberSince");
+    }
+
+    public void setMemberSince(Date memberSince) {
+        put("memberSince", memberSince);
+    }
+
+    public UserMetrics getUsersMetricsUnits() {
+        return UserMetrics.valueOf(getString("userMetrics"));
+    }
+
+    public void setUsersMetricsUnits(UserMetrics usersMetricsUnits) {
+        put("userMetrics", usersMetricsUnits.toString());
     }
 
     public String getName() {
-        return name;
+        return getString("name");
     }
 
     public void setName(String name) {
-        this.name = name;
+        put("name", name);
     }
 
     public String getEmail() {
-        return Email;
+        return getString("email");
     }
 
     public void setEmail(String eMail) {
-        this.Email = eMail;
+        put("email", eMail);
     }
 
     public Boolean getIsVerified() {
-        return isVerified;
+        return getBoolean("emailVerified");
     }
 
-    public Boolean setIsVerified(Boolean isVerified) {
-        return isVerified != null ? isVerified: false;
+    public void setIsVerified(Boolean isVerified) {
+        put("emailVerified", isVerified);
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public static ParseQuery<Account> getQuery() {
+        return ParseQuery.getQuery(Account.class);
     }
 }

@@ -97,12 +97,7 @@ public class ParseCommon {
         coordinates.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
         coordinates.add(new ParseGeoPoint(endPointCoord.latitude, endPointCoord.longitude));
 
-        ParseACL acl = new ParseACL();
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(false);
-
         Coordinates saveCoords = new Coordinates();
-        saveCoords.setAcl(acl);
         saveCoords.setCurrentUser(ParseUser.getCurrentUser());
         saveCoords.setStartAndEndCoordinates(coordinates);
         saveCoords.saveEventually();

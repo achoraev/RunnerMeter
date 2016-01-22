@@ -8,6 +8,7 @@ import com.parse.ParseACL;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.models.Account;
 import com.runner.sportsmeter.models.Coordinates;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
@@ -21,6 +22,7 @@ public class ParseApplication extends MultiDexApplication {
         super.onCreate();
 //        ParseCrashReporting.enable(this);
         Parse.enableLocalDatastore(this);
+        ParseObject.registerSubclass(Account.class);
         ParseObject.registerSubclass(Sessions.class);
         ParseObject.registerSubclass(Coordinates.class);
         ParseObject.registerSubclass(Segments.class);

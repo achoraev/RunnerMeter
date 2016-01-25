@@ -34,6 +34,14 @@ public class Account extends ParseObject {
         put("user", currentUser);
     }
 
+    public String getFacebookId() {
+        return getString("facebookId");
+    }
+
+    public void setFacebookId(String id) {
+        put("facebookId", id);
+    }
+
     public Double getUserWeight() {
         return getDouble("userWeight");
     }

@@ -146,6 +146,13 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                                         }
                                     }
                                 })
+                                .setNeutralButton(R.string.remind_later, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        runCount = 1;
+                                        fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
+                                    }
+                                })
                                 .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

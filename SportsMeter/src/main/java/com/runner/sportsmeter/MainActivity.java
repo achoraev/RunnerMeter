@@ -1015,6 +1015,9 @@ public class MainActivity extends AppCompatActivity implements
                     mInterstitialAd.show();
                 }
 
+                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                installation.put("user", ParseUser.getCurrentUser());
+                installation.saveEventually();
                 break;
         }
 

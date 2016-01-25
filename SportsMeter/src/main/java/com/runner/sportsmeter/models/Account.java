@@ -91,11 +91,11 @@ public class Account extends ParseObject {
     }
 
     public Boolean getIsVerified() {
-        return getBoolean("emailVerified");
+        return getBoolean("isVerified");
     }
 
     public void setIsVerified(Boolean isVerified) {
-        put("emailVerified", isVerified);
+        put("isVerified", isVerified);
     }
 
     public static ParseQuery<Account> getQuery() {

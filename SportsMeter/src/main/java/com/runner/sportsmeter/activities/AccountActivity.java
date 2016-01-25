@@ -82,7 +82,7 @@ public class AccountActivity extends Activity {
             name.setText(current.getName());
             userName.setText(current.getName());
             if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                facebookGraphMeRequestForUserInfo();
+                facebookGraphMeRequestForUserInfo(current);
             } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
                 eMail.setText(getString(R.string.twitter_email_not_present));
                 userEmail = getString(R.string.twitter_email_not_present);
@@ -194,7 +194,7 @@ public class AccountActivity extends Activity {
 //        return null;
 //    }
 
-    private void facebookGraphMeRequestForUserInfo() {
+    private void facebookGraphMeRequestForUserInfo(final Account current) {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
                 new GraphRequest.GraphJSONObjectCallback() {
@@ -209,6 +209,7 @@ public class AccountActivity extends Activity {
                         try {
                             userEmail = object.getString("email");
                             eMail.setText(userEmail);
+                            createAndSaveAccount(userEmail, current);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -224,22 +225,21 @@ public class AccountActivity extends Activity {
         ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(true);
-        Account usersAccount = currentUser;
-        usersAccount.setEmail(mail);
-        usersAccount.setACL(acl);
-        usersAccount.saveEventually();
+        currentUser.setEmail(mail);
+        currentUser.setACL(acl);
+        currentUser.saveEventually();
     }
 
     private Account convertFromUserToAccount(ParseUser currentUser) {
         Account usersAccount = new Account();
         usersAccount.setCurrentUser(currentUser);
-        usersAccount.setIsVerified((Boolean) currentUser.get("emailVerified"));
+        usersAccount.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
         usersAccount.setMemberSince(currentUser.getCreatedAt());
         usersAccount.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : getString(R.string.anonymous));
         usersAccount.setUserHeight(0.00);
         usersAccount.setUsersMetricsUnits(UserMetrics.METRIC);
         usersAccount.setUserWeight(0.00);
-        usersAccount.setEmail(currentUser.getEmail());
+        usersAccount.setEmail(currentUser.getEmail() != null ? currentUser.getEmail() : "");
         return usersAccount;
     }
 

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.*;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Location;
@@ -340,7 +341,8 @@ public class MainActivity extends AppCompatActivity implements
     private void pauseLogic() {
         Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = true;
-        fab.setBackgroundResource(R.drawable.resume_btn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.resume_btn));
         pausedSession = new Session(
                 sessionDistance,
                 sessionTimeDiff,
@@ -356,7 +358,8 @@ public class MainActivity extends AppCompatActivity implements
     private void resumeLogic() {
         Toast.makeText(MainActivity.this, "Activity resumed", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = false;
-        fab.setBackgroundResource(R.drawable.pause_btn);
+        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.pause_btn));
         sessionDistance = pausedSession.getDistance();
         sessionTimeDiff = pausedSession.getDuration();
         currentMaxSpeed = pausedSession.getMaxSpeed();

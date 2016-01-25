@@ -7,10 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,9 +36,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lite_list_layout);
 
+        bar = (ProgressBar) this.findViewById(R.id.lite_list_progress_bar);
         ParseQuery(15, ParseUser.getCurrentUser());
-
-        bar = (ProgressBar) this.findViewById(R.id.progressBar);
     }
 
     private void ParseQuery(int limit, final ParseUser user) {
@@ -53,6 +49,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         query.findInBackground(new FindCallback<Sessions>() {
             public void done(List<Sessions> sessions, ParseException e) {
                 if (e == null) {
+                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
                     if(user != null) {
                         AssignSessions(sessions);
                     } else {

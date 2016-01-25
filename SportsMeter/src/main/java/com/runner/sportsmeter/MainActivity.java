@@ -1057,6 +1057,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             finish();
+            stopLocationUpdates();
             super.onBackPressed();
         } else {
             Toast.makeText(this, getString(R.string.press_back_again),

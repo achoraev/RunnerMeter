@@ -42,7 +42,7 @@ public class AccountActivity extends Activity {
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
-    String facebookId, twitterImageUrl, twitterImagePath;
+    String facebookId = "", twitterImageUrl, twitterImagePath;
     ImageView twitterImageViewPicture;
     Bitmap twitterBitmap;
     private String userEmail = "";
@@ -75,8 +75,10 @@ public class AccountActivity extends Activity {
             } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
                 profilePic.setVisibility(View.INVISIBLE);
                 twitterImageViewPicture.setVisibility(View.VISIBLE);
+                facebookId = "";
             }
 
+            current.setFacebookId(facebookId);
             name.setText(current.getName());
             userName.setText(current.getName());
             if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {

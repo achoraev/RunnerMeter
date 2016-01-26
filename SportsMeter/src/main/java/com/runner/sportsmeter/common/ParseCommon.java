@@ -111,7 +111,7 @@ public class ParseCommon {
         currentUser.setUserWeight(width);
         currentUser.setUsersMetricsUnits(metric);
         currentUser.setGender(gender);
-        currentUser.setEmail(currentUser.getEmail() != null ? currentUser.getEmail() : mail);
+        currentUser.setEmail(currentUser.getEmail().equals("") ? mail : currentUser.getEmail());
         currentUser.setFacebookId(facebookId);
         return currentUser;
     }
@@ -125,6 +125,7 @@ public class ParseCommon {
         usersAccount.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
         usersAccount.setMemberSince(currentUser.getCreatedAt());
         usersAccount.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : context.getString(R.string.anonymous));
+        usersAccount.setEmail(currentUser.getEmail() != null ? currentUser.getEmail() : "");
         usersAccount.setACL(acl);
         return usersAccount;
     }

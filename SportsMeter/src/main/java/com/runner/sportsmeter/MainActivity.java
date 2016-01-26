@@ -29,6 +29,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdListener;
@@ -54,13 +56,19 @@ import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
+import com.runner.sportsmeter.enums.UserMetrics;
+import com.runner.sportsmeter.models.Account;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -137,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements
     private long currentTimeDiff, sessionTimeDiff;
     private Boolean startButtonEnabled = false;
     private boolean isPausedActivityEnable = false;
+    private Double userHeight = 0.00, userWidth = 0.00;
 
     private String userName, facebookId;
 
@@ -1015,15 +1024,65 @@ public class MainActivity extends AppCompatActivity implements
                     mInterstitialAd.show();
                 }
 
+                // connect installation with user
                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                 installation.put("user", ParseUser.getCurrentUser());
                 installation.saveEventually();
+
+                // create account object from current user
+                Account current = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this);
+                String mail = current.getEmail() != null ? current.getEmail() : "";
+                String faceId = "";
+                if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                    faceId = AccessToken.getCurrentAccessToken().getUserId();
+                    // get facebook mail
+                    getFacebookMail(current, faceId);
+                } else {
+                    current = ParseCommon.createAndSaveAccount(mail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth);
+                    checkIfAccountExistAndSave(current);
+                }
                 break;
         }
 
         setCurrentUserUsername();
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void getFacebookMail(final Account current, final String faceId) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse graphResponse) {
+                        try {
+                            String userEmail = object.getString("email");
+                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth);
+                            checkIfAccountExistAndSave(finalAccount);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "age_range,gender,name,id,link,email,picture.type(large),first_name,last_name");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    private void checkIfAccountExistAndSave(final Account finalAccount) {
+        ParseQuery<Account> query = Account.getQuery();
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<Account>() {
+            @Override
+            public void done(List<Account> objects, ParseException e) {
+                if(e == null){
+                    if(objects.size() == 0){
+                        finalAccount.saveEventually();
+                    }
+                }
+            }
+        });
     }
 
     @Override

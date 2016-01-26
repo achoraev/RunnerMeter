@@ -19,13 +19,12 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdView;
-import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseTwitterUtils;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
-import com.runner.sportsmeter.enums.UserMetrics;
 import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +63,7 @@ public class AccountActivity extends Activity {
         // todo save account hashmap to local datastore
         if (Utility.isNetworkConnected(AccountActivity.this) && ParseUser.getCurrentUser() != null) {
             if (!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
-                accounts.put(ParseUser.getCurrentUser().getUsername(), convertFromUserToAccount(ParseUser.getCurrentUser()));
+                accounts.put(ParseUser.getCurrentUser().getUsername(), ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), AccountActivity.this));
             }
 
             Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
@@ -75,10 +74,8 @@ public class AccountActivity extends Activity {
             } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
                 profilePic.setVisibility(View.INVISIBLE);
                 twitterImageViewPicture.setVisibility(View.VISIBLE);
-                facebookId = "";
             }
 
-            current.setFacebookId(facebookId);
             name.setText(current.getName());
             userName.setText(current.getName());
             if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
@@ -86,21 +83,21 @@ public class AccountActivity extends Activity {
             } else if (ParseTwitterUtils.isLinked(ParseUser.getCurrentUser())) {
                 eMail.setText(getString(R.string.twitter_email_not_present));
                 userEmail = getString(R.string.twitter_email_not_present);
-    //            new HttpGetTask().execute();
-    //            try {
-    //                twitterImagePath = getTwitterProfileImage();
-    //            } catch (IOException e) {
-    //                e.printStackTrace();
-    //            } catch (JSONException e) {
-    //                e.printStackTrace();
-    //            }
+                //            new HttpGetTask().execute();
+                //            try {
+                //                twitterImagePath = getTwitterProfileImage();
+                //            } catch (IOException e) {
+                //                e.printStackTrace();
+                //            } catch (JSONException e) {
+                //                e.printStackTrace();
+                //            }
             } else {
                 eMail.setText(current.getEmail());
                 userEmail = current.getEmail();
             }
             isVerified.setText(current.getIsVerified().toString());
             createdAt.setText(Utility.formatDate(current.getMemberSince()));
-            createAndSaveAccount(userEmail, current);
+//            createAndSaveAccount(userEmail, facebookId, current);
         } else {
             turnOnWiFiOrDataInternet();
         }
@@ -209,7 +206,7 @@ public class AccountActivity extends Activity {
                         try {
                             userEmail = object.getString("email");
                             eMail.setText(userEmail);
-                            createAndSaveAccount(userEmail, current);
+//                            createAndSaveAccount(userEmail, facebookId, current);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -219,28 +216,6 @@ public class AccountActivity extends Activity {
         parameters.putString("fields", "age_range,gender,name,id,link,email,picture.type(large),first_name,last_name");
         request.setParameters(parameters);
         request.executeAsync();
-    }
-
-    private void createAndSaveAccount(String mail, Account currentUser) {
-        ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
-        acl.setPublicReadAccess(true);
-        acl.setPublicWriteAccess(true);
-        currentUser.setEmail(mail);
-        currentUser.setACL(acl);
-        currentUser.saveEventually();
-    }
-
-    private Account convertFromUserToAccount(ParseUser currentUser) {
-        Account usersAccount = new Account();
-        usersAccount.setCurrentUser(currentUser);
-        usersAccount.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
-        usersAccount.setMemberSince(currentUser.getCreatedAt());
-        usersAccount.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : getString(R.string.anonymous));
-        usersAccount.setUserHeight(0.00);
-        usersAccount.setUsersMetricsUnits(UserMetrics.METRIC);
-        usersAccount.setUserWeight(0.00);
-        usersAccount.setEmail(currentUser.getEmail() != null ? currentUser.getEmail() : "");
-        return usersAccount;
     }
 
 //    private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {

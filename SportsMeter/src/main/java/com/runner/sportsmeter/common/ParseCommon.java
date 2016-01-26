@@ -6,6 +6,9 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.*;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.enums.Gender;
+import com.runner.sportsmeter.enums.UserMetrics;
+import com.runner.sportsmeter.models.Account;
 import com.runner.sportsmeter.models.Coordinates;
 
 import java.util.ArrayList;
@@ -101,5 +104,28 @@ public class ParseCommon {
         saveCoords.setCurrentUser(ParseUser.getCurrentUser());
         saveCoords.setStartAndEndCoordinates(coordinates);
         saveCoords.saveEventually();
+    }
+
+    public static Account createAndSaveAccount(String mail, String facebookId, Account currentUser, UserMetrics metric, Gender gender, Double height, Double width) {
+        currentUser.setUserHeight(height);
+        currentUser.setUserWeight(width);
+        currentUser.setUsersMetricsUnits(metric);
+        currentUser.setGender(gender);
+        currentUser.setEmail(currentUser.getEmail() != null ? currentUser.getEmail() : mail);
+        currentUser.setFacebookId(facebookId);
+        return currentUser;
+    }
+
+    public static Account convertFromUserToAccount(ParseUser currentUser, Context context) {
+        ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
+        Account usersAccount = new Account();
+        usersAccount.setCurrentUser(currentUser);
+        usersAccount.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
+        usersAccount.setMemberSince(currentUser.getCreatedAt());
+        usersAccount.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : context.getString(R.string.anonymous));
+        usersAccount.setACL(acl);
+        return usersAccount;
     }
 }

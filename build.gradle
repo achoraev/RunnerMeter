@@ -19,7 +19,7 @@ ext {
     buildToolsVersion = "23.0.2"
 
     minSdkVersion = 14
-    targetSdkVersion = 23
+    targetSdkVersion = 22
 
     facebookSDK = 'com.facebook.android:facebook-android-sdk:4.4.0'
     androidSupport = 'com.android.support:support-v4:23.1.1'

@@ -33,7 +33,7 @@ android {
             versionCode version_Code
             versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
             minSdkVersion 14
-            targetSdkVersion 23
+            targetSdkVersion 22
             multiDexEnabled true
         }
     } else {

@@ -119,5 +119,9 @@
     <string name="do_you_like_sport_meter">Você gosta de esporte medidor?</string>
     <string name="like">Como</string>
     <string name="do_you_want_rate_now">Você quer taxa medidor de esporte agora?</string>
+    <string name="menu_history">História</string>
+    <string name="my_activity_history">Meu histórico de atividades</string>
+    <string name="anonymous">Anônimo</string>
+    <string name="remind_later">Lembre-me mais tarde</string>
 
 </resources>

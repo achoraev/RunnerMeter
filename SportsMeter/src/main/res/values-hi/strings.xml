@@ -118,5 +118,9 @@
     <string name="do_you_like_sport_meter">आप खेल मीटर पसंद है?</string>
     <string name="like">की तरह</string>
     <string name="do_you_want_rate_now">क्या तुम अब खेल मीटर दर करने के लिए चाहते हैं?</string>
+    <string name="menu_history">इतिहास</string>
+    <string name="my_activity_history">मेरी गतिविधि इतिहास</string>
+    <string name="anonymous">अनाम</string>
+    <string name="remind_later">मुझे बाद में याद दिलाएँ</string>
 
 </resources>

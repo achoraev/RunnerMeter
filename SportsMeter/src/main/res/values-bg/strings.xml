@@ -117,5 +117,9 @@
     <string name="do_you_like_sport_meter">Харесвате ли Sport Meter?</string>
     <string name="like">Харесвам</string>
     <string name="do_you_want_rate_now">Искате ли да оцените Sport Meter сега?</string>
+    <string name="menu_history">История</string>
+    <string name="my_activity_history">История на дейността</string>
+    <string name="anonymous">Анонимен</string>
+    <string name="remind_later">Напомни ми по-късно</string>
 
 </resources>

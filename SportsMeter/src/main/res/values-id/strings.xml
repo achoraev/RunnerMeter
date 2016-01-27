@@ -119,5 +119,9 @@
     <string name="do_you_like_sport_meter">Apakah Anda suka olahraga Meter?</string>
     <string name="like">Seperti</string>
     <string name="do_you_want_rate_now">Apakah Anda ingin menilai olahraga Meter sekarang?</string>
+    <string name="menu_history">Sejarah</string>
+    <string name="my_activity_history">Sejarah aktivitas saya</string>
+    <string name="anonymous">Anonim</string>
+    <string name="remind_later">Mengingatkan saya kemudian</string>
 
 </resources>

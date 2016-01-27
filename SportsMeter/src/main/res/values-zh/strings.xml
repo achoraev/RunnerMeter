@@ -117,5 +117,9 @@
     <string name="do_you_like_sport_meter">你喜欢体育米吗?</string>
     <string name="like">像</string>
     <string name="do_you_want_rate_now">你想要现在率体育米吗?</string>
+    <string name="menu_history">历史</string>
+    <string name="my_activity_history">我的活动历史记录</string>
+    <string name="anonymous">匿名</string>
+    <string name="remind_later">以后提醒我</string>
 
 </resources>

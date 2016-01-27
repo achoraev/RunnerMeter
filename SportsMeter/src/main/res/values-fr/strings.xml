@@ -119,5 +119,9 @@
     <string name="do_you_like_sport_meter">Vous aimez compteur de Sport ?</string>
     <string name="like">Comme</string>
     <string name="do_you_want_rate_now">Vous voulez noter compteur de Sport maintenant ?</string>
+    <string name="menu_history">Histoire</string>
+    <string name="my_activity_history">Histoire de mon activité</string>
+    <string name="anonymous">Anonyme</string>
+    <string name="remind_later">Me le rappeler ultérieurement</string>
 
 </resources>

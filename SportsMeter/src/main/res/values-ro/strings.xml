@@ -119,5 +119,9 @@
     <string name="do_you_like_sport_meter">Iti place sportul metru?</string>
     <string name="like">Ca</string>
     <string name="do_you_want_rate_now">Vrei să rata Sport metru acum?</string>
+    <string name="menu_history">Istorie</string>
+    <string name="my_activity_history">Istoricul meu de activitate</string>
+    <string name="anonymous">Anonim</string>
+    <string name="remind_later">Aminteşte-mi mai târziu</string>
 
 </resources>

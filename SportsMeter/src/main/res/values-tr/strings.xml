@@ -118,5 +118,9 @@
     <string name="do_you_like_sport_meter">Spor metre sever misin?</string>
     <string name="like">Gibi</string>
     <string name="do_you_want_rate_now">Spor metre şimdi oranı istiyor musunuz?</string>
+    <string name="menu_history">Geçmiş</string>
+    <string name="my_activity_history">Benim aktivite geçmiş</string>
+    <string name="anonymous">Anonim</string>
+    <string name="remind_later">Daha sonra anımsat</string>
 
 </resources>

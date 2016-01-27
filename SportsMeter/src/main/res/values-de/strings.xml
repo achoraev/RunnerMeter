@@ -119,5 +119,9 @@
     <string name="do_you_like_sport_meter">Magst du Sport Meter?</string>
     <string name="like">Wie</string>
     <string name="do_you_want_rate_now">Wollen Sie Sport Meter jetzt bewerten?</string>
+    <string name="menu_history">Geschichte</string>
+    <string name="my_activity_history">Die Geschichte meiner Tätigkeit</string>
+    <string name="anonymous">Anonym</string>
+    <string name="remind_later">Später erinnern</string>
 
 </resources>

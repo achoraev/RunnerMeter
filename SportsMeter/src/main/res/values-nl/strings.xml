@@ -119,5 +119,9 @@
     <string name="do_you_like_sport_meter">Hou je Sport Meter?</string>
     <string name="like">Als</string>
     <string name="do_you_want_rate_now">Wilt u stem Sport Meter nu?</string>
+    <string name="menu_history">Geschiedenis</string>
+    <string name="my_activity_history">Mijn activiteitsgeschiedenis</string>
+    <string name="anonymous">Anonieme</string>
+    <string name="remind_later">Herinner mij later</string>
 
 </resources>

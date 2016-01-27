@@ -662,11 +662,26 @@ public class MainActivity extends AppCompatActivity implements
                     openParseLoginActivity();
                 }
                 break;
-            case R.id.nav_history_fragment:
-                Intent historyIntent = new Intent(MainActivity.this, HistoryLiteMapListActivity.class);
+//            case R.id.nav_history_fragment:
+//                Intent historyIntent = new Intent(MainActivity.this, HistoryLiteMapListActivity.class);
+//                overridePendingTransition(android.R.anim.fade_in,
+//                        android.R.anim.fade_out);
+//                startActivity(historyIntent);
+//                break;
+            case R.id.nav_account_fragment:
+                Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
-                startActivity(historyIntent);
+                startActivity(accountIntent);
+                break;
+            case R.id.nav_leaderboard_fragment:
+                Intent leaderIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(getString(R.string.type_of_sport), sportType);
+                leaderIntent.putExtras(bundle);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(leaderIntent);
                 break;
             case R.id.nav_feedback_fragment:
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
@@ -686,21 +701,6 @@ public class MainActivity extends AppCompatActivity implements
                     Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast.LENGTH_SHORT).show();
                 }
 
-                break;
-            case R.id.nav_account_fragment:
-                Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
-                overridePendingTransition(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                startActivity(accountIntent);
-                break;
-            case R.id.nav_leaderboard_fragment:
-                Intent leaderIntent = new Intent(MainActivity.this, LeaderBoardActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(getString(R.string.type_of_sport), sportType);
-                leaderIntent.putExtras(bundle);
-                overridePendingTransition(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                startActivity(leaderIntent);
                 break;
             case R.id.like_on_facebook:
                 Intent likeFacebook = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/sportmeter/"));

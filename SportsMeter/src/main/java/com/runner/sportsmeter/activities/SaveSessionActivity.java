@@ -229,7 +229,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-
             if (savedInstanceState.keySet().contains("Session")) {
                 currentSession = savedInstanceState.getParcelable("Session");
             }

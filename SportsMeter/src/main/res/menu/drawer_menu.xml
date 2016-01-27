@@ -8,14 +8,10 @@
                 android:id="@+id/nav_login_fragment"
                 android:icon="@drawable/ic_login"
                 android:title="@string/menu_login" />
-        <item
-                android:id="@+id/nav_history_fragment"
-                android:icon="@drawable/ic_history"
-                android:title="@string/menu_history" />
-        <item
-                android:id="@+id/nav_feedback_fragment"
-                android:icon="@drawable/ic_feedback"
-                android:title="@string/feedback" />
+        <!--<item-->
+                <!--android:id="@+id/nav_history_fragment"-->
+                <!--android:icon="@drawable/ic_history"-->
+                <!--android:title="@string/menu_history" />-->
         <item
                 android:id="@+id/nav_account_fragment"
                 android:icon="@drawable/ic_account"
@@ -24,6 +20,10 @@
                 android:id="@+id/nav_leaderboard_fragment"
                 android:icon="@drawable/ic_leaderboard"
                 android:title="@string/menu_leaderboard" />
+        <item
+                android:id="@+id/nav_feedback_fragment"
+                android:icon="@drawable/ic_feedback"
+                android:title="@string/feedback" />
         <item
                 android:id="@+id/like_on_facebook"
                 android:icon="@drawable/ic_action_like"

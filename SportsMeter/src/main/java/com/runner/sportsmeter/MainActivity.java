@@ -375,6 +375,8 @@ public class MainActivity extends AppCompatActivity implements
         averageSpeed = pausedSession.getAverageSpeed();
         sessionStartTimeMillis = new Date().getTime();
         currentUpdateTimeMillis = sessionStartTimeMillis;
+        startPointCoord = null;
+        currentCoordinates = null;
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
 

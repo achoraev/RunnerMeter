@@ -61,7 +61,6 @@ public class StartActivity extends Activity implements SimpleGestureFilter.Simpl
                 // for Activity#requestPermissions for more details.
                 return;
             }
-
         }
 
         SharedPreferences settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);

@@ -216,7 +216,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                         current.setSegmentId(segment);
                         current.saveEventually();
                         current.pinInBackground();
-                    } else if (current.getTimePerKilometer() != 0 && !isValid) {
+                    } else if (current.getTimePerKilometer() != 0.0 && !isValid) {
                         String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
                         Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
                     }

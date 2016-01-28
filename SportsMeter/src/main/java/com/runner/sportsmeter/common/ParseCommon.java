@@ -46,18 +46,31 @@ public class ParseCommon {
         });
     }
 
-    public static void logInGuestUser(Context cont) {
+    public static void logInGuestUser(final Context cont) {
         if (!ParseCommon.isUserLoggedIn()) {
-            ParseUser.logInInBackground("Guest", "123456");
-            Toast.makeText(cont, R.string.logged_in_as_guest, Toast.LENGTH_SHORT).show();
+            ParseUser.logInInBackground("Guest", "123456", new LogInCallback() {
+                @Override
+                public void done(ParseUser user, ParseException e) {
+                    if(e == null) {
+                        Toast.makeText(cont, R.string.logged_in_as_guest, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
         }
     }
 
-    public void logOutUser(Context cont) {
-        String userName = getCurrentUserUsername() + " ";
+    public void logOutUser(final Context cont) {
+        final String userName = getCurrentUserUsername() + " ";
         if (ParseUser.getCurrentUser() != null) {
-            Toast.makeText(cont, userName + cont.getString(R.string.successfully_logout), Toast.LENGTH_SHORT).show();
-            ParseUser.logOutInBackground();
+            ParseUser.logOutInBackground(new LogOutCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null) {
+                        Toast.makeText(cont, userName + cont.getString(R.string.successfully_logout), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         } else {
             Toast.makeText(cont, userName + cont.getString(R.string.msg_not_logged_in), Toast.LENGTH_SHORT).show();
         }

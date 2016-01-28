@@ -68,9 +68,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_save_session_layout);
         updateFromBundle(getIntent().getExtras());
-        initializeMap();
         ParseCommon.logInGuestUser(this);
         initializeViews();
+        initializeMap();
         currentParseSession = new Utility().convertSessionToParseSessions(currentSession);
         setTextViewsFromSession(currentSession);
 
@@ -229,6 +229,13 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
+            if (savedInstanceState.keySet().contains("currentSegment")) {
+                currentSegment = savedInstanceState.getParcelable("currentSegment");
+                if(currentSegment != null) {
+                    listOfPoints = currentSegment.getPoints();
+                    arrayListOfParseGeoPoints = convertListToArrayListOfParseGeoPoint(listOfPoints);
+                }
+            }
             if (savedInstanceState.keySet().contains("Session")) {
                 currentSession = savedInstanceState.getParcelable("Session");
             }
@@ -237,13 +244,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             }
             if (savedInstanceState.keySet().contains("end_coords")) {
                 endPointCoordinates = savedInstanceState.getParcelable("end_coords");
-            }
-            if (savedInstanceState.keySet().contains("currentSegment")) {
-                currentSegment = savedInstanceState.getParcelable("currentSegment");
-                if(currentSegment != null) {
-                    listOfPoints = currentSegment.getPoints();
-                    arrayListOfParseGeoPoints = convertListToArrayListOfParseGeoPoint(listOfPoints);
-                }
             }
         }
     }
@@ -284,14 +284,15 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentSegment != null && currentSegment.getPoints().size() != 0) {
+            // todo fix this map with segment
             List<LatLng> list = currentSegment.getPoints();
             startPointCoordinates = list.get(0);
             endPointCoordinates = list.get(list.size() - 1);
             if (startPointCoordinates.latitude < endPointCoordinates.latitude) {
-                bound = new LatLngBounds(startPointCoordinates, endPointCoordinates);
-            } else {
-                bound = new LatLngBounds(endPointCoordinates, startPointCoordinates);
+                endPointCoordinates = list.get(0);
+                startPointCoordinates = list.get(list.size() - 1);
             }
+            bound = new LatLngBounds(endPointCoordinates, startPointCoordinates);
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
             mMap.addPolyline(currentSegment);

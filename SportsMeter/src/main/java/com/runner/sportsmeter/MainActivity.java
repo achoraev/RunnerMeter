@@ -1272,13 +1272,14 @@ public class MainActivity extends AppCompatActivity implements
             if (mMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
-                    if (currentSpeed > MAX_SPEED_LIMIT) {
-                        currentSegment.color(POLYLINE_COLOR_RED);
-                    } else {
-                        currentSegment.color(POLYLINE_COLOR);
-                    }
+//                    if (currentSpeed > MAX_SPEED_LIMIT) {
+//                        currentSegment.color(POLYLINE_COLOR_RED);
+//                    } else {
+//                        currentSegment.color(POLYLINE_COLOR);
+//                    }
 
                     listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
+                    // todo fix this to change color of polyline not add all segment but only current points
                     mMap.addPolyline(currentSegment);
                 }
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);

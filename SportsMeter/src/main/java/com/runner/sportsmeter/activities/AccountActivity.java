@@ -60,7 +60,6 @@ public class AccountActivity extends Activity {
             }
         });
 
-        // todo save account hashmap to local datastore
         if (Utility.isNetworkConnected(AccountActivity.this) && ParseUser.getCurrentUser() != null) {
             if (!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
                 accounts.put(ParseUser.getCurrentUser().getUsername(), ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), AccountActivity.this));

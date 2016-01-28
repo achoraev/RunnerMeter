@@ -113,7 +113,7 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
                 if (e == null) {
                     Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
                     // todo remove before release
-                    Toast.makeText(WorldMapActivity.this, "Retrieved " + coordinates.size(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(WorldMapActivity.this, "Retrieved " + coordinates.size(), Toast.LENGTH_LONG).show();
                     if (mMap != null) {
                         iterateOverCoordinates(coordinates);
                     } else {

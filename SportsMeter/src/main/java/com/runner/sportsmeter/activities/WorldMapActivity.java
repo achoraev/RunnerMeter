@@ -21,6 +21,7 @@ import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.models.Coordinates;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -136,11 +137,16 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     private void iterateOverCoordinates(List<Coordinates> coordinates) {
         for (int i = 0; i < coordinates.size(); i++) {
             Coordinates current = coordinates.get(i);
+            // todo remove when data is filled
             if (current.getStartAndEndPoint() != null) {
                 LatLng curPosition = new LatLng(
                         current.getStartAndEndPoint().getLatitude(),
                         current.getStartAndEndPoint().getLongitude());
                 mMap.addMarker(new MarkerOptions().position(curPosition));
+                ArrayList<ParseGeoPoint> currentAsList = new ArrayList<>();
+                currentAsList.add(new ParseGeoPoint(curPosition.latitude, curPosition.longitude));
+                current.setStartAndEndCoordinates(currentAsList);
+                current.saveEventually();
             } else if (current.getStartAndEndCoordinates() != null) {
                 List<ParseGeoPoint> list = current.getStartAndEndCoordinates();
                 for (ParseGeoPoint coord : list) {

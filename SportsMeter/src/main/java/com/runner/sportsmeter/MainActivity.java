@@ -60,7 +60,6 @@ import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.enums.UserMetrics;
 import com.runner.sportsmeter.models.Account;
-import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -452,15 +451,15 @@ public class MainActivity extends AppCompatActivity implements
         fab.setVisibility(View.GONE);
     }
 
-    private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
-        mMap.addPolyline(polyLine);
-
-        Segments segment = new Segments();
-        segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-        segment.setName("current_segment");
-        segment.setDistance(dist);
-        segment.setGeoPointsArray(points);
-        segment.saveEventually();
+//    private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
+//        mMap.addPolyline(polyLine);
+//
+//        Segments segment = new Segments();
+//        segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+//        segment.setName("current_segment");
+//        segment.setDistance(dist);
+//        segment.setGeoPointsArray(points);
+//        segment.saveEventually();
 
 //        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
 //            @Override
@@ -500,7 +499,7 @@ public class MainActivity extends AppCompatActivity implements
 ////                });
 //            }
 //        });
-    }
+//    }
 
     private void openDialogToLoginIfLoggedAsGuest() {
         if (new ParseCommon().getCurrentUserUsername().equals("Guest")) {
@@ -780,7 +779,7 @@ public class MainActivity extends AppCompatActivity implements
                 endPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
-            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
+//            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
 //            Session current = new SaveSessionActivity().createCurrentSession(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType.toString());
 //            new SaveSessionActivity().saveParseSession(current);
         }
@@ -1272,14 +1271,21 @@ public class MainActivity extends AppCompatActivity implements
             if (mMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
-//                    if (currentSpeed > MAX_SPEED_LIMIT) {
-//                        currentSegment.color(POLYLINE_COLOR_RED);
-//                    } else {
-//                        currentSegment.color(POLYLINE_COLOR);
-//                    }
 
                     listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
                     // todo fix this to change color of polyline not add all segment but only current points
+                    // todo this change color but is not good
+//                    PolylineOptions miniSegment = new PolylineOptions();
+//                    miniSegment.width(POLYLINE_WIDTH);
+//                    miniSegment.add(lastUpdatedCoord, currentCoordinates);
+//
+//                    if (currentSpeed > MAX_SPEED_LIMIT) {
+//                        miniSegment.color(POLYLINE_COLOR_RED);
+//                    } else {
+//                        miniSegment.color(POLYLINE_COLOR);
+//                    }
+//
+//                    mMap.addPolyline(miniSegment);
                     mMap.addPolyline(currentSegment);
                 }
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);

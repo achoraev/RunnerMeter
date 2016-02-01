@@ -284,7 +284,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         if (currentSegment != null && currentSegment.getPoints().size() != 0) {
-            // todo fix this map with segment
             List<LatLng> list = currentSegment.getPoints();
             startPointCoordinates = list.get(0);
             endPointCoordinates = list.get(list.size() - 1);

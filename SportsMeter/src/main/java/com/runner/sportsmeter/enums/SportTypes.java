@@ -8,6 +8,9 @@ public enum SportTypes {
     RUNNER(1, "runner"),
     DRIVER(2, "driver");
 
+    private static final int MAX_SPEED_RUNNER = 44;
+    private static final int MAX_SPEED_BIKER = 133;
+    private static final int MAX_SPEED_DRIVER = 350;
     private int val;
     private String strVal;
 
@@ -37,6 +40,18 @@ public enum SportTypes {
             case 2:
                 return DRIVER;
         }
-        throw new RuntimeException("Sport Type value not supported " + val);
+        throw new RuntimeException("Sport Type value not supported ");
+    }
+
+    public int getMaxSpeed(SportTypes type){
+        switch (type.toString()) {
+            case "BIKER":
+                return MAX_SPEED_BIKER;
+            case "RUNNER":
+                return MAX_SPEED_RUNNER;
+            case "DRIVER":
+                return MAX_SPEED_DRIVER;
+        }
+        throw new RuntimeException("Sport Type value not supported ");
     }
 }

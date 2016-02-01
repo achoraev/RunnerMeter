@@ -37,7 +37,7 @@ public class Calculations {
 
     public static double calculateSpeed(Long time, Double distance) {
         double result = 0;
-        if (time > 0) {
+        if (time > 0 && distance > 0.0 && time > 500) {
             result = (distance / ONE_THOUSAND) / (Double.valueOf(time) / (SIXTY * SIXTY * ONE_THOUSAND) % TWENTY_FOUR);
             result = roundToTwoDigitsAfterDecimalPoint(result);
         }
@@ -72,14 +72,14 @@ public class Calculations {
         return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
     }
 
-    public static double calculateMaxSpeed(double currentSpeed, double currentMaxSpeed, SportTypes runner) {
+    public static double calculateMaxSpeed(double currentSpeed, double currentMaxSpeed, SportTypes type) {
         double maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentMaxSpeed);
-        if (currentSpeed > maxSpeed) {
-            if (runner == SportTypes.RUNNER && currentSpeed <= MAX_SPEED_RUNNER) {
+        if (currentSpeed > 1.0 && currentSpeed > maxSpeed) {
+            if (SportTypes.RUNNER.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (runner == SportTypes.BIKER && currentSpeed <= MAX_SPEED_BIKER) {
+            } else if (SportTypes.BIKER.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (runner == SportTypes.DRIVER && currentSpeed <= MAX_SPEED_DRIVER) {
+            } else if (SportTypes.DRIVER.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             }
         }

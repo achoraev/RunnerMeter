@@ -19,9 +19,6 @@ public class Calculations {
     private static final int SIXTY = 60;
     private static final int TWENTY_FOUR = 24;
     private static final int ONE_THOUSAND = 1000;
-    private static final int MAX_SPEED_RUNNER = 44;
-    private static final int MAX_SPEED_BIKER = 133;
-    private static final int MAX_SPEED_DRIVER = 350;
     private static final double BEST_TIME_RUNNER = 1.36;
     private static final double BEST_TIME_BIKER = 0.45;
     private static final double BEST_TIME_DRIVER = 0.17;
@@ -37,14 +34,19 @@ public class Calculations {
 
     public static double calculateSpeed(Long time, Double distance) {
         double result = 0;
-        if (time > 0 && distance > 0.0 && time > 500) {
+        if (time > 0 && distance > 0.0 && time > 1500) {
             result = (distance / ONE_THOUSAND) / (Double.valueOf(time) / (SIXTY * SIXTY * ONE_THOUSAND) % TWENTY_FOUR);
             result = roundToTwoDigitsAfterDecimalPoint(result);
         }
         Log.d("time", String.valueOf(time));
         Log.d("distance", String.valueOf(distance));
         Log.d("result", String.valueOf(result));
-        return result;
+        if (result > 1.0) {
+            return result;
+        } else {
+            result = 0;
+            return result;
+        }
     }
 
     public static long calculateTime(String lastUpdateTime, String startTime) {
@@ -91,7 +93,7 @@ public class Calculations {
     public double calculateTimePerKilometer(double distance, Long duration) {
         double result = ((duration / ONE_THOUSAND / SIXTY) / (distance / ONE_THOUSAND));
         double finalResult = result - (result % 1);
-        if(result % 1 != 0) {
+        if (result % 1 != 0) {
             finalResult += 0.60 * (result % 1);
         }
 
@@ -105,23 +107,18 @@ public class Calculations {
     }
 
     public Boolean isTimePerKilometerValid(double timePerKilometer, String sportType) {
-        switch (sportType){
-            case "BIKER" :
-                if(timePerKilometer <= BEST_TIME_BIKER){
-                    return false;
-                }
+        Boolean isTimePerKilometerValid = false;
+        switch (sportType) {
+            case "BIKER":
+                isTimePerKilometerValid = timePerKilometer <= BEST_TIME_BIKER;
                 break;
-            case "RUNNER" :
-                if(timePerKilometer <= BEST_TIME_RUNNER){
-                    return false;
-                }
+            case "RUNNER":
+                isTimePerKilometerValid = timePerKilometer <= BEST_TIME_RUNNER;
                 break;
-            case "DRIVER" :
-                if(timePerKilometer <= BEST_TIME_DRIVER){
-                    return false;
-                }
+            case "DRIVER":
+                isTimePerKilometerValid = timePerKilometer <= BEST_TIME_DRIVER;
                 break;
         }
-        return true;
+        return isTimePerKilometerValid;
     }
 }

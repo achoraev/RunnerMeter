@@ -1,14 +1,9 @@
 package com.runner.sportsmeter.activities;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -257,29 +252,30 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         return result;
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+//    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.d("save_map", "Map is ready");
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                ActivityCompat.requestPermissions(SaveSessionActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
-
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
-                return;
-            }
-        }
+        // for android 6.0
+//        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+//            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//                ActivityCompat.requestPermissions(SaveSessionActivity.this,
+//                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+//                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+//
+//                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+//                // here to request the missing permissions, and then overriding
+//                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                //                                          int[] grantResults)
+//                // to handle the case where the user grants the permission. See the documentation
+//                // for Activity#requestPermissions for more details.
+//                return;
+//            }
+//        }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -287,10 +283,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             List<LatLng> list = currentSegment.getPoints();
             startPointCoordinates = list.get(0);
             endPointCoordinates = list.get(list.size() - 1);
-//            if (startPointCoordinates.latitude < endPointCoordinates.latitude) {
-//                endPointCoordinates = list.get(0);
-//                startPointCoordinates = list.get(list.size() - 1);
-//            }
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             builder.include(startPointCoordinates);
             builder.include(endPointCoordinates);
@@ -299,42 +291,35 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
             mMap.addPolyline(currentSegment);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_PADDING));
-        } else if (startPointCoordinates != null && endPointCoordinates != null) {
-//            mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-//            mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
-//            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
-        } else if (startPointCoordinates != null) {
-//            mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-//            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_WIDTH, MAP_HEIGHT, MAP_PADDING));
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    Toast.makeText(SaveSessionActivity.this, "Permissions granted", Toast.LENGTH_LONG).show();
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-
-                    Toast.makeText(SaveSessionActivity.this, "Need GPS to use this app", Toast.LENGTH_LONG).show();
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    Toast.makeText(SaveSessionActivity.this, "Permissions granted", Toast.LENGTH_LONG).show();
+//                    // permission was granted, yay! Do the
+//                    // contacts-related task you need to do.
+//
+//                } else {
+//
+//                    Toast.makeText(SaveSessionActivity.this, "Need GPS to use this app", Toast.LENGTH_LONG).show();
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
+//                return;
+//            }
+//
+//            // other 'case' lines to check for other
+//            // permissions this app might request
+//        }
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

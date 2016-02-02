@@ -110,13 +110,13 @@ public class Calculations {
         Boolean isTimePerKilometerValid = false;
         switch (sportType) {
             case "BIKER":
-                isTimePerKilometerValid = timePerKilometer <= BEST_TIME_BIKER;
+                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_BIKER;
                 break;
             case "RUNNER":
-                isTimePerKilometerValid = timePerKilometer <= BEST_TIME_RUNNER;
+                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_RUNNER;
                 break;
             case "DRIVER":
-                isTimePerKilometerValid = timePerKilometer <= BEST_TIME_DRIVER;
+                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_DRIVER;
                 break;
         }
         return isTimePerKilometerValid;

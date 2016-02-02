@@ -37,6 +37,8 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -158,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements
     private AdView mAdView;
 
     private SharedPreferences settings;
+    private Tracker mTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +199,10 @@ public class MainActivity extends AppCompatActivity implements
         // setup adds
         new Utility().setupAdds(mAdView, this);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
+        // Obtain the shared Tracker instance.
+        ParseApplication application = (ParseApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
     private void setupInterstitialAd() {
@@ -347,10 +354,12 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void pauseLogic() {
+        // todo remove this toast
         Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = true;
         fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
         fab.setImageDrawable(getResources().getDrawable(R.drawable.resume_btn));
+        startStopBtn.setOnClickListener(null);
         pausedSession = new Session(
                 sessionDistance,
                 sessionTimeDiff,
@@ -364,8 +373,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void resumeLogic() {
-        Toast.makeText(MainActivity.this, "Activity resumed", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "Activity resumed", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = false;
+        startStopBtn.setOnClickListener(MainActivity.this);
         fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
         fab.setImageDrawable(getResources().getDrawable(R.drawable.pause_btn));
         sessionDistance = pausedSession.getDistance();
@@ -744,6 +754,10 @@ public class MainActivity extends AppCompatActivity implements
     protected void onResume() {
         // 3 land start
         super.onResume();
+        // google analytics
+        Log.i(TAG, "Setting screen name: " + "MainActivity");
+        mTracker.setAppInstallerId(ParseInstallation.getCurrentInstallation().getObjectId());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 //        setTitle(getString(R.string.app_name));
 //        if (mGoogleApiClient.isConnected()) {
 //            startLocationUpdates();
@@ -1183,9 +1197,10 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             if (savedInstanceState.keySet().contains(IS_PAUSED)) {
-                startButtonEnabled = savedInstanceState.getBoolean(IS_PAUSED);
-                if (isPausedActivityEnable) {
-                    fab.setBackgroundResource(R.drawable.resume_btn);
+                isPausedActivityEnable = savedInstanceState.getBoolean(IS_PAUSED);
+                if (isPausedActivityEnable && pausedSession != null) {
+                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
+                    fab.setImageDrawable(getResources().getDrawable(R.drawable.resume_btn));
                     updateInfoPanel(pausedSession.getDistance(), pausedSession.getAverageSpeed(), pausedSession.getMaxSpeed(), pausedSession.getDuration(), speedMetricUnit);
                 }
             }

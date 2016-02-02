@@ -1,0 +1,45 @@
+{
+  "project_info": {
+    "project_id": "probable-symbol-94314",
+    "project_number": "377832317200",
+    "name": "Runner meter"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377832317200:android:12e25420dca77639",
+        "client_id": "android:com.runner.sportsmeter",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.runner.sportsmeter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-69553034-2"
+          }
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

@@ -3,6 +3,8 @@ package com.runner.sportsmeter;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseInstallation;
@@ -17,6 +19,21 @@ import com.runner.sportsmeter.models.Sessions;
  * Created by angelr on 30-Jul-15.
  */
 public class ParseApplication extends MultiDexApplication {
+    private Tracker mTracker;
+
+    /**
+     * Gets the default {@link Tracker} for this {@linkApplication}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

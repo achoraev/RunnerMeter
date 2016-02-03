@@ -102,21 +102,20 @@ public class Calculations {
     }
 
     public static double roundToTwoDigitsAfterDecimalPoint(double in) {
-        double result = (Math.round(in * ONE_HUNDRED)) / 100.00;
-        return result;
+        return (Math.round(in * ONE_HUNDRED)) / 100.00;
     }
 
     public Boolean isTimePerKilometerValid(double timePerKilometer, String sportType) {
-        Boolean isTimePerKilometerValid = false;
+        Boolean isTimePerKilometerValid = true;
         switch (sportType) {
+            case "DRIVER":
+                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_DRIVER;
+                break;
             case "BIKER":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_BIKER;
                 break;
             case "RUNNER":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_RUNNER;
-                break;
-            case "DRIVER":
-                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_DRIVER;
                 break;
         }
         return isTimePerKilometerValid;

@@ -91,8 +91,7 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         if (view.getId() == R.id.fab) {
-            Snackbar
-                    .make(findViewById(R.id.coordinatorLayout), R.string.skip_how_start, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.skip_how_start, Snackbar.LENGTH_LONG)
                     .setAction(R.string.skip, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

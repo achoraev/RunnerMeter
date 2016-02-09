@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Biker</item>
-        <item>Runner</item>
-        <item>Driver</item>
+        <item>Choose sport</item>
+        <item>Running</item>
+        <item>Cycling</item>
+        <item>Biking</item>
+        <item>Climbing</item>
+        <!--<item>Hiking</item>-->
+        <item>Walking</item>
     </string-array>
 
     // facebook permissions

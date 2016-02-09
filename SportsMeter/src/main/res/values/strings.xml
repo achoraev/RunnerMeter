@@ -124,6 +124,9 @@
     <string name="my_activity_history">My Activity History</string>
     <string name="anonymous">Anonymous</string>
     <string name="remind_later">Remind me later</string>
+    <string name="choose_type_of_sport">Choose type of sport</string>
+    <string name="permission_granted">Permissions granted</string>
+    <string name="enter_app">Enter application</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
 
 

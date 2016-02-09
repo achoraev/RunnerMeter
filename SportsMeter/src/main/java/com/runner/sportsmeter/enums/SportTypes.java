@@ -4,9 +4,14 @@ package com.runner.sportsmeter.enums;
  * Created by angelr on 01-Sep-15.
  */
 public enum SportTypes {
-    BIKER(0, "biker"),
-    RUNNER(1, "runner"),
-    DRIVER(2, "driver");
+    CHOOSE_SPORT(0, "choose"),
+    RUNNING(1, "running"),
+    DRIVING(2, "driving"),
+    CYCLING(3, "cycling"),
+    BIKING(4, "biking"),
+    CLIMBING(5, "climbing"),
+    HIKING(6, "hiking"),
+    WALKING(7, "walking");
 
     private static final int MAX_SPEED_RUNNER = 44;
     private static final int MAX_SPEED_BIKER = 133;
@@ -21,12 +26,22 @@ public enum SportTypes {
 
     public int getIntValue(String val){
         switch (val) {
-            case "BIKER":
-                return BIKER.val;
-            case "RUNNER":
-                return RUNNER.val;
+            case "CHOOSE_SPORT":
+                return CHOOSE_SPORT.val;
+            case "RUNNING":
+                return RUNNING.val;
             case "DRIVER":
-                return DRIVER.val;
+                return DRIVING.val;
+            case "CYCLING":
+                return CYCLING.val;
+            case "BIKING":
+                return BIKING.val;
+            case "CLIMBING":
+                return CLIMBING.val;
+            case "HIKING":
+                return HIKING.val;
+            case "WALKING":
+                return WALKING.val;
         }
         throw new RuntimeException("Sport Type value not supported " + val);
     }
@@ -34,24 +49,36 @@ public enum SportTypes {
     public SportTypes getSportTypeValue(int val){
         switch (val) {
             case 0:
-                return BIKER;
+                return CHOOSE_SPORT;
             case 1:
-                return RUNNER;
+                return RUNNING;
             case 2:
-                return DRIVER;
+                return DRIVING;
+            case 3:
+                return CYCLING;
+            case 4:
+                return BIKING;
+            case 5:
+                return CLIMBING;
+            case 6:
+                return HIKING;
+            case 7:
+                return WALKING;
         }
         throw new RuntimeException("Sport Type value not supported ");
     }
 
     public int getMaxSpeed(SportTypes type){
         switch (type.toString()) {
-            case "BIKER":
+            case "BIKING":
                 return MAX_SPEED_BIKER;
-            case "RUNNER":
+            case "CYCLING":
+                return MAX_SPEED_BIKER;
+            case "RUNNING":
                 return MAX_SPEED_RUNNER;
-            case "DRIVER":
+            case "DRIVING":
                 return MAX_SPEED_DRIVER;
+            default: return 0;
         }
-        throw new RuntimeException("Sport Type value not supported ");
     }
 }

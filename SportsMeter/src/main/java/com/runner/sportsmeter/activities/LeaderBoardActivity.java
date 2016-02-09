@@ -48,21 +48,21 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         bestRunners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery(SportTypes.RUNNER, LIMIT_FOR_SPORT_TYPE, null);
+                ParseQuery(SportTypes.RUNNING, LIMIT_FOR_SPORT_TYPE, null);
             }
         });
 
         bestBikers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery(SportTypes.BIKER, LIMIT_FOR_SPORT_TYPE, null);
+                ParseQuery(SportTypes.BIKING, LIMIT_FOR_SPORT_TYPE, null);
             }
         });
 
         bestDrivers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery(SportTypes.DRIVER, LIMIT_FOR_SPORT_TYPE, null);
+                ParseQuery(SportTypes.DRIVING, LIMIT_FOR_SPORT_TYPE, null);
             }
         });
 

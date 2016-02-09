@@ -77,11 +77,11 @@ public class Calculations {
     public static double calculateMaxSpeed(double currentSpeed, double currentMaxSpeed, SportTypes type) {
         double maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentMaxSpeed);
         if (currentSpeed > 1.0 && currentSpeed > maxSpeed) {
-            if (SportTypes.RUNNER.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
+            if (SportTypes.RUNNING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (SportTypes.BIKER.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
+            } else if (SportTypes.BIKING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (SportTypes.DRIVER.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
+            } else if (SportTypes.DRIVING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             }
         }
@@ -108,13 +108,13 @@ public class Calculations {
     public Boolean isTimePerKilometerValid(double timePerKilometer, String sportType) {
         Boolean isTimePerKilometerValid = true;
         switch (sportType) {
-            case "DRIVER":
+            case "DRIVING":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_DRIVER;
                 break;
-            case "BIKER":
+            case "BIKING":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_BIKER;
                 break;
-            case "RUNNER":
+            case "RUNNING":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_RUNNER;
                 break;
         }

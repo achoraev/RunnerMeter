@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private SharedPreferences settings;
     private Tracker mTracker;
+    private ParseInstallation installation = ParseInstallation.getCurrentInstallation();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +220,8 @@ public class MainActivity extends AppCompatActivity implements
     private void applyEUcookiePolicy() {
         settings =
                 getSharedPreferences(getString(R.string.local_preferences), MODE_PRIVATE);
-        if (settings.getBoolean(getString(R.string.is_first_run), true)) {
+        String timeZone = (String) installation.get("timeZone");
+        if (timeZone.toLowerCase().contains("europe") && settings.getBoolean(getString(R.string.is_first_run), true)) {
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.cookies))
                     .setMessage(getString(R.string.cookie_policy))
@@ -326,26 +328,6 @@ public class MainActivity extends AppCompatActivity implements
         } else {
 //            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
-
-//        timerThread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (startButtonEnabled) {
-//                    handler.post(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
-//                        }
-//                    });
-//                    try {
-//                        Thread.sleep(ONE_SECOND);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
-//        timerThread.start();
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
     }
@@ -1020,7 +1002,6 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
                 // connect installation with user
-                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                 installation.put("user", ParseUser.getCurrentUser());
                 installation.saveEventually();
 
@@ -1033,7 +1014,7 @@ public class MainActivity extends AppCompatActivity implements
                     // get facebook mail
                     getFacebookMail(current, faceId);
                 } else {
-                    current = ParseCommon.createAndSaveAccount(mail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth);
+                    current = ParseCommon.createAndSaveAccount(mail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth, sportType);
                     checkIfAccountExistAndSave(current);
                 }
                 break;
@@ -1052,7 +1033,7 @@ public class MainActivity extends AppCompatActivity implements
                     public void onCompleted(JSONObject object, GraphResponse graphResponse) {
                         try {
                             String userEmail = object.getString("email");
-                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth);
+                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth, sportType);
                             checkIfAccountExistAndSave(finalAccount);
                         } catch (JSONException e) {
                             e.printStackTrace();

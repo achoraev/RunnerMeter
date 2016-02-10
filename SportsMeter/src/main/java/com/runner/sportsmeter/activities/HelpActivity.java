@@ -1,7 +1,6 @@
 package com.runner.sportsmeter.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -24,7 +23,6 @@ import com.runner.sportsmeter.fragments.HelpFragmentTwo;
 public class HelpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout drawerLayout;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
     private FloatingActionButton fab;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -33,8 +31,6 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_help_layout);
-
-//        setupCollapsingToolbarLayout();
         initializeViewPager();
         setupTablayout();
         setupFab();
@@ -63,16 +59,6 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
         adapter.addFragment(new HelpFragmentThree(), getString(R.string.tab_main_page));
         adapter.addFragment(new HelpFragmentFour(), getString(R.string.tab_save_page));
         viewPager.setAdapter(adapter);
-    }
-
-    private void setupCollapsingToolbarLayout() {
-
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        if (collapsingToolbarLayout != null) {
-//            collapsingToolbarLayout.setTitle(toolbar.getTitle());
-            //collapsingToolbarLayout.setCollapsedTitleTextColor(0xED1C24);
-            //collapsingToolbarLayout.setExpandedTitleColor(0xED1C24);
-        }
     }
 
     private void setupTablayout() {

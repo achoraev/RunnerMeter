@@ -5,6 +5,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.enums.Gender;
+import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.enums.UserMetrics;
 
 import java.util.Date;
@@ -14,16 +15,6 @@ import java.util.Date;
  */
 @ParseClassName("Account")
 public class Account extends ParseObject {
-
-//    private String userName;
-//    private String name;
-//    private String Email;
-//    private ParseUser currentUser;
-//    private Boolean isVerified;
-//    private Double userWeight;
-//    private Double userHeight;
-//    private Date memberSince;
-//    private UserMetrics usersMetricsUnits;
 
     public Account (){}
 
@@ -81,6 +72,14 @@ public class Account extends ParseObject {
 
     public void setGender(Gender gender) {
         put("gender", gender.toString());
+    }
+
+    public SportTypes getSportType() {
+        return SportTypes.valueOf(getString("sportType"));
+    }
+
+    public void setSportType(SportTypes type) {
+        put("sportType", type.toString());
     }
 
     public String getName() {

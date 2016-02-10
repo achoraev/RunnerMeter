@@ -55,39 +55,6 @@ public class StartActivity extends AppCompatActivity {
             }
         }
 
-        // set snackbar
-        Snackbar.make(findViewById(R.id.start_coordinator), R.string.enter_app, Snackbar.LENGTH_INDEFINITE)
-                .setAction(">>>>", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startMainActivity(sportType);
-                    }
-                })
-                .show();
-
-        // set spinner and data
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.toolbar_spinner_dropdown_item);
-
-        Spinner chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport);
-
-        chooseTypeSport.setAdapter(adapter);
-        chooseTypeSport.setSelection(sportType.getIntValue(sportType.toString()));
-        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sportType = sportType.getSportTypeValue(position);
-                startMainActivity(sportType);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                sportType = sportType.CHOOSE_SPORT;
-//                startMainActivity(sportType);
-            }
-        });
-
         SharedPreferences settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
         if (settings.getBoolean(FIRST_RUN, true)) {
             startActivity(new Intent(StartActivity.this, HelpActivity.class));
@@ -104,6 +71,40 @@ public class StartActivity extends AppCompatActivity {
             runCount++;
             fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
         }
+
+        // set snackbar
+        Snackbar.make(findViewById(R.id.start_coordinator), R.string.enter_app, Snackbar.LENGTH_INDEFINITE)
+                .setAction(">>>>", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startMainActivity(sportType);
+                    }
+                })
+                .show();
+
+        // set spinner and data
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+
+        Spinner chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport);
+
+        chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sportType = sportType.getSportTypeValue(position);
+                if(!sportType.equals(SportTypes.CHOOSE_SPORT)) {
+                    startMainActivity(sportType);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                sportType = sportType.CHOOSE_SPORT;
+//                startMainActivity(sportType);
+            }
+        });
 
         turnOnWiFiOrDataInternet();
 

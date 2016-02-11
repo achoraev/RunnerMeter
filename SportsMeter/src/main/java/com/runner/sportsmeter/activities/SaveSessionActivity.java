@@ -196,35 +196,37 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void saveParseSession(Sessions current) {
-        saveSegmentToParse(arrayListOfParseGeoPoints, current.getDistance(), current);
+        saveSegmentToParse(arrayListOfParseGeoPoints, current);
     }
 
-    private void saveSegmentToParse(ArrayList<ParseGeoPoint> points, double dist, final Sessions current) {
+    private void saveSegmentToParse(ArrayList<ParseGeoPoint> points, final Sessions current) {
         Random rand = new Random();
-        final Segments segment = new Segments();
-        segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-        segment.setName("segment_" + rand.nextInt(123456));
-        segment.setDistance(dist);
-        segment.setGeoPointsArray(points);
-        segment.saveEventually(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null){
-                    isSaveSession = true;
-                    Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
-                    if (isValid) {
-                        current.setSegmentId(segment);
-                        current.saveEventually();
-                        current.pinInBackground();
-                    } else if (current.getTimePerKilometer() != 0.0 && !isValid) {
-                        String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
-                        Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
+        if (current.getDistance() > 20) {
+            final Segments segment = new Segments();
+            segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
+            segment.setName("segment_" + rand.nextInt(123456));
+            segment.setDistance(current.getDistance());
+            segment.setGeoPointsArray(points);
+            segment.saveEventually(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e == null){
+                        isSaveSession = true;
+                        Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
+                        if (current.getDistance() > 20 && current.getTimePerKilometer() != 0 && isValid) {
+                            current.setSegmentId(segment);
+                            current.saveEventually();
+                            current.pinInBackground();
+                        } else if (current.getTimePerKilometer() != 0 && !isValid) {
+                            String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
+                            Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(SaveSessionActivity.this, R.string.save_notsave_btn, Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(SaveSessionActivity.this, R.string.save_notsave_btn, Toast.LENGTH_LONG).show();
                 }
-            }
-        });
+            });
+        }
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {

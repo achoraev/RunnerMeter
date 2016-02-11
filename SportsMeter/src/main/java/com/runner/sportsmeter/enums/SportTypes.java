@@ -6,12 +6,11 @@ package com.runner.sportsmeter.enums;
 public enum SportTypes {
     CHOOSE_SPORT(0, "choose"),
     RUNNING(1, "running"),
-    DRIVING(2, "driving"),
-    CYCLING(3, "cycling"),
-    BIKING(4, "biking"),
-    CLIMBING(5, "climbing"),
-    HIKING(6, "hiking"),
-    WALKING(7, "walking");
+    CYCLING(2, "cycling"),
+    BIKING(3, "biking"),
+    CLIMBING(4, "climbing"),
+//    HIKING(5, "hiking"),
+    WALKING(5, "walking");
 
     private static final int MAX_SPEED_RUNNER = 44;
     private static final int MAX_SPEED_BIKER = 133;
@@ -30,16 +29,14 @@ public enum SportTypes {
                 return CHOOSE_SPORT.val;
             case "RUNNING":
                 return RUNNING.val;
-            case "DRIVER":
-                return DRIVING.val;
             case "CYCLING":
                 return CYCLING.val;
             case "BIKING":
                 return BIKING.val;
             case "CLIMBING":
                 return CLIMBING.val;
-            case "HIKING":
-                return HIKING.val;
+//            case "HIKING":
+//                return HIKING.val;
             case "WALKING":
                 return WALKING.val;
         }
@@ -53,16 +50,14 @@ public enum SportTypes {
             case 1:
                 return RUNNING;
             case 2:
-                return DRIVING;
-            case 3:
                 return CYCLING;
-            case 4:
+            case 3:
                 return BIKING;
-            case 5:
+            case 4:
                 return CLIMBING;
-            case 6:
-                return HIKING;
-            case 7:
+//            case 5:
+//                return HIKING;
+            case 5:
                 return WALKING;
         }
         throw new RuntimeException("Sport Type value not supported ");

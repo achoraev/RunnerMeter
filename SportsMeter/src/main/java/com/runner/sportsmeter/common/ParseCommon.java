@@ -19,7 +19,7 @@ import java.util.List;
  * Created by angelr on 14-May-15.
  */
 public class ParseCommon {
-    public static void createAnonymousUser() {
+    public static void createDefaultUser() {
         // create guest user if not created
         if (ParseUser.getCurrentUser() == null) {
             try {

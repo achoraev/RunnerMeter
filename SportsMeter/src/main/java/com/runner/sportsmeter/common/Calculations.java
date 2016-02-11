@@ -81,9 +81,10 @@ public class Calculations {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             } else if (SportTypes.BIKING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (SportTypes.DRIVING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
-                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
             }
+//            } else if (SportTypes.DRIVING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
+//                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+//            }
         }
         Log.d("cur", String.valueOf(currentSpeed));
         Log.d("max", String.valueOf(maxSpeed));

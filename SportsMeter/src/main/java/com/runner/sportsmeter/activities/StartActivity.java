@@ -108,6 +108,7 @@ public class StartActivity extends AppCompatActivity {
 
         turnOnWiFiOrDataInternet();
 
+        ParseCommon.createDefaultUser();
         ParseCommon.logInGuestUser(this);
         ParsePush.subscribeInBackground("SportMeter");
 

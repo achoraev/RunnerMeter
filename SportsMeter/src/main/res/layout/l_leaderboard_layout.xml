@@ -17,33 +17,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/leader_board_best_bikers"
-                android:textSize="@dimen/leaderboard_btn_text_size"
-                style="@style/BtnCustomLeaderBoard"
-                android:id="@+id/btn_best_bikers"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"/>
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/leader_board_best_runners"
-                android:textSize="@dimen/leaderboard_btn_text_size"
-                style="@style/BtnCustomLeaderBoard"
-                android:id="@+id/btn_best_runners"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"/>
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/leader_board_best_drivers"
-                android:textSize="@dimen/leaderboard_btn_text_size"
-                style="@style/BtnCustomLeaderBoard"
-                android:id="@+id/btn_best_drivers"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"/>
+        <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/leader_board_best_bikers"-->
+        <!--android:textSize="@dimen/leaderboard_btn_text_size"-->
+        <!--style="@style/BtnCustomLeaderBoard"-->
+        <!--android:id="@+id/btn_best_bikers"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_weight="1"/>-->
+        <TextView android:layout_width="150dp"
+                  android:layout_height="30dp"
+                  android:textAppearance="?android:attr/textAppearanceMedium"
+                  android:text="@string/show_best"/>
+        <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/leaderboard_spinner"
+                 android:layout_gravity="end"
+                 android:layout_width="100dp"
+                 android:layout_height="match_parent"/>
+        <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/leader_board_best_runners"-->
+        <!--android:textSize="@dimen/leaderboard_btn_text_size"-->
+        <!--style="@style/BtnCustomLeaderBoard"-->
+        <!--android:id="@+id/btn_best_runners"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_weight="1"/>-->
+        <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/leader_board_best_drivers"-->
+        <!--android:textSize="@dimen/leaderboard_btn_text_size"-->
+        <!--style="@style/BtnCustomLeaderBoard"-->
+        <!--android:id="@+id/btn_best_drivers"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_weight="1"/>-->
     </LinearLayout>
     <Button
             android:layout_width="match_parent"

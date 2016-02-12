@@ -69,7 +69,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
     protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 123456;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private static final double MAX_SPEED_LIMIT = 50.00;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
@@ -660,6 +659,9 @@ public class MainActivity extends AppCompatActivity implements
 //                break;
             case R.id.nav_account_fragment:
                 Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
+                Bundle accBundle = new Bundle();
+                accBundle.putSerializable(getString(R.string.type_of_sport), sportType);
+                accountIntent.putExtras(accBundle);
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 startActivity(accountIntent);
@@ -1006,7 +1008,7 @@ public class MainActivity extends AppCompatActivity implements
                 installation.saveEventually();
 
                 // create account object from current user
-                Account current = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this);
+                Account current = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this, sportType);
                 String mail = current.getEmail() != null ? current.getEmail() : "";
                 String faceId = "";
                 if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
@@ -1014,8 +1016,8 @@ public class MainActivity extends AppCompatActivity implements
                     // get facebook mail
                     getFacebookMail(current, faceId);
                 } else {
-                    current = ParseCommon.createAndSaveAccount(mail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth, sportType);
-                    checkIfAccountExistAndSave(current);
+                    current = ParseCommon.createAndSaveAccount(mail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth);
+                    ParseCommon.checkIfAccountExistAndSave(current);
                 }
                 break;
         }
@@ -1033,8 +1035,8 @@ public class MainActivity extends AppCompatActivity implements
                     public void onCompleted(JSONObject object, GraphResponse graphResponse) {
                         try {
                             String userEmail = object.getString("email");
-                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth, sportType);
-                            checkIfAccountExistAndSave(finalAccount);
+                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, Gender.MALE, userHeight, userWidth);
+                            ParseCommon.checkIfAccountExistAndSave(finalAccount);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -1044,21 +1046,6 @@ public class MainActivity extends AppCompatActivity implements
         parameters.putString("fields", "age_range,gender,name,id,link,email,picture.type(large),first_name,last_name");
         request.setParameters(parameters);
         request.executeAsync();
-    }
-
-    private void checkIfAccountExistAndSave(final Account finalAccount) {
-        ParseQuery<Account> query = Account.getQuery();
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.findInBackground(new FindCallback<Account>() {
-            @Override
-            public void done(List<Account> objects, ParseException e) {
-                if(e == null){
-                    if(objects.size() == 0){
-                        finalAccount.saveEventually();
-                    }
-                }
-            }
-        });
     }
 
     @Override

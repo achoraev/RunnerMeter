@@ -25,6 +25,7 @@ import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Account;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,11 +46,14 @@ public class AccountActivity extends Activity {
     ImageView twitterImageViewPicture;
     Bitmap twitterBitmap;
     private String userEmail = "";
+    private SportTypes sportType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_account_layout);
+
+        sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
 
         initializeViews();
 
@@ -62,7 +66,7 @@ public class AccountActivity extends Activity {
 
         if (Utility.isNetworkConnected(AccountActivity.this) && ParseUser.getCurrentUser() != null) {
             if (!accounts.containsKey(ParseUser.getCurrentUser().getUsername())) {
-                accounts.put(ParseUser.getCurrentUser().getUsername(), ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), AccountActivity.this));
+                accounts.put(ParseUser.getCurrentUser().getUsername(), ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), AccountActivity.this, sportType));
             }
 
             Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());

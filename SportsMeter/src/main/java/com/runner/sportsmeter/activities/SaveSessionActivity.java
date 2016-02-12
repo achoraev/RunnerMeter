@@ -44,7 +44,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     public static final int MAP_WIDTH = 400;
     public static final int MAP_HEIGHT = 200;
     public static final int MAP_PADDING = 20;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 123456;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private Session currentSession;
     private String sessionImagePath;
     private TextView saveTimeKm, saveDistance, saveDuration, saveUsername,

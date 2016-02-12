@@ -120,28 +120,44 @@ public class ParseCommon {
         saveCoords.saveEventually();
     }
 
-    public static Account createAndSaveAccount(String mail, String facebookId, Account currentUser, UserMetrics metric, Gender gender, Double height, Double width, SportTypes sportType) {
+    public static Account createAndSaveAccount(String mail, String facebookId, Account currentUser, UserMetrics metric, Gender gender, Double height, Double width) {
         currentUser.setUserHeight(height);
         currentUser.setUserWeight(width);
         currentUser.setUsersMetricsUnits(metric);
         currentUser.setGender(gender);
-        currentUser.setSportType(sportType);
+        currentUser.setSportType(currentUser.getSportType());
         currentUser.setEmail(currentUser.getEmail().equals("") ? mail : currentUser.getEmail());
         currentUser.setFacebookId(facebookId);
         return currentUser;
     }
 
-    public static Account convertFromUserToAccount(ParseUser currentUser, Context context) {
+    public static Account convertFromUserToAccount(ParseUser currentUser, Context context, SportTypes sportType) {
         ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
         acl.setPublicReadAccess(true);
         acl.setPublicWriteAccess(true);
         Account usersAccount = new Account();
         usersAccount.setCurrentUser(currentUser);
+        usersAccount.setSportType(sportType);
         usersAccount.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
         usersAccount.setMemberSince(currentUser.getCreatedAt());
         usersAccount.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : context.getString(R.string.anonymous));
         usersAccount.setEmail(currentUser.getEmail() != null ? currentUser.getEmail() : "");
         usersAccount.setACL(acl);
         return usersAccount;
+    }
+
+    public static void checkIfAccountExistAndSave(final Account finalAccount) {
+        ParseQuery<Account> query = Account.getQuery();
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.findInBackground(new FindCallback<Account>() {
+            @Override
+            public void done(List<Account> objects, ParseException e) {
+                if(e == null){
+                    if(objects.size() == 0){
+                        finalAccount.saveEventually();
+                    }
+                }
+            }
+        });
     }
 }

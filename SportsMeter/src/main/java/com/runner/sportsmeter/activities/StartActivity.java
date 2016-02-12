@@ -29,7 +29,7 @@ import com.runner.sportsmeter.enums.SportTypes;
  * Created by Angel Raev on 09-Feb-16
  */
 public class StartActivity extends AppCompatActivity {
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 123456;
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private final String FIRST_RUN = "firstRun";
     private final String FIVE_RUN = "fiveRun";
 //    private AdView mAdView;

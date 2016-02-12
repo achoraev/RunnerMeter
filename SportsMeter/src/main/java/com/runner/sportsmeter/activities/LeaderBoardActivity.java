@@ -6,8 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.*;
 import com.google.android.gms.ads.AdView;
 import com.parse.*;
 import com.runner.sportsmeter.R;
@@ -24,10 +23,11 @@ import java.util.List;
  */
 public class LeaderBoardActivity extends Activity implements View.OnClickListener {
 
-    Button bestRunners, bestBikers, bestDrivers, myBest;
+    private Button bestRunners, bestBikers, bestDrivers, myBest;
+    private Spinner chooseTypeSport;
     private ProgressBar bar;
     public ArrayList<Sessions> arrayOfSessions;
-    AdView mAdView;
+    private AdView mAdView;
 
     private static final int LIMIT_FOR_SPORT_TYPE = 15;
     private static final int LIMIT_FOR_USER_QUERY = 15;
@@ -35,6 +35,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SportTypes sportType;
+    private SportTypes sportTypeForQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,26 +46,46 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
         initializeViews();
 
-        bestRunners.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseQuery(SportTypes.RUNNING, LIMIT_FOR_SPORT_TYPE, null);
-            }
-        });
+        // set spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
-        bestBikers.setOnClickListener(new View.OnClickListener() {
+        chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setSelection(0);
+        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                ParseQuery(SportTypes.BIKING, LIMIT_FOR_SPORT_TYPE, null);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sportTypeForQuery = sportTypeForQuery.getSportTypeValue(position);
+                if(!sportTypeForQuery.equals(SportTypes.CHOOSE_SPORT)) {
+                    ParseQuery(sportTypeForQuery, LIMIT_FOR_SPORT_TYPE, null);
+                }
             }
-        });
 
-        bestDrivers.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                ParseQuery(SportTypes.RUNNING, LIMIT_FOR_SPORT_TYPE, null);
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+//        bestRunners.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ParseQuery(SportTypes.RUNNING, LIMIT_FOR_SPORT_TYPE, null);
+//            }
+//        });
+//
+//        bestBikers.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ParseQuery(SportTypes.BIKING, LIMIT_FOR_SPORT_TYPE, null);
+//            }
+//        });
+//
+//        bestDrivers.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ParseQuery(SportTypes.RUNNING, LIMIT_FOR_SPORT_TYPE, null);
+//            }
+//        });
 
         myBest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +111,10 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
 
     private void initializeViews() {
         bar = (ProgressBar) this.findViewById(R.id.progressBar);
-        bestRunners = (Button) findViewById(R.id.btn_best_runners);
-        bestBikers = (Button) findViewById(R.id.btn_best_bikers);
-        bestDrivers = (Button) findViewById(R.id.btn_best_drivers);
+        chooseTypeSport = (Spinner) findViewById(R.id.leaderboard_spinner);
+//        bestRunners = (Button) findViewById(R.id.btn_best_runners);
+//        bestBikers = (Button) findViewById(R.id.btn_best_bikers);
+//        bestDrivers = (Button) findViewById(R.id.btn_best_drivers);
         myBest = (Button) findViewById(R.id.btn_my_best_result);
         // for recycle
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);

@@ -121,5 +121,9 @@
     <string name="my_activity_history">История на дейността</string>
     <string name="anonymous">Анонимен</string>
     <string name="remind_later">Напомни ми по-късно</string>
+    <string name="choose_type_of_sport">Изберете тип спорт</string>
+    <string name="permission_granted">Разрешено</string>
+    <string name="enter_app">Влезте в приложението</string>
+    <string name="show_best">Показване на най-добрите:</string>
 
 </resources>

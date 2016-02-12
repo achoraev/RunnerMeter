@@ -123,5 +123,9 @@
     <string name="my_activity_history">Sejarah aktivitas saya</string>
     <string name="anonymous">Anonim</string>
     <string name="remind_later">Mengingatkan saya kemudian</string>
+    <string name="choose_type_of_sport">Pilih jenis olahraga</string>
+    <string name="permission_granted">Izin diberikan</string>
+    <string name="enter_app">Masukkan aplikasi</string>
+    <string name="show_best">Show terbaik:</string>
 
 </resources>

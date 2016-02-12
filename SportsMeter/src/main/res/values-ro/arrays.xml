@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Motociclist</item>
-        <item>Alergător</item>
-        <item>Conducător auto</item>
+        <item>Alege sportul</item>
+        <item>Execută</item>
+        <item>Ciclism</item>
+        <item>Alpinism</item>
+        <item>Mersul pe jos</item>
     </string-array>
 </resources>

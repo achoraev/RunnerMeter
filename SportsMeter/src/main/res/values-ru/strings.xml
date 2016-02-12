@@ -123,5 +123,9 @@
     <string name="my_activity_history">История деятельности</string>
     <string name="anonymous">Анонимный</string>
     <string name="remind_later">Напомните мне позднее</string>
+    <string name="choose_type_of_sport">Выберите вид спорта</string>
+    <string name="permission_granted">Разрешение</string>
+    <string name="enter_app">Войти в приложение</string>
+    <string name="show_best">Показать лучшие:</string>
 
 </resources>

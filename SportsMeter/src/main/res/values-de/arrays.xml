@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Biker</item>
-        <item>Läufer</item>
-        <item>Treiber</item>
+        <item>Wählen Sie sport</item>
+        <item>Ausführen</item>
+        <item>Radfahren</item>
+        <item>Klettern</item>
+        <item>Fuß</item>
     </string-array>
 </resources>

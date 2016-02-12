@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Motorcu</item>
-        <item>Runner</item>
-        <item>Sürücü</item>
+        <item>Spor seçin</item>
+        <item>Çalışan</item>
+        <item>Bisiklete binme</item>
+        <item>Tırmanma</item>
+        <item>Yürüyüş</item>
     </string-array>
 </resources>

@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Motoros</item>
-        <item>Runner</item>
-        <item>Vezető</item>
+        <item>Válassza ki a sport</item>
+        <item>Futás</item>
+        <item>Kerékpározás</item>
+        <item>Hegymászás</item>
+        <item>Gyaloglás</item>
     </string-array>
 </resources>

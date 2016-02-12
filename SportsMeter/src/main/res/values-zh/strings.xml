@@ -121,5 +121,9 @@
     <string name="my_activity_history">我的活动历史记录</string>
     <string name="anonymous">匿名</string>
     <string name="remind_later">以后提醒我</string>
+    <string name="choose_type_of_sport">选择运动的类型</string>
+    <string name="permission_granted">授予权限</string>
+    <string name="enter_app">输入应用程序</string>
+    <string name="show_best">显示最佳:</string>
 
 </resources>

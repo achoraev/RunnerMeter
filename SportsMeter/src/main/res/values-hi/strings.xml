@@ -122,5 +122,9 @@
     <string name="my_activity_history">मेरी गतिविधि इतिहास</string>
     <string name="anonymous">अनाम</string>
     <string name="remind_later">मुझे बाद में याद दिलाएँ</string>
+    <string name="choose_type_of_sport">खेल के प्रकार का चयन करें</string>
+    <string name="permission_granted">दी गई अनुमति</string>
+    <string name="enter_app">आवेदन दर्ज करें</string>
+    <string name="show_best">बेहतरीन शो:</string>
 
 </resources>

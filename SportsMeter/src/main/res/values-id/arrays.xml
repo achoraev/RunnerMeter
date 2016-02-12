@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Biker</item>
-        <item>Pelari</item>
-        <item>Sopir</item>
+        <item>Memilih olahraga</item>
+        <item>Menjalankan</item>
+        <item>Bersepeda</item>
+        <item>Pendakian</item>
+        <item>Berjalan</item>
     </string-array>
 </resources>

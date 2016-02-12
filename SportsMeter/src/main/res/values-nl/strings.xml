@@ -123,5 +123,9 @@
     <string name="my_activity_history">Mijn activiteitsgeschiedenis</string>
     <string name="anonymous">Anonieme</string>
     <string name="remind_later">Herinner mij later</string>
+    <string name="choose_type_of_sport">Kies type sport</string>
+    <string name="permission_granted">Verleende toestemming</string>
+    <string name="enter_app">Invoeren van toepassing</string>
+    <string name="show_best">Beste Toon:</string>
 
 </resources>

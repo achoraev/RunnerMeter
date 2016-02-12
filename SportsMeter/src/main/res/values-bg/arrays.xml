@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Колоездач</item>
-        <item>Бегач</item>
-        <item>Шофьор</item>
+        <item>Изберете спорт</item>
+        <item>Тичане</item>
+        <item>Колоездене</item>
+        <item>Катерене</item>
+        <item>Ходене</item>
     </string-array>
 </resources>

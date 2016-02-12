@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Biker</item>
-        <item>Loper</item>
-        <item>Stuurprogramma</item>
+        <item>Kies sport</item>
+        <item>Uitgevoerd</item>
+        <item>Fietsen</item>
+        <item>Klimmen</item>
+        <item>Wandelen</item>
     </string-array>
 </resources>

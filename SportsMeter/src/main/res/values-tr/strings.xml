@@ -122,5 +122,9 @@
     <string name="my_activity_history">Benim aktivite geçmiş</string>
     <string name="anonymous">Anonim</string>
     <string name="remind_later">Daha sonra anımsat</string>
+    <string name="choose_type_of_sport">Spor türünü seçin</string>
+    <string name="permission_granted">-İzin verildi</string>
+    <string name="enter_app">Uygulama girin</string>
+    <string name="show_best">En iyi göstermek:</string>
 
 </resources>

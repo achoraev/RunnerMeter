@@ -123,5 +123,9 @@
     <string name="my_activity_history">Die Geschichte meiner Tätigkeit</string>
     <string name="anonymous">Anonym</string>
     <string name="remind_later">Später erinnern</string>
+    <string name="choose_type_of_sport">Wählen Sie die Art des Sports</string>
+    <string name="permission_granted">Erlaubnis erteilt</string>
+    <string name="enter_app">Geben Sie die Anwendung</string>
+    <string name="show_best">Zeigen Sie am besten:</string>
 
 </resources>

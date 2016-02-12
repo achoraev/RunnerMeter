@@ -123,5 +123,9 @@
     <string name="my_activity_history">La mia storia di attività</string>
     <string name="anonymous">Anonimo</string>
     <string name="remind_later">Ricordamelo più tardi</string>
+    <string name="choose_type_of_sport">Scegliere il tipo di sport</string>
+    <string name="permission_granted">Autorizzazione concessa</string>
+    <string name="enter_app">Immettere application</string>
+    <string name="show_best">Visualizza migliori:</string>
 
 </resources>

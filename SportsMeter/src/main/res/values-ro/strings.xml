@@ -123,5 +123,9 @@
     <string name="my_activity_history">Istoricul meu de activitate</string>
     <string name="anonymous">Anonim</string>
     <string name="remind_later">Aminteşte-mi mai târziu</string>
+    <string name="choose_type_of_sport">Alege tipul de sport</string>
+    <string name="permission_granted">Permisiunea acordată</string>
+    <string name="enter_app">Introduceţi cererea</string>
+    <string name="show_best">Arată cele mai bune:</string>
 
 </resources>

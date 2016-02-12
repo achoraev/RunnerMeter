@@ -123,5 +123,9 @@
     <string name="my_activity_history">Az előzmények</string>
     <string name="anonymous">Névtelen</string>
     <string name="remind_later">Emlékeztetés később</string>
+    <string name="choose_type_of_sport">Válassza ki a sport</string>
+    <string name="permission_granted">Engedéllyel rendelkezik</string>
+    <string name="enter_app">Adja meg az alkalmazás</string>
+    <string name="show_best">A következő szálláshely best:</string>
 
 </resources>

@@ -1,7 +1,9 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Байкер</item>
-        <item>Бегун</item>
-        <item>Драйвер</item>
+        <item>Выберите Спорт</item>
+        <item>Запуск</item>
+        <item>Велоспорт</item>
+        <item>Восхождение</item>
+        <item>Ходьба</item>
     </string-array>
 </resources>

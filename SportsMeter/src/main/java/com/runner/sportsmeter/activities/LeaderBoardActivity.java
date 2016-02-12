@@ -35,7 +35,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SportTypes sportType;
-    private SportTypes sportTypeForQuery;
+    private SportTypes sportTypeForQuery = SportTypes.CHOOSE_SPORT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +52,11 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
         chooseTypeSport.setAdapter(adapter);
-        chooseTypeSport.setSelection(0);
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sportTypeForQuery = sportTypeForQuery.getSportTypeValue(position);
                 if(!sportTypeForQuery.equals(SportTypes.CHOOSE_SPORT)) {
-                    ParseQuery(sportTypeForQuery, LIMIT_FOR_SPORT_TYPE, null);
+                    ParseQuery(sportType, LIMIT_FOR_SPORT_TYPE, null);
                 }
             }
 

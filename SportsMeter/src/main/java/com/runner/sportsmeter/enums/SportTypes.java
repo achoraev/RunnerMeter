@@ -7,14 +7,13 @@ public enum SportTypes {
     CHOOSE_SPORT(0, "choose"),
     RUNNING(1, "running"),
     CYCLING(2, "cycling"),
-    BIKING(3, "biking"),
-    CLIMBING(4, "climbing"),
+    CLIMBING(3, "climbing"),
 //    HIKING(5, "hiking"),
-    WALKING(5, "walking");
+    WALKING(4, "walking");
 
     private static final int MAX_SPEED_RUNNER = 44;
     private static final int MAX_SPEED_BIKER = 133;
-    private static final int MAX_SPEED_DRIVER = 350;
+    private static final int MAX_SPEED_WALKING = 44;
     private int val;
     private String strVal;
 
@@ -31,8 +30,6 @@ public enum SportTypes {
                 return RUNNING.val;
             case "CYCLING":
                 return CYCLING.val;
-            case "BIKING":
-                return BIKING.val;
             case "CLIMBING":
                 return CLIMBING.val;
 //            case "HIKING":
@@ -52,12 +49,10 @@ public enum SportTypes {
             case 2:
                 return CYCLING;
             case 3:
-                return BIKING;
-            case 4:
                 return CLIMBING;
 //            case 5:
 //                return HIKING;
-            case 5:
+            case 4:
                 return WALKING;
         }
         throw new RuntimeException("Sport Type value not supported ");
@@ -65,14 +60,14 @@ public enum SportTypes {
 
     public int getMaxSpeed(SportTypes type){
         switch (type.toString()) {
-            case "BIKING":
-                return MAX_SPEED_BIKER;
-            case "CYCLING":
-                return MAX_SPEED_BIKER;
             case "RUNNING":
                 return MAX_SPEED_RUNNER;
-            case "DRIVING":
-                return MAX_SPEED_DRIVER;
+            case "CYCLING":
+                return MAX_SPEED_BIKER;
+            case "CLIMBING":
+                return MAX_SPEED_RUNNER;
+            case "WALKING":
+                return MAX_SPEED_WALKING;
             default: return 0;
         }
     }

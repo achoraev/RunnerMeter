@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements
     protected static final String speedMetricUnit = " km/h";
     protected static final String TAG = "location";
 
-    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    protected static final int REQUEST_CHECK_SETTINGS = 0x2;
     protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private static final double MAX_SPEED_LIMIT = 50.00;

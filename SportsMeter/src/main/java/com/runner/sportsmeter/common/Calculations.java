@@ -79,13 +79,16 @@ public class Calculations {
         if (currentSpeed > 1.0 && currentSpeed > maxSpeed) {
             if (SportTypes.RUNNING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            } else if (SportTypes.BIKING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
+            } else if (SportTypes.CYCLING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
                 maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
-            }
+            } else {
 //            } else if (SportTypes.DRIVING.equals(type) && currentSpeed <= type.getMaxSpeed(type)) {
 //                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
 //            }
+                maxSpeed = roundToTwoDigitsAfterDecimalPoint(currentSpeed);
+            }
         }
+
         Log.d("cur", String.valueOf(currentSpeed));
         Log.d("max", String.valueOf(maxSpeed));
         return maxSpeed;
@@ -112,7 +115,7 @@ public class Calculations {
             case "DRIVING":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_DRIVER;
                 break;
-            case "BIKING":
+            case "CYCLING":
                 isTimePerKilometerValid = timePerKilometer >= BEST_TIME_BIKER;
                 break;
             case "RUNNING":

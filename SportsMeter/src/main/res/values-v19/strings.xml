@@ -104,7 +104,7 @@
     <string name="how_to_start">How to start:</string>
     <string name="help_login_text">Click on Login on left side menu to signUp/login</string>
     <string name="help_login_image">help login image</string>
-    <string name="help_type_sport_text">Click on picture of type of sport that you play</string>
+    <string name="help_type_sport_text">Click the drop-down menu to select a sport</string>
     <string name="help_start_image">help start image</string>
     <string name="help_main_text">Click on Start button to start your Activity</string>
     <string name="help_main_image">help main page image</string>

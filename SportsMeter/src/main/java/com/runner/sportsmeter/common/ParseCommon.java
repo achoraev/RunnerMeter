@@ -6,7 +6,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.*;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.enums.UserMetrics;
 import com.runner.sportsmeter.models.Account;
@@ -120,13 +119,14 @@ public class ParseCommon {
         saveCoords.saveEventually();
     }
 
-    public static Account createAndSaveAccount(String mail, String facebookId, Account currentUser, UserMetrics metric, Gender gender, Double height, Double width) {
-        currentUser.setUserHeight(height);
-        currentUser.setUserWeight(width);
+    public static Account createAndSaveAccount(String mail, String facebookId, Account user, UserMetrics metric) {
+        Account currentUser = new Account();
         currentUser.setUsersMetricsUnits(metric);
-        currentUser.setGender(gender);
-        currentUser.setSportType(currentUser.getSportType());
-        currentUser.setEmail(currentUser.getEmail().equals("") ? mail : currentUser.getEmail());
+        currentUser.setGender(user.getGender());
+        currentUser.setUserWeight(user.getUserWeight());
+        currentUser.setUserHeight(user.getUserHeight());
+        currentUser.setSportType(user.getSportType());
+        currentUser.setEmail(user.getEmail().equals("") ? mail : currentUser.getEmail());
         currentUser.setFacebookId(facebookId);
         return currentUser;
     }
@@ -153,9 +153,11 @@ public class ParseCommon {
             @Override
             public void done(List<Account> objects, ParseException e) {
                 if(e == null){
-                    if(objects.size() == 0){
-                        finalAccount.saveEventually();
-                    }
+                    // todo check for old account
+                    finalAccount.saveEventually();
+//                    if(objects.size() == 0){
+//
+//                    }
                 }
             }
         });

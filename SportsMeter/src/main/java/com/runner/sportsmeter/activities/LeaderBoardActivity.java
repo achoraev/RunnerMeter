@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by angelr on 20-Aug-15.
  */
-public class LeaderBoardActivity extends Activity implements View.OnClickListener {
+public class LeaderBoardActivity extends Activity {
 
     private Button bestRunners, bestBikers, bestDrivers, myBest;
     private Spinner chooseTypeSport;
@@ -49,14 +49,15 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         // set spinner
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.toolbar_spinner_dropdown_item);
 
         chooseTypeSport.setAdapter(adapter);
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sportTypeForQuery = (SportTypes) parent.getItemAtPosition(position);
                 if(!sportTypeForQuery.equals(SportTypes.CHOOSE_SPORT)) {
-                    ParseQuery(sportType, LIMIT_FOR_SPORT_TYPE, null);
+                    ParseQuery(sportTypeForQuery, LIMIT_FOR_SPORT_TYPE, null);
                 }
             }
 
@@ -126,7 +127,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         bar.setVisibility(View.GONE);
     }
 
-    private void ParseQueryMyBestResult(List<Sessions> sessions) {
+    private void BestResultByUser(List<Sessions> sessions) {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
         arrayOfSessions = new ArrayList<>();
         arrayOfSessions.addAll(sessions);
@@ -148,7 +149,7 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
             public void done(List<Sessions> sessions, ParseException e) {
                 if (e == null) {
                     if(user != null) {
-                        ParseQueryMyBestResult(sessions);
+                        BestResultByUser(sessions);
                     } else {
                         BestResultByType(sessions);
                     }
@@ -165,10 +166,5 @@ public class LeaderBoardActivity extends Activity implements View.OnClickListene
         mAdapter = new RecyclerAdapter(arrayOfSessions);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }

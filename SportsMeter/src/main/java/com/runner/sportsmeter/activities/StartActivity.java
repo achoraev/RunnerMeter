@@ -14,30 +14,31 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.*;
 import com.parse.ParsePush;
 import com.runner.sportsmeter.MainActivity;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
 
 /**
  * Created by Angel Raev on 09-Feb-16
  */
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private final String FIRST_RUN = "firstRun";
     private final String FIVE_RUN = "fiveRun";
 //    private AdView mAdView;
     private SportTypes sportType = SportTypes.CHOOSE_SPORT;
+    private Gender gender = Gender.MALE;
     private int runCount = 1;
     private int maxCountForAskRateMe = 5;
     private SharedPreferences fiveRunSettings;
-
+    private Spinner chooseTypeSport, chooseGender;
+    private EditText userWeight, userHeight;
+    private Button saveBtn;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -82,29 +83,11 @@ public class StartActivity extends AppCompatActivity {
                 })
                 .show();
 
-        // set spinner and data
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
-                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        initializeViews();
+        saveBtn.setOnClickListener(this);
 
-        Spinner chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport);
-
-        chooseTypeSport.setAdapter(adapter);
-        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                sportType = sportType.getSportTypeValue(position);
-                if(!sportType.equals(SportTypes.CHOOSE_SPORT)) {
-                    startMainActivity(sportType);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                sportType = sportType.CHOOSE_SPORT;
-//                startMainActivity(sportType);
-            }
-        });
+        generateSportTypeSpinner();
+        generateGenderSpinner();
 
         turnOnWiFiOrDataInternet();
 
@@ -115,6 +98,51 @@ public class StartActivity extends AppCompatActivity {
 //        // setup adds
 //        mAdView = (AdView) findViewById(R.id.adViewStart);
 //        new Utility().setupAdds(mAdView, this);
+    }
+
+    private void generateGenderSpinner() {
+        // set gender spinner
+        ArrayAdapter<CharSequence> genderSpinnerAdapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                R.array.gender_types, android.R.layout.simple_spinner_item);
+        genderSpinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        chooseGender.setAdapter(genderSpinnerAdapter);
+        chooseGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                gender = gender.getGenderValue(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void generateSportTypeSpinner() {
+        // set spinner and data
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sportType = sportType.getSportTypeValue(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void initializeViews() {
+        chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport);
+        chooseGender = (Spinner) findViewById(R.id.gender_type);
+        userWeight = (EditText) findViewById(R.id.user_weight);
+        userHeight = (EditText) findViewById(R.id.user_height);
+        saveBtn = (Button) findViewById(R.id.save_account);
     }
 
     private void askUserToRateApp() {
@@ -229,10 +257,20 @@ public class StartActivity extends AppCompatActivity {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
+        bundle.putSerializable("gender", gender);
+        bundle.putDouble("weight", Double.parseDouble(userWeight.getText().toString()));
+        bundle.putDouble("height", Double.parseDouble(userHeight.getText().toString()));
         startIntent.putExtras(bundle);
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
         startActivity(startIntent);
         finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.save_account){
+            startMainActivity(sportType);
+        }
     }
 }

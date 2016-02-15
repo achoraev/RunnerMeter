@@ -8,7 +8,7 @@
 
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="100dp"
+                  android:layout_height="wrap_content"
                   android:layout_marginTop="150dp"
                   android:background="@drawable/screen_background_dark_transparent">
 
@@ -20,7 +20,66 @@
         <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/choose_type_of_sport"
                  android:layout_gravity="center"
+                 android:spinnerMode="dialog"
                  android:layout_width="150dp"
                  android:layout_height="match_parent"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:text="@string/calories_message"/>
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:gravity="center"
+                  android:text="@string/user_weight"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="30dp"
+                      android:gravity="center"
+                      android:orientation="horizontal">
+            <EditText android:layout_width="100dp"
+                      android:layout_height="40dp"
+                      android:layout_gravity="center"
+                      android:inputType="numberDecimal"
+                      android:id="@+id/user_weight"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="30dp"
+                      android:gravity="center"
+                      android:text="centimeters"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:gravity="center"
+                  android:text="@string/user_height"/>
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="30dp"
+                      android:gravity="center"
+                      android:orientation="horizontal">
+            <EditText android:layout_width="100dp"
+                      android:layout_height="40dp"
+                      android:layout_gravity="center"
+                      android:inputType="numberDecimal"
+                      android:id="@+id/user_height"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="30dp"
+                      android:gravity="center"
+                      android:text="kilograms"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:gravity="center"
+                  android:text="@string/user_gender"/>
+        <Spinner
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:id="@+id/gender_type"
+                android:spinnerMode="dialog"/>
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/save_account"
+                android:text="@string/save_save_btn"/>
+
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

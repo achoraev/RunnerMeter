@@ -19,4 +19,9 @@
         <item>user_birthday</item>
         <item>user_likes</item>
     </string-array>
+
+    <string-array name="gender_types">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
 </resources>

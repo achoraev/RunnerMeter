@@ -30,7 +30,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private final String FIRST_RUN = "firstRun";
     private final String FIVE_RUN = "fiveRun";
-//    private AdView mAdView;
+    //    private AdView mAdView;
     private SportTypes sportType = SportTypes.CHOOSE_SPORT;
     private Gender gender = Gender.MALE;
     private int runCount = 1;
@@ -258,8 +258,10 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
         bundle.putSerializable("gender", gender);
-        bundle.putDouble("weight", Double.parseDouble(userWeight.getText().toString()));
-        bundle.putDouble("height", Double.parseDouble(userHeight.getText().toString()));
+        Double weight = userWeight.getText() != null ? Double.parseDouble(userWeight.getText().toString()) : 0;
+        Double height = userHeight.getText() != null ? Double.parseDouble(userHeight.getText().toString()) : 0;
+        bundle.putDouble("weight", weight);
+        bundle.putDouble("height", height);
         startIntent.putExtras(bundle);
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
@@ -269,7 +271,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.save_account){
+        if (v.getId() == R.id.save_account) {
             startMainActivity(sportType);
         }
     }

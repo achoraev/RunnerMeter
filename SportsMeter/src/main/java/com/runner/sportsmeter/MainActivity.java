@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements
     private long currentTimeDiff, sessionTimeDiff;
     private Boolean startButtonEnabled = false;
     private boolean isPausedActivityEnable = false;
-    private Double userHeight = 0.00, userWidth = 0.00;
     private Account currentUserAccount = new Account();
 
     private String userName, facebookId;
@@ -1011,8 +1010,10 @@ public class MainActivity extends AppCompatActivity implements
                 // create account object from current user
                 currentUserAccount = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this, sportType);
                 currentUserAccount.setGender((Gender) getIntent().getExtras().get("gender"));
-                currentUserAccount.setUserWeight((Double) getIntent().getExtras().get("weight"));
-                currentUserAccount.setUserHeight((Double) getIntent().getExtras().get("height"));
+                Double width = getIntent().getExtras().getDouble("weight") != 0 ? getIntent().getExtras().getDouble("weight") : 0;
+                Double height = getIntent().getExtras().getDouble("height") != 0 ? getIntent().getExtras().getDouble("height") : 0;
+                currentUserAccount.setUserWeight(width);
+                currentUserAccount.setUserHeight(height);
 
                 String mail = currentUserAccount.getEmail() != null ? currentUserAccount.getEmail() : "";
                 String faceId = "";
@@ -1021,7 +1022,7 @@ public class MainActivity extends AppCompatActivity implements
                     // get facebook mail
                     getFacebookMail(currentUserAccount, faceId);
                 } else {
-                    currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount, UserMetrics.METRIC);
+                    currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount, UserMetrics.METRIC, MainActivity.this);
                     ParseCommon.checkIfAccountExistAndSave(currentUserAccount);
                 }
                 break;
@@ -1040,7 +1041,7 @@ public class MainActivity extends AppCompatActivity implements
                     public void onCompleted(JSONObject object, GraphResponse graphResponse) {
                         try {
                             String userEmail = object.getString("email");
-                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC);
+                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, MainActivity.this);
                             ParseCommon.checkIfAccountExistAndSave(finalAccount);
                         } catch (JSONException e) {
                             e.printStackTrace();

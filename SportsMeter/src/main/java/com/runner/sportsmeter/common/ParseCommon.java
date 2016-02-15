@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.*;
+import com.runner.sportsmeter.MainActivity;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.enums.UserMetrics;
@@ -119,14 +120,22 @@ public class ParseCommon {
         saveCoords.saveEventually();
     }
 
-    public static Account createAndSaveAccount(String mail, String facebookId, Account user, UserMetrics metric) {
+    public static Account createAndSaveAccount(String mail, String facebookId, Account user, UserMetrics metric, MainActivity context) {
+        ParseACL acl = new ParseACL(ParseUser.getCurrentUser());
+        acl.setPublicReadAccess(true);
+        acl.setPublicWriteAccess(true);
         Account currentUser = new Account();
+        currentUser.setCurrentUser(user.getCurrentUser());
+        currentUser.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
+        currentUser.setMemberSince(currentUser.getCreatedAt());
+        currentUser.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : context.getString(R.string.anonymous));
+        currentUser.setACL(acl);
         currentUser.setUsersMetricsUnits(metric);
         currentUser.setGender(user.getGender());
         currentUser.setUserWeight(user.getUserWeight());
         currentUser.setUserHeight(user.getUserHeight());
         currentUser.setSportType(user.getSportType());
-        currentUser.setEmail(user.getEmail().equals("") ? mail : currentUser.getEmail());
+        currentUser.setEmail(user.getEmail().equals("") ? mail : user.getEmail());
         currentUser.setFacebookId(facebookId);
         return currentUser;
     }

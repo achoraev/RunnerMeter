@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.parse.ParsePush;
+import com.parse.ParseUser;
 import com.runner.sportsmeter.MainActivity;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.ParseCommon;
@@ -39,6 +40,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private Spinner chooseTypeSport, chooseGender;
     private EditText userWeight, userHeight;
     private Button saveBtn;
+    private LinearLayout accountDataLayout;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -84,6 +86,13 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 .show();
 
         initializeViews();
+
+        if(ParseUser.getCurrentUser() == null){
+            accountDataLayout.setVisibility(View.VISIBLE);
+        } else {
+            accountDataLayout.setVisibility(View.GONE);
+        }
+
         saveBtn.setOnClickListener(this);
 
         generateSportTypeSpinner();
@@ -106,6 +115,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 R.array.gender_types, android.R.layout.simple_spinner_item);
         genderSpinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         chooseGender.setAdapter(genderSpinnerAdapter);
+        chooseGender.setSelection(Gender.NOT_SET.getIntValue(Gender.NOT_SET.toString()));
         chooseGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -143,6 +153,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         userWeight = (EditText) findViewById(R.id.user_weight);
         userHeight = (EditText) findViewById(R.id.user_height);
         saveBtn = (Button) findViewById(R.id.save_account);
+        accountDataLayout = (LinearLayout) findViewById(R.id.account_data_layout);
     }
 
     private void askUserToRateApp() {
@@ -258,8 +269,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
         bundle.putSerializable("gender", gender);
-        Double weight = userWeight.getText() != null ? Double.parseDouble(userWeight.getText().toString()) : 0;
-        Double height = userHeight.getText() != null ? Double.parseDouble(userHeight.getText().toString()) : 0;
+        Double weight = userWeight.getText().toString().equals("") ? 0 : Double.parseDouble(userWeight.getText().toString());
+        Double height = userHeight.getText().toString().equals("") ? 0 : Double.parseDouble(userHeight.getText().toString());
         bundle.putDouble("weight", weight);
         bundle.putDouble("height", height);
         startIntent.putExtras(bundle);

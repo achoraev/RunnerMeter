@@ -126,5 +126,21 @@
     <string name="permission_granted">Erlaubnis erteilt</string>
     <string name="enter_app">Geben Sie die Anwendung</string>
     <string name="show_best">Zeigen Sie am besten:</string>
+    <string name="help_type_sport_text">Klicken Sie auf das Dropdown-Menü wählen Sie eine Sportart</string>
+    <string name="user_weight">Gewicht</string>
+    <string name="user_height">Höhe</string>
+    <string name="user_gender">Geschlecht</string>
+    <string name="user_units">Bevorzugte Einheit</string>
+    <string name="not_present">Nicht festgelegt</string>
+    <string name="male">Männchen</string>
+    <string name="female">Weiblich</string>
+    <string name="centimeters">Zentimeter</string>
+    <string name="kilograms">Kilogramm</string>
+    <string name="choose">Wählen Sie sport</string>
+    <string name="running">Ausführen</string>
+    <string name="cycling">Radfahren</string>
+    <string name="climbing">Klettern</string>
+    <string name="walking">Fuß</string>
+    <string name="calories_message">Daten für die Berechnung der Kalorien</string>
 
 </resources>

@@ -124,5 +124,21 @@
     <string name="permission_granted">Разрешено</string>
     <string name="enter_app">Влезте в приложението</string>
     <string name="show_best">Показване на най-добрите:</string>
+    <string name="help_type_sport_text">Щракнете върху падащото меню за да изберете спорт</string>
+    <string name="user_weight">Тегло</string>
+    <string name="user_height">Височина</string>
+    <string name="user_gender">Пол</string>
+    <string name="user_units">Предпочитана единица</string>
+    <string name="not_present">Не е зададен</string>
+    <string name="male">Мъжки</string>
+    <string name="female">Женски</string>
+    <string name="centimeters">см</string>
+    <string name="kilograms">килограма</string>
+    <string name="choose">Изберете спорт</string>
+    <string name="running">Тичане</string>
+    <string name="cycling">Колоездене</string>
+    <string name="climbing">Катерене</string>
+    <string name="walking">Ходене</string>
+    <string name="calories_message">Данни, необходими за изчисляване на калории</string>
 
 </resources>

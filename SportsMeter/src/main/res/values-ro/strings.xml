@@ -126,5 +126,21 @@
     <string name="permission_granted">Permisiunea acordată</string>
     <string name="enter_app">Introduceţi cererea</string>
     <string name="show_best">Arată cele mai bune:</string>
+    <string name="help_type_sport_text">Faceţi clic pe meniul derulant pentru a selecta un sport</string>
+    <string name="user_weight">Greutate</string>
+    <string name="user_height">Înălţimea</string>
+    <string name="user_gender">Între femei şi bărbaţi</string>
+    <string name="user_units">Unitate de preferat</string>
+    <string name="not_present">Nu seta</string>
+    <string name="male">De sex masculin</string>
+    <string name="female">De sex feminin</string>
+    <string name="centimeters">centimetri</string>
+    <string name="kilograms">kilograme</string>
+    <string name="choose">Alege sportul</string>
+    <string name="running">Execută</string>
+    <string name="cycling">Ciclism</string>
+    <string name="climbing">Alpinism</string>
+    <string name="walking">Mersul pe jos</string>
+    <string name="calories_message">Date necesare pentru calcul calorii</string>
 
 </resources>

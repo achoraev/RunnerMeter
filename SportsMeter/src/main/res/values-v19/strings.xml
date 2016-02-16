@@ -7,6 +7,7 @@
     // navigation menu
     <string name="menu_leaderboard">Leaderboard</string>
     <string name="menu_login">Login</string>
+    <string name="menu_history">History</string>
     <string name="feedback">Feedback</string>
     <string name="menu_account">Account</string>
     <string name="menu_rate">Rate this app!</string>
@@ -104,7 +105,6 @@
     <string name="how_to_start">How to start:</string>
     <string name="help_login_text">Click on Login on left side menu to signUp/login</string>
     <string name="help_login_image">help login image</string>
-    <string name="help_type_sport_text">Click the drop-down menu to select a sport</string>
     <string name="help_start_image">help start image</string>
     <string name="help_main_text">Click on Start button to start your Activity</string>
     <string name="help_main_image">help main page image</string>
@@ -120,7 +120,34 @@
     <string name="do_you_like_sport_meter">Do you like Sport Meter?</string>
     <string name="like">Like</string>
     <string name="do_you_want_rate_now">Do you want to rate Sport Meter now?</string>
+    <string name="my_activity_history">My Activity History</string>
+    <string name="anonymous">Anonymous</string>
+    <string name="remind_later">Remind me later</string>
+
+    <string name="choose_type_of_sport">Choose type of sport</string>
+    <string name="permission_granted">Permissions granted</string>
+    <string name="enter_app">Enter application</string>
+    <string name="show_best">Show best:</string>
+
+    <string name="help_type_sport_text">Click the drop-down menu to select a sport</string>
+    <string name="user_weight">Weight</string>
+    <string name="user_height">Height</string>
+    <string name="user_gender">Gender</string>
+    <string name="user_units">Preferred unit</string>
+    <string name="not_present">Not_set</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="centimeters">centimeters</string>
+    <string name="kilograms">kilograms</string>
+    <string name="choose">Choose sport</string>
+    <string name="running">Running</string>
+    <string name="cycling">Cycling</string>
+    <string name="climbing">Climbing</string>
+    <string name="walking">Walking</string>
+    <string name="calories_message">Data needed for calculating calories</string>
+
     <!--<string name="google_legal_notices">Google legal notices</string>-->
+
 
 
     // not translate

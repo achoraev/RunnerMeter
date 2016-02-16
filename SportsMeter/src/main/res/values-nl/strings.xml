@@ -126,5 +126,21 @@
     <string name="permission_granted">Verleende toestemming</string>
     <string name="enter_app">Invoeren van toepassing</string>
     <string name="show_best">Beste Toon:</string>
+    <string name="help_type_sport_text">Klik op het drop-down menu om te selecteren van een sport</string>
+    <string name="user_weight">Gewicht</string>
+    <string name="user_height">Hoogte</string>
+    <string name="user_gender">Geslacht</string>
+    <string name="user_units">Gewenste eenheid</string>
+    <string name="not_present">Niet ingesteld</string>
+    <string name="male">Man</string>
+    <string name="female">Vrouw</string>
+    <string name="centimeters">centimeter</string>
+    <string name="kilograms">kilogram</string>
+    <string name="choose">Kies sport</string>
+    <string name="running">Uitgevoerd</string>
+    <string name="cycling">Fietsen</string>
+    <string name="climbing">Klimmen</string>
+    <string name="walking">Wandelen</string>
+    <string name="calories_message">Gegevens die nodig zijn voor de berekening van de calorieën</string>
 
 </resources>

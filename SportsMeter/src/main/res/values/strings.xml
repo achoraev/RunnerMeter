@@ -105,7 +105,6 @@
     <string name="how_to_start">How to start:</string>
     <string name="help_login_text">Click on Login on left side menu to signUp/login</string>
     <string name="help_login_image">help login image</string>
-    <!--<string name="help_type_sport_text">Click the drop-down menu to select a sport</string>-->
     <string name="help_start_image">help start image</string>
     <string name="help_main_text">Click on Start button to start your Activity</string>
     <string name="help_main_image">help main page image</string>
@@ -134,10 +133,18 @@
     <string name="user_weight">Weight</string>
     <string name="user_height">Height</string>
     <string name="user_gender">Gender</string>
-    <string name="user_metrics">Preferred metrics</string>
+    <string name="user_units">Preferred unit</string>
+    <string name="not_present">Not_set</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-
+    <string name="centimeters">centimeters</string>
+    <string name="kilograms">kilograms</string>
+    <string name="choose">Choose sport</string>
+    <string name="running">Running</string>
+    <string name="cycling">Cycling</string>
+    <string name="climbing">Climbing</string>
+    <string name="walking">Walking</string>
+    <string name="calories_message">Data needed for calculating calories</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
 
 
@@ -187,6 +194,5 @@
     <string name="app_email" translatable="false">runner.meter@gmail.com</string>
     <string name="change_type_of_sport" translatable="false">Change type</string>
     <string name="copyright" translatable="false">Copyright © 2015 by Angel Raev. All rights reserved.</string>
-    <string name="calories_message">Data needed for calculating calories</string>
 
 </resources>

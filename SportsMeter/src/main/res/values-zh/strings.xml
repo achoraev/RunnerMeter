@@ -124,5 +124,21 @@
     <string name="permission_granted">授予权限</string>
     <string name="enter_app">输入应用程序</string>
     <string name="show_best">显示最佳:</string>
+    <string name="help_type_sport_text">单击下拉菜单中，选择运动</string>
+    <string name="user_weight">重量</string>
+    <string name="user_height">高度</string>
+    <string name="user_gender">性别</string>
+    <string name="user_units">首选的单位</string>
+    <string name="not_present">未设置</string>
+    <string name="male">男性</string>
+    <string name="female">女性</string>
+    <string name="centimeters">厘米</string>
+    <string name="kilograms">公斤</string>
+    <string name="choose">选择运动</string>
+    <string name="running">运行</string>
+    <string name="cycling">骑自行车</string>
+    <string name="climbing">攀爬</string>
+    <string name="walking">行走</string>
+    <string name="calories_message">计算热量所需的数据</string>
 
 </resources>

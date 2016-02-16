@@ -125,5 +125,21 @@
     <string name="permission_granted">-İzin verildi</string>
     <string name="enter_app">Uygulama girin</string>
     <string name="show_best">En iyi göstermek:</string>
+    <string name="help_type_sport_text">Bir spor seçmek için aþaðý açýlan menüsünü tıklatın</string>
+    <string name="user_weight">Ağırlık</string>
+    <string name="user_height">Yükseklik</string>
+    <string name="user_gender">Cinsiyet</string>
+    <string name="user_units">Tercih edilen birim</string>
+    <string name="not_present">Ayarlı değil</string>
+    <string name="male">Erkek</string>
+    <string name="female">Erkek</string>
+    <string name="centimeters">santimetre</string>
+    <string name="kilograms">kilogram</string>
+    <string name="choose">Spor seçin</string>
+    <string name="running">Çalışan</string>
+    <string name="cycling">Bisiklete binme</string>
+    <string name="climbing">Tırmanma</string>
+    <string name="walking">Yürüyüş</string>
+    <string name="calories_message">Kalori hesaplamak için gerekli veri</string>
 
 </resources>

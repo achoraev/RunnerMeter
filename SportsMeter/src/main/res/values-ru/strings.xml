@@ -126,5 +126,21 @@
     <string name="permission_granted">Разрешение</string>
     <string name="enter_app">Войти в приложение</string>
     <string name="show_best">Показать лучшие:</string>
+    <string name="help_type_sport_text">Щелкните раскрывающееся меню для выбора Спорт</string>
+    <string name="user_weight">Вес</string>
+    <string name="user_height">Высота</string>
+    <string name="user_gender">Пол</string>
+    <string name="user_units">Нужный блок</string>
+    <string name="not_present">Не задано</string>
+    <string name="male">Мужчины</string>
+    <string name="female">Девушки</string>
+    <string name="centimeters">сантиметров</string>
+    <string name="kilograms">килограмм</string>
+    <string name="choose">Выберите Спорт</string>
+    <string name="running">Пробег</string>
+    <string name="cycling">Велоспорт</string>
+    <string name="climbing">Восхождение</string>
+    <string name="walking">Ходьба</string>
+    <string name="calories_message">Данные, необходимые для расчета калорий</string>
 
 </resources>

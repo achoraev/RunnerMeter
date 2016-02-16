@@ -126,5 +126,21 @@
     <string name="permission_granted">Izin diberikan</string>
     <string name="enter_app">Masukkan aplikasi</string>
     <string name="show_best">Show terbaik:</string>
+    <string name="help_type_sport_text">Klik menu drop-down untuk memilih olahraga</string>
+    <string name="user_weight">Berat badan</string>
+    <string name="user_height">Tinggi</string>
+    <string name="user_gender">Jenis kelamin</string>
+    <string name="user_units">Lebih disukai unit</string>
+    <string name="not_present">Tidak diatur</string>
+    <string name="male">Laki-laki</string>
+    <string name="female">Laki-laki</string>
+    <string name="centimeters">sentimeter</string>
+    <string name="kilograms">kilogram</string>
+    <string name="choose">Memilih olahraga</string>
+    <string name="running">Menjalankan</string>
+    <string name="cycling">Bersepeda</string>
+    <string name="climbing">Pendakian</string>
+    <string name="walking">Berjalan</string>
+    <string name="calories_message">Data yang diperlukan untuk menghitung kalori</string>
 
 </resources>

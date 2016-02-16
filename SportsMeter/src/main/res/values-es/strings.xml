@@ -126,5 +126,21 @@
     <string name="permission_granted">Permiso concedido</string>
     <string name="enter_app">Entrar en aplicación</string>
     <string name="show_best">Ver mejor:</string>
+    <string name="help_type_sport_text">Haga clic en el menú desplegable para seleccionar un deporte</string>
+    <string name="user_weight">Peso</string>
+    <string name="user_height">Altura</string>
+    <string name="user_gender">Género</string>
+    <string name="user_units">Recomendado: unidad</string>
+    <string name="not_present">No establece</string>
+    <string name="male">Hombre</string>
+    <string name="female">Mujer</string>
+    <string name="centimeters">centímetros</string>
+    <string name="kilograms">kilogramos</string>
+    <string name="choose">Elegir deporte</string>
+    <string name="running">Funcionamiento</string>
+    <string name="cycling">Ciclismo</string>
+    <string name="climbing">Escalada</string>
+    <string name="walking">Caminando</string>
+    <string name="calories_message">Datos necesarios para el cálculo de calorías</string>
 
 </resources>

@@ -126,5 +126,21 @@
     <string name="permission_granted">Engedéllyel rendelkezik</string>
     <string name="enter_app">Adja meg az alkalmazás</string>
     <string name="show_best">A következő szálláshely best:</string>
+    <string name="help_type_sport_text">Kattintson a legördülő menüből válassza ki a sport</string>
+    <string name="user_weight">Súly</string>
+    <string name="user_height">Magasság</string>
+    <string name="user_gender">A nemek közötti</string>
+    <string name="user_units">Előnyben részesített egység</string>
+    <string name="not_present">Nincs beállítva</string>
+    <string name="male">Férfi</string>
+    <string name="female">Női</string>
+    <string name="centimeters">centiméter</string>
+    <string name="kilograms">kg</string>
+    <string name="choose">Válassza ki a sport</string>
+    <string name="running">Futás</string>
+    <string name="cycling">Kerékpározás</string>
+    <string name="climbing">Hegymászás</string>
+    <string name="walking">Gyaloglás</string>
+    <string name="calories_message">Kalória kiszámításához szükséges adatok</string>
 
 </resources>

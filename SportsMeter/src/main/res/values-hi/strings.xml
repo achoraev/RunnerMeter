@@ -125,5 +125,21 @@
     <string name="permission_granted">दी गई अनुमति</string>
     <string name="enter_app">आवेदन दर्ज करें</string>
     <string name="show_best">बेहतरीन शो:</string>
+    <string name="help_type_sport_text">एक खेल का चयन करने के लिए ड्रॉप-डाउन मेनू क्लिक करें</string>
+    <string name="user_weight">वजन</string>
+    <string name="user_height">ऊंचाई</string>
+    <string name="user_gender">लिंग</string>
+    <string name="user_units">पसंदीदा इकाई</string>
+    <string name="not_present">सेट नहीं</string>
+    <string name="male">पुरुष</string>
+    <string name="female">महिला</string>
+    <string name="centimeters">सेंटीमीटर</string>
+    <string name="kilograms">किलोग्राम</string>
+    <string name="choose">खेल का चयन</string>
+    <string name="running">चल रहा</string>
+    <string name="cycling">साइकल चलाना</string>
+    <string name="climbing">चढ़ाई</string>
+    <string name="walking">घूमना</string>
+    <string name="calories_message">कैलोरी की गणना के लिए आवश्यक डेटा</string>
 
 </resources>

@@ -126,9 +126,9 @@ public class ParseCommon {
         acl.setPublicWriteAccess(true);
         Account currentUser = new Account();
         currentUser.setCurrentUser(user.getCurrentUser());
-        currentUser.setIsVerified((Boolean) (currentUser.get("emailVerified") != null ? currentUser.get("emailVerified") : false));
-        currentUser.setMemberSince(currentUser.getCreatedAt());
-        currentUser.setName(currentUser.get("name") != null ? currentUser.get("name").toString() : context.getString(R.string.anonymous));
+        currentUser.setIsVerified((Boolean) (user.get("emailVerified") != null ? user.get("emailVerified") : false));
+        currentUser.setMemberSince(user.getMemberSince());
+        currentUser.setName(user.get("name") != null ? user.get("name").toString() : context.getString(R.string.anonymous));
         currentUser.setACL(acl);
         currentUser.setUsersMetricsUnits(metric);
         currentUser.setGender(user.getGender());

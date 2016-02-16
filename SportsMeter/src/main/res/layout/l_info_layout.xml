@@ -20,7 +20,7 @@
         <TextView
                 android:id="@+id/distance_meter"
                 android:layout_width="match_parent"
-                android:layout_height="20sp"
+                android:layout_height="25sp"
                 android:text="0 km"
                 android:textSize="20sp"
                 android:gravity="center"
@@ -35,7 +35,7 @@
         <TextView
                 android:id="@+id/speed_meter"
                 android:layout_width="match_parent"
-                android:layout_height="20sp"
+                android:layout_height="25sp"
                 android:text="0 km/h"
                 android:textSize="20sp"
                 android:gravity="center"
@@ -72,7 +72,7 @@
         <TextView
                 android:id="@+id/time_meter"
                 android:layout_width="match_parent"
-                android:layout_height="20sp"
+                android:layout_height="25sp"
                 android:text="00:00:00"
                 android:textSize="20sp"
                 android:gravity="center"
@@ -87,7 +87,7 @@
         <TextView
                 android:id="@+id/max_speed"
                 android:layout_width="match_parent"
-                android:layout_height="20sp"
+                android:layout_height="25sp"
                 android:text="0 km/h"
                 android:textSize="20sp"
                 android:gravity="center"

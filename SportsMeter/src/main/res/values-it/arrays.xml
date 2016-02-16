@@ -1,9 +1,15 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Scegli lo sport</item>
-        <item>In esecuzione</item>
-        <item>Escursioni in bicicletta</item>
-        <item>Arrampicata</item>
-        <item>A piedi</item>
+        <item>@string/choose</item>
+        <item>@string/running</item>
+        <item>@string/cycling</item>
+        <item>@string/climbing</item>
+        <item>@string/walking</item>
+    </string-array>
+
+    <string-array name="gender_types">
+        <item>@string/not_present</item>
+        <item>@string/male</item>
+        <item>@string/female</item>
     </string-array>
 </resources>

@@ -1,9 +1,15 @@
 <resources>
     <string-array name="array_type_of_sports">
-        <item>选择运动</item>
-        <item>运行</item>
-        <item>骑自行车</item>
-        <item>攀爬</item>
-        <item>行走</item>
+        <item>@string/choose</item>
+        <item>@string/running</item>
+        <item>@string/cycling</item>
+        <item>@string/climbing</item>
+        <item>@string/walking</item>
+    </string-array>
+
+    <string-array name="gender_types">
+        <item>@string/not_present</item>
+        <item>@string/male</item>
+        <item>@string/female</item>
     </string-array>
 </resources>

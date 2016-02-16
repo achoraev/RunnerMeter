@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="array_type_of_sports">
-        <item>Choose sport</item>
-        <item>Running</item>
-        <item>Cycling</item>
-        <item>Climbing</item>
+        <item>@string/choose</item>
+        <item>@string/running</item>
+        <item>@string/cycling</item>
+        <item>@string/climbing</item>
+        <item>@string/walking</item>
         <!--<item>Hiking</item>-->
-        <item>Walking</item>
     </string-array>
 
     // facebook permissions
@@ -21,6 +21,7 @@
     </string-array>
 
     <string-array name="gender_types">
+        <item>@string/not_present</item>
         <item>@string/male</item>
         <item>@string/female</item>
     </string-array>

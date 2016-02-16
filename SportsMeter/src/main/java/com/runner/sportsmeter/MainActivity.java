@@ -332,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void pauseLogic() {
-        // todo remove this toast
         Toast.makeText(MainActivity.this, "Activity Paused", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = true;
         fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
@@ -1245,7 +1244,8 @@ public class MainActivity extends AppCompatActivity implements
 
                     listOfPoints.add(new ParseGeoPoint(currentCoordinates.latitude, currentCoordinates.longitude));
                     // todo fix this to change color of polyline not add all segment but only current points
-                    // todo this change color but is not good
+                    // this change color but is not good
+
 //                    PolylineOptions miniSegment = new PolylineOptions();
 //                    miniSegment.width(POLYLINE_WIDTH);
 //                    miniSegment.add(lastUpdatedCoord, currentCoordinates);

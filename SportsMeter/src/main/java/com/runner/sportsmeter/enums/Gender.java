@@ -30,12 +30,12 @@ public enum Gender {
 
     public int getIntValue(String val){
         switch (val) {
-            case "NOT_SET":
-                return NOT_SET.val;
             case "MALE":
                 return MALE.val;
             case "FEMALE":
                 return FEMALE.val;
+            case "NOT_SET":
+                return NOT_SET.val;
         }
         throw new RuntimeException("Sport Type value not supported " + val);
     }

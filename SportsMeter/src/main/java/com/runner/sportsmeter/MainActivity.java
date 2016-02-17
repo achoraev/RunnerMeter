@@ -566,9 +566,7 @@ public class MainActivity extends AppCompatActivity implements
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.toolbar_spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
-
         chooseTypeSport.setSelection(sportType.getIntValue(sportType.toString()));
-
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

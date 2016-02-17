@@ -4,9 +4,9 @@ package com.runner.sportsmeter.enums;
  * Created by Angel Raev on 26-Jan-16
  */
 public enum Gender {
-    MALE(0, "male"),
-    FEMALE(1, "female"),
-    NOT_SET(2, "not_set");
+    NOT_SET(0, "not_set"),
+    MALE(1, "male"),
+    FEMALE(2, "female");
 
     private final int val;
     private String strVal;
@@ -19,11 +19,11 @@ public enum Gender {
     public Gender getGenderValue(int val){
         switch (val) {
             case 0:
-                return MALE;
-            case 1:
-                return FEMALE;
-            case 2:
                 return NOT_SET;
+            case 1:
+                return MALE;
+            case 2:
+                return FEMALE;
         }
         throw new RuntimeException("Sport Type value not supported " + val);
     }

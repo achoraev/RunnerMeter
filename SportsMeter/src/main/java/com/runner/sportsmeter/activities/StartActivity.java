@@ -80,7 +80,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 .setAction(">>>>", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startMainActivity(sportType);
+                        startMainActivity(sportType, gender);
                     }
                 })
                 .show();
@@ -115,7 +115,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                 R.array.gender_types, android.R.layout.simple_spinner_item);
         genderSpinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         chooseGender.setAdapter(genderSpinnerAdapter);
-        chooseGender.setSelection(Gender.NOT_SET.getIntValue(Gender.NOT_SET.toString()));
         chooseGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -264,11 +263,11 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void startMainActivity(SportTypes sportType) {
+    private void startMainActivity(SportTypes sportType, Gender gend) {
         Intent startIntent = new Intent(StartActivity.this, MainActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
-        bundle.putSerializable("gender", gender);
+        bundle.putSerializable("gender", gend);
         Double weight = userWeight.getText().toString().equals("") ? 0 : Double.parseDouble(userWeight.getText().toString());
         Double height = userHeight.getText().toString().equals("") ? 0 : Double.parseDouble(userHeight.getText().toString());
         bundle.putDouble("weight", weight);
@@ -283,7 +282,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.save_account) {
-            startMainActivity(sportType);
+            startMainActivity(sportType, gender);
         }
     }
 }

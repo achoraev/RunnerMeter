@@ -124,4 +124,8 @@ public class Calculations {
         }
         return isTimePerKilometerValid;
     }
+
+    public static double convertDoubleToTime(double distance) {
+        return distance - (distance % 1) + (0.60 * (distance % 1));
+    }
 }

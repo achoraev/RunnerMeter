@@ -162,11 +162,9 @@ public class ParseCommon {
             @Override
             public void done(List<Account> objects, ParseException e) {
                 if(e == null){
-                    // todo check for old account
-                    finalAccount.saveEventually();
-//                    if(objects.size() == 0){
-//
-//                    }
+                    if(objects.size() == 0) {
+                        finalAccount.saveEventually();
+                    }
                 }
             }
         });

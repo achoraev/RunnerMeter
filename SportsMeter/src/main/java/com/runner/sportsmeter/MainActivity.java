@@ -56,6 +56,7 @@ import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.GooglePlusLoginHelper;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.Gender;
@@ -812,6 +813,13 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(worldMapIntent);
                 return true;
+            case R.id.action_google_login:
+                Intent google = new Intent(MainActivity.this, GooglePlusLoginHelper.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(google);
+//                new GoogleLogin(true);
+                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)
@@ -1001,28 +1009,30 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
                 // connect installation with user
-                installation.put("user", ParseUser.getCurrentUser());
-                installation.saveEventually();
+                if (ParseUser.getCurrentUser() != null) {
+                    installation.put("user", ParseUser.getCurrentUser());
+                    installation.saveEventually();
 
-                // create account object from current user
-                currentUserAccount = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this, sportType);
-                currentUserAccount.setGender((Gender) getIntent().getExtras().get("gender"));
-                Double width = getIntent().getExtras().getDouble("weight") != 0 ? getIntent().getExtras().getDouble("weight") : 0;
-                Double height = getIntent().getExtras().getDouble("height") != 0 ? getIntent().getExtras().getDouble("height") : 0;
-                currentUserAccount.setUserWeight(width);
-                currentUserAccount.setUserHeight(height);
+                    // create account object from current user
+                    currentUserAccount = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this, sportType);
+                    currentUserAccount.setGender((Gender) getIntent().getExtras().get("gender"));
+                    Double width = getIntent().getExtras().getDouble("weight") != 0 ? getIntent().getExtras().getDouble("weight") : 0;
+                    Double height = getIntent().getExtras().getDouble("height") != 0 ? getIntent().getExtras().getDouble("height") : 0;
+                    currentUserAccount.setUserWeight(width);
+                    currentUserAccount.setUserHeight(height);
 
-                String mail = currentUserAccount.getEmail() != null ? currentUserAccount.getEmail() : "";
-                String faceId = "";
-                if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
-                    faceId = AccessToken.getCurrentAccessToken().getUserId();
-                    // get facebook mail
-                    getFacebookMail(currentUserAccount, faceId);
-                } else {
-                    currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount, UserMetrics.METRIC, MainActivity.this);
-                    ParseCommon.checkIfAccountExistAndSave(currentUserAccount);
+                    String mail = currentUserAccount.getEmail() != null ? currentUserAccount.getEmail() : "";
+                    String faceId = "";
+                    if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                        faceId = AccessToken.getCurrentAccessToken().getUserId();
+                        // get facebook mail
+                        getFacebookMail(currentUserAccount, faceId);
+                    } else {
+                        currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount, UserMetrics.METRIC, MainActivity.this);
+                        ParseCommon.checkIfAccountExistAndSave(currentUserAccount);
+                    }
+                    break;
                 }
-                break;
         }
 
         setCurrentUserUsername();

@@ -14,7 +14,20 @@
           "package_name": "com.runner.sportsmeter"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "377832317200-mk679dhgbi442h0kde5mhj1m6m4i0gql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.runner.sportsmeter",
+            "certificate_hash": "32E95C8E89D18A501A9C27F044B2E37DF4EE8045"
+          }
+        },
+        {
+          "client_id": "377832317200-mu8ed391i53nj1g0c1pqkdkb4a1k7pfa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [],
       "services": {
         "analytics_service": {
@@ -32,7 +45,7 @@
           "other_platform_oauth_client": []
         },
         "google_signin_service": {
-          "status": 1
+          "status": 2
         },
         "ads_service": {
           "status": 1

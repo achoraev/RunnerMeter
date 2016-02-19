@@ -17,4 +17,9 @@
         android:drawableLeft="@drawable/com_parse_ui_twitter_login_logo"
         android:text="@string/com_parse_ui_twitter_login_button_label"
         android:visibility="gone" />
+
+    <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 </merge>

@@ -11,8 +11,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import com.parse.ParsePush;
@@ -27,7 +30,10 @@ import com.runner.sportsmeter.enums.SportTypes;
 /**
  * Created by Angel Raev on 09-Feb-16
  */
-public class StartActivity extends AppCompatActivity implements View.OnClickListener {
+public class StartActivity extends AppCompatActivity implements View.OnClickListener,
+        GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener {
+
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private final String FIRST_RUN = "firstRun";
     private final String FIVE_RUN = "fiveRun";
@@ -41,12 +47,17 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private EditText userWeight, userHeight;
     private Button saveBtn;
     private LinearLayout accountDataLayout;
+    private GestureDetectorCompat mDetector;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_new_start_layout);
+
+        // detect gestures
+        mDetector = new GestureDetectorCompat(StartActivity.this, this);
+        mDetector.setOnDoubleTapListener(this);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -87,7 +98,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         initializeViews();
 
-        if(ParseUser.getCurrentUser() == null){
+        if (ParseUser.getCurrentUser() == null) {
             accountDataLayout.setVisibility(View.VISIBLE);
         } else {
             accountDataLayout.setVisibility(View.GONE);
@@ -284,5 +295,60 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         if (v.getId() == R.id.save_account) {
             startMainActivity(sportType, gender);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        this.mDetector.onTouchEvent(event);
+        // Be sure to call the superclass implementation
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        Toast.makeText(StartActivity.this, "Fling" + e1.toString() + e2.toString(), Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onDoubleTap(MotionEvent e) {
+        Toast.makeText(StartActivity.this, "Double tab " + e.toString(), Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    @Override
+    public boolean onDoubleTapEvent(MotionEvent e) {
+        Toast.makeText(StartActivity.this, "Double tab event " + e.toString(), Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

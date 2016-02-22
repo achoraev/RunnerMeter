@@ -56,7 +56,6 @@ import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
-import com.runner.sportsmeter.common.GooglePlusLoginHelper;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.Gender;
@@ -813,13 +812,13 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(worldMapIntent);
                 return true;
-            case R.id.action_google_login:
-                Intent google = new Intent(MainActivity.this, GooglePlusLoginHelper.class);
-                overridePendingTransition(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
-                startActivity(google);
-//                new GoogleLogin(true);
-                return true;
+//            case R.id.action_google_login:
+//                Intent google = new Intent(MainActivity.this, GooglePlusLoginHelper.class);
+//                overridePendingTransition(android.R.anim.fade_in,
+//                        android.R.anim.fade_out);
+//                startActivity(google);
+////                new GoogleLogin(true);
+//                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)

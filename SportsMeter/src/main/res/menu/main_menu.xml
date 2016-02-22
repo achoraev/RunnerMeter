@@ -21,11 +21,11 @@
           android:icon="@drawable/ic_map"
           android:orderInCategory="400"
           app:showAsAction="never"/>
-    <item android:id="@+id/action_google_login"
-          android:title="google login"
-          android:icon="@drawable/ic_map"
-          android:orderInCategory="500"
-          app:showAsAction="never"/>
+    <!--<item android:id="@+id/action_google_login"-->
+          <!--android:title="google login"-->
+          <!--android:icon="@drawable/ic_map"-->
+          <!--android:orderInCategory="500"-->
+          <!--app:showAsAction="never"/>-->
     <!--<item android:id="@+id/action_legal_notice"-->
           <!--android:title="@string/google_legal_notices"-->
           <!--android:orderInCategory="500"-->

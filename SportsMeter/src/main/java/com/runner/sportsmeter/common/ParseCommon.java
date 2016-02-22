@@ -22,11 +22,7 @@ public class ParseCommon {
     public static void createDefaultUser() {
         // create guest user if not created
         if (ParseUser.getCurrentUser() == null) {
-            try {
-                ParseUser guestUser = ParseCommon.createGuestUser();
-            } catch (com.parse.ParseException e) {
-                e.printStackTrace();
-            }
+            ParseCommon.createGuestUser();
         }
     }
 
@@ -57,7 +53,6 @@ public class ParseCommon {
                     }
                 }
             });
-
         }
     }
 
@@ -99,14 +94,13 @@ public class ParseCommon {
                 context.getString(R.string.twitter_consumer_secret));
     }
 
-    public static ParseUser createGuestUser() throws ParseException {
+    public static void createGuestUser() {
         ParseUser guestUser = new ParseUser();
         guestUser.setUsername("Guest");
         guestUser.setEmail("tester@tester.com");
         guestUser.setPassword("123456");
         guestUser.put("name", "Guest");
         guestUser.signUpInBackground();
-        return guestUser;
     }
 
     public void saveTraceStartAndEndCoord(LatLng startPointCoord, LatLng endPointCoord) {

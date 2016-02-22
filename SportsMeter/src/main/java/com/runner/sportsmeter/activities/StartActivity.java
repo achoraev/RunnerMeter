@@ -39,7 +39,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private final String FIVE_RUN = "fiveRun";
     //    private AdView mAdView;
     private SportTypes sportType = SportTypes.CHOOSE_SPORT;
-    private Gender gender = Gender.MALE;
+    private Gender gender = Gender.NOT_SET;
     private int runCount = 1;
     private int maxCountForAskRateMe = 5;
     private SharedPreferences fiveRunSettings;
@@ -331,7 +331,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        Toast.makeText(StartActivity.this, "Fling" + e1.toString() + e2.toString(), Toast.LENGTH_SHORT).show();
+        startMainActivity(sportType, gender);
         return true;
     }
 

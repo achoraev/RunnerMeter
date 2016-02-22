@@ -74,7 +74,7 @@
                   android:label="@string/help_page"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.runner.sportsmeter.common.GooglePlusLoginHelper"
+        <activity android:name="com.parse.ui.GoogleLogin"
                   android:label="Google Plus Login"
                   android:screenOrientation="portrait">
         </activity>

@@ -1,6 +1,7 @@
-package com.runner.sportsmeter.common;
+package com.parse.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.parse.ParseUser;
+
+import java.util.Random;
 
 /**
  * Created by Angel Raev on 19-Feb-16
@@ -21,15 +25,41 @@ import com.google.android.gms.common.api.Status;
 public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
-    private static final int RC_SIGN_IN = 9001;
     private static final String TAG = "SignInActivity";
+    private static final int RC_SIGN_IN = 9001;
 
-    public GoogleLogin(Boolean connect){
-        configureGoogleApiClient();
-        if(connect) {
-            signIn();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        signIn();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            Log.d(TAG, "Got cached sign-in");
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
         } else {
-            signOut();
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(GoogleSignInResult googleSignInResult) {
+                    handleSignInResult(googleSignInResult);
+                }
+            });
         }
     }
 
@@ -41,42 +71,6 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }
-    }
-
-    private void configureGoogleApiClient() {
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        // Build a GoogleApiClient with access to the Google Sign-In API and the
-        // options specified by gso.
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-//            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-//                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
         }
     }
 
@@ -116,14 +110,35 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+            final GoogleSignInAccount acct = result.getSignInAccount();
             if (acct != null) {
-                Toast.makeText(this, acct.getDisplayName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(GoogleLogin.this, "Id: " + acct.getId(), Toast.LENGTH_LONG).show();
+
+                ParseUser user = new ParseUser();
+                user.setUsername(acct.getId());
+                user.setPassword(String.valueOf(new Random(100000).nextInt()));
+                user.put("name", acct.getDisplayName());
+                user.setEmail(acct.getEmail());
+                user.signUpInBackground();
+
+//                ParseUser.becomeInBackground(ParseUser.getCurrentUser().getSessionToken(), new LogInCallback() {
+//                    public void done(ParseUser user, ParseException e) {
+//                        if (user != null) {
+//                            // The current user is now set to user.
+//                            Toast.makeText(GoogleLogin.this, "Created " + user.getUsername(), Toast.LENGTH_LONG).show();
+//                        } else {
+//                            // The token could not be validated.
+//                            Toast.makeText(GoogleLogin.this, "Error", Toast.LENGTH_LONG).show();
+//                        }
+//                    }
+//                });
+
             }
 //            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
 //            updateUI(false);
         }
+        finish();
     }
 }

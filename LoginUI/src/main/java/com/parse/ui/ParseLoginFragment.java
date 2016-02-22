@@ -22,6 +22,7 @@
 package com.parse.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -35,11 +36,10 @@ import android.widget.TextView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.google.android.gms.common.SignInButton;
 import com.parse.*;
 import com.parse.twitter.Twitter;
 import org.json.JSONObject;
-
-//import com.runner.sportsmeter.common.GooglePlusLoginHelper;
 
 /**
  * Fragment for the user login screen.
@@ -65,7 +65,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     private Button parseSignupButton;
     private Button facebookLoginButton;
     private Button twitterLoginButton;
-//    private SignInButton googleLoginButton;
+    private SignInButton googleLoginButton;
     private ParseLoginFragmentListener loginFragmentListener;
     private ParseOnLoginSuccessListener onLoginSuccessListener;
 
@@ -97,7 +97,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         parseLoginButton = (Button) v.findViewById(R.id.parse_login_button);
         parseSignupButton = (Button) v.findViewById(R.id.parse_signup_button);
         facebookLoginButton = (Button) v.findViewById(R.id.facebook_login);
-//        googleLoginButton = (SignInButton) v.findViewById(R.id.sign_in_button);
+        googleLoginButton = (SignInButton) v.findViewById(R.id.sign_in_button);
         twitterLoginButton = (Button) v.findViewById(R.id.twitter_login);
 
         if (appLogo != null && config.getAppLogo() != null) {
@@ -113,7 +113,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
             setUpTwitterLogin();
         }
 
-        setUpGooglePlusLogin(v);
+        setUpGooglePlusLogin();
 
         return v;
     }
@@ -310,21 +310,23 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         });
     }
 
-    private void setUpGooglePlusLogin(View v) {
-         v.findViewById(R.id.sign_in_button).setOnClickListener(new OnClickListener() {
+    private void setUpGooglePlusLogin() {
+        googleLoginButton.setSize(SignInButton.SIZE_STANDARD);
+        googleLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingStart(false);
-//                startActivity(new Intent(getActivity(), GooglePlusLoginHelper.class));
+                startActivity(new Intent(getActivity(), GoogleLogin.class));
 
-                ParseTwitterUtils.logIn(getActivity(), new LogInCallback() {
-                    @Override
-                    public void done(ParseUser user, ParseException e) {
+                loadingFinish();
+                loginSuccess();
+//                ParseTwitterUtils.logIn(getActivity(), new LogInCallback() {
+//                    @Override
+//                    public void done(ParseUser user, ParseException e) {
 
-//                        if (isActivityDestroyed()) {
-//                            return;
-//                        }
-//
+//                            if (isActivityDestroyed()) {
+//                                return;
+//                            }
 //                        if (user == null) {
 //                            loadingFinish();
 //                            if (e != null) {
@@ -351,8 +353,8 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
 //                        } else {
 //                            loginSuccess();
 //                        }
-                    }
-                });
+//                    }
+//                });
             }
         });
     }
@@ -474,5 +476,4 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     private void loginSuccess() {
         onLoginSuccessListener.onLoginSuccess();
     }
-
 }

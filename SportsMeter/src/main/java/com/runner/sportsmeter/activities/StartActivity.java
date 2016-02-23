@@ -100,6 +100,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         if (ParseUser.getCurrentUser() == null) {
             accountDataLayout.setVisibility(View.VISIBLE);
+            ParseCommon.createDefaultUser();
+            ParseCommon.logInGuestUser(this);
         } else {
             accountDataLayout.setVisibility(View.GONE);
         }
@@ -111,8 +113,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         turnOnWiFiOrDataInternet();
 
-        ParseCommon.createDefaultUser();
-        ParseCommon.logInGuestUser(this);
         ParsePush.subscribeInBackground("SportMeter");
 
 //        // setup adds
@@ -342,13 +342,13 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onDoubleTap(MotionEvent e) {
-        Toast.makeText(StartActivity.this, "Double tab " + e.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(StartActivity.this, "Double tab " + e.toString(), Toast.LENGTH_SHORT).show();
         return true;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent e) {
-        Toast.makeText(StartActivity.this, "Double tab event " + e.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(StartActivity.this, "Double tab event " + e.toString(), Toast.LENGTH_SHORT).show();
         return true;
     }
 }

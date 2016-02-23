@@ -311,7 +311,8 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     }
 
     private void setUpGooglePlusLogin() {
-        googleLoginButton.setSize(SignInButton.SIZE_STANDARD);
+        googleLoginButton.setSize(SignInButton.SIZE_WIDE);
+        googleLoginButton.setColorScheme(SignInButton.COLOR_AUTO);
         googleLoginButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,41 +321,6 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
 
                 loadingFinish();
                 loginSuccess();
-//                ParseTwitterUtils.logIn(getActivity(), new LogInCallback() {
-//                    @Override
-//                    public void done(ParseUser user, ParseException e) {
-
-//                            if (isActivityDestroyed()) {
-//                                return;
-//                            }
-//                        if (user == null) {
-//                            loadingFinish();
-//                            if (e != null) {
-//                                showToast(R.string.com_parse_ui_twitter_login_failed_toast);
-//                                debugLog(getString(R.string.com_parse_ui_login_warning_twitter_login_failed) +
-//                                        e.toString());
-//                            }
-//                        } else if (user.isNew()) {
-//                            ParseUser parseUser = ParseUser.getCurrentUser();
-//                            if (parseUser != null) {
-//                                user.put(USER_OBJECT_NAME_FIELD, "Angel");
-//                                user.saveInBackground(new SaveCallback() {
-//                                    @Override
-//                                    public void done(ParseException e) {
-//                                        if (e != null) {
-//                                            debugLog(getString(
-//                                                    R.string.com_parse_ui_login_warning_twitter_login_user_update_failed) +
-//                                                    e.toString());
-//                                        }
-//                                        loginSuccess();
-//                                    }
-//                                });
-//                            }
-//                        } else {
-//                            loginSuccess();
-//                        }
-//                    }
-//                });
             }
         });
     }

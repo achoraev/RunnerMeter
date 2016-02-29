@@ -15,10 +15,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
+import com.parse.*;
+
+import java.util.List;
 
 /**
  * Created by Angel Raev on 19-Feb-16
@@ -112,49 +111,73 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
+            final GoogleSignInAccount acct = result.getSignInAccount();
             if (acct != null) {
-                ParseUser user = new ParseUser();
-                user.setUsername(acct.getEmail());
-                user.setPassword(acct.getId());
-                user.put("name", acct.getDisplayName());
-                if (acct.getPhotoUrl() != null) {
-                    user.put("pictureURI", acct.getPhotoUrl().toString());
-                }
-                user.put("provider", "GooglePlus");
-                user.setEmail(acct.getEmail());
-                user.signUpInBackground(new SignUpCallback() {
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereContains("provider", "GooglePlus");
+                query.whereNotEqualTo("username", acct.getEmail());
+                query.findInBackground(new FindCallback<ParseUser>() {
                     @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            // todo remove toast
-                            Toast.makeText(GoogleLogin.this, "Create user", Toast.LENGTH_SHORT).show();
-                            ParseUser.becomeInBackground(ParseUser.getCurrentUser().getSessionToken(), new LogInCallback() {
-                                public void done(ParseUser user, ParseException e) {
-                                    if (user != null) {
-                                        // The current user is now set to user.
-                                        Toast.makeText(GoogleLogin.this, "become user " + user.getUsername(), Toast.LENGTH_LONG).show();
-                                    } else {
-                                        // The token could not be validated.
-                                        Toast.makeText(GoogleLogin.this, "Error become", Toast.LENGTH_LONG).show();
-                                    }
-                                    finish();
-                                }
-                            });
-                        } else {
-                            // todo remove toast
-                            Toast.makeText(GoogleLogin.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        if(e == null){
+                            if(objects.size() == 0) {
+                                createAndSignInGoogleUser(acct);
+                            } else {
+                                signInGoogleUser(acct , objects);
+                            }
                         }
                     }
                 });
             }
             finish();
-//            updateUI(true);
         } else {
-            // Signed out, show unauthenticated UI.
-//            updateUI(false);
             // todo remove
             Toast.makeText(GoogleLogin.this, "Status is: " + result.getStatus().toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void signInGoogleUser(GoogleSignInAccount acct, List<ParseUser> objects) {
+        ParseUser.becomeInBackground(objects.get(0).getCurrentUser().getSessionToken(), new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                finish();
+            }
+        });
+    }
+
+    private void createAndSignInGoogleUser(GoogleSignInAccount acct) {
+        ParseUser user = new ParseUser();
+        user.setUsername(acct.getEmail());
+        user.setPassword(acct.getId());
+        user.put("name", acct.getDisplayName());
+        if (acct.getPhotoUrl() != null) {
+            user.put("pictureURI", acct.getPhotoUrl().toString());
+        }
+        user.put("provider", "GooglePlus");
+        user.setEmail(acct.getEmail());
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    // todo remove toast
+                    Toast.makeText(GoogleLogin.this, "Create user", Toast.LENGTH_SHORT).show();
+                    ParseUser.becomeInBackground(ParseUser.getCurrentUser().getSessionToken(), new LogInCallback() {
+                        public void done(ParseUser user, ParseException e) {
+                            if (user != null) {
+                                // The current user is now set to user.
+                                Toast.makeText(GoogleLogin.this, "become user " + user.getUsername(), Toast.LENGTH_LONG).show();
+                            } else {
+                                // The token could not be validated.
+                                Toast.makeText(GoogleLogin.this, "Error become", Toast.LENGTH_LONG).show();
+                            }
+                            finish();
+                        }
+                    });
+                } else {
+                    // todo remove toast
+                    Toast.makeText(GoogleLogin.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

@@ -115,7 +115,7 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
             if (acct != null) {
                 ParseQuery<ParseUser> query = ParseUser.getQuery();
                 query.whereContains("provider", "GooglePlus");
-                query.whereNotEqualTo("username", acct.getEmail());
+                query.whereEqualTo("username", acct.getEmail());
                 query.findInBackground(new FindCallback<ParseUser>() {
                     @Override
                     public void done(List<ParseUser> objects, ParseException e) {
@@ -123,7 +123,7 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
                             if(objects.size() == 0) {
                                 createAndSignInGoogleUser(acct);
                             } else {
-                                signInGoogleUser(acct , objects);
+                                signInGoogleUser(acct);
                             }
                         }
                     }
@@ -136,11 +136,16 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
         }
     }
 
-    private void signInGoogleUser(GoogleSignInAccount acct, List<ParseUser> objects) {
-        ParseUser.becomeInBackground(objects.get(0).getCurrentUser().getSessionToken(), new LogInCallback() {
+    private void signInGoogleUser(GoogleSignInAccount acct) {
+        ParseUser.logInInBackground(acct.getEmail(), acct.getId(), new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
-                finish();
+                ParseUser.becomeInBackground(user.getSessionToken(), new LogInCallback() {
+                    @Override
+                    public void done(ParseUser user, ParseException e) {
+                        finish();
+                    }
+                });
             }
         });
     }

@@ -52,8 +52,8 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
+//            GoogleSignInResult result = opr.get();
+//            handleSignInResult(result);
         } else {
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
@@ -66,7 +66,7 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -129,10 +129,6 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
                     }
                 });
             }
-            finish();
-        } else {
-            // todo remove
-            Toast.makeText(GoogleLogin.this, "Status is: " + result.getStatus().toString(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -165,7 +161,7 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
             public void done(ParseException e) {
                 if (e == null) {
                     // todo remove toast
-                    Toast.makeText(GoogleLogin.this, "Create user", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(GoogleLogin.this, "Create user", Toast.LENGTH_SHORT).show();
                     ParseUser.becomeInBackground(ParseUser.getCurrentUser().getSessionToken(), new LogInCallback() {
                         public void done(ParseUser user, ParseException e) {
                             if (user != null) {

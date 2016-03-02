@@ -1238,8 +1238,6 @@ public class MainActivity extends AppCompatActivity implements
             currentTimeDiff = currentUpdateTimeMillis - lastUpdateTimeMillis;
             sessionTimeDiff += currentTimeDiff;
             currentSpeed = Calculations.calculateSpeed(currentTimeDiff, currentDistance);
-            // todo remove this toast
-//            Toast.makeText(this, "sp" + currentSpeed + " time" + currentTimeDiff, Toast.LENGTH_SHORT).show();
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, currentMaxSpeed, sportType);
 

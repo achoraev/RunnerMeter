@@ -52,7 +52,7 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         Log.d("world_map", "Map is ready");
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -97,7 +97,6 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
                 progressBar.setVisibility(View.INVISIBLE);
                 if (e == null) {
                     Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
-                    // todo remove before release
 //                    Toast.makeText(WorldMapActivity.this, "Retrieved " + coordinates.size(), Toast.LENGTH_LONG).show();
                     if (mMap != null) {
                         iterateOverCoordinates(coordinates);

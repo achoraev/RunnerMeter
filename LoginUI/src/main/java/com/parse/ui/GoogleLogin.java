@@ -160,22 +160,20 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
             @Override
             public void done(ParseException e) {
                 if (e == null) {
-                    // todo remove toast
 //                    Toast.makeText(GoogleLogin.this, "Create user", Toast.LENGTH_SHORT).show();
                     ParseUser.becomeInBackground(ParseUser.getCurrentUser().getSessionToken(), new LogInCallback() {
                         public void done(ParseUser user, ParseException e) {
                             if (user != null) {
                                 // The current user is now set to user.
-                                Toast.makeText(GoogleLogin.this, "become user " + user.getUsername(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(GoogleLogin.this, "become user " + user.getUsername(), Toast.LENGTH_LONG).show();
                             } else {
                                 // The token could not be validated.
-                                Toast.makeText(GoogleLogin.this, "Error become", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(GoogleLogin.this, "Error become", Toast.LENGTH_LONG).show();
                             }
                             finish();
                         }
                     });
                 } else {
-                    // todo remove toast
                     Toast.makeText(GoogleLogin.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }

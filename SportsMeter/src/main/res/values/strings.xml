@@ -145,6 +145,7 @@
     <string name="climbing">Climbing</string>
     <string name="walking">Walking</string>
     <string name="calories_message">Data needed for calculating calories</string>
+    <string name="total_distance">"Total distance:"</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
 
 

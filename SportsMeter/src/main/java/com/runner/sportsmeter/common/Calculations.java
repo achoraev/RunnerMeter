@@ -106,7 +106,12 @@ public class Calculations {
     }
 
     public static double roundToTwoDigitsAfterDecimalPoint(double in) {
-        return (Math.round(in * ONE_HUNDRED)) / 100.00;
+        return roundDigitsAfterDecimalPoint(in, 2);
+    }
+
+    public static double roundDigitsAfterDecimalPoint(double in, int digits) {
+        Double round = Math.pow(10, digits);
+        return (Math.round(in * round)) / round;
     }
 
     public Boolean isTimePerKilometerValid(double timePerKilometer, String sportType) {

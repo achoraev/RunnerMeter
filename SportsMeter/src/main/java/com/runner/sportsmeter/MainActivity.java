@@ -61,14 +61,15 @@ import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.enums.UserMetrics;
-import com.runner.sportsmeter.models.Account;
-import com.runner.sportsmeter.models.Session;
+import com.runner.sportsmeter.interfaces.UserMetricsInterface;
+import com.runner.sportsmeter.models.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Angel Raev on 29-April-15.
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements
     protected static final String PAUSED_SESSION = "pausedSession";
 
     protected static final String LOCATION_KEY = "location-key";
-    protected static final String speedMetricUnit = " km/h";
+    protected static final UserMetrics speedMetricUnit = UserMetrics.METRIC;
     protected static final String TAG = "location";
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x2;
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private String userName, facebookId;
 
-    private TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername;
+    private TextView distanceMeter, speedMeter, maxSpeedMeter, timeMeter, showUsername, showTotalDistance;
     private Button startStopBtn;
     private ProfilePictureView facebookProfilePicture;
     private Spinner chooseTypeSport;
@@ -161,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements
     private SharedPreferences settings;
     private Tracker mTracker;
     private ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+    private Double totalDistance = 0.00;
+    private UserMetricsInterface usersMetrics = new Metrics();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements
 
         initializeUiViews();
 
+        usersMetrics = UserMetrics.METRIC.equals(speedMetricUnit) ? new Metrics() : new Imperial();
+        showTotalDistance.setText(getString(R.string.total_distance) + " " + totalDistance + " " + usersMetrics.getDistanceUnit());
         sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
 
         setToolbarAndDrawer();
@@ -189,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements
         updateValuesFromBundle(savedInstanceState);
 
         setCurrentUserUsername();
+        calculateTotalDistance(ParseUser.getCurrentUser(), usersMetrics);
 
         // setup add
         setupInterstitialAd();
@@ -262,6 +268,7 @@ public class MainActivity extends AppCompatActivity implements
         timeMeter = (TextView) findViewById(R.id.time_meter);
         startStopBtn = (Button) findViewById(R.id.start_stop_btn);
         showUsername = (TextView) findViewById(R.id.header_username);
+        showTotalDistance = (TextView) findViewById(R.id.h_total_distance);
         facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         chooseTypeSport = (Spinner) findViewById(R.id.type_of_sports);
@@ -328,7 +335,7 @@ public class MainActivity extends AppCompatActivity implements
 //            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
 
-        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
     }
 
     private void pauseLogic() {
@@ -363,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements
         currentUpdateTimeMillis = sessionStartTimeMillis;
         startPointCoord = null;
         currentCoordinates = null;
-        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
     }
 
     private void stopLogic() {
@@ -430,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements
 
         // set all to null
         setVariablesToNull();
-        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+        updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
 
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
         installation.put("user", ParseUser.getCurrentUser());
@@ -1030,13 +1037,36 @@ public class MainActivity extends AppCompatActivity implements
                         currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount, UserMetrics.METRIC, MainActivity.this);
                         ParseCommon.checkIfAccountExistAndSave(currentUserAccount);
                     }
-                    break;
                 }
+
+                calculateTotalDistance(ParseUser.getCurrentUser(), usersMetrics);
+
+                break;
         }
 
         setCurrentUserUsername();
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void calculateTotalDistance(ParseUser currentUser, final UserMetricsInterface unit) {
+        if (!new ParseCommon().getCurrentUserUsername().equals("Guest")) {
+            ParseQuery<Sessions> query = Sessions.getQuery();
+            query.whereEqualTo("username", currentUser);
+            query.findInBackground(new FindCallback<Sessions>() {
+                @Override
+                public void done(List<Sessions> objects, ParseException e) {
+                    if (e == null && objects.size() > 0) {
+                        Double total = 0.0;
+                        for (Sessions ses : objects) {
+                            total += ses.getDistance();
+                        }
+                        total = Calculations.roundDigitsAfterDecimalPoint(total / 1000, 3);
+                        showTotalDistance.setText(getString(R.string.total_distance) + " " + total + " " + unit.getDistanceUnit());
+                    }
+                }
+            });
+        }
     }
 
     private void getFacebookMail(final Account current, final String faceId) {
@@ -1152,7 +1182,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (startButtonEnabled) {
                     startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
-                    updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+                    updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
                 }
             }
 
@@ -1161,7 +1191,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (isPausedActivityEnable && pausedSession != null) {
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
                     fab.setImageDrawable(getResources().getDrawable(R.drawable.resume_btn));
-                    updateInfoPanel(pausedSession.getDistance(), pausedSession.getAverageSpeed(), pausedSession.getMaxSpeed(), pausedSession.getDuration(), speedMetricUnit);
+                    updateInfoPanel(pausedSession.getDistance(), pausedSession.getAverageSpeed(), pausedSession.getMaxSpeed(), pausedSession.getDuration(), usersMetrics);
                 }
             }
         }
@@ -1241,7 +1271,7 @@ public class MainActivity extends AppCompatActivity implements
             averageSpeed = Calculations.calculateSpeed(sessionTimeDiff, sessionDistance);
             currentMaxSpeed = Calculations.calculateMaxSpeed(currentSpeed, currentMaxSpeed, sportType);
 
-            updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, speedMetricUnit);
+            updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
 
             if (mMap != null) {
                 if (currentSegment != null) {
@@ -1269,11 +1299,12 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    private void updateInfoPanel(double sessionDistance, double averageSpeed, double currentMaxSpeed, long sessionTimeDiff, String speedMetricUnit) {
-        distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " km"));
-        speedMeter.setText(String.valueOf(averageSpeed) + speedMetricUnit);
+    private void updateInfoPanel(double sessionDistance, double averageSpeed, double currentMaxSpeed, long sessionTimeDiff, UserMetricsInterface speedMetricUnit) {
+        String speedUnit = speedMetricUnit.getSpeedUnit();
+        distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " " + speedMetricUnit.getDistanceUnit()));
+        speedMeter.setText(String.valueOf(averageSpeed) + speedUnit);
         timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
-        maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedMetricUnit);
+        maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedUnit);
     }
 
     private LatLng smoothLocation(Location location, double oldLat, double oldLon) {

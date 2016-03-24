@@ -186,5 +186,7 @@
                     android:id="@+id/like_page">
             </com.facebook.share.widget.LikeView>
         </LinearLayout>
+        <!-- The advertise -->
+        <include layout="@layout/add_layout_save"/>
     </LinearLayout>
 </ScrollView>

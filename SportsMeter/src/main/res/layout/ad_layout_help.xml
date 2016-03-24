@@ -1,10 +1,10 @@
 <com.google.android.gms.ads.AdView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:ads="http://schemas.android.com/apk/res-auto"
-                                   android:id="@+id/adViewStart"
+                                   android:id="@+id/adViewHelp"
                                    android:layout_width="match_parent"
                                    android:layout_height="wrap_content"
                                    android:layout_centerHorizontal="true"
                                    android:layout_alignParentBottom="true"
                                    ads:adSize="BANNER"
-                                   ads:adUnitId="@string/banner_ad_unit_id_start">
+                                   ads:adUnitId="@string/banner_ad_unit_id_help">
 </com.google.android.gms.ads.AdView>

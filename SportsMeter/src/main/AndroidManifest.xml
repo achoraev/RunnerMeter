@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
@@ -39,6 +39,17 @@
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="@string/google_maps_key"/>
+        <meta-data android:name="applovin.sdk.key"
+                   android:value="@string/applovin_key"  />
+        <meta-data
+                android:name="com.parse.APPLICATION_ID"
+                android:value="@string/parse_app_id"/>
+        <meta-data
+                android:name="com.parse.CLIENT_KEY"
+                android:value="@string/parse_client_key"/>
+        <meta-data
+                android:name="com.facebook.sdk.ApplicationId"
+                android:value="@string/facebook_app_id"/>
 
         <activity
                 android:name="com.runner.sportsmeter.activities.StartActivity"
@@ -125,15 +136,9 @@
                 android:name="com.google.android.gms.ads.AdActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
                 android:theme="@android:style/Theme.Translucent"/>
-        <meta-data
-                android:name="com.parse.APPLICATION_ID"
-                android:value="@string/parse_app_id"/>
-        <meta-data
-                android:name="com.parse.CLIENT_KEY"
-                android:value="@string/parse_client_key"/>
-        <meta-data
-                android:name="com.facebook.sdk.ApplicationId"
-                android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.applovin.adview.AppLovinInterstitialActivity" />
+        <activity android:name="com.applovin.adview.AppLovinConfirmationActivity" />
 
         // push notifications
         <service android:name="com.parse.PushService"/>

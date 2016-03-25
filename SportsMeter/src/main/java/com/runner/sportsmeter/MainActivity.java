@@ -28,6 +28,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.applovin.adview.AppLovinIncentivizedInterstitial;
+import com.applovin.sdk.AppLovinAd;
+import com.applovin.sdk.AppLovinAdLoadListener;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private InterstitialAd mInterstitialAd;
     private RewardedVideoAd mRewardedAd;
+    private AppLovinIncentivizedInterstitial myIncent;
     private AdView mAdView;
 
     private SharedPreferences settings;
@@ -199,8 +203,23 @@ public class MainActivity extends AppCompatActivity implements
 
         // setup add
         setupInterstitialAd();
-        setupRewardedAd();
-        loadRewardedVideoAd();
+        // applovin todo make it works return error 400
+        myIncent = AppLovinIncentivizedInterstitial.create(this);
+        myIncent.preload(new AppLovinAdLoadListener() {
+            @Override
+            public void adReceived(AppLovinAd appLovinAd) {
+                // todo remove
+                Toast.makeText(MainActivity.this, "Video loaded" + appLovinAd.getType().toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failedToReceiveAd(int i) {
+                // todo remove
+                Toast.makeText(MainActivity.this, "Failed loaded", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        setupRewardedAd();
+//        loadRewardedVideoAd();
         requestNewInterstitial();
 
         startStopBtn.setOnClickListener(MainActivity.this);
@@ -781,13 +800,23 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         // 3 - land
-//        if (mInterstitialAd.isLoaded()) {
-//            mInterstitialAd.show();
-//        }
-
-        if (mRewardedAd.isLoaded()) {
-            mRewardedAd.show();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
         }
+
+        if(myIncent.isAdReadyToDisplay()){
+            // An ad is ready.  Display the ad with one of the available show methods.
+            myIncent.show(this, null, null, null, null);
+        }
+        else{
+            // No rewarded ad is currently available.
+            // todo remove
+            Toast.makeText(this, "video ad is not available", Toast.LENGTH_SHORT).show();
+        }
+
+//        if (mRewardedAd.isLoaded()) {
+//            mRewardedAd.show();
+//        }
 
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();

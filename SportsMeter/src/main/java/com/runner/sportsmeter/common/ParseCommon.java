@@ -65,7 +65,6 @@ public class ParseCommon {
                     if(e == null) {
 //                        if(ParseUser.getCurrentUser().get("provider") != null){
 ////                            new GoogleLogin(true);
-//                            // todo remove toast
 //                            Toast.makeText(cont, "Google plus login", Toast.LENGTH_SHORT).show();
 //                        }
                         Toast.makeText(cont, userName + cont.getString(R.string.successfully_logout), Toast.LENGTH_SHORT).show();

@@ -54,8 +54,9 @@ android {
 
 dependencies {
     compile project(':LoginUI')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: '*.jar')
     // 23.1.1 not find Text view
+    compile 'com.jayway.android.robotium:robotium-solo:5.5.4'
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'

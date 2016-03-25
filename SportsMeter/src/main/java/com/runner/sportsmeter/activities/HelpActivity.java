@@ -10,7 +10,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import com.google.android.gms.ads.AdView;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.common.ViewPagerAdapter;
 import com.runner.sportsmeter.fragments.HelpFragmentFour;
 import com.runner.sportsmeter.fragments.HelpFragmentOne;
@@ -26,6 +28,7 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,9 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
         initializeViewPager();
         setupTablayout();
         setupFab();
+
+        mAdView = (AdView) findViewById(R.id.adViewHelp);
+        new Utility().setupAdds(mAdView, this);
     }
 
     private void initializeViewPager() {

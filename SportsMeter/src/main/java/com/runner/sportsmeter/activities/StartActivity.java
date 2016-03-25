@@ -18,6 +18,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
+import com.google.android.gms.ads.AdView;
 import com.parse.ParsePush;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.MainActivity;
@@ -37,7 +38,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private final String FIRST_RUN = "firstRun";
     private final String FIVE_RUN = "fiveRun";
-    //    private AdView mAdView;
+    private AdView mAdView;
     private SportTypes sportType = SportTypes.CHOOSE_SPORT;
     private Gender gender = Gender.NOT_SET;
     private int runCount = 1;
@@ -116,8 +117,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         ParsePush.subscribeInBackground("SportMeter");
 
 //        // setup adds
-//        mAdView = (AdView) findViewById(R.id.adViewStart);
-//        new Utility().setupAdds(mAdView, this);
+        mAdView = (AdView) findViewById(R.id.adViewStart);
+        new Utility().setupAdds(mAdView, this);
     }
 
     private void generateGenderSpinner() {

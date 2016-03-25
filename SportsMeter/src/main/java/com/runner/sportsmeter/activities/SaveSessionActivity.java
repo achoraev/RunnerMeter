@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.facebook.share.widget.LikeView;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -62,6 +63,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     private Sessions currentParseSession;
     private List<LatLng> listOfPoints;
     private ArrayList<ParseGeoPoint> arrayListOfParseGeoPoints;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +117,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 LikeView.ObjectType.PAGE);
         likeView.setVisibility(View.VISIBLE);
         likeView.setLikeViewStyle(LikeView.Style.STANDARD);
+
+        mAdView = (AdView) findViewById(R.id.adViewSave);
+        new Utility().setupAdds(mAdView, this);
     }
 
     private void initializeMap() {

@@ -162,6 +162,8 @@
     // banner add
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-4902558855752732/5202510405</string>
     <string name="banner_ad_unit_id_start" translatable="false">ca-app-pub-4902558855752732/2414249200</string>
+    <string name="banner_ad_unit_id_help" translatable="false">ca-app-pub-4902558855752732/2804387209</string>
+    <string name="banner_ad_unit_id_save" translatable="false">ca-app-pub-4902558855752732/4281120403</string>
     <!--<string name="banner_ad_unit_id_login">ca-app-pub-4902558855752732/3890982405</string>-->
     <!--<string name="banner_ad_unit_id_signup">ca-app-pub-4902558855752732/5367715608</string>-->
     <!--<string name="banner_ad_unit_id_forgot">ca-app-pub-4902558855752732/6844448807</string>-->
@@ -170,6 +172,7 @@
 
     // interestitial add
     <string name="interestitial_add" translatable="false">ca-app-pub-4902558855752732/8831484401</string>
+    <string name="interestitial_add_rewarded" translatable="false">ca-app-pub-4902558855752732/5757853609</string>
 
     // database objects
     <string name="session_object" translatable="false">Sessions</string>

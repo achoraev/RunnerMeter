@@ -33,10 +33,9 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.google.ads.mediation.admob.AdMobAdapter;
+import com.google.android.gms.ads.*;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
@@ -57,6 +56,7 @@ import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.common.RewardedAdImpl;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements
     private Session pausedSession;
 
     private InterstitialAd mInterstitialAd;
+    private RewardedVideoAd mRewardedAd;
     private AdView mAdView;
 
     private SharedPreferences settings;
@@ -198,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements
 
         // setup add
         setupInterstitialAd();
+        setupRewardedAd();
+        loadRewardedVideoAd();
         requestNewInterstitial();
 
         startStopBtn.setOnClickListener(MainActivity.this);
@@ -211,6 +214,11 @@ public class MainActivity extends AppCompatActivity implements
         mTracker = application.getDefaultTracker();
     }
 
+    private void setupRewardedAd() {
+        mRewardedAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedAd.setRewardedVideoAdListener(new RewardedAdImpl(this));
+    }
+
     private void setupInterstitialAd() {
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
@@ -220,6 +228,24 @@ public class MainActivity extends AppCompatActivity implements
                 requestNewInterstitial();
             }
         });
+    }
+
+    private void loadRewardedVideoAd() {
+        Bundle extras = new Bundle();
+        extras.putBoolean("_noRefresh", true);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addNetworkExtrasBundle(AdMobAdapter.class, extras)
+                .build();
+        mRewardedAd.loadAd(getString(R.string.interestitial_add_rewarded), adRequest);
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//                .addTestDevice(getString(R.string.huawei_device_id))
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     private void applyEUcookiePolicy() {
@@ -250,15 +276,6 @@ public class MainActivity extends AppCompatActivity implements
                     })
                     .show();
         }
-    }
-
-    private void requestNewInterstitial() {
-        AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-//                .addTestDevice(getString(R.string.huawei_device_id))
-                .build();
-
-        mInterstitialAd.loadAd(adRequest);
     }
 
     private void initializeUiViews() {
@@ -764,8 +781,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         // 3 - land
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+//        if (mInterstitialAd.isLoaded()) {
+//            mInterstitialAd.show();
+//        }
+
+        if (mRewardedAd.isLoaded()) {
+            mRewardedAd.show();
         }
 
         if (mGoogleApiClient.isConnected()) {

@@ -8,4 +8,6 @@
     // twitter
     <string name="twitter_consumer_key" translatable="false">cDWGj2Dapfn8TnYTJamxXdFDo</string>
     <string name="twitter_consumer_secret" translatable="false">e6beQpSikpKc34t2umFTQyafEhORk7IAYDNLnGIHkalu41TGKm</string>
+    // applovin
+    <string name="applovin_key" templateMergeStrategy="preserve" translatable="false">IlDngBnezGmAWN8hSPPfGcbUR83iIuuad6MJI7zFNkPv5TaXy_BDboh1wllDddpFlAZ1HWHfEhZJE8sB81Okp4</string>
 </resources>

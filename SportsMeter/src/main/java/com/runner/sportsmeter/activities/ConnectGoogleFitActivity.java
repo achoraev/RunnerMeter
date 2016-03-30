@@ -13,6 +13,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Constants;
 
 /**
  * Created by angelr on 05-Nov-15.
@@ -20,7 +21,6 @@ import com.runner.sportsmeter.R;
 public class ConnectGoogleFitActivity extends AppCompatActivity {
 
     private static final int REQUEST_OAUTH = 111;
-    private static final String TAG = "sportMeter";
 
     /**
      *  Track whether an authorization activity is stacking over the current activity, i.e. when
@@ -48,7 +48,7 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Connect to the Fitness API
-        Log.i(TAG, "Connecting...");
+        Log.i(Constants.TAG, "Connecting...");
         mClient.connect();
     }
 
@@ -97,7 +97,7 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
 
                             @Override
                             public void onConnected(Bundle bundle) {
-                                Log.i(TAG, "Connected!!!");
+                                Log.i(Constants.TAG, "Connected!!!");
                                 // Now you can make calls to the Fitness APIs.
                                 // Put application specific code here.
                             }
@@ -107,9 +107,9 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
                                 // If your connection to the sensor gets lost at some point,
                                 // you'll be able to determine the reason and react to it here.
                                 if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_NETWORK_LOST) {
-                                    Log.i(TAG, "Connection lost.  Cause: Network Lost.");
+                                    Log.i(Constants.TAG, "Connection lost.  Cause: Network Lost.");
                                 } else if (i == GoogleApiClient.ConnectionCallbacks.CAUSE_SERVICE_DISCONNECTED) {
-                                    Log.i(TAG, "Connection lost.  Reason: Service Disconnected");
+                                    Log.i(Constants.TAG, "Connection lost.  Reason: Service Disconnected");
                                 }
                             }
                         }
@@ -119,7 +119,7 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
                             // Called whenever the API client fails to connect.
                             @Override
                             public void onConnectionFailed(ConnectionResult result) {
-                                Log.i(TAG, "Connection failed. Cause: " + result.toString());
+                                Log.i(Constants.TAG, "Connection failed. Cause: " + result.toString());
                                 if (!result.hasResolution()) {
                                     // Show the localized error dialog
                                     GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(),
@@ -131,12 +131,12 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
                                 // authorization dialog is displayed to the user.
                                 if (!authInProgress) {
                                     try {
-                                        Log.i(TAG, "Attempting to resolve failed connection");
+                                        Log.i(Constants.TAG, "Attempting to resolve failed connection");
                                         authInProgress = true;
                                         result.startResolutionForResult(ConnectGoogleFitActivity.this,
                                                 REQUEST_OAUTH);
                                     } catch (IntentSender.SendIntentException e) {
-                                        Log.e(TAG,
+                                        Log.i(Constants.TAG,
                                                 "Exception while starting resolution activity", e);
                                     }
                                 }

@@ -71,7 +71,7 @@ public class Utility {
         myDir.mkdirs();
         String fileName = "img-" + new Date().getTime() + ".png";
         File file = new File(myDir, fileName);
-        Log.i("file", "" + file);
+        Log.i(Constants.TAG, "" + file);
         if (file.exists())
             file.delete();
         try {

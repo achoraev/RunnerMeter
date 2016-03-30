@@ -10,6 +10,7 @@ import android.widget.*;
 import com.google.android.gms.ads.AdView;
 import com.parse.*;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.RecyclerAdapter;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
@@ -29,8 +30,7 @@ public class LeaderBoardActivity extends Activity {
     public ArrayList<Sessions> arrayOfSessions;
     private AdView mAdView;
 
-    private static final int LIMIT_FOR_SPORT_TYPE = 15;
-    private static final int LIMIT_FOR_USER_QUERY = 15;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -57,7 +57,7 @@ public class LeaderBoardActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportTypeForQuery = sportType.getSportTypeValue(position);
                 if(!sportTypeForQuery.equals(SportTypes.CHOOSE_SPORT)) {
-                    ParseQuery(sportTypeForQuery, LIMIT_FOR_SPORT_TYPE, null);
+                    ParseQuery(sportTypeForQuery, Constants.LIMIT_FOR_SPORT_TYPE, null);
                 }
             }
 
@@ -89,7 +89,7 @@ public class LeaderBoardActivity extends Activity {
         myBest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseQuery(sportType, LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
+                ParseQuery(sportType, Constants.LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
             }
         });
 
@@ -101,7 +101,7 @@ public class LeaderBoardActivity extends Activity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ParseQuery(sportType, LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
+        ParseQuery(sportType, Constants.LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
 
         // setup adds
         mAdView = (AdView) findViewById(R.id.adViewLeaderBoard);

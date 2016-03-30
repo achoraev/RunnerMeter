@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.*;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.models.Coordinates;
 
 import java.util.List;
@@ -28,7 +29,6 @@ import java.util.List;
  */
 public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
-    private final int QUERY_LIMIT = 500;
     private GoogleMap mMap;
     private SupportMapFragment mapFragment;
     private ProgressBar progressBar;
@@ -50,7 +50,7 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.d("world_map", "Map is ready");
+        Log.i(Constants.TAG, "Map is ready");
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -91,12 +91,12 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
 
     private void getCoordinatesFromParse() {
         ParseQuery<Coordinates> query = Coordinates.getQuery();
-        query.setLimit(QUERY_LIMIT);
+        query.setLimit(Constants.QUERY_LIMIT);
         query.findInBackground(new FindCallback<Coordinates>() {
             public void done(List<Coordinates> coordinates, ParseException e) {
                 progressBar.setVisibility(View.INVISIBLE);
                 if (e == null) {
-                    Log.d("coordinates", "Retrieved " + coordinates.size() + " coordinates");
+                    Log.i(Constants.TAG, "Retrieved " + coordinates.size() + " coordinates");
 //                    Toast.makeText(WorldMapActivity.this, "Retrieved " + coordinates.size(), Toast.LENGTH_LONG).show();
                     if (mMap != null) {
                         iterateOverCoordinates(coordinates);
@@ -110,7 +110,7 @@ public class WorldMapActivity extends AppCompatActivity implements OnMapReadyCal
                     }
                     ParseObject.pinAllInBackground("worldCoordinates", coordinates);
                 } else {
-                    Log.e("coordinates", "Error: " + e.getMessage());
+                    Log.i(Constants.TAG, "Error: " + e.getMessage());
                     Toast.makeText(WorldMapActivity.this, "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }

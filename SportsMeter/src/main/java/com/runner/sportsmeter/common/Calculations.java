@@ -15,13 +15,7 @@ import java.util.Locale;
  */
 public class Calculations {
 
-    private static final int ONE_HUNDRED = 100;
-    private static final int SIXTY = 60;
-    private static final int TWENTY_FOUR = 24;
-    private static final int ONE_THOUSAND = 1000;
-    private static final double BEST_TIME_RUNNER = 1.36;
-    private static final double BEST_TIME_BIKER = 0.45;
-    private static final double BEST_TIME_DRIVER = 0.17;
+
 
     public double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
         float[] result = new float[4];
@@ -29,18 +23,18 @@ public class Calculations {
                 lastUpdatedCoord.longitude,
                 currentCoordinates.latitude,
                 currentCoordinates.longitude, result);
-        return (Math.round(result[0] * ONE_HUNDRED)) / ONE_HUNDRED;
+        return (Math.round(result[0] * Constants.ONE_HUNDRED)) / Constants.ONE_HUNDRED;
     }
 
     public static double calculateSpeed(Long time, Double distance) {
         double result = 0;
         if (time > 0 && distance > 0.0 && time > 1500) {
-            result = (distance / ONE_THOUSAND) / (Double.valueOf(time) / (SIXTY * SIXTY * ONE_THOUSAND) % TWENTY_FOUR);
+            result = (distance / Constants.ONE_THOUSAND) / (Double.valueOf(time) / (Constants.SIXTY * Constants.SIXTY * Constants.ONE_THOUSAND) % Constants.TWENTY_FOUR);
             result = roundToTwoDigitsAfterDecimalPoint(result);
         }
-        Log.d("time", String.valueOf(time));
-        Log.d("distance", String.valueOf(distance));
-        Log.d("result", String.valueOf(result));
+        Log.i(Constants.TAG, String.valueOf(time));
+        Log.i(Constants.TAG, String.valueOf(distance));
+        Log.i(Constants.TAG, String.valueOf(result));
         if (result > 1.0) {
             return result;
         } else {
@@ -67,9 +61,9 @@ public class Calculations {
     }
 
     public static String convertTimeToString(long diff) {
-        long diffSeconds = diff / ONE_THOUSAND % SIXTY;
-        long diffMinutes = diff / (SIXTY * ONE_THOUSAND) % SIXTY;
-        long diffHours = diff / (SIXTY * SIXTY * ONE_THOUSAND) % TWENTY_FOUR;
+        long diffSeconds = diff / Constants.ONE_THOUSAND % Constants.SIXTY;
+        long diffMinutes = diff / (Constants.SIXTY * Constants.ONE_THOUSAND) % Constants.SIXTY;
+        long diffHours = diff / (Constants.SIXTY * Constants.SIXTY * Constants.ONE_THOUSAND) % Constants.TWENTY_FOUR;
 
         return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
     }
@@ -89,20 +83,20 @@ public class Calculations {
             }
         }
 
-        Log.d("cur", String.valueOf(currentSpeed));
-        Log.d("max", String.valueOf(maxSpeed));
+        Log.i(Constants.TAG, String.valueOf(currentSpeed));
+        Log.i(Constants.TAG, String.valueOf(maxSpeed));
         return maxSpeed;
     }
 
     public double calculateTimePerKilometer(double distance, Long duration) {
-        double result = ((duration / ONE_THOUSAND / SIXTY) / (distance / ONE_THOUSAND));
+        double result = ((duration / Constants.ONE_THOUSAND / Constants.SIXTY) / (distance / Constants.ONE_THOUSAND));
         double finalResult = result - (result % 1);
         if (result % 1 != 0) {
             finalResult += 0.60 * (result % 1);
         }
 
-        finalResult = Math.round(finalResult * ONE_HUNDRED);
-        return finalResult / ONE_HUNDRED;
+        finalResult = Math.round(finalResult * Constants.ONE_HUNDRED);
+        return finalResult / Constants.ONE_HUNDRED;
     }
 
     public static double roundToTwoDigitsAfterDecimalPoint(double in) {
@@ -118,13 +112,13 @@ public class Calculations {
         Boolean isTimePerKilometerValid = true;
         switch (sportType) {
             case "DRIVING":
-                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_DRIVER;
+                isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_DRIVER;
                 break;
             case "CYCLING":
-                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_BIKER;
+                isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_BIKER;
                 break;
             case "RUNNING":
-                isTimePerKilometerValid = timePerKilometer >= BEST_TIME_RUNNER;
+                isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_RUNNER;
                 break;
         }
         return isTimePerKilometerValid;

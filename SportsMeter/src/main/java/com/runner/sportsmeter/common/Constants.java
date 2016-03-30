@@ -39,13 +39,13 @@ public class Constants {
     public static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     public static final double MAX_SPEED_LIMIT = 50.00;
 
-    public final String ADDRESS = "46, str. Liaskovets, \n 1510, Sofia, Bulgaria";
-    public final String EMAIL = "runner.meter@gmail.com";
-    public final String FACEBOOK_PAGE = "https://www.facebook.com/sportmeter/";
+    public static final String ADDRESS = "46, str. Liaskovets, \n 1510, Sofia, Bulgaria";
+    public static final String EMAIL = "runner.meter@gmail.com";
+    public static final String FACEBOOK_PAGE = "https://www.facebook.com/sportmeter/";
 
     public static final int LIMIT_FOR_SPORT_TYPE = 15;
     public static final int LIMIT_FOR_USER_QUERY = 15;
-    public final int QUERY_LIMIT = 500;
+    public static final int QUERY_LIMIT = 500;
 
     public static final int ONE_HUNDRED = 100;
     public static final int SIXTY = 60;

@@ -28,7 +28,8 @@ public class AboutActivity extends Activity {
         companyEmail = (TextView) findViewById(R.id.company_email);
         companyFacebookPage = (TextView) findViewById(R.id.company_facebook_page);
 
-        buildVersion.setText(getString(R.string.app_name) + " v. " + BuildConfig.VERSION_NAME);
+        String appVersion = getString(R.string.app_name) + " v. " + BuildConfig.VERSION_NAME;
+        buildVersion.setText(appVersion);
         companyAddress.setText(Constants.ADDRESS);
         companyEmail.setText(Constants.EMAIL);
         companyFacebookPage.setText(Constants.FACEBOOK_PAGE);

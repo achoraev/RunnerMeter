@@ -6,7 +6,6 @@ import android.content.*;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -31,6 +30,7 @@ import android.widget.*;
 import com.applovin.adview.AppLovinIncentivizedInterstitial;
 import com.applovin.sdk.AppLovinAd;
 import com.applovin.sdk.AppLovinAdLoadListener;
+import com.applovin.sdk.AppLovinSdk;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -38,7 +38,9 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.*;
+import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
@@ -58,8 +60,8 @@ import com.parse.*;
 import com.parse.ui.ParseLoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
-import com.runner.sportsmeter.common.RewardedAdImpl;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.Gender;
 import com.runner.sportsmeter.enums.SportTypes;
@@ -83,40 +85,9 @@ public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
+        RewardedVideoAdListener,
         ResultCallback<LocationSettingsResult> {
 
-    public static final int THREE_SECOND = 3000;
-    public static final int TWO_SECOND = 2000;
-    public static final int ONE_SECOND = 1000;
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
-            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    public static final int MAP_ZOOM = 15;
-    public static final float POLYLINE_WIDTH = 20;
-    public static final int POLYLINE_COLOR = Color.parseColor("#1DCCC6");
-    public static final int POLYLINE_COLOR_RED = Color.RED;
-    public static final int POLYLINE_COLOR_GREEN = Color.GREEN;
-
-    protected static final String cookieUrl = "http://www.google.com/intl/bg/policies/privacy/partners/";
-    protected static final String LAST_UPDATED_TIME_STRING_KEY = "last-updated-time-string-key";
-    protected static final String SESSION_START_TIME = "sessionStartTime";
-    protected static final String CURRENT_SEGMENT = "currentSegment";
-    protected static final String GLOBAL_DISTANCE = "distance";
-    protected static final String GLOBAL_AVERAGE_SPEED = "averageSpeed";
-    protected static final String GLOBAL_MAX_SPEED = "maxSpeed";
-    protected static final String GLOBAL_DURATION = "duration";
-    protected static final String IS_STARTED = "isStarted";
-    protected static final String IS_PAUSED = "isPausedActivityEnable";
-    protected static final String PAUSED_SESSION = "pausedSession";
-
-    protected static final String LOCATION_KEY = "location-key";
-    protected static final UserMetrics speedMetricUnit = UserMetrics.METRIC;
-    protected static final String TAG = "location";
-
-    protected static final int REQUEST_CHECK_SETTINGS = 0x2;
-    protected static final int REQUEST_LOGIN_FROM_RESULT = 100;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
-    private static final double MAX_SPEED_LIMIT = 50.00;
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
     private ActionBarDrawerToggle drawerToggle;
@@ -182,8 +153,9 @@ public class MainActivity extends AppCompatActivity implements
 
         initializeUiViews();
 
-        usersMetrics = UserMetrics.METRIC.equals(speedMetricUnit) ? new Metrics() : new Imperial();
-        showTotalDistance.setText(getString(R.string.total_distance) + " " + totalDistance + " " + usersMetrics.getDistanceUnit());
+        usersMetrics = UserMetrics.METRIC.equals(Constants.speedMetricUnit) ? new Metrics() : new Imperial();
+        String totalDistanceString = getString(R.string.total_distance) + " " + totalDistance + " " + usersMetrics.getDistanceUnit();
+        showTotalDistance.setText(totalDistanceString);
         sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
 
         setToolbarAndDrawer();
@@ -235,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void setupRewardedAd() {
         mRewardedAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedAd.setRewardedVideoAdListener(new RewardedAdImpl(this));
+        mRewardedAd.setRewardedVideoAdListener(this);
     }
 
     private void setupInterstitialAd() {
@@ -278,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements
                     .setPositiveButton(getString(R.string.dialog_see_details), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(cookieUrl)));
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.cookieUrl)));
                         }
                     })
                     .setNeutralButton(getString(R.string.dialog_close_message), new DialogInterface.OnClickListener() {
@@ -324,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                        Constants.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                 return;
             }
         }
@@ -332,8 +304,8 @@ public class MainActivity extends AppCompatActivity implements
         openDialogToLoginIfLoggedAsGuest();
         setVariablesToNull();
         currentSegment = new PolylineOptions()
-                .width(POLYLINE_WIDTH)
-                .color(POLYLINE_COLOR);
+                .width(Constants.POLYLINE_WIDTH)
+                .color(Constants.POLYLINE_COLOR);
         startStopBtn.setBackgroundResource(R.drawable.stop_btn);
         startButtonEnabled = true;
         if (mGoogleApiClient != null) {
@@ -353,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements
             startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
         } else {
             try {
-                Thread.sleep(ONE_SECOND);
+                Thread.sleep(Constants.ONE_SECOND);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -366,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements
             currentSegment.add(startPointCoord);
             listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
         } else {
 //            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
@@ -438,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
 
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
         }
 
         stopLocationUpdates();
@@ -755,6 +727,7 @@ public class MainActivity extends AppCompatActivity implements
         // 1 - land start onCreate
         // 2 - land start
         super.onStart();
+        AppLovinSdk.initializeSdk(this);
         if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
@@ -776,7 +749,7 @@ public class MainActivity extends AppCompatActivity implements
         // 3 land start
         super.onResume();
         // google analytics
-        Log.i(TAG, "Setting screen name: " + "MainActivity");
+        Log.i(Constants.TAG, "Setting screen name: " + "MainActivity");
         mTracker.setAppInstallerId(ParseInstallation.getCurrentInstallation().getObjectId());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 //        setTitle(getString(R.string.app_name));
@@ -804,11 +777,10 @@ public class MainActivity extends AppCompatActivity implements
             mInterstitialAd.show();
         }
 
-        if(myIncent.isAdReadyToDisplay()){
+        if (myIncent.isAdReadyToDisplay()) {
             // An ad is ready.  Display the ad with one of the available show methods.
             myIncent.show(this, null, null, null, null);
-        }
-        else{
+        } else {
             // No rewarded ad is currently available.
             // todo remove
             Toast.makeText(this, "video ad is not available", Toast.LENGTH_SHORT).show();
@@ -921,7 +893,7 @@ public class MainActivity extends AppCompatActivity implements
 //                                                    "user_birthday",
 //                                                    "user_likes"))
                 .build();
-        startActivityForResult(parseLoginIntent, REQUEST_LOGIN_FROM_RESULT);
+        startActivityForResult(parseLoginIntent, Constants.REQUEST_LOGIN_FROM_RESULT);
     }
 
     private void launchMarket() {
@@ -933,7 +905,7 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (ActivityNotFoundException e) {
             Toast.makeText(MainActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
-            Log.d("App", e.getMessage());
+            Log.i(Constants.TAG, e.getMessage());
         }
     }
 
@@ -962,7 +934,7 @@ public class MainActivity extends AppCompatActivity implements
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.d(TAG, "Map is ready");
+        Log.i(Constants.TAG, "Map is ready");
 //        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
 //        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
@@ -973,14 +945,14 @@ public class MainActivity extends AppCompatActivity implements
                     && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+                        Constants.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                 return;
             }
         }
 
         mMap.setMyLocationEnabled(true);
         startPointCoord = SOFIA_CENTER;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, MAP_ZOOM), ONE_SECOND, null);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
@@ -988,7 +960,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
+            case Constants.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(MainActivity.this, "Permissions granted", Toast.LENGTH_LONG).show();
@@ -1005,7 +977,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.d(TAG, "Connected to GoogleApiClient");
+        Log.i(Constants.TAG, "Connected to GoogleApiClient");
         progressBar.setVisibility(View.GONE);
         startStopBtn.setVisibility(View.VISIBLE);
 //        if (currentLocation == null) {
@@ -1019,7 +991,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onConnectionSuspended(int i) {
         // The connection to Google Play services was lost for some reason. We call connect() to
         // attempt to re-establish the connection.
-        Log.d(TAG, "Connection suspended");
+        Log.i(Constants.TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
 
@@ -1027,7 +999,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onConnectionFailed(ConnectionResult connectionResult) {
         // Refer to the javadoc for ConnectionResult to see what error codes might be returned in
         // onConnectionFailed.
-        Log.d(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
+        Log.i(Constants.TAG, "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
 
     @Override
@@ -1047,18 +1019,18 @@ public class MainActivity extends AppCompatActivity implements
         // result from check Gps on/off
         switch (requestCode) {
             // Check for the integer request code originally supplied to startResolutionForResult().
-            case REQUEST_CHECK_SETTINGS:
+            case Constants.REQUEST_CHECK_SETTINGS:
                 switch (resultCode) {
                     case Activity.RESULT_OK:
-                        Log.i(TAG, "User agreed to make required location settings changes.");
+                        Log.i(Constants.TAG, "User agreed to make required location settings changes.");
                         startLocationUpdates();
                         break;
                     case Activity.RESULT_CANCELED:
-                        Log.i(TAG, "User chose not to make required location settings changes.");
+                        Log.i(Constants.TAG, "User chose not to make required location settings changes.");
                         break;
                 }
                 break;
-            case REQUEST_LOGIN_FROM_RESULT:
+            case Constants.REQUEST_LOGIN_FROM_RESULT:
                 // from parse login
                 if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
@@ -1145,22 +1117,22 @@ public class MainActivity extends AppCompatActivity implements
         final Status status = locationSettingsResult.getStatus();
         switch (status.getStatusCode()) {
             case LocationSettingsStatusCodes.SUCCESS:
-                Log.i(TAG, "All location settings are satisfied.");
+                Log.i(Constants.TAG, "All location settings are satisfied.");
 //                startLocationUpdates();
                 break;
             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                Log.i(TAG, "Location settings are not satisfied. Show the user a dialog to" +
+                Log.i(Constants.TAG, "Location settings are not satisfied. Show the user a dialog to" +
                         "upgrade location settings ");
                 try {
                     // Show the dialog by calling startResolutionForResult(), and check the result
                     // in onActivityResult().
-                    status.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+                    status.startResolutionForResult(MainActivity.this, Constants.REQUEST_CHECK_SETTINGS);
                 } catch (IntentSender.SendIntentException e) {
-                    Log.i(TAG, "PendingIntent unable to execute request.");
+                    Log.i(Constants.TAG, "PendingIntent unable to execute request.");
                 }
                 break;
             case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                Log.i(TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
+                Log.i(Constants.TAG, "Location settings are inadequate, and cannot be fixed here. Dialog " +
                         "not created.");
                 break;
         }
@@ -1185,7 +1157,7 @@ public class MainActivity extends AppCompatActivity implements
                 public void run() {
                     exit = false;
                 }
-            }, THREE_SECOND);
+            }, Constants.THREE_SECOND);
         }
     }
 
@@ -1197,38 +1169,38 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
-        Log.d(TAG, "Updating values from bundle");
+        Log.i(Constants.TAG, "Updating values from bundle");
         if (savedInstanceState != null) {
-            if (savedInstanceState.keySet().contains(PAUSED_SESSION)) {
-                pausedSession = savedInstanceState.getParcelable(PAUSED_SESSION);
+            if (savedInstanceState.keySet().contains(Constants.PAUSED_SESSION)) {
+                pausedSession = savedInstanceState.getParcelable(Constants.PAUSED_SESSION);
             }
-            if (savedInstanceState.keySet().contains(LAST_UPDATED_TIME_STRING_KEY)) {
+            if (savedInstanceState.keySet().contains(Constants.LAST_UPDATED_TIME_STRING_KEY)) {
                 currentUpdateTimeMillis = savedInstanceState.getLong(
-                        LAST_UPDATED_TIME_STRING_KEY);
+                        Constants.LAST_UPDATED_TIME_STRING_KEY);
             }
-            if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
-                currentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
+            if (savedInstanceState.keySet().contains(Constants.LOCATION_KEY)) {
+                currentLocation = savedInstanceState.getParcelable(Constants.LOCATION_KEY);
             }
-            if (savedInstanceState.keySet().contains(GLOBAL_DISTANCE)) {
-                sessionDistance = savedInstanceState.getDouble(GLOBAL_DISTANCE);
+            if (savedInstanceState.keySet().contains(Constants.GLOBAL_DISTANCE)) {
+                sessionDistance = savedInstanceState.getDouble(Constants.GLOBAL_DISTANCE);
             }
-            if (savedInstanceState.keySet().contains(GLOBAL_AVERAGE_SPEED)) {
-                averageSpeed = savedInstanceState.getDouble(GLOBAL_AVERAGE_SPEED);
+            if (savedInstanceState.keySet().contains(Constants.GLOBAL_AVERAGE_SPEED)) {
+                averageSpeed = savedInstanceState.getDouble(Constants.GLOBAL_AVERAGE_SPEED);
             }
-            if (savedInstanceState.keySet().contains(GLOBAL_MAX_SPEED)) {
-                currentMaxSpeed = savedInstanceState.getDouble(GLOBAL_MAX_SPEED);
+            if (savedInstanceState.keySet().contains(Constants.GLOBAL_MAX_SPEED)) {
+                currentMaxSpeed = savedInstanceState.getDouble(Constants.GLOBAL_MAX_SPEED);
             }
-            if (savedInstanceState.keySet().contains(GLOBAL_DURATION)) {
-                sessionTimeDiff = savedInstanceState.getLong(GLOBAL_DURATION);
+            if (savedInstanceState.keySet().contains(Constants.GLOBAL_DURATION)) {
+                sessionTimeDiff = savedInstanceState.getLong(Constants.GLOBAL_DURATION);
             }
-            if (savedInstanceState.keySet().contains(SESSION_START_TIME)) {
-                sessionStartTimeMillis = savedInstanceState.getLong(SESSION_START_TIME);
+            if (savedInstanceState.keySet().contains(Constants.SESSION_START_TIME)) {
+                sessionStartTimeMillis = savedInstanceState.getLong(Constants.SESSION_START_TIME);
             }
-            if (savedInstanceState.keySet().contains(CURRENT_SEGMENT)) {
-                currentSegment = savedInstanceState.getParcelable(CURRENT_SEGMENT);
+            if (savedInstanceState.keySet().contains(Constants.CURRENT_SEGMENT)) {
+                currentSegment = savedInstanceState.getParcelable(Constants.CURRENT_SEGMENT);
             }
-            if (savedInstanceState.keySet().contains(IS_STARTED)) {
-                startButtonEnabled = savedInstanceState.getBoolean(IS_STARTED);
+            if (savedInstanceState.keySet().contains(Constants.IS_STARTED)) {
+                startButtonEnabled = savedInstanceState.getBoolean(Constants.IS_STARTED);
                 if (startButtonEnabled) {
                     startLocationUpdates();
                     startStopBtn.setBackgroundResource(R.drawable.stop_btn);
@@ -1236,8 +1208,8 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
 
-            if (savedInstanceState.keySet().contains(IS_PAUSED)) {
-                isPausedActivityEnable = savedInstanceState.getBoolean(IS_PAUSED);
+            if (savedInstanceState.keySet().contains(Constants.IS_PAUSED)) {
+                isPausedActivityEnable = savedInstanceState.getBoolean(Constants.IS_PAUSED);
                 if (isPausedActivityEnable && pausedSession != null) {
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
                     fab.setImageDrawable(getResources().getDrawable(R.drawable.resume_btn));
@@ -1249,23 +1221,33 @@ public class MainActivity extends AppCompatActivity implements
 
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // todo save mGoogleApiClient and mLocationRequest
-        savedInstanceState.putParcelable(LOCATION_KEY, currentLocation);
-        savedInstanceState.putBoolean(IS_STARTED, startButtonEnabled);
-        savedInstanceState.putBoolean(IS_PAUSED, isPausedActivityEnable);
-        savedInstanceState.putDouble(GLOBAL_DISTANCE, sessionDistance);
-        savedInstanceState.putDouble(GLOBAL_AVERAGE_SPEED, averageSpeed);
-        savedInstanceState.putDouble(GLOBAL_MAX_SPEED, currentMaxSpeed);
-        savedInstanceState.putLong(GLOBAL_DURATION, sessionTimeDiff);
-        savedInstanceState.putLong(SESSION_START_TIME, sessionStartTimeMillis);
-        savedInstanceState.putLong(LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMillis);
-        savedInstanceState.putParcelable(CURRENT_SEGMENT, currentSegment);
-        savedInstanceState.putParcelable(PAUSED_SESSION, pausedSession);
+        savedInstanceState.putParcelable(Constants.LOCATION_KEY, currentLocation);
+        savedInstanceState.putBoolean(Constants.IS_STARTED, startButtonEnabled);
+        savedInstanceState.putBoolean(Constants.IS_PAUSED, isPausedActivityEnable);
+        savedInstanceState.putDouble(Constants.GLOBAL_DISTANCE, sessionDistance);
+        savedInstanceState.putDouble(Constants.GLOBAL_AVERAGE_SPEED, averageSpeed);
+        savedInstanceState.putDouble(Constants.GLOBAL_MAX_SPEED, currentMaxSpeed);
+        savedInstanceState.putLong(Constants.GLOBAL_DURATION, sessionTimeDiff);
+        savedInstanceState.putLong(Constants.SESSION_START_TIME, sessionStartTimeMillis);
+        savedInstanceState.putLong(Constants.LAST_UPDATED_TIME_STRING_KEY, currentUpdateTimeMillis);
+        savedInstanceState.putParcelable(Constants.CURRENT_SEGMENT, currentSegment);
+        savedInstanceState.putParcelable(Constants.PAUSED_SESSION, pausedSession);
 
         super.onSaveInstanceState(savedInstanceState);
     }
 
     protected void startLocationUpdates() {
         try {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this)
                     .setResultCallback(new ResultCallback<Status>() {
                         @Override
@@ -1291,7 +1273,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.d(TAG, "Location changed");
+        Log.i(Constants.TAG, "Location changed");
 //        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
         if (startButtonEnabled && !isPausedActivityEnable && location != null) {
@@ -1301,7 +1283,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateUI(Location currLoc) {
         if (currLoc != null) {
-            Log.d(TAG, "Update UI");
+            Log.i(Constants.TAG, "Update UI");
             lastUpdateTimeMillis = currentUpdateTimeMillis;
             currentUpdateTimeMillis = new Date().getTime();
             if (currentCoordinates != null) {
@@ -1344,7 +1326,7 @@ public class MainActivity extends AppCompatActivity implements
 //                    mMap.addPolyline(miniSegment);
                     mMap.addPolyline(currentSegment);
                 }
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, MAP_ZOOM), ONE_SECOND, null);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
             }
         }
     }
@@ -1374,7 +1356,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     protected synchronized void buildGoogleApiClient() {
-        Log.d(TAG, "Building GoogleApiClient");
+        Log.i(Constants.TAG, "Building GoogleApiClient");
         progressBar.setVisibility(View.VISIBLE);
         Thread buildGoogleApiThread = new Thread(new Runnable() {
             @Override
@@ -1394,8 +1376,8 @@ public class MainActivity extends AppCompatActivity implements
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setInterval(Constants.UPDATE_INTERVAL_IN_MILLISECONDS);
+        mLocationRequest.setFastestInterval(Constants.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
@@ -1435,5 +1417,43 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 break;
         }
+    }
+
+    // for applovin video ads
+    @Override
+    public void onRewardedVideoAdLoaded() {
+        Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdOpened() {
+        Toast.makeText(this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoStarted() {
+        Toast.makeText(this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdClosed() {
+        Toast.makeText(this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewarded(RewardItem rewardItem) {
+        Toast.makeText(this, "onRewarded! currency: " + rewardItem.getType() + "  amount: " +
+                rewardItem.getAmount(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdLeftApplication() {
+        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRewardedVideoAdFailedToLoad(int i) {
+        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
     }
 }

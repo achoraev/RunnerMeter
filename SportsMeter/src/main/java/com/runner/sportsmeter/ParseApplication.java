@@ -3,7 +3,6 @@ package com.runner.sportsmeter;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
-import com.applovin.sdk.AppLovinSdk;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.parse.Parse;
@@ -39,13 +38,13 @@ public class ParseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        AppLovinSdk.initializeSdk(this);
 //        ParseCrashReporting.enable(this);
         Parse.enableLocalDatastore(this);
         ParseObject.registerSubclass(Account.class);
         ParseObject.registerSubclass(Sessions.class);
         ParseObject.registerSubclass(Coordinates.class);
         ParseObject.registerSubclass(Segments.class);
+
         ParseCommon.ParseInitialize(this);
 //        ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();

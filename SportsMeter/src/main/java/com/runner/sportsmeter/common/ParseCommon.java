@@ -35,9 +35,9 @@ public class ParseCommon {
             public void done(List<ParseObject> sessions, ParseException e) {
                 if (e == null) {
 //                    new LeaderBoardActivity().objectsWereRetrievedSuccessfully(sessions);
-                    Log.d("session", "Retrieved " + sessions.size() + " sessions");
+                    Log.i(Constants.TAG, "Retrieved " + sessions.size() + " sessions");
                 } else {
-                    Log.d("session", "Error: " + e.getMessage());
+                    Log.i(Constants.TAG, "Error: " + e.getMessage());
                 }
             }
         });
@@ -91,11 +91,19 @@ public class ParseCommon {
     }
 
     public static void ParseInitialize(Context context) {
-        Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
+//        Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
+        Parse.initialize(new Parse.Configuration.Builder(context)
+                .applicationId("test")
+                .clientKey(null)
+                .server("http://10.3.72.24:1337/parse/")
+                .enableLocalDataStore()
+                .build()
+        );
+
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
         ParseFacebookUtils.initialize(context);
-        ParseTwitterUtils.initialize(context.getString(R.string.twitter_consumer_key),
-                context.getString(R.string.twitter_consumer_secret));
+//        ParseTwitterUtils.initialize(context.getString(R.string.twitter_consumer_key),
+//                context.getString(R.string.twitter_consumer_secret));
     }
 
     public static void createGuestUser() {

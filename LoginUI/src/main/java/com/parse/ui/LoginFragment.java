@@ -44,7 +44,7 @@ import org.json.JSONObject;
 /**
  * Fragment for the user login screen.
  */
-public class ParseLoginFragment extends ParseLoginFragmentBase {
+public class LoginFragment extends LoginFragmentBase {
 
     public interface ParseLoginFragmentListener {
         public void onSignUpClicked(String username, String password);
@@ -54,7 +54,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         public void onLoginSuccess();
     }
 
-    private static final String LOG_TAG = "ParseLoginFragment";
+    private static final String LOG_TAG = "LoginFragment";
     private static final String USER_OBJECT_NAME_FIELD = "name";
 
     private View parseLogin;
@@ -67,12 +67,12 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     private Button twitterLoginButton;
     private SignInButton googleLoginButton;
     private ParseLoginFragmentListener loginFragmentListener;
-    private ParseOnLoginSuccessListener onLoginSuccessListener;
+    private OnLoginSuccessListener onLoginSuccessListener;
 
-    private ParseLoginConfig config;
+    private LoginConfig config;
 
-    public static ParseLoginFragment newInstance(Bundle configOptions) {
-        ParseLoginFragment loginFragment = new ParseLoginFragment();
+    public static LoginFragment newInstance(Bundle configOptions) {
+        LoginFragment loginFragment = new LoginFragment();
         loginFragment.setArguments(configOptions);
         return loginFragment;
     }
@@ -85,7 +85,7 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        config = ParseLoginConfig.fromBundle(getArguments(), getActivity());
+        config = LoginConfig.fromBundle(getArguments(), getActivity());
 
         View v = inflater.inflate(R.layout.com_parse_ui_parse_login_fragment,
                 parent, false);
@@ -126,21 +126,21 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
             loginFragmentListener = (ParseLoginFragmentListener) activity;
         } else {
             throw new IllegalArgumentException(
-                    "Activity must implemement ParseLoginFragmentListener");
+                    "Activity must implement ParseLoginFragmentListener");
         }
 
-        if (activity instanceof ParseOnLoginSuccessListener) {
-            onLoginSuccessListener = (ParseOnLoginSuccessListener) activity;
+        if (activity instanceof OnLoginSuccessListener) {
+            onLoginSuccessListener = (OnLoginSuccessListener) activity;
         } else {
             throw new IllegalArgumentException(
-                    "Activity must implemement ParseOnLoginSuccessListener");
+                    "Activity must implement OnLoginSuccessListener");
         }
 
-        if (activity instanceof ParseOnLoadingListener) {
-            onLoadingListener = (ParseOnLoadingListener) activity;
+        if (activity instanceof OnLoadingListener) {
+            onLoadingListener = (OnLoadingListener) activity;
         } else {
             throw new IllegalArgumentException(
-                    "Activity must implemement ParseOnLoadingListener");
+                    "Activity must implement OnLoadingListener");
         }
     }
 

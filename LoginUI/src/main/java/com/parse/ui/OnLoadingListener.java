@@ -21,7 +21,7 @@
 
 package com.parse.ui;
 
-public interface ParseOnLoadingListener {
+public interface OnLoadingListener {
   public void onLoadingStart(boolean showSpinner);
 
   public void onLoadingFinish();

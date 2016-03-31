@@ -60,20 +60,20 @@ import com.parse.ParseFacebookUtils;
  * You can customize this activity by:
  * <ul>
  * <li>Adding activity meta-data in your app's Manifest.xml. Please see
- * {@link ParseLoginConfig} for available settings.</li>
+ * {@link LoginConfig} for available settings.</li>
  * <li>Overriding any resource (layouts, strings, colors, etc) by specifying
  * them in your app's /res directory and using the same resource names. Your
  * app's resource values will override the values from this library project.</li>
- * <li>Using {@link ParseLoginBuilder} to construct an intent that can be used
+ * <li>Using {@link LoginBuilder} to construct an intent that can be used
  * to start this activity with your customizations.</li>
  * </ul>
  */
-public class ParseLoginActivity extends FragmentActivity implements
-    ParseLoginFragment.ParseLoginFragmentListener,
-    ParseLoginHelpFragment.ParseOnLoginHelpSuccessListener,
-    ParseOnLoginSuccessListener, ParseOnLoadingListener {
+public class LoginActivity extends FragmentActivity implements
+    LoginFragment.ParseLoginFragmentListener,
+    LoginHelpFragment.ParseOnLoginHelpSuccessListener,
+        OnLoginSuccessListener, OnLoadingListener {
 
-  public static final String LOG_TAG = "ParseLoginActivity";
+  public static final String LOG_TAG = "LoginActivity";
 
   // All login UI fragment transactions will happen within this parent layout element.
   // Change this if you are modifying this code to be hosted in your own activity.
@@ -97,7 +97,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // Show the login form
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction().add(fragmentContainer,
-          ParseLoginFragment.newInstance(configOptions)).commit();
+          LoginFragment.newInstance(configOptions)).commit();
     }
   }
 
@@ -128,7 +128,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // to the login form.
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     transaction.replace(fragmentContainer,
-        ParseSignupFragment.newInstance(configOptions, username, password));
+        SignupFragment.newInstance(configOptions, username, password));
     transaction.addToBackStack(null);
     transaction.commit();
   }
@@ -142,7 +142,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // Keep the transaction on the back stack so that if the user clicks
     // the back button, they are brought back to the login form.
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(fragmentContainer, ParseLoginHelpFragment.newInstance(configOptions));
+    transaction.replace(fragmentContainer, LoginHelpFragment.newInstance(configOptions));
     transaction.addToBackStack(null);
     transaction.commit();
   }
@@ -217,7 +217,7 @@ public class ParseLoginActivity extends FragmentActivity implements
       }
     }
 
-    // The options specified in the Intent (from ParseLoginBuilder) will
+    // The options specified in the Intent (from LoginBuilder) will
     // override any duplicate options specified in the activity metadata
     Bundle mergedOptions = new Bundle();
     if (activityInfo != null && activityInfo.metaData != null) {

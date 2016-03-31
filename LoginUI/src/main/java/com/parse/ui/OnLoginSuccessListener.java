@@ -21,6 +21,6 @@
 
 package com.parse.ui;
 
-public interface ParseOnLoginSuccessListener {
+public interface OnLoginSuccessListener {
   public void onLoginSuccess();
 }

@@ -26,12 +26,12 @@ import android.content.Intent;
 
 import java.util.Collection;
 
-public class ParseLoginBuilder {
+public class LoginBuilder {
 
   private Context context;
-  private ParseLoginConfig config = new ParseLoginConfig();
+  private LoginConfig config = new LoginConfig();
 
-  public ParseLoginBuilder(Context context) {
+  public LoginBuilder(Context context) {
     this.context = context;
   }
 
@@ -42,7 +42,7 @@ public class ParseLoginBuilder {
    *     The resource ID for the logo drawable.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setAppLogo(int id) {
+  public LoginBuilder setAppLogo(int id) {
     config.setAppLogo(id);
     return this;
   }
@@ -55,7 +55,7 @@ public class ParseLoginBuilder {
    *     Whether to show the username/password login.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginEnabled(boolean enabled) {
+  public LoginBuilder setParseLoginEnabled(boolean enabled) {
     config.setParseLoginEnabled(enabled);
     return this;
   }
@@ -67,7 +67,7 @@ public class ParseLoginBuilder {
    *     The text to display on the button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginButtonText(CharSequence text) {
+  public LoginBuilder setParseLoginButtonText(CharSequence text) {
     config.setParseLoginButtonText(text);
     return this;
   }
@@ -79,7 +79,7 @@ public class ParseLoginBuilder {
    *     The resource ID for the text to display on the login button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginButtonText(int id) {
+  public LoginBuilder setParseLoginButtonText(int id) {
     return setParseLoginButtonText(maybeGetString(id));
   }
 
@@ -90,7 +90,7 @@ public class ParseLoginBuilder {
    *     The text to display on the button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseSignupButtonText(CharSequence text) {
+  public LoginBuilder setParseSignupButtonText(CharSequence text) {
     config.setParseSignupButtonText(text);
     return this;
   }
@@ -102,7 +102,7 @@ public class ParseLoginBuilder {
    *     The resource ID for the text to display on the button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseSignupButtonText(int id) {
+  public LoginBuilder setParseSignupButtonText(int id) {
     return setParseSignupButtonText(maybeGetString(id));
   }
 
@@ -113,7 +113,7 @@ public class ParseLoginBuilder {
    *     The text to display on the link.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginHelpText(CharSequence text) {
+  public LoginBuilder setParseLoginHelpText(CharSequence text) {
     config.setParseLoginHelpText(text);
     return this;
   }
@@ -125,7 +125,7 @@ public class ParseLoginBuilder {
    *     The resource ID for the text to display on the link.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginHelpText(int id) {
+  public LoginBuilder setParseLoginHelpText(int id) {
     return setParseLoginHelpText(maybeGetString(id));
   }
 
@@ -137,7 +137,7 @@ public class ParseLoginBuilder {
    *     The text to display on the toast.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginInvalidCredentialsToastText(
+  public LoginBuilder setParseLoginInvalidCredentialsToastText(
       CharSequence text) {
     config.setParseLoginInvalidCredentialsToastText(text);
     return this;
@@ -151,7 +151,7 @@ public class ParseLoginBuilder {
    *     The resource ID for the text to display on the toast.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginInvalidCredentialsToastText(int id) {
+  public LoginBuilder setParseLoginInvalidCredentialsToastText(int id) {
     return setParseLoginInvalidCredentialsToastText(maybeGetString(id));
   }
 
@@ -167,7 +167,7 @@ public class ParseLoginBuilder {
    *     Whether to use email as the user's username in the Parse SDK.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseLoginEmailAsUsername(boolean emailAsUsername) {
+  public LoginBuilder setParseLoginEmailAsUsername(boolean emailAsUsername) {
     config.setParseLoginEmailAsUsername(emailAsUsername);
     return this;
   }
@@ -179,7 +179,7 @@ public class ParseLoginBuilder {
    *     The minimum required password length for signups
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseSignupMinPasswordLength(int minPasswordLength) {
+  public LoginBuilder setParseSignupMinPasswordLength(int minPasswordLength) {
     config.setParseSignupMinPasswordLength(minPasswordLength);
     return this;
   }
@@ -192,7 +192,7 @@ public class ParseLoginBuilder {
    *     The text to display on the user signup submission button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseSignupSubmitButtonText(CharSequence text) {
+  public LoginBuilder setParseSignupSubmitButtonText(CharSequence text) {
     config.setParseSignupSubmitButtonText(text);
     return this;
   }
@@ -206,7 +206,7 @@ public class ParseLoginBuilder {
    *     submission button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setParseSignupSubmitButtonText(int id) {
+  public LoginBuilder setParseSignupSubmitButtonText(int id) {
     return setParseSignupSubmitButtonText(maybeGetString(id));
   }
 
@@ -218,7 +218,7 @@ public class ParseLoginBuilder {
    *     Whether to show the facebook login.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setFacebookLoginEnabled(boolean enabled) {
+  public LoginBuilder setFacebookLoginEnabled(boolean enabled) {
     config.setFacebookLoginEnabled(enabled);
     return this;
   }
@@ -230,7 +230,7 @@ public class ParseLoginBuilder {
    *     The text to display on the Facebook login button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setFacebookLoginButtonText(CharSequence text) {
+  public LoginBuilder setFacebookLoginButtonText(CharSequence text) {
     config.setFacebookLoginButtonText(text);
     return this;
   }
@@ -243,7 +243,7 @@ public class ParseLoginBuilder {
    *     button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setFacebookLoginButtonText(int id) {
+  public LoginBuilder setFacebookLoginButtonText(int id) {
     config.setFacebookLoginButtonText(maybeGetString(id));
     return this;
   }
@@ -255,7 +255,7 @@ public class ParseLoginBuilder {
    *     The Facebook permissions being requested.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setFacebookLoginPermissions(
+  public LoginBuilder setFacebookLoginPermissions(
       Collection<String> permissions) {
     config.setFacebookLoginPermissions(permissions);
     return this;
@@ -269,7 +269,7 @@ public class ParseLoginBuilder {
    *     Whether to show the Twitter login.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setTwitterLoginEnabled(boolean enabled) {
+  public LoginBuilder setTwitterLoginEnabled(boolean enabled) {
     config.setTwitterLoginEnabled(enabled);
     return this;
   }
@@ -281,7 +281,7 @@ public class ParseLoginBuilder {
    *     The text to display on the Twitter login button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setTwitterLoginButtontext(
+  public LoginBuilder setTwitterLoginButtontext(
       CharSequence loginButtonText) {
     config.setTwitterLoginButtonText(loginButtonText);
     return this;
@@ -294,19 +294,19 @@ public class ParseLoginBuilder {
    *     The text to display on the Twitter login button.
    * @return The caller instance to allow chaining.
    */
-  public ParseLoginBuilder setTwitterLoginButtontext(int id) {
+  public LoginBuilder setTwitterLoginButtontext(int id) {
     config.setTwitterLoginButtonText(maybeGetString(id));
     return this;
   }
 
   /**
-   * Construct an intent that can be used to start ParseLoginActivity with the
+   * Construct an intent that can be used to start LoginActivity with the
    * specified customizations.
    *
-   * @return The intent for starting ParseLoginActivity
+   * @return The intent for starting LoginActivity
    */
   public Intent build() {
-    Intent intent = new Intent(context, ParseLoginActivity.class);
+    Intent intent = new Intent(context, LoginActivity.class);
     intent.putExtras(config.toBundle());
     return intent;
   }

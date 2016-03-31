@@ -39,9 +39,9 @@ import com.parse.SignUpCallback;
 /**
  * Fragment for the user signup screen.
  */
-public class ParseSignupFragment extends ParseLoginFragmentBase implements OnClickListener {
-  public static final String USERNAME = "com.parse.ui.ParseSignupFragment.USERNAME";
-  public static final String PASSWORD = "com.parse.ui.ParseSignupFragment.PASSWORD";
+public class SignupFragment extends LoginFragmentBase implements OnClickListener {
+  public static final String USERNAME = "com.parse.ui.SignupFragment.USERNAME";
+  public static final String PASSWORD = "com.parse.ui.SignupFragment.PASSWORD";
 
   private EditText usernameField;
   private EditText passwordField;
@@ -49,20 +49,20 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
   private EditText emailField;
   private EditText nameField;
   private Button createAccountButton;
-  private ParseOnLoginSuccessListener onLoginSuccessListener;
+  private OnLoginSuccessListener onLoginSuccessListener;
 
-  private ParseLoginConfig config;
+  private LoginConfig config;
   private int minPasswordLength;
 
-  private static final String LOG_TAG = "ParseSignupFragment";
+  private static final String LOG_TAG = "SignupFragment";
   private static final int DEFAULT_MIN_PASSWORD_LENGTH = 6;
   private static final String USER_OBJECT_NAME_FIELD = "name";
 
-  public static ParseSignupFragment newInstance(Bundle configOptions, String username, String password) {
-    ParseSignupFragment signupFragment = new ParseSignupFragment();
+  public static SignupFragment newInstance(Bundle configOptions, String username, String password) {
+    SignupFragment signupFragment = new SignupFragment();
     Bundle args = new Bundle(configOptions);
-    args.putString(ParseSignupFragment.USERNAME, username);
-    args.putString(ParseSignupFragment.PASSWORD, password);
+    args.putString(SignupFragment.USERNAME, username);
+    args.putString(SignupFragment.PASSWORD, password);
     signupFragment.setArguments(args);
     return signupFragment;
   }
@@ -72,7 +72,7 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
                            Bundle savedInstanceState) {
 
     Bundle args = getArguments();
-    config = ParseLoginConfig.fromBundle(args, getActivity());
+    config = LoginConfig.fromBundle(args, getActivity());
 
     minPasswordLength = DEFAULT_MIN_PASSWORD_LENGTH;
     if (config.getParseSignupMinPasswordLength() != null) {
@@ -119,18 +119,18 @@ public class ParseSignupFragment extends ParseLoginFragmentBase implements OnCli
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-    if (activity instanceof ParseOnLoginSuccessListener) {
-      onLoginSuccessListener = (ParseOnLoginSuccessListener) activity;
+    if (activity instanceof OnLoginSuccessListener) {
+      onLoginSuccessListener = (OnLoginSuccessListener) activity;
     } else {
       throw new IllegalArgumentException(
-          "Activity must implemement ParseOnLoginSuccessListener");
+          "Activity must implemement OnLoginSuccessListener");
     }
 
-    if (activity instanceof ParseOnLoadingListener) {
-      onLoadingListener = (ParseOnLoadingListener) activity;
+    if (activity instanceof OnLoadingListener) {
+      onLoadingListener = (OnLoadingListener) activity;
     } else {
       throw new IllegalArgumentException(
-          "Activity must implemement ParseOnLoadingListener");
+          "Activity must implemement OnLoadingListener");
     }
   }
 

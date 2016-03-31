@@ -33,8 +33,8 @@ import com.parse.Parse;
 /**
  * Base class with helper methods for fragments in ParseLoginUI.
  */
-public class ParseLoginFragmentBase extends Fragment {
-  protected ParseOnLoadingListener onLoadingListener;
+public class LoginFragmentBase extends Fragment {
+  protected OnLoadingListener onLoadingListener;
 
   protected String getLogTag() {
     return null;
@@ -81,7 +81,7 @@ public class ParseLoginFragmentBase extends Fragment {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
       return activity == null || activity.isDestroyed();
     } else {
-      return activity == null || ((ParseLoginActivity) activity).isDestroyed();
+      return activity == null || ((LoginActivity) activity).isDestroyed();
     }
   }
 }

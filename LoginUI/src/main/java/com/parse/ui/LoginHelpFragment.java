@@ -39,7 +39,7 @@ import com.parse.RequestPasswordResetCallback;
 /**
  * Fragment for the login help screen for resetting the user's password.
  */
-public class ParseLoginHelpFragment extends ParseLoginFragmentBase implements OnClickListener {
+public class LoginHelpFragment extends LoginFragmentBase implements OnClickListener {
 
   public interface ParseOnLoginHelpSuccessListener {
     public void onLoginHelpSuccess();
@@ -51,12 +51,12 @@ public class ParseLoginHelpFragment extends ParseLoginFragmentBase implements On
   private boolean emailSent = false;
   private ParseOnLoginHelpSuccessListener onLoginHelpSuccessListener;
 
-  private ParseLoginConfig config;
+  private LoginConfig config;
 
-  private static final String LOG_TAG = "ParseLoginHelpFragment";
+  private static final String LOG_TAG = "LoginHelpFragment";
 
-  public static ParseLoginHelpFragment newInstance(Bundle configOptions) {
-    ParseLoginHelpFragment loginHelpFragment = new ParseLoginHelpFragment();
+  public static LoginHelpFragment newInstance(Bundle configOptions) {
+    LoginHelpFragment loginHelpFragment = new LoginHelpFragment();
     loginHelpFragment.setArguments(configOptions);
     return loginHelpFragment;
   }
@@ -64,7 +64,7 @@ public class ParseLoginHelpFragment extends ParseLoginFragmentBase implements On
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                            Bundle savedInstanceState) {
-    config = ParseLoginConfig.fromBundle(getArguments(), getActivity());
+    config = LoginConfig.fromBundle(getArguments(), getActivity());
 
     View v = inflater.inflate(R.layout.com_parse_ui_parse_login_help_fragment,
         parent, false);
@@ -86,11 +86,11 @@ public class ParseLoginHelpFragment extends ParseLoginFragmentBase implements On
   public void onAttach(Activity activity) {
     super.onAttach(activity);
 
-    if (activity instanceof ParseOnLoadingListener) {
-      onLoadingListener = (ParseOnLoadingListener) activity;
+    if (activity instanceof OnLoadingListener) {
+      onLoadingListener = (OnLoadingListener) activity;
     } else {
       throw new IllegalArgumentException(
-          "Activity must implemement ParseOnLoadingListener");
+          "Activity must implemement OnLoadingListener");
     }
 
     if (activity instanceof ParseOnLoginHelpSuccessListener) {

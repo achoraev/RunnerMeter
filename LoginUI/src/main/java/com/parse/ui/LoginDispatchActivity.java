@@ -30,11 +30,11 @@ import com.parse.Parse;
 import com.parse.ParseUser;
 
 /**
- * Activity that starts ParseLoginActivity if the user is not logged in.
+ * Activity that starts LoginActivity if the user is not logged in.
  * Otherwise, it starts the subclass-defined target activity.
  * 
  * To use this, you should subclass this activity and implement
- * {@link ParseLoginDispatchActivity#getTargetClass} to return the class of the
+ * {@link LoginDispatchActivity#getTargetClass} to return the class of the
  * target activity that should be launched after login succeeds. If the user
  * cancels the login, your app will go back to whatever activity it was on before
  * your subclass dispatch activity was launched, or exit the app if your subclass
@@ -47,7 +47,7 @@ import com.parse.ParseUser;
  * should specify that your gate keeper activity be launched (and the gate
  * keeper will redirect to your target activity upon successful login).
  */
-public abstract class ParseLoginDispatchActivity extends Activity {
+public abstract class LoginDispatchActivity extends Activity {
 
   protected abstract Class<?> getTargetClass();
 
@@ -74,14 +74,14 @@ public abstract class ParseLoginDispatchActivity extends Activity {
   }
 
   /**
-   * Override this to generate a customized intent for starting ParseLoginActivity.
+   * Override this to generate a customized intent for starting LoginActivity.
    * However, the preferred method for configuring Parse Login UI components is by
    * specifying activity options in AndroidManifest.xml, not by overriding this.
    *
-   * @return Intent that can be used to start ParseLoginActivity
+   * @return Intent that can be used to start LoginActivity
    */
   protected Intent getParseLoginIntent() {
-    ParseLoginBuilder builder = new ParseLoginBuilder(this);
+    LoginBuilder builder = new LoginBuilder(this);
     return builder.build();
   }
 

@@ -104,27 +104,27 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity
-                android:name="com.parse.ui.ParseLoginActivity"
+                android:name="com.parse.ui.LoginActivity"
                 android:label="@string/app_name"
                 android:launchMode="singleTop">
             <!-- For more options, see https://www.parse.com/docs/android_guide#ui-login -->
             <meta-data
-                    android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
+                    android:name="com.parse.ui.LoginActivity.PARSE_LOGIN_ENABLED"
                     android:value="true"/>
             <meta-data
-                    android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
+                    android:name="com.parse.ui.LoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
                     android:value="true"/>
             <meta-data
-                    android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
+                    android:name="com.parse.ui.LoginActivity.FACEBOOK_LOGIN_ENABLED"
                     android:value="true"/>
             <meta-data
-                    android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED"
+                    android:name="com.parse.ui.LoginActivity.TWITTER_LOGIN_ENABLED"
                     android:value="false"/>
             <meta-data
-                    android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS"
+                    android:name="com.parse.ui.LoginActivity.FACEBOOK_LOGIN_PERMISSIONS"
                     android:value="@array/facePermissions"/>
             <meta-data
-                    android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY"
+                    android:name="com.parse.ui.LoginActivity.FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY"
                     android:value="@array/facePermissions"/>
         </activity>
         <activity android:name="com.facebook.FacebookActivity"

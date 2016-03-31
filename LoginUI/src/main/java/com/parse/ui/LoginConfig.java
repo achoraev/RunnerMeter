@@ -35,28 +35,28 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Configurations for the ParseLoginActivity.
+ * Configurations for the LoginActivity.
  */
-public class ParseLoginConfig {
-  public static final String APP_LOGO = "com.parse.ui.ParseLoginActivity.APP_LOGO";
-  public static final String PARSE_LOGIN_ENABLED = "com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED";
-  public static final String PARSE_LOGIN_BUTTON_TEXT = "com.parse.ui.ParseLoginActivity.PARSE_LOGIN_BUTTON_TEXT";
-  public static final String PARSE_SIGNUP_BUTTON_TEXT = "com.parse.ui.ParseLoginActivity.PARSE_SIGNUP_BUTTON_TEXT";
-  public static final String PARSE_LOGIN_HELP_TEXT = "com.parse.ui.ParseLoginActivity.PARSE_LOGIN_HELP_TEXT";
-  public static final String PARSE_LOGIN_INVALID_CREDENTIALS_TOAST_TEXT = "com.parse.ui.ParseLoginActivity.PARSE_LOGIN_INVALID_CREDENTIALS_TEXT";
-  public static final String PARSE_LOGIN_EMAIL_AS_USERNAME = "com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME";
-  public static final String PARSE_SIGNUP_MIN_PASSWORD_LENGTH = "com.parse.ui.ParseLoginActivity.PARSE_SIGNUP_MIN_PASSWORD_LENGTH";
-  public static final String PARSE_SIGNUP_SUBMIT_BUTTON_TEXT = "com.parse.ui.ParseLoginActivity.PARSE_SIGNUP_SUBMIT_BUTTON_TEXT";
-  public static final String FACEBOOK_LOGIN_ENABLED = "com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED";
-  public static final String FACEBOOK_LOGIN_BUTTON_TEXT = "com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_BUTTON_TEXT";
-  public static final String FACEBOOK_LOGIN_PERMISSIONS = "com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS";
-  public static final String TWITTER_LOGIN_ENABLED = "com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED";
-  public static final String TWITTER_LOGIN_BUTTON_TEXT = "com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_BUTTON_TEXT";
+public class LoginConfig {
+  public static final String APP_LOGO = "com.parse.ui.LoginActivity.APP_LOGO";
+  public static final String PARSE_LOGIN_ENABLED = "com.parse.ui.LoginActivity.PARSE_LOGIN_ENABLED";
+  public static final String PARSE_LOGIN_BUTTON_TEXT = "com.parse.ui.LoginActivity.PARSE_LOGIN_BUTTON_TEXT";
+  public static final String PARSE_SIGNUP_BUTTON_TEXT = "com.parse.ui.LoginActivity.PARSE_SIGNUP_BUTTON_TEXT";
+  public static final String PARSE_LOGIN_HELP_TEXT = "com.parse.ui.LoginActivity.PARSE_LOGIN_HELP_TEXT";
+  public static final String PARSE_LOGIN_INVALID_CREDENTIALS_TOAST_TEXT = "com.parse.ui.LoginActivity.PARSE_LOGIN_INVALID_CREDENTIALS_TEXT";
+  public static final String PARSE_LOGIN_EMAIL_AS_USERNAME = "com.parse.ui.LoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME";
+  public static final String PARSE_SIGNUP_MIN_PASSWORD_LENGTH = "com.parse.ui.LoginActivity.PARSE_SIGNUP_MIN_PASSWORD_LENGTH";
+  public static final String PARSE_SIGNUP_SUBMIT_BUTTON_TEXT = "com.parse.ui.LoginActivity.PARSE_SIGNUP_SUBMIT_BUTTON_TEXT";
+  public static final String FACEBOOK_LOGIN_ENABLED = "com.parse.ui.LoginActivity.FACEBOOK_LOGIN_ENABLED";
+  public static final String FACEBOOK_LOGIN_BUTTON_TEXT = "com.parse.ui.LoginActivity.FACEBOOK_LOGIN_BUTTON_TEXT";
+  public static final String FACEBOOK_LOGIN_PERMISSIONS = "com.parse.ui.LoginActivity.FACEBOOK_LOGIN_PERMISSIONS";
+  public static final String TWITTER_LOGIN_ENABLED = "com.parse.ui.LoginActivity.TWITTER_LOGIN_ENABLED";
+  public static final String TWITTER_LOGIN_BUTTON_TEXT = "com.parse.ui.LoginActivity.TWITTER_LOGIN_BUTTON_TEXT";
 
   // For internally serializing to/from string array (the public analog above is for resource from activity meta-data).
-  private static final String FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY = "com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY";
+  private static final String FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY = "com.parse.ui.LoginActivity.FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY";
 
-  private static final String LOG_TAG = "com.parse.ui.ParseLoginConfig";
+  private static final String LOG_TAG = "com.parse.ui.LoginConfig";
 
   // Use boxed types so that we can differentiate between a setting not set,
   // versus its default value.  This is useful for merging options set from code
@@ -291,20 +291,20 @@ public class ParseLoginConfig {
   }
 
   /**
-   * Constructs a ParseLoginConfig object from a bundle. Unrecognized keys are
+   * Constructs a LoginConfig object from a bundle. Unrecognized keys are
    * ignored.
    * <p/>
-   * This can be used to pass an ParseLoginConfig object between activities, or
+   * This can be used to pass an LoginConfig object between activities, or
    * to read settings from an activity's meta-data in Manefest.xml.
    *
    * @param bundle
-   *     The Bundle representation of the ParseLoginConfig object.
+   *     The Bundle representation of the LoginConfig object.
    * @param context
    *     The context for resolving resource IDs.
-   * @return The ParseLoginConfig instance.
+   * @return The LoginConfig instance.
    */
-  public static ParseLoginConfig fromBundle(Bundle bundle, Context context) {
-    ParseLoginConfig config = new ParseLoginConfig();
+  public static LoginConfig fromBundle(Bundle bundle, Context context) {
+    LoginConfig config = new LoginConfig();
     Set<String> keys = bundle.keySet();
 
     if (keys.contains(APP_LOGO)) {

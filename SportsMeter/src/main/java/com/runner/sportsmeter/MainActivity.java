@@ -57,7 +57,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.*;
-import com.parse.ui.ParseLoginBuilder;
+import com.parse.ui.LoginBuilder;
 import com.runner.sportsmeter.activities.*;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.Constants;
@@ -882,7 +882,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void openParseLoginActivity() {
-        ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
+        LoginBuilder builder = new LoginBuilder(MainActivity.this);
         Intent parseLoginIntent = builder
                 .setFacebookLoginPermissions(Arrays.asList(
                         "public_profile",

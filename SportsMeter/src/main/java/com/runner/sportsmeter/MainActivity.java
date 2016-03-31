@@ -71,6 +71,7 @@ import com.runner.sportsmeter.models.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements
     private ParseInstallation installation = ParseInstallation.getCurrentInstallation();
     private Double totalDistance = 0.00;
     private UserMetricsInterface usersMetrics = new Metrics();
+    private WeakReference<MainActivity> weakRef = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +178,8 @@ public class MainActivity extends AppCompatActivity implements
         // setup add
         setupInterstitialAd();
         // applovin todo make it works return error 400
-        myIncent = AppLovinIncentivizedInterstitial.create(this);
+        AppLovinSdk.initializeSdk(this);
+        myIncent = AppLovinIncentivizedInterstitial.create(getApplicationContext());
         myIncent.preload(new AppLovinAdLoadListener() {
             @Override
             public void adReceived(AppLovinAd appLovinAd) {
@@ -190,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(MainActivity.this, "Failed loaded", Toast.LENGTH_SHORT).show();
             }
         });
+        weakRef = new WeakReference<MainActivity>(this);
+
 //        setupRewardedAd();
 //        loadRewardedVideoAd();
         requestNewInterstitial();
@@ -727,7 +732,6 @@ public class MainActivity extends AppCompatActivity implements
         // 1 - land start onCreate
         // 2 - land start
         super.onStart();
-        AppLovinSdk.initializeSdk(this);
         if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
         }
@@ -779,7 +783,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (myIncent.isAdReadyToDisplay()) {
             // An ad is ready.  Display the ad with one of the available show methods.
-            myIncent.show(this, null, null, null, null);
+            myIncent.show(weakRef.get(), null, null, null, null);
         } else {
             // No rewarded ad is currently available.
             // todo remove

@@ -18,20 +18,10 @@ gradle.properties
 .signing/
 
 # User-specific configurations
-.idea/libraries/
-.idea/workspace.xml
-.idea/gradle.xml
+.idea/*
 .idea/tasks.xml
 .idea/.name
-.idea/modules
-.idea/compiler.xml
-.idea/copyright
-.idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
 .idea/scopes/scope_settings.xml
-.idea/vcs.xml
-*.iml
 
 # OS-specific files
 .DS_Store

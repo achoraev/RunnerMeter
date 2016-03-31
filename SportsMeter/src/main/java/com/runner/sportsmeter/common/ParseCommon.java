@@ -92,6 +92,7 @@ public class ParseCommon {
 
     public static void ParseInitialize(Context context) {
 //        Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
+        // todo switch to parse server before release
         Parse.initialize(new Parse.Configuration.Builder(context)
                 .applicationId("test")
                 .clientKey(null)

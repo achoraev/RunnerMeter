@@ -33,6 +33,11 @@ import java.util.List;
  */
 public class Utility {
 
+    public void hideKeyboard(View view, Context context) {
+        InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
     public void setupAdds(AdView mAdView, Context cont) {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -144,11 +149,6 @@ public class Utility {
 
     public static String formatDate(Date createdAt) {
         return new SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(createdAt);
-    }
-
-    public static void hideKeyboard(View view, Context context) {
-        InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     public static boolean isNetworkConnected(Context context) {

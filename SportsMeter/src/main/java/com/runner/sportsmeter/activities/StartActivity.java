@@ -338,6 +338,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
+        new Utility().hideKeyboard(getCurrentFocus(), this);
         return false;
     }
 

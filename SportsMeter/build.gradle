@@ -2,10 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-
+    buildToolsVersion "23.0.1"
     def versionPropsFile = file('version.properties')
-
     if (versionPropsFile.canRead()) {
         def Properties versionProps = new Properties()
 
@@ -39,16 +37,18 @@ android {
     } else {
         throw new GradleException("Could not read version.properties!")
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'C:/Program Files (x86)/Android/android-sdk/tools/proguard/proguard-android.txt'
         }
     }
-
     lintOptions {
         abortOnError false
+    }
+    defaultConfig {}
+    productFlavors {
     }
 }
 

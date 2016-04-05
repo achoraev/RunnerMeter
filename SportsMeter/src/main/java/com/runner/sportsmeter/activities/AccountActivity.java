@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -36,15 +35,14 @@ import java.util.HashMap;
  * Created by angelr on 03-Sep-15.
  */
 public class AccountActivity extends Activity {
-    private final HashMap accounts = new HashMap();
+    private final HashMap<String, Account> accounts = new HashMap<String, Account>();
     ProfilePictureView profilePic;
     ProgressBar progressBar;
     TextView name, userName, eMail, createdAt, isVerified;
     Button closeBtn;
     AdView mAdView;
-    String facebookId = "", twitterImageUrl, twitterImagePath;
+    String facebookId = "";
     ImageView twitterImageViewPicture;
-    Bitmap twitterBitmap;
     private String userEmail = "";
     private SportTypes sportType;
 
@@ -69,7 +67,7 @@ public class AccountActivity extends Activity {
                 accounts.put(ParseUser.getCurrentUser().getUsername(), ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), AccountActivity.this, sportType));
             }
 
-            Account current = (Account) accounts.get(ParseUser.getCurrentUser().getUsername());
+            Account current = accounts.get(ParseUser.getCurrentUser().getUsername());
 
             if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
                 facebookId = AccessToken.getCurrentAccessToken().getUserId();
@@ -159,41 +157,6 @@ public class AccountActivity extends Activity {
         }
     }
 
-//    private String getTwitterProfileImage() throws IOException, JSONException {
-////         2
-//        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-//        String url = "https://api.twitter.com/1.1/users/show.json?screen_name="
-//                + screenName;
-//
-//        ImageRequest request = new ImageRequest(url,
-//                new Response.Listener<Bitmap>() {
-//                    @Override
-//                    public void onResponse(Bitmap bitmap) {
-//                        twitterImageViewPicture.setImageBitmap(bitmap);
-//                    }
-//                }, 0, 0, null,
-//                new Response.ErrorListener() {
-//                    public void onErrorResponse(VolleyError error) {
-//                    }
-//                });
-//// Access the RequestQueue through your singleton class.
-//        MySingleton.getInstance(this).addToRequestQueue(request);
-//        TwitterApiClient twitterApiClient = TwitterCore.getInstance().getApiClient();
-//         1
-//        HttpClient client = new DefaultHttpClient();
-//        HttpGet verifyGetParse = new HttpGet(
-//                "https://api.twitter.com/1.1/users/show.json?screen_name="
-//                        + screenName);
-//        ParseTwitterUtils.getTwitter().signRequest(verifyGetParse);
-//        HttpResponse response = (HttpResponse) client.execute(verifyGetParse);
-//
-//        HttpEntity entity = new DefaultHttpClient().execute(verifyGet).getEntity();
-//        JSONObject responseJson = new JSONObject(IOUtils.toString(entity.getContent()));
-//        String url = responseJson.get("profile_image_url").toString();
-//
-//        return null;
-//    }
-
     private void facebookGraphMeRequestForUserInfo(final Account current) {
         GraphRequest request = GraphRequest.newMeRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -220,53 +183,4 @@ public class AccountActivity extends Activity {
         request.setParameters(parameters);
         request.executeAsync();
     }
-
-//    private class HttpGetTask extends AsyncTask<Void, Void, List<String>> {
-//
-////        String screenName = ParseTwitterUtils.getTwitter().getScreenName();
-////        String URL = "https://api.twitter.com/1.1/users/show.json?screen_name="
-////                + screenName;
-//
-////        AndroidHttpClient mClient = AndroidHttpClient.newInstance("");
-//
-//        @Override
-//        protected void onPreExecute() {
-//            progressBar.setVisibility(View.VISIBLE);
-//        }
-//
-//        @Override
-//        protected List<String> doInBackground(Void... params) {
-////            HttpGet request = new HttpGet(URL);
-////            ParseTwitterUtils.getTwitter().signRequest(request);
-////            JsonResponseHandler responseHandler = new JsonResponseHandler();
-////            try {
-////                return mClient.execute(request, responseHandler);
-////            } catch (ClientProtocolException e) {
-////                e.printStackTrace();
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(List<String> result) {
-////            if (null != mClient) {
-////                mClient.close();
-////            }
-//
-//            progressBar.setVisibility(View.GONE);
-//            twitterImageUrl = result.get(0);
-//            twitterImageUrl.replace("_normal", "_bigger");
-////            Thread netThread = new Thread(new Runnable() {
-////                @Override
-////                public void run() {
-////                    twitterBitmap = new Utility().getBitmapFromURL(twitterImageUrl);
-////                    twitterImagePath = Utility.saveToExternalStorage(twitterBitmap, AccountActivity.this);
-////                }
-////            });
-////            netThread.start();
-////            twitterImageViewPicture.setImageBitmap(twitterBitmap);
-//        }
-//    }
 }

@@ -15,10 +15,10 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keepclassmembers class com.dom925.xxxx {
-   public *;
-}
-#-dontwarn com.google.android.gms.internal.**
+#-keepclassmembers class com.dom925.xxxx {
+#   public *;
+#}
+-dontwarn com.google.android.gms.internal.**
 #-dontwarn com.parse.ParseApacheHttpClient
 #-dontwarn com.parse.ParseOkHttpClient
 #-dontwarn com.parse.ParseApacheHttpClient$ParseApacheHttpEntity

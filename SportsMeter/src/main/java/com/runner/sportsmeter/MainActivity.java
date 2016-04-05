@@ -156,8 +156,7 @@ public class MainActivity extends AppCompatActivity implements
         initializeUiViews();
 
         usersMetrics = UserMetrics.METRIC.equals(Constants.speedMetricUnit) ? new Metrics() : new Imperial();
-        String totalDistanceString = getString(R.string.total_distance) + " " + totalDistance + " " + usersMetrics.getDistanceUnit();
-        showTotalDistance.setText(totalDistanceString);
+        showTotalDistance.setText(generateTotalString(totalDistance, usersMetrics.getDistanceUnit()));
         sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
 
         setToolbarAndDrawer();
@@ -668,12 +667,12 @@ public class MainActivity extends AppCompatActivity implements
                     openParseLoginActivity();
                 }
                 break;
-//            case R.id.nav_history_fragment:
-//                Intent historyIntent = new Intent(MainActivity.this, HistoryLiteMapListActivity.class);
-//                overridePendingTransition(android.R.anim.fade_in,
-//                        android.R.anim.fade_out);
-//                startActivity(historyIntent);
-//                break;
+            case R.id.nav_history_fragment:
+                Intent historyIntent = new Intent(MainActivity.this, HistoryLiteMapListActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(historyIntent);
+                break;
             case R.id.nav_account_fragment:
                 Intent accountIntent = new Intent(MainActivity.this, AccountActivity.class);
                 Bundle accBundle = new Bundle();
@@ -916,6 +915,7 @@ public class MainActivity extends AppCompatActivity implements
     private void logOutCurrentUser() {
         new ParseCommon().logOutUser(this);
         showUsername.setText(R.string.guest);
+        showTotalDistance.setText(generateTotalString(0.00, usersMetrics.getDistanceUnit()));
         facebookProfilePicture.setProfileId("");
     }
 
@@ -1421,6 +1421,10 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 break;
         }
+    }
+
+    private String generateTotalString(Double totalDistance, String distanceUnit) {
+        return getString(R.string.total_distance) + " " + totalDistance + " " + distanceUnit;
     }
 
     // for applovin video ads

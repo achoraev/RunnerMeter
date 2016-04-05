@@ -8,14 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.parse.*;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
@@ -50,10 +52,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             public void done(List<Sessions> sessions, ParseException e) {
                 if (e == null) {
                     Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
-                    if(user != null) {
+                    if (user != null) {
                         AssignSessions(sessions);
-                    } else {
-
                     }
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
@@ -65,11 +65,11 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
     private void AssignSessions(List<Sessions> sessions) {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
-        arrayOfSessions = new ArrayList<>();
-        arrayOfSessions.addAll(sessions);
+//        arrayOfSessions = new ArrayList<>();
+//        arrayOfSessions.addAll(sessions);
         bar.setVisibility(View.GONE);
         // Set a custom list adapter for a list of locations
-        mAdapter = new MapAdapter(this, LIST_LOCATIONS);
+        mAdapter = new MapAdapter(this, sessions);
         mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
         mList.setListAdapter(mAdapter);
 
@@ -84,11 +84,11 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
      * that is programatically initialised in
      * {@link #getView(int, android.view.View, android.view.ViewGroup)}
      */
-    private class MapAdapter extends ArrayAdapter<NamedLocation> {
+    private class MapAdapter extends ArrayAdapter<Sessions> {
 
         private final HashSet<MapView> mMaps = new HashSet<MapView>();
 
-        public MapAdapter(Context context, NamedLocation[] locations) {
+        public MapAdapter(Context context, List<Sessions> locations) {
             super(context, R.layout.lite_map_list_row, R.id.lite_listrow_text, locations);
         }
 
@@ -121,19 +121,19 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             }
 
             // Get the NamedLocation for this item and attach it to the MapView
-            NamedLocation item = getItem(position);
-            holder.mapView.setTag(item);
+            Sessions currentSession = getItem(position);
+            holder.mapView.setTag(currentSession);
 
             // Ensure the map has been initialised by the on map ready callback in ViewHolder.
             // If it is not ready yet, it will be initialised with the NamedLocation set as its tag
             // when the callback is received.
             if (holder.map != null) {
                 // The map is already ready to be used
-                setMapLocation(holder.map, item);
+                setMapLocation(holder.map, currentSession);
             }
 
             // Set the text label for this item
-            holder.title.setText(item.name);
+            holder.title.setText(currentSession.getName());
 
             return row;
         }
@@ -153,10 +153,19 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
      * {@link com.google.android.gms.maps.GoogleMap}.
      * Adds a marker and centers the camera on the NamedLocation with the normal map type.
      */
-    private static void setMapLocation(GoogleMap map, NamedLocation data) {
-        // Add a marker for this item and set the camera
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(data.location, 13f));
-        map.addMarker(new MarkerOptions().position(data.location));
+    private static void setMapLocation(GoogleMap map, Sessions data) {
+        Segments currentSegment = data.getSegmentId();
+        ArrayList<ParseGeoPoint> geoPointsParse = currentSegment.getGeoPointsArray();
+        PolylineOptions currentPolyline = new PolylineOptions();
+
+        if (geoPointsParse.size() != 0) {
+            List<LatLng> geoPoint = ParseCommon.convertArrayListOfParseGeoPointToList(geoPointsParse);
+//            currentPolyline.addAll(geoPoint);
+//            // Add a marker for this item and set the camera
+//            map.addPolyline(currentPolyline);
+//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(data.getSegmentId(), 13f));
+//        map.addMarker(new MarkerOptions().position(data.location));
+        }
 
         // Set the map type back to normal.
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
@@ -183,10 +192,10 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(getApplicationContext());
             map = googleMap;
-            NamedLocation data = (NamedLocation) mapView.getTag();
-            if (data != null) {
-                setMapLocation(map, data);
-            }
+//            Sessions data = (Sessions) mapView.getTag();
+//            if (data != null) {
+//                setMapLocation(map, data);
+//            }
         }
 
         /**
@@ -225,55 +234,55 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
      * Location represented by a position ({@link com.google.android.gms.maps.model.LatLng} and a
      * name ({@link java.lang.String}).
      */
-    private static class NamedLocation {
-
-        public final String name;
-
-        public final LatLng location;
-
-        NamedLocation(String name, LatLng location) {
-            this.name = name;
-            this.location = location;
-        }
-    }
+//    private static class NamedLocation {
+//
+//        public final String name;
+//
+//        public final LatLng location;
+//
+//        NamedLocation(String name, LatLng location) {
+//            this.name = name;
+//            this.location = location;
+//        }
+//    }
 
     /**
      * A list of locations to show in this ListView.
      */
-    private static final NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
-            new NamedLocation("Cape Town", new LatLng(-33.920455, 18.466941)),
-            new NamedLocation("Beijing", new LatLng(39.937795, 116.387224)),
-            new NamedLocation("Bern", new LatLng(46.948020, 7.448206)),
-            new NamedLocation("Breda", new LatLng(51.589256, 4.774396)),
-            new NamedLocation("Brussels", new LatLng(50.854509, 4.376678)),
-            new NamedLocation("Copenhagen", new LatLng(55.679423, 12.577114)),
-            new NamedLocation("Hannover", new LatLng(52.372026, 9.735672)),
-            new NamedLocation("Helsinki", new LatLng(60.169653, 24.939480)),
-            new NamedLocation("Hong Kong", new LatLng(22.325862, 114.165532)),
-            new NamedLocation("Istanbul", new LatLng(41.034435, 28.977556)),
-            new NamedLocation("Johannesburg", new LatLng(-26.202886, 28.039753)),
-            new NamedLocation("Lisbon", new LatLng(38.707163, -9.135517)),
-            new NamedLocation("London", new LatLng(51.500208, -0.126729)),
-            new NamedLocation("Madrid", new LatLng(40.420006, -3.709924)),
-            new NamedLocation("Mexico City", new LatLng(19.427050, -99.127571)),
-            new NamedLocation("Moscow", new LatLng(55.750449, 37.621136)),
-            new NamedLocation("New York", new LatLng(40.750580, -73.993584)),
-            new NamedLocation("Oslo", new LatLng(59.910761, 10.749092)),
-            new NamedLocation("Paris", new LatLng(48.859972, 2.340260)),
-            new NamedLocation("Prague", new LatLng(50.087811, 14.420460)),
-            new NamedLocation("Rio de Janeiro", new LatLng(-22.90187, -43.232437)),
-            new NamedLocation("Rome", new LatLng(41.889998, 12.500162)),
-            new NamedLocation("Sao Paolo", new LatLng(-22.863878, -43.244097)),
-            new NamedLocation("Seoul", new LatLng(37.560908, 126.987705)),
-            new NamedLocation("Stockholm", new LatLng(59.330650, 18.067360)),
-            new NamedLocation("Sydney", new LatLng(-33.873651, 151.2068896)),
-            new NamedLocation("Taipei", new LatLng(25.022112, 121.478019)),
-            new NamedLocation("Tokyo", new LatLng(35.670267, 139.769955)),
-            new NamedLocation("Tulsa Oklahoma", new LatLng(36.149777, -95.993398)),
-            new NamedLocation("Vaduz", new LatLng(47.141076, 9.521482)),
-            new NamedLocation("Vienna", new LatLng(48.209206, 16.372778)),
-            new NamedLocation("Warsaw", new LatLng(52.235474, 21.004057)),
-            new NamedLocation("Wellington", new LatLng(-41.286480, 174.776217)),
-            new NamedLocation("Winnipeg", new LatLng(49.875832, -97.150726))
-    };
+//    private static final NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
+//            new NamedLocation("Cape Town", new LatLng(-33.920455, 18.466941)),
+//            new NamedLocation("Beijing", new LatLng(39.937795, 116.387224)),
+//            new NamedLocation("Bern", new LatLng(46.948020, 7.448206)),
+//            new NamedLocation("Breda", new LatLng(51.589256, 4.774396)),
+//            new NamedLocation("Brussels", new LatLng(50.854509, 4.376678)),
+//            new NamedLocation("Copenhagen", new LatLng(55.679423, 12.577114)),
+//            new NamedLocation("Hannover", new LatLng(52.372026, 9.735672)),
+//            new NamedLocation("Helsinki", new LatLng(60.169653, 24.939480)),
+//            new NamedLocation("Hong Kong", new LatLng(22.325862, 114.165532)),
+//            new NamedLocation("Istanbul", new LatLng(41.034435, 28.977556)),
+//            new NamedLocation("Johannesburg", new LatLng(-26.202886, 28.039753)),
+//            new NamedLocation("Lisbon", new LatLng(38.707163, -9.135517)),
+//            new NamedLocation("London", new LatLng(51.500208, -0.126729)),
+//            new NamedLocation("Madrid", new LatLng(40.420006, -3.709924)),
+//            new NamedLocation("Mexico City", new LatLng(19.427050, -99.127571)),
+//            new NamedLocation("Moscow", new LatLng(55.750449, 37.621136)),
+//            new NamedLocation("New York", new LatLng(40.750580, -73.993584)),
+//            new NamedLocation("Oslo", new LatLng(59.910761, 10.749092)),
+//            new NamedLocation("Paris", new LatLng(48.859972, 2.340260)),
+//            new NamedLocation("Prague", new LatLng(50.087811, 14.420460)),
+//            new NamedLocation("Rio de Janeiro", new LatLng(-22.90187, -43.232437)),
+//            new NamedLocation("Rome", new LatLng(41.889998, 12.500162)),
+//            new NamedLocation("Sao Paolo", new LatLng(-22.863878, -43.244097)),
+//            new NamedLocation("Seoul", new LatLng(37.560908, 126.987705)),
+//            new NamedLocation("Stockholm", new LatLng(59.330650, 18.067360)),
+//            new NamedLocation("Sydney", new LatLng(-33.873651, 151.2068896)),
+//            new NamedLocation("Taipei", new LatLng(25.022112, 121.478019)),
+//            new NamedLocation("Tokyo", new LatLng(35.670267, 139.769955)),
+//            new NamedLocation("Tulsa Oklahoma", new LatLng(36.149777, -95.993398)),
+//            new NamedLocation("Vaduz", new LatLng(47.141076, 9.521482)),
+//            new NamedLocation("Vienna", new LatLng(48.209206, 16.372778)),
+//            new NamedLocation("Warsaw", new LatLng(52.235474, 21.004057)),
+//            new NamedLocation("Wellington", new LatLng(-41.286480, 174.776217)),
+//            new NamedLocation("Winnipeg", new LatLng(49.875832, -97.150726))
+//    };
 }

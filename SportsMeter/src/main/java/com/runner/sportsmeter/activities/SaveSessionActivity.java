@@ -240,7 +240,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 currentSegment = savedInstanceState.getParcelable("currentSegment");
                 if(currentSegment != null) {
                     listOfPoints = currentSegment.getPoints();
-                    arrayListOfParseGeoPoints = convertListToArrayListOfParseGeoPoint(listOfPoints);
+                    arrayListOfParseGeoPoints = ParseCommon.convertListToArrayListOfParseGeoPoint(listOfPoints);
                 }
             }
             if (savedInstanceState.keySet().contains("Session")) {
@@ -253,15 +253,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 endPointCoordinates = savedInstanceState.getParcelable("end_coords");
             }
         }
-    }
-
-    private ArrayList<ParseGeoPoint> convertListToArrayListOfParseGeoPoint(List<LatLng> listOfPoints) {
-        ArrayList<ParseGeoPoint> result = new ArrayList<>();
-        for(LatLng l : listOfPoints){
-            result.add(new ParseGeoPoint(l.latitude, l.longitude));
-        }
-
-        return result;
     }
 
     @TargetApi(Build.VERSION_CODES.M)

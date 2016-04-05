@@ -10,7 +10,8 @@ import java.util.Date;
  */
 @ParseClassName("Segments")
 public class Segments extends ParseObject {
-    public Segments(){}
+    public Segments() {
+    }
 
     public ParseUser getCurrentUser() {
         return getParseUser("currentUser");
@@ -44,15 +45,18 @@ public class Segments extends ParseObject {
         put("mapImage", mapImage);
     }
 
-//    public ArrayList<ParseGeoPoint> getGeoPointsArray() {
+    //    public ArrayList<ParseGeoPoint> getGeoPointsArray() {
 //        return get("geoPoints");
 //    }
+    public ArrayList<ParseGeoPoint> getGeoPointsArray() {
+        return getGeoPointsArray();
+    }
 
     public void setGeoPointsArray(ArrayList<ParseGeoPoint> geoPoints) {
         addAll("geoPoints", geoPoints);
     }
 
-    public Date getCreatedAt(){
+    public Date getCreatedAt() {
         return getDate("createdAt");
     }
 
@@ -63,6 +67,7 @@ public class Segments extends ParseObject {
     public void setDistance(double dist) {
         put("distance", dist);
     }
+
     public Double getDistance() {
         return getDouble("distance");
     }

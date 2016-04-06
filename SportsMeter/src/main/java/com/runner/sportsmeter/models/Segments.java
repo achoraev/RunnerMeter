@@ -49,7 +49,7 @@ public class Segments extends ParseObject {
 //        return get("geoPoints");
 //    }
     public ArrayList<ParseGeoPoint> getGeoPointsArray() {
-        return getGeoPointsArray();
+        return (ArrayList<ParseGeoPoint>) get("geoPoints");
     }
 
     public void setGeoPointsArray(ArrayList<ParseGeoPoint> geoPoints) {

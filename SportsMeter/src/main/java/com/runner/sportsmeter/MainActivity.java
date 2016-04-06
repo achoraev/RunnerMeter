@@ -754,6 +754,7 @@ public class MainActivity extends AppCompatActivity implements
         // google analytics
         Log.i(Constants.TAG, "Setting screen name: " + "MainActivity");
         mTracker.setAppInstallerId(ParseInstallation.getCurrentInstallation().getObjectId());
+        mTracker.setScreenName("MainActivity");
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 //        setTitle(getString(R.string.app_name));
 //        if (mGoogleApiClient.isConnected()) {

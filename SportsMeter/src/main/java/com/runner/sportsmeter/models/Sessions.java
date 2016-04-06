@@ -62,7 +62,7 @@ public class Sessions extends ParseObject {
     }
 
     public Segments getSegmentId() {
-        return getSegmentId();
+        return (Segments) get("segmentId");
     }
 
     public void setParseUser(ParseUser user) {

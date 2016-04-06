@@ -8,14 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.*;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
@@ -47,6 +45,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
         query.whereEqualTo(getString(R.string.session_username), user);
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
+        query.include("segmentId");
         query.setLimit(limit);
         query.findInBackground(new FindCallback<Sessions>() {
             public void done(List<Sessions> sessions, ParseException e) {
@@ -154,16 +153,26 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
      * Adds a marker and centers the camera on the NamedLocation with the normal map type.
      */
     private static void setMapLocation(GoogleMap map, Sessions data) {
-        Segments currentSegment = data.getSegmentId();
-        ArrayList<ParseGeoPoint> geoPointsParse = currentSegment.getGeoPointsArray();
-        PolylineOptions currentPolyline = new PolylineOptions();
+        Segments currentSegment = null;
+        ArrayList<ParseGeoPoint> geoPointsParse = new ArrayList<>();
+        PolylineOptions currentPolyline = new PolylineOptions()
+                .width(Constants.POLYLINE_WIDTH)
+                .color(Constants.POLYLINE_COLOR);
 
-        if (geoPointsParse.size() != 0) {
+        if (data != null) {
+            currentSegment = data.getSegmentId();
+        }
+
+        if (currentSegment != null) {
+            geoPointsParse = currentSegment.getGeoPointsArray();
+        }
+
+        if (geoPointsParse != null && geoPointsParse.size() != 0) {
             List<LatLng> geoPoint = ParseCommon.convertArrayListOfParseGeoPointToList(geoPointsParse);
-//            currentPolyline.addAll(geoPoint);
-//            // Add a marker for this item and set the camera
-//            map.addPolyline(currentPolyline);
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(data.getSegmentId(), 13f));
+            currentPolyline.addAll(geoPoint);
+            // Add a marker for this item and set the camera
+            map.addPolyline(currentPolyline);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoPoint.get(0), 13f));
 //        map.addMarker(new MarkerOptions().position(data.location));
         }
 

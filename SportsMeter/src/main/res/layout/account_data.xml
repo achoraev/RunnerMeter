@@ -14,6 +14,16 @@
     <TextView android:layout_width="match_parent"
               android:layout_height="30dp"
               android:gravity="center"
+              android:text="@string/user_gender"/>
+    <Spinner
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:id="@+id/gender_type"
+            android:spinnerMode="dialog"/>
+    <TextView android:layout_width="match_parent"
+              android:layout_height="30dp"
+              android:gravity="center"
               android:text="@string/user_height"/>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="30dp"
@@ -48,16 +58,6 @@
                   android:text="@string/kilograms"/>
     </LinearLayout>
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="30dp"
-              android:gravity="center"
-              android:text="@string/user_gender"/>
-    <Spinner
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:id="@+id/gender_type"
-            android:spinnerMode="dialog"/>
     <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

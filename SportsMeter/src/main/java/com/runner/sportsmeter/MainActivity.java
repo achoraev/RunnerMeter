@@ -27,20 +27,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.applovin.adview.AppLovinIncentivizedInterstitial;
-import com.applovin.sdk.AppLovinAd;
-import com.applovin.sdk.AppLovinAdLoadListener;
-import com.applovin.sdk.AppLovinSdk;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.widget.ProfilePictureView;
-import com.google.ads.mediation.admob.AdMobAdapter;
-import com.google.android.gms.ads.*;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
@@ -86,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        RewardedVideoAdListener,
         ResultCallback<LocationSettingsResult> {
 
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
@@ -132,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements
     private Session pausedSession;
 
     private InterstitialAd mInterstitialAd;
-    private RewardedVideoAd mRewardedAd;
-    private AppLovinIncentivizedInterstitial myIncent;
     private AdView mAdView;
 
     private SharedPreferences settings;
@@ -174,28 +166,9 @@ public class MainActivity extends AppCompatActivity implements
         setCurrentUserUsername();
         calculateTotalDistance(ParseUser.getCurrentUser(), usersMetrics);
 
-        // setup add
+        // setup admob add
         setupInterstitialAd();
-        // applovin todo make it works return error 400
-        AppLovinSdk.initializeSdk(this);
-        myIncent = AppLovinIncentivizedInterstitial.create(getApplicationContext());
-        myIncent.preload(new AppLovinAdLoadListener() {
-            @Override
-            public void adReceived(AppLovinAd appLovinAd) {
-                // todo remove
-                Toast.makeText(MainActivity.this, "Video loaded" + appLovinAd.getType().toString(), Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void failedToReceiveAd(int i) {
-                // todo remove
-                Toast.makeText(MainActivity.this, "Failed loaded", Toast.LENGTH_SHORT).show();
-            }
-        });
-        weakRef = new WeakReference<MainActivity>(this);
-
-//        setupRewardedAd();
-//        loadRewardedVideoAd();
         requestNewInterstitial();
 
         startStopBtn.setOnClickListener(MainActivity.this);
@@ -209,11 +182,6 @@ public class MainActivity extends AppCompatActivity implements
         mTracker = application.getDefaultTracker();
     }
 
-    private void setupRewardedAd() {
-        mRewardedAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedAd.setRewardedVideoAdListener(this);
-    }
-
     private void setupInterstitialAd() {
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
@@ -223,15 +191,6 @@ public class MainActivity extends AppCompatActivity implements
                 requestNewInterstitial();
             }
         });
-    }
-
-    private void loadRewardedVideoAd() {
-        Bundle extras = new Bundle();
-        extras.putBoolean("_noRefresh", true);
-        AdRequest adRequest = new AdRequest.Builder()
-                .addNetworkExtrasBundle(AdMobAdapter.class, extras)
-                .build();
-        mRewardedAd.loadAd(getString(R.string.interestitial_add_rewarded), adRequest);
     }
 
     private void requestNewInterstitial() {
@@ -318,10 +277,8 @@ public class MainActivity extends AppCompatActivity implements
         // clear map
         mMap.clear();
 
-//        currentUpdateTime = DateFormat.getTimeInstance().format(new Date());
         currentUpdateTimeMillis = new Date().getTime();
         if (sessionStartTimeMillis == 0) {
-//            sessionStartTime = currentUpdateTime;
             sessionStartTimeMillis = currentUpdateTimeMillis;
         }
 
@@ -343,8 +300,6 @@ public class MainActivity extends AppCompatActivity implements
             listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
-        } else {
-//            Toast.makeText(MainActivity.this, getString(R.string.gps_not_available), Toast.LENGTH_LONG).show();
         }
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
@@ -369,7 +324,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void resumeLogic() {
-//        Toast.makeText(MainActivity.this, "Activity resumed", Toast.LENGTH_SHORT).show();
         isPausedActivityEnable = false;
         startStopBtn.setOnClickListener(MainActivity.this);
         fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
@@ -393,23 +347,6 @@ public class MainActivity extends AppCompatActivity implements
             endPointCoord = currentCoordinates;
             currentSegment.add(currentCoordinates);
             mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
-//            Thread snapShotThread = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
-//                        @Override
-//                        public void onSnapshotReady(Bitmap bitmap) {
-//                            sessionScreenShot = bitmap;
-//                            sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-//                            Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
-//                            Log.d("url", sessionImagePath);
-//                            // clear map
-//                            mMap.clear();
-//                        }
-//                    }, sessionScreenShot);
-//                }
-//            });
-//            snapShotThread.start();
             if (ParseUser.getCurrentUser() != null) {
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
@@ -443,10 +380,6 @@ public class MainActivity extends AppCompatActivity implements
                 android.R.anim.fade_out);
         startActivity(saveSessionIntent);
 
-//        if (listOfPoints.size() != 0 && sessionDistance != 0) {
-//            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
-//        }
-
         // set all to null
         setVariablesToNull();
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
@@ -456,16 +389,6 @@ public class MainActivity extends AppCompatActivity implements
         installation.saveEventually();
         fab.setVisibility(View.GONE);
     }
-
-//    private void saveSegmentToParse(PolylineOptions polyLine, final ArrayList<ParseGeoPoint> points, final double dist) {
-//        mMap.addPolyline(polyLine);
-//
-//        Segments segment = new Segments();
-//        segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-//        segment.setName("current_segment");
-//        segment.setDistance(dist);
-//        segment.setGeoPointsArray(points);
-//        segment.saveEventually();
 
 //        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
 //            @Override
@@ -485,17 +408,7 @@ public class MainActivity extends AppCompatActivity implements
 ////                    @Override
 ////                    public void done(com.parse.ParseException e) {
 ////                        if (e == null) {
-////                            Segments segment = new Segments();
 ////
-////                            segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
-////                            segment.setSegmentId(segmentId);
-////                            segment.setName("test" + segmentId);
-////                            segment.setDistance(dist);
-////                            segment.setMapImage(file);
-////                            segment.setGeoPointsArray(points);
-////                            segment.saveEventually();
-////
-////                            segmentId++;
 ////                            settings.edit().putInt("segmentId", segmentId).apply();
 ////                            currentSegment = null;
 ////                            // clear map
@@ -559,7 +472,6 @@ public class MainActivity extends AppCompatActivity implements
                 facebookProfilePicture.setCropped(true);
             } else {
                 setCurrentUserUsernameInHeader();
-//                Toast.makeText(MainActivity.this, getString(R.string.logged_in_as_guest), Toast.LENGTH_LONG).show();
             }
         } else {
             showUsername.setText(getString(R.string.guest));
@@ -632,7 +544,7 @@ public class MainActivity extends AppCompatActivity implements
                 });
     }
 
-    public void selectDrawerItem(MenuItem menuItem) {
+    private void selectDrawerItem(MenuItem menuItem) {
 
         switch (menuItem.getItemId()) {
             case R.id.nav_login_fragment:
@@ -727,9 +639,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onStart() {
-        // 3- pause
-        // 1 - land start onCreate
-        // 2 - land start
         super.onStart();
         if (mGoogleApiClient != null && !mGoogleApiClient.isConnected()) {
             mGoogleApiClient.connect();
@@ -738,18 +647,13 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onPause() {
-        // 1 land
         super.onPause();
-//        if (mGoogleApiClient.isConnected()) {
-//            stopLocationUpdates();
-//        }
         // for facebook API
         AppEventsLogger.deactivateApp(this);
     }
 
     @Override
     protected void onResume() {
-        // 3 land start
         super.onResume();
         // google analytics
         Log.i(Constants.TAG, "Setting screen name: " + "MainActivity");
@@ -766,7 +670,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onStop() {
-        // 2 land
         super.onStop();
 //        if (mGoogleApiClient.isConnected()) {
 //            stopLocationUpdates();
@@ -781,19 +684,6 @@ public class MainActivity extends AppCompatActivity implements
             mInterstitialAd.show();
         }
 
-        if (myIncent.isAdReadyToDisplay()) {
-            // An ad is ready.  Display the ad with one of the available show methods.
-            myIncent.show(weakRef.get(), null, null, null, null);
-        } else {
-            // No rewarded ad is currently available.
-            // todo remove
-            Toast.makeText(this, "video ad is not available", Toast.LENGTH_SHORT).show();
-        }
-
-//        if (mRewardedAd.isLoaded()) {
-//            mRewardedAd.show();
-//        }
-
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
             mGoogleApiClient.disconnect();
@@ -804,9 +694,6 @@ public class MainActivity extends AppCompatActivity implements
                 endPointCoord = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
-//            saveSegmentToParse(currentSegment, listOfPoints, sessionDistance);
-//            Session current = new SaveSessionActivity().createCurrentSession(sessionDistance, sessionTimeDiff, currentMaxSpeed, averageSpeed, sportType.toString());
-//            new SaveSessionActivity().saveParseSession(current);
         }
         super.onDestroy();
     }
@@ -845,13 +732,6 @@ public class MainActivity extends AppCompatActivity implements
                         android.R.anim.fade_out);
                 startActivity(worldMapIntent);
                 return true;
-//            case R.id.action_google_login:
-//                Intent google = new Intent(MainActivity.this, GooglePlusLoginHelper.class);
-//                overridePendingTransition(android.R.anim.fade_in,
-//                        android.R.anim.fade_out);
-//                startActivity(google);
-////                new GoogleLogin(true);
-//                return true;
             case R.id.action_logout:
                 if (ParseCommon.isUserLoggedIn()) {
                     new AlertDialog.Builder(this)
@@ -927,23 +807,11 @@ public class MainActivity extends AppCompatActivity implements
         return super.onCreateOptionsMenu(menu);
     }
 
-    /* Called whenever we call invalidateOptionsMenu() */
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        // If the nav drawer is open, hide action items related to the content view
-//        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-//        return super.onPrepareOptionsMenu(menu);
-//    }
-
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.i(Constants.TAG, "Map is ready");
-//        Toast.makeText(this, "Map is ready", Toast.LENGTH_LONG).show();
         mMap = googleMap;
-//        startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
-//        Log.d(TAG, String.valueOf(mMap.getMyLocation().getLatitude()));
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -1009,7 +877,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-//        getSupportActionBar().setTitle(title);
     }
 
     @Override
@@ -1089,7 +956,8 @@ public class MainActivity extends AppCompatActivity implements
                             total += ses.getDistance();
                         }
                         total = Calculations.roundDigitsAfterDecimalPoint(total / 1000, 3);
-                        showTotalDistance.setText(getString(R.string.total_distance) + " " + total + " " + unit.getDistanceUnit());
+                        String totalDistance = getString(R.string.total_distance) + " " + total + " " + unit.getDistanceUnit();
+                        showTotalDistance.setText(totalDistance);
                     }
                 }
             });
@@ -1169,7 +1037,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
+        // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
@@ -1241,7 +1109,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    protected void startLocationUpdates() {
+    private void startLocationUpdates() {
         try {
             if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
@@ -1265,7 +1133,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    protected void stopLocationUpdates() {
+    private void stopLocationUpdates() {
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this)
                 .setResultCallback(new ResultCallback<Status>() {
@@ -1279,7 +1147,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLocationChanged(Location location) {
         Log.i(Constants.TAG, "Location changed");
-//        Toast.makeText(this, "Location changed", Toast.LENGTH_LONG).show();
         currentLocation = location;
         if (startButtonEnabled && !isPausedActivityEnable && location != null) {
             updateUI(currentLocation);
@@ -1339,9 +1206,11 @@ public class MainActivity extends AppCompatActivity implements
     private void updateInfoPanel(double sessionDistance, double averageSpeed, double currentMaxSpeed, long sessionTimeDiff, UserMetricsInterface speedMetricUnit) {
         String speedUnit = speedMetricUnit.getSpeedUnit();
         distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " " + speedMetricUnit.getDistanceUnit()));
-        speedMeter.setText(String.valueOf(averageSpeed) + speedUnit);
+        String speed = String.valueOf(averageSpeed) + speedUnit;
+        String maxSpeed = String.valueOf(currentMaxSpeed) + speedUnit;
+        speedMeter.setText(speed);
         timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
-        maxSpeedMeter.setText(String.valueOf(currentMaxSpeed) + speedUnit);
+        maxSpeedMeter.setText(maxSpeed);
     }
 
     private LatLng smoothLocation(Location location, double oldLat, double oldLon) {
@@ -1360,7 +1229,7 @@ public class MainActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
     }
 
-    protected synchronized void buildGoogleApiClient() {
+    private synchronized void buildGoogleApiClient() {
         Log.i(Constants.TAG, "Building GoogleApiClient");
         progressBar.setVisibility(View.VISIBLE);
         Thread buildGoogleApiThread = new Thread(new Runnable() {
@@ -1379,20 +1248,20 @@ public class MainActivity extends AppCompatActivity implements
         buildGoogleApiThread.start();
     }
 
-    protected void createLocationRequest() {
+    private void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(Constants.UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(Constants.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    protected void buildLocationSettingsRequest() {
+    private void buildLocationSettingsRequest() {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
         mLocationSettingsRequest = builder.build();
     }
 
-    protected void checkLocationSettings() {
+    private void checkLocationSettings() {
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(
                         mGoogleApiClient,
@@ -1426,43 +1295,5 @@ public class MainActivity extends AppCompatActivity implements
 
     private String generateTotalString(Double totalDistance, String distanceUnit) {
         return getString(R.string.total_distance) + " " + totalDistance + " " + distanceUnit;
-    }
-
-    // for applovin video ads
-    @Override
-    public void onRewardedVideoAdLoaded() {
-        Toast.makeText(this, "onRewardedVideoAdLoaded", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRewardedVideoAdOpened() {
-        Toast.makeText(this, "onRewardedVideoAdOpened", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRewardedVideoStarted() {
-        Toast.makeText(this, "onRewardedVideoStarted", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRewardedVideoAdClosed() {
-        Toast.makeText(this, "onRewardedVideoAdClosed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRewarded(RewardItem rewardItem) {
-        Toast.makeText(this, "onRewarded! currency: " + rewardItem.getType() + "  amount: " +
-                rewardItem.getAmount(), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRewardedVideoAdLeftApplication() {
-        Toast.makeText(this, "onRewardedVideoAdLeftApplication",
-                Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onRewardedVideoAdFailedToLoad(int i) {
-        Toast.makeText(this, "onRewardedVideoAdFailedToLoad", Toast.LENGTH_SHORT).show();
     }
 }

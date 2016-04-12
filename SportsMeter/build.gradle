@@ -55,7 +55,7 @@ android {
 dependencies {
     compile project(':LoginUI')
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/applovin-sdk-6.1.5.jar')
+//    compile files('libs/applovin-sdk-6.1.5.jar')
     // 23.1.1 not find Text view
     compile 'com.jayway.android.robotium:robotium-solo:5.5.4'
     compile 'com.android.support:appcompat-v7:23.0.1'

@@ -36,7 +36,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lite_list_layout);
 
-        bar = (ProgressBar) this.findViewById(R.id.lite_list_progress_bar);
+//        bar = (ProgressBar) this.findViewById(R.id.lite_list_progress_bar);
         ParseQuery(15, ParseUser.getCurrentUser());
     }
 

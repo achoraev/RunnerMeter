@@ -91,16 +91,16 @@ public class ParseCommon {
     }
 
     public static void ParseInitialize(Context context) {
-//        Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
+        Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
         // todo switch to parse server before release
-        Parse.initialize(new Parse.Configuration.Builder(context)
-                .applicationId("test")
-                .clientKey(null)
-//                .server("http://10.3.72.24:1337/parse/")
-                .server("http://95.87.239.167:1337/parse/")
-                .enableLocalDataStore()
-                .build()
-        );
+//        Parse.initialize(new Parse.Configuration.Builder(context)
+//                .applicationId("test")
+//                .clientKey(null)
+////                .server("http://10.3.72.24:1337/parse/")
+//                .server("http://95.87.239.167:1337/parse/")
+//                .enableLocalDataStore()
+//                .build()
+//        );
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
         ParseFacebookUtils.initialize(context);

@@ -51,6 +51,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.mopub.mobileads.MoPubErrorCode;
+import com.mopub.mobileads.MoPubInterstitial;
 import com.parse.*;
 import com.parse.ui.LoginBuilder;
 import com.runner.sportsmeter.activities.*;
@@ -66,7 +68,6 @@ import com.runner.sportsmeter.models.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -81,7 +82,8 @@ public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener,
-        ResultCallback<LocationSettingsResult> {
+        ResultCallback<LocationSettingsResult>,
+        MoPubInterstitial.InterstitialAdListener {
 
     private static double SMOOTH_FACTOR = 0.2; // between 0 and 1
 
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements
     private ParseInstallation installation = ParseInstallation.getCurrentInstallation();
     private Double totalDistance = 0.00;
     private UserMetricsInterface usersMetrics = new Metrics();
-    private WeakReference<MainActivity> weakRef = null;
+    private MoPubInterstitial mInterstitial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,9 +168,11 @@ public class MainActivity extends AppCompatActivity implements
         setCurrentUserUsername();
         calculateTotalDistance(ParseUser.getCurrentUser(), usersMetrics);
 
+        // setup MoPub
+        setupMoPubInterestitialAd();
+
         // setup admob add
         setupInterstitialAd();
-
         requestNewInterstitial();
 
         startStopBtn.setOnClickListener(MainActivity.this);
@@ -180,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements
         // Obtain the shared Tracker instance.
         ParseApplication application = (ParseApplication) getApplication();
         mTracker = application.getDefaultTracker();
+    }
+
+    private void setupMoPubInterestitialAd() {
+        mInterstitial = new MoPubInterstitial(this, getString(R.string.interstitial_mopub_ad));
+        mInterstitial.setInterstitialAdListener(this);
     }
 
     private void setupInterstitialAd() {
@@ -1018,6 +1027,7 @@ public class MainActivity extends AppCompatActivity implements
                 logOutCurrentUser();
             }
 
+            mInterstitial.load();
             finish();
             stopLocationUpdates();
             super.onBackPressed();
@@ -1295,5 +1305,34 @@ public class MainActivity extends AppCompatActivity implements
 
     private String generateTotalString(Double totalDistance, String distanceUnit) {
         return getString(R.string.total_distance) + " " + totalDistance + " " + distanceUnit;
+    }
+
+    @Override
+    public void onInterstitialLoaded(MoPubInterstitial interstitial) {
+        if (interstitial.isReady()) {
+            mInterstitial.show();
+        } else {
+            Toast.makeText(this, "MoPub ad not loaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
+
+    }
+
+    @Override
+    public void onInterstitialShown(MoPubInterstitial interstitial) {
+
+    }
+
+    @Override
+    public void onInterstitialClicked(MoPubInterstitial interstitial) {
+
+    }
+
+    @Override
+    public void onInterstitialDismissed(MoPubInterstitial interstitial) {
+
     }
 }

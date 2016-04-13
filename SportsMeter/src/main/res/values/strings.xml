@@ -200,6 +200,8 @@
     <string name="copyright" translatable="false">Copyright © 2015 by Angel Raev. All rights reserved.</string>
 
     // applovin
-    <string name="applovin_key" translatable="false">IlDngBnezGmAWN8hSPPfGcbUR83iIuuad6MJI7zFNkPv5TaXy_BDboh1wllDddpFlAZ1HWHfEhZJE8sB81Okp4</string>
+    <!--<string name="applovin_key" translatable="false">IlDngBnezGmAWN8hSPPfGcbUR83iIuuad6MJI7zFNkPv5TaXy_BDboh1wllDddpFlAZ1HWHfEhZJE8sB81Okp4</string>-->
+    // MoPub key and ads
+    <string name="interstitial_mopub_ad" translatable="false">d4f5d0fff25d4d199360647e3be73d7d</string>
 
 </resources>

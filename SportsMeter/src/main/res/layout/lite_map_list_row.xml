@@ -1,24 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="5dp">
-
-    <TextView
-        android:id="@+id/lite_listrow_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+              xmlns:map="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/cardview_border"
+              android:orientation="vertical"
+              android:layout_margin="5dp">
 
     <!-- MapView in lite mode. Note that it needs to be initialised
          programmatically before it can be used. -->
     <com.google.android.gms.maps.MapView
-        android:id="@+id/lite_listrow_map"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        map:liteMode="true"
-        map:mapType="none" />
+            android:id="@+id/lite_listrow_map"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_margin="2dp"
+            map:liteMode="true"
+            map:mapType="none"/>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="50dp"
+                  android:gravity="center"
+                  android:orientation="horizontal">
+        <TextView
+                android:id="@+id/lite_listrow_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <LinearLayout android:layout_width="1dp"
+                      android:layout_height="40dp"
+                      android:background="@color/white"/>
+
+        <TextView
+                android:id="@+id/lite_pace"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="pace"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <LinearLayout android:layout_width="1dp"
+                      android:layout_height="40dp"
+                      android:background="@color/white"/>
+
+        <TextView
+                android:id="@+id/lite_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="distance"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <LinearLayout android:layout_width="1dp"
+                      android:layout_height="40dp"
+                      android:background="@color/white"/>
+        <TextView
+                android:id="@+id/lite_total_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="total time"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <LinearLayout android:layout_width="1dp"
+                      android:layout_height="40dp"
+                      android:background="@color/white"/>
+        <TextView
+                android:id="@+id/lite_created"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="created"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </LinearLayout>
 
 </LinearLayout>

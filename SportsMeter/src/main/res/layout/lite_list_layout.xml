@@ -3,8 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:paddingTop="30dp"
-              android:background="@color/app_color">
+              android:paddingTop="30dp">
 
     <TextView android:layout_width="match_parent"
               android:layout_height="30dp"

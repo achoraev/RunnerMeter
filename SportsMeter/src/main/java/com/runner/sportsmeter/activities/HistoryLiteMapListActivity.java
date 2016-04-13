@@ -28,7 +28,6 @@ import java.util.List;
 public class HistoryLiteMapListActivity extends AppCompatActivity {
     private ListFragment mList;
     private MapAdapter mAdapter;
-    private ProgressBar bar;
     private ArrayList<Object> arrayOfSessions;
 
     @Override
@@ -36,12 +35,10 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lite_list_layout);
 
-//        bar = (ProgressBar) this.findViewById(R.id.lite_list_progress_bar);
         ParseQuery(15, ParseUser.getCurrentUser());
     }
 
     private void ParseQuery(int limit, final ParseUser user) {
-        bar.setVisibility(View.VISIBLE);
         ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
         query.whereEqualTo(getString(R.string.session_username), user);
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
@@ -66,7 +63,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
 //        arrayOfSessions = new ArrayList<>();
 //        arrayOfSessions.addAll(sessions);
-        bar.setVisibility(View.GONE);
         // Set a custom list adapter for a list of locations
         mAdapter = new MapAdapter(this, sessions);
         mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);

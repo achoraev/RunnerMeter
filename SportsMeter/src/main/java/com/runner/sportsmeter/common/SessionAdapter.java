@@ -41,11 +41,11 @@ public class SessionAdapter extends ArrayAdapter<Session> {
         createdAt = (TextView) rowView.findViewById(R.id.view_created);
         user = (TextView) rowView.findViewById(R.id.view_user);
         // set text
-        distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
+        distance.setText(Utility.formatDistance(dataList.get(position).getDistance()));
         duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(dataList.get(position).getDuration() / 1000 / 60) + " min"));
-        maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " kmph");
-        averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " kmph");
-        timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
+        maxSpeed.setText(Utility.formatSpeed(dataList.get(position).getMaxSpeed()));
+        averageSpeed.setText(Utility.formatSpeed(dataList.get(position).getAverageSpeed()));
+        timePerKm.setText(Utility.formatPace(dataList.get(position).getTimePerKilometer()));
         createdAt.setText(String.valueOf(dataList.get(position).getCreatedAt()));
         user.setText(String.valueOf(dataList.get(position).getUserName()));
 

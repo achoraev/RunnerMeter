@@ -130,15 +130,17 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
     private void setTextViewsFromSession(Session session) {
 //        sessionScreenshot.setImageResource(R.mipmap.icon_new);
 
-        saveTimeKm.setText(String.valueOf(session.getTimePerKilometer()) + " min/km");
-        saveDistance.setText(String.valueOf(session.getDistance()) + " m");
+        saveTimeKm.setText(Utility.formatPace(session.getTimePerKilometer()));
+        saveDistance.setText(Utility.formatDistance(session.getDistance()));
         saveDuration.setText(Calculations.convertTimeToString(session.getDuration()));
         saveUsername.setText(String.valueOf(session.getUserName()));
-        saveMaxSpeed.setText(String.valueOf(session.getMaxSpeed()) + " km/h");
-        saveAvgSpeed.setText(String.valueOf(session.getAverageSpeed()) + " km/h");
+        saveMaxSpeed.setText(Utility.formatSpeed(session.getMaxSpeed()));
+        saveAvgSpeed.setText(Utility.formatSpeed(session.getAverageSpeed()));
         saveTypeSport.setText(session.getSportType());
         saveCreatedAt.setText(Utility.formatDate(new Date()));
     }
+
+
 
 //    public Sessions createCurrentSessions(double dist, Long time, double max, double average, String type) {
 //        Sessions current = new Sessions();

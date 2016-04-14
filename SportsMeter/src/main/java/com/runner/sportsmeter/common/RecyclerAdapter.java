@@ -59,11 +59,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.position.setText(String.valueOf(position + 1));
-        holder.distance.setText(String.valueOf(dataList.get(position).getDistance()) + " m");
-        holder.duration.setText(String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(Calculations.convertDoubleToTime(dataList.get(position).getDuration() / 60.00)) + " min"));
-        holder.maxSpeed.setText(String.valueOf(dataList.get(position).getMaxSpeed()) + " km/h" );
-        holder.averageSpeed.setText(String.valueOf(dataList.get(position).getAverageSpeed()) + " km/h");
-        holder.timePerKm.setText(String.valueOf(dataList.get(position).getTimePerKilometer()) + " min/km");
+        holder.distance.setText(Utility.formatDistance(dataList.get(position).getDistance()));
+        holder.duration.setText(Utility.formatDurationToMinutesString(dataList.get(position).getDuration()));
+        holder.maxSpeed.setText(Utility.formatSpeed(dataList.get(position).getMaxSpeed()));
+        holder.averageSpeed.setText(Utility.formatSpeed(dataList.get(position).getAverageSpeed()));
+        holder.timePerKm.setText(Utility.formatPace(dataList.get(position).getTimePerKilometer()));
         holder.createdAt.setText(Utility.formatDate(dataList.get(position).getCreatedAt()));
         holder.user.setText(String.valueOf(dataList.get(position).getName()));
     }

@@ -151,6 +151,22 @@ public class Utility {
         return new SimpleDateFormat("dd MMM yyyy HH:mm:ss").format(createdAt);
     }
 
+    public static String formatPace(double pace) {
+        return String.valueOf(pace) + " min/km";
+    }
+
+    public static String formatSpeed(double speed) {
+        return String.valueOf(speed) + " km/h";
+    }
+
+    public static String formatDistance(double distance) {
+        return String.valueOf(distance) + " m";
+    }
+
+    public static String formatDurationToMinutesString(Long s) {
+        return String.valueOf(Calculations.roundToTwoDigitsAfterDecimalPoint(Calculations.convertDoubleToTime(s / 60.00))) + " min";
+    }
+
     public static boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

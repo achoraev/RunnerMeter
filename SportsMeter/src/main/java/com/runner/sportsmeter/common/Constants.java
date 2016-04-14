@@ -15,7 +15,7 @@ public class Constants {
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int MAP_ZOOM = 15;
-    public static final float POLYLINE_WIDTH = 20;
+    public static final float POLYLINE_WIDTH = 15;
     public static final int POLYLINE_COLOR = Color.parseColor("#1DCCC6");
     public static final int POLYLINE_COLOR_RED = Color.RED;
     public static final int POLYLINE_COLOR_GREEN = Color.GREEN;

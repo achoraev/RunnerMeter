@@ -142,5 +142,7 @@
     <string name="climbing">Klimmen</string>
     <string name="walking">Wandelen</string>
     <string name="calories_message">Gegevens die nodig zijn voor de berekening van de calorieën</string>
+    <string name="total_distance">Totale afstand:</string>
+    <string name="msg_empty_list">Geen gegevens!</string>
 
 </resources>

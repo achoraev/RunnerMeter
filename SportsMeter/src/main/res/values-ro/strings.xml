@@ -142,5 +142,7 @@
     <string name="climbing">Alpinism</string>
     <string name="walking">Mersul pe jos</string>
     <string name="calories_message">Date necesare pentru calcul calorii</string>
+    <string name="total_distance">Distanta totala:</string>
+    <string name="msg_empty_list">Nu există date!</string>
 
 </resources>

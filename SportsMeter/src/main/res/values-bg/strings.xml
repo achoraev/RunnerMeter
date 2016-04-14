@@ -140,5 +140,7 @@
     <string name="climbing">Катерене</string>
     <string name="walking">Ходене</string>
     <string name="calories_message">Данни, необходими за изчисляване на калории</string>
+    <string name="total_distance">Общо разстояние:</string>
+    <string name="msg_empty_list">Няма данни!</string>
 
 </resources>

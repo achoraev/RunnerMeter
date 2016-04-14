@@ -142,5 +142,7 @@
     <string name="climbing">Klettern</string>
     <string name="walking">Fuß</string>
     <string name="calories_message">Daten für die Berechnung der Kalorien</string>
+    <string name="total_distance">Gesamtdistanz:</string>
+    <string name="msg_empty_list">Keine Daten!</string>
 
 </resources>

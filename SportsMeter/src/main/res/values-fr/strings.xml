@@ -142,5 +142,7 @@
     <string name="climbing">D\'escalade</string>
     <string name="walking">Marche</string>
     <string name="calories_message">Données nécessaires pour le calcul des calories</string>
+    <string name="total_distance">Distance totale:</string>
+    <string name="msg_empty_list">Aucune donnée!</string>
 
 </resources>

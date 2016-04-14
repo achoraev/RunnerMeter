@@ -141,5 +141,7 @@
     <string name="climbing">Tırmanma</string>
     <string name="walking">Yürüyüş</string>
     <string name="calories_message">Kalori hesaplamak için gerekli veri</string>
+    <string name="total_distance">Toplam mesafe:</string>
+    <string name="msg_empty_list">Veri yok!</string>
 
 </resources>

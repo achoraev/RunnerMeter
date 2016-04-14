@@ -142,5 +142,7 @@
     <string name="climbing">Восхождение</string>
     <string name="walking">Ходьба</string>
     <string name="calories_message">Данные, необходимые для расчета калорий</string>
+    <string name="total_distance">Общая дистанция:</string>
+    <string name="msg_empty_list">Без данных!</string>
 
 </resources>

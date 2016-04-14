@@ -142,5 +142,7 @@
     <string name="climbing">Hegymászás</string>
     <string name="walking">Gyaloglás</string>
     <string name="calories_message">Kalória kiszámításához szükséges adatok</string>
+    <string name="total_distance">Teljes távolság:</string>
+    <string name="msg_empty_list">Nincs adat!</string>
 
 </resources>

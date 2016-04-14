@@ -120,6 +120,7 @@
     <string name="do_you_like_sport_meter">Do you like Sport Meter?</string>
     <string name="like">Like</string>
     <string name="do_you_want_rate_now">Do you want to rate Sport Meter now?</string>
+
     <string name="my_activity_history">My Activity History</string>
     <string name="anonymous">Anonymous</string>
     <string name="remind_later">Remind me later</string>
@@ -146,6 +147,7 @@
     <string name="walking">Walking</string>
     <string name="calories_message">Data needed for calculating calories</string>
     <string name="total_distance">"Total distance:"</string>
+    <string name="msg_empty_list">No data!</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
 
 
@@ -198,5 +200,10 @@
     <string name="app_email" translatable="false">runner.meter@gmail.com</string>
     <string name="change_type_of_sport" translatable="false">Change type</string>
     <string name="copyright" translatable="false">Copyright © 2015 by Angel Raev. All rights reserved.</string>
+
+    // applovin
+    <!--<string name="applovin_key" translatable="false">IlDngBnezGmAWN8hSPPfGcbUR83iIuuad6MJI7zFNkPv5TaXy_BDboh1wllDddpFlAZ1HWHfEhZJE8sB81Okp4</string>-->
+    // MoPub key and ads
+    <string name="interstitial_mopub_ad" translatable="false">d4f5d0fff25d4d199360647e3be73d7d</string>
 
 </resources>

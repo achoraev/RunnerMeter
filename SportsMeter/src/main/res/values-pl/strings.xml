@@ -141,5 +141,7 @@
     <string name="climbing">Wspinaczka</string>
     <string name="walking">Spacery</string>
     <string name="calories_message">Dane potrzebne do obliczania kalorii</string>
+    <string name="total_distance">Całkowita odległość:</string>
+    <string name="msg_empty_list">Nie ma danych!</string>
 
 </resources>

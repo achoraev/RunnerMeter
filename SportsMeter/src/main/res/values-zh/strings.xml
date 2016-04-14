@@ -140,5 +140,7 @@
     <string name="climbing">攀爬</string>
     <string name="walking">行走</string>
     <string name="calories_message">计算热量所需的数据</string>
+    <string name="total_distance">总距离 ︰</string>
+    <string name="msg_empty_list">没有数据 ！</string>
 
 </resources>

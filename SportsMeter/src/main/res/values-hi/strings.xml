@@ -141,5 +141,7 @@
     <string name="climbing">चढ़ाई</string>
     <string name="walking">घूमना</string>
     <string name="calories_message">कैलोरी की गणना के लिए आवश्यक डेटा</string>
+    <string name="total_distance">कुल दूरी:</string>
+    <string name="msg_empty_list">कोई डेटा नहीं!</string>
 
 </resources>

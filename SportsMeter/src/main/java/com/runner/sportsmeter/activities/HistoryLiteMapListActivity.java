@@ -7,14 +7,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
+import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
 
@@ -26,30 +30,34 @@ import java.util.List;
  * Created by angelr on 15-Dec-15.
  */
 public class HistoryLiteMapListActivity extends AppCompatActivity {
+    private TextView emptyList;
     private ListFragment mList;
     private MapAdapter mAdapter;
-    private ArrayList<Object> arrayOfSessions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lite_list_layout);
 
+        emptyList = (TextView) findViewById(R.id.empty_list);
         ParseQuery(15, ParseUser.getCurrentUser());
     }
 
     private void ParseQuery(int limit, final ParseUser user) {
         ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
         query.whereEqualTo(getString(R.string.session_username), user);
-        query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.include("segmentId");
+        query.whereExists("segmentId");
+        query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(limit);
         query.findInBackground(new FindCallback<Sessions>() {
             public void done(List<Sessions> sessions, ParseException e) {
                 if (e == null) {
-                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
+                    // todo remove
+//                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
                     if (user != null) {
                         AssignSessions(sessions);
+                        ParseObject.pinAllInBackground("HistorySegments", sessions);
                     }
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
@@ -61,16 +69,18 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
     private void AssignSessions(List<Sessions> sessions) {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
-//        arrayOfSessions = new ArrayList<>();
-//        arrayOfSessions.addAll(sessions);
         // Set a custom list adapter for a list of locations
-        mAdapter = new MapAdapter(this, sessions);
-        mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
-        mList.setListAdapter(mAdapter);
+        if (sessions.size() != 0) {
+            mAdapter = new MapAdapter(this, sessions);
+            mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
+            mList.setListAdapter(mAdapter);
 
-        // Set a RecyclerListener to clean up MapView from ListView
-        AbsListView lv = mList.getListView();
-        lv.setRecyclerListener(mRecycleListener);
+            // Set a RecyclerListener to clean up MapView from ListView
+            AbsListView lv = mList.getListView();
+            lv.setRecyclerListener(mRecycleListener);
+        } else {
+            emptyList.setText(R.string.msg_empty_list);
+        }
     }
 
     /**
@@ -102,6 +112,10 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 holder = new ViewHolder();
                 holder.mapView = (MapView) row.findViewById(R.id.lite_listrow_map);
                 holder.title = (TextView) row.findViewById(R.id.lite_listrow_text);
+                holder.pace = (TextView) row.findViewById(R.id.lite_pace);
+                holder.distance = (TextView) row.findViewById(R.id.lite_distance);
+                holder.duration = (TextView) row.findViewById(R.id.lite_total_time);
+                holder.createdAt = (TextView) row.findViewById(R.id.lite_created);
                 // Set holder as tag for row for more efficient access.
                 row.setTag(holder);
 
@@ -129,6 +143,10 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
             // Set the text label for this item
             holder.title.setText(currentSession.getName());
+            holder.pace.setText(Utility.formatPace(currentSession.getTimePerKilometer()));
+            holder.distance.setText(Utility.formatDistance(currentSession.getDistance()));
+            holder.duration.setText(Utility.formatDurationToMinutesString(currentSession.getDuration()));
+            holder.createdAt.setText(Utility.formatDate(currentSession.getCreatedAt()));
 
             return row;
         }
@@ -148,7 +166,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
      * {@link com.google.android.gms.maps.GoogleMap}.
      * Adds a marker and centers the camera on the NamedLocation with the normal map type.
      */
-    private static void setMapLocation(GoogleMap map, Sessions data) {
+    private void setMapLocation(GoogleMap map, Sessions data) {
         Segments currentSegment = null;
         ArrayList<ParseGeoPoint> geoPointsParse = new ArrayList<>();
         PolylineOptions currentPolyline = new PolylineOptions()
@@ -168,8 +186,9 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             currentPolyline.addAll(geoPoint);
             // Add a marker for this item and set the camera
             map.addPolyline(currentPolyline);
+            map.addMarker(new MarkerOptions().position(geoPoint.get(0)).title(getString(R.string.start_point)).visible(true));
+            map.addMarker(new MarkerOptions().position(geoPoint.get(geoPoint.size() - 1)).title(getString(R.string.end_point)).visible(true));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoPoint.get(0), 13f));
-//        map.addMarker(new MarkerOptions().position(data.location));
         }
 
         // Set the map type back to normal.
@@ -191,16 +210,24 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
         TextView title;
 
+        TextView pace;
+
+        TextView distance;
+
+        TextView duration;
+
+        TextView createdAt;
+
         GoogleMap map;
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
             MapsInitializer.initialize(getApplicationContext());
             map = googleMap;
-//            Sessions data = (Sessions) mapView.getTag();
-//            if (data != null) {
-//                setMapLocation(map, data);
-//            }
+            Sessions data = (Sessions) mapView.getTag();
+            if (data != null) {
+                setMapLocation(map, data);
+            }
         }
 
         /**
@@ -234,60 +261,4 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             }
         }
     };
-
-    /**
-     * Location represented by a position ({@link com.google.android.gms.maps.model.LatLng} and a
-     * name ({@link java.lang.String}).
-     */
-//    private static class NamedLocation {
-//
-//        public final String name;
-//
-//        public final LatLng location;
-//
-//        NamedLocation(String name, LatLng location) {
-//            this.name = name;
-//            this.location = location;
-//        }
-//    }
-
-    /**
-     * A list of locations to show in this ListView.
-     */
-//    private static final NamedLocation[] LIST_LOCATIONS = new NamedLocation[]{
-//            new NamedLocation("Cape Town", new LatLng(-33.920455, 18.466941)),
-//            new NamedLocation("Beijing", new LatLng(39.937795, 116.387224)),
-//            new NamedLocation("Bern", new LatLng(46.948020, 7.448206)),
-//            new NamedLocation("Breda", new LatLng(51.589256, 4.774396)),
-//            new NamedLocation("Brussels", new LatLng(50.854509, 4.376678)),
-//            new NamedLocation("Copenhagen", new LatLng(55.679423, 12.577114)),
-//            new NamedLocation("Hannover", new LatLng(52.372026, 9.735672)),
-//            new NamedLocation("Helsinki", new LatLng(60.169653, 24.939480)),
-//            new NamedLocation("Hong Kong", new LatLng(22.325862, 114.165532)),
-//            new NamedLocation("Istanbul", new LatLng(41.034435, 28.977556)),
-//            new NamedLocation("Johannesburg", new LatLng(-26.202886, 28.039753)),
-//            new NamedLocation("Lisbon", new LatLng(38.707163, -9.135517)),
-//            new NamedLocation("London", new LatLng(51.500208, -0.126729)),
-//            new NamedLocation("Madrid", new LatLng(40.420006, -3.709924)),
-//            new NamedLocation("Mexico City", new LatLng(19.427050, -99.127571)),
-//            new NamedLocation("Moscow", new LatLng(55.750449, 37.621136)),
-//            new NamedLocation("New York", new LatLng(40.750580, -73.993584)),
-//            new NamedLocation("Oslo", new LatLng(59.910761, 10.749092)),
-//            new NamedLocation("Paris", new LatLng(48.859972, 2.340260)),
-//            new NamedLocation("Prague", new LatLng(50.087811, 14.420460)),
-//            new NamedLocation("Rio de Janeiro", new LatLng(-22.90187, -43.232437)),
-//            new NamedLocation("Rome", new LatLng(41.889998, 12.500162)),
-//            new NamedLocation("Sao Paolo", new LatLng(-22.863878, -43.244097)),
-//            new NamedLocation("Seoul", new LatLng(37.560908, 126.987705)),
-//            new NamedLocation("Stockholm", new LatLng(59.330650, 18.067360)),
-//            new NamedLocation("Sydney", new LatLng(-33.873651, 151.2068896)),
-//            new NamedLocation("Taipei", new LatLng(25.022112, 121.478019)),
-//            new NamedLocation("Tokyo", new LatLng(35.670267, 139.769955)),
-//            new NamedLocation("Tulsa Oklahoma", new LatLng(36.149777, -95.993398)),
-//            new NamedLocation("Vaduz", new LatLng(47.141076, 9.521482)),
-//            new NamedLocation("Vienna", new LatLng(48.209206, 16.372778)),
-//            new NamedLocation("Warsaw", new LatLng(52.235474, 21.004057)),
-//            new NamedLocation("Wellington", new LatLng(-41.286480, 174.776217)),
-//            new NamedLocation("Winnipeg", new LatLng(49.875832, -97.150726))
-//    };
 }

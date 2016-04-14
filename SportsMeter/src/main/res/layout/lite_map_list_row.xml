@@ -18,7 +18,7 @@
             map:mapType="none"/>
 
     <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="50dp"
+                  android:layout_height="@dimen/history_data_row"
                   android:gravity="center"
                   android:orientation="horizontal">
         <TextView
@@ -30,7 +30,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <LinearLayout android:layout_width="1dp"
-                      android:layout_height="40dp"
+                      android:layout_height="@dimen/history_data_row_inside"
                       android:background="@color/white"/>
 
         <TextView
@@ -43,7 +43,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <LinearLayout android:layout_width="1dp"
-                      android:layout_height="40dp"
+                      android:layout_height="@dimen/history_data_row_inside"
                       android:background="@color/white"/>
 
         <TextView
@@ -55,7 +55,7 @@
                 android:text="distance"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <LinearLayout android:layout_width="1dp"
-                      android:layout_height="40dp"
+                      android:layout_height="@dimen/history_data_row_inside"
                       android:background="@color/white"/>
         <TextView
                 android:id="@+id/lite_total_time"
@@ -66,11 +66,17 @@
                 android:text="total time"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <LinearLayout android:layout_width="1dp"
-                      android:layout_height="40dp"
+                      android:layout_height="@dimen/history_data_row_inside"
                       android:background="@color/white"/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="@dimen/history_data_row_inside"
+                  android:gravity="center"
+                  android:orientation="horizontal">
         <TextView
                 android:id="@+id/lite_created"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"

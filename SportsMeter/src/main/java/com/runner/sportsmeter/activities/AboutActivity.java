@@ -12,7 +12,7 @@ import com.runner.sportsmeter.common.Constants;
  */
 public class AboutActivity extends Activity {
 
-    private TextView buildVersion, companyAddress, companyEmail, companyFacebookPage, googleLegalInfo;
+    private TextView buildVersion, companyAddress, companyEmail, companyFacebookPage, companyWebsite,  googleLegalInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +26,14 @@ public class AboutActivity extends Activity {
         googleLegalInfo = (TextView) findViewById(R.id.google_legal);
         companyAddress = (TextView) findViewById(R.id.company_address);
         companyEmail = (TextView) findViewById(R.id.company_email);
+        companyWebsite = (TextView) findViewById(R.id.company_website);
         companyFacebookPage = (TextView) findViewById(R.id.company_facebook_page);
 
         String appVersion = getString(R.string.app_name) + " v. " + BuildConfig.VERSION_NAME;
         buildVersion.setText(appVersion);
         companyAddress.setText(Constants.ADDRESS);
         companyEmail.setText(Constants.EMAIL);
+        companyWebsite.setText(Constants.WEBSITE);
         companyFacebookPage.setText(Constants.FACEBOOK_PAGE);
     }
 }

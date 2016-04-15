@@ -42,6 +42,7 @@ public class Constants {
     public static final String ADDRESS = "46, str. Liaskovets, \n 1510, Sofia, Bulgaria";
     public static final String EMAIL = "runner.meter@gmail.com";
     public static final String FACEBOOK_PAGE = "https://www.facebook.com/sportmeter/";
+    public static final String WEBSITE = "http://sportmeter.co/";
 
     public static final int LIMIT_FOR_SPORT_TYPE = 15;
     public static final int LIMIT_FOR_USER_QUERY = 15;

@@ -65,9 +65,6 @@
                 android:gravity="center"
                 android:text="total time"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
-        <LinearLayout android:layout_width="1dp"
-                      android:layout_height="@dimen/history_data_row_inside"
-                      android:background="@color/white"/>
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent"

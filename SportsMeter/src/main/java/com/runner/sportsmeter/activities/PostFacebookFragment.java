@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.model.ShareOpenGraphAction;
+import com.facebook.share.model.ShareOpenGraphContent;
+import com.facebook.share.model.ShareOpenGraphObject;
 import com.facebook.share.widget.ShareDialog;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Calculations;
@@ -22,6 +25,7 @@ public class PostFacebookFragment extends FragmentActivity {
     private Long sessionTimeDiff;
     private double sessionDistance;
     private String sportType, userName;
+    private double sessionAverageSpeed;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,16 +37,38 @@ public class PostFacebookFragment extends FragmentActivity {
         // this part is optional
 //        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() { ... });
 
-        String action = sportType.equals(SportTypes.RUNNING) ? " running " :
-                        sportType.equals(SportTypes.CYCLING) ? " cycling " :
-                        sportType.equals(SportTypes.CLIMBING) ? " climbing " :
-                        sportType.equals(SportTypes.WALKING) ? " walking " : " ";
+        String action = SportTypes.valueOf(sportType).equals(SportTypes.RUNNING) ? " running " :
+                        SportTypes.valueOf(sportType).equals(SportTypes.CYCLING) ? " cycling " :
+                        SportTypes.valueOf(sportType).equals(SportTypes.CLIMBING) ? " climbing " :
+                        SportTypes.valueOf(sportType).equals(SportTypes.WALKING) ? " walking " : " ";
+        // todo action not works
         String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToString(sessionTimeDiff) + " with Sport Meter";
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
                     .setContentTitle(getString(R.string.app_name))
                     .setContentDescription(message)
                     .setContentUrl(Uri.parse(getString(R.string.facebook_page)))
+                    .build();
+
+            // todo try this for share
+            ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
+                    .putString("og:type", "fitness.course")
+                    .putString("og:title", "Sample Course")
+                    .putString("og:description", "This is a sample course.")
+                    .putInt("fitness:duration:value", Integer.valueOf(sessionTimeDiff.toString()))
+                    .putString("fitness:duration:units", "s")
+                    .putInt("fitness:distance:value", (int) sessionDistance)
+                    .putString("fitness:distance:units", "m")
+                    .putInt("fitness:speed:value", (int) sessionAverageSpeed)
+                    .putString("fitness:speed:units", "km/h")
+                    .build();
+            ShareOpenGraphAction act = new ShareOpenGraphAction.Builder()
+                    .setActionType("fitness.runs")
+                    .putObject("fitness:course", object)
+                    .build();
+            ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
+                    .setPreviewPropertyName("fitness:course")
+                    .setAction(act)
                     .build();
 
             shareDialog.show(linkContent);
@@ -62,6 +88,7 @@ public class PostFacebookFragment extends FragmentActivity {
                 Session updated = (Session) savedInstanceState.get("Session");
                 sessionDistance = updated.getDistance();
                 sessionTimeDiff = updated.getDuration();
+                sessionAverageSpeed = updated.getAverageSpeed();
                 sportType = updated.getSportType();
                 userName = updated.getUserName();
             }

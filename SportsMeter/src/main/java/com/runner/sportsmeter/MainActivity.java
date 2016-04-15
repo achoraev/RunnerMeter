@@ -1027,7 +1027,7 @@ public class MainActivity extends AppCompatActivity implements
                 logOutCurrentUser();
             }
 
-            mInterstitial.load();
+//            mInterstitial.load();
             finish();
             stopLocationUpdates();
             super.onBackPressed();

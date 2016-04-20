@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
+import android.widget.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,6 +17,7 @@ import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
 
@@ -33,19 +32,29 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private TextView emptyList;
     private ListFragment mList;
     private MapAdapter mAdapter;
+    private SportTypes sportType;
+    private List<Sessions> historySession = new ArrayList<>();
+    private Spinner chooseTypeSport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lite_list_layout);
 
+        generateSportTypeSpinner();
+        sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
         emptyList = (TextView) findViewById(R.id.empty_list);
+        chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport_history);
+
         ParseQuery(15, ParseUser.getCurrentUser());
     }
 
     private void ParseQuery(int limit, final ParseUser user) {
         ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
         query.whereEqualTo(getString(R.string.session_username), user);
+        if(sportType != null){
+            query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString().toLowerCase());
+        }
         query.include("segmentId");
         query.whereExists("segmentId");
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
@@ -57,6 +66,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 //                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
                     if (user != null) {
                         AssignSessions(sessions);
+                        historySession.addAll(sessions);
                         ParseObject.pinAllInBackground("HistorySegments", sessions);
                     }
                 } else {
@@ -79,6 +89,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             AbsListView lv = mList.getListView();
             lv.setRecyclerListener(mRecycleListener);
         } else {
+            emptyList.setVisibility(View.VISIBLE);
             emptyList.setText(R.string.msg_empty_list);
         }
     }
@@ -115,6 +126,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 holder.pace = (TextView) row.findViewById(R.id.lite_pace);
                 holder.distance = (TextView) row.findViewById(R.id.lite_distance);
                 holder.duration = (TextView) row.findViewById(R.id.lite_total_time);
+                holder.sportTypeField = (TextView) row.findViewById(R.id.lite_sport_type);
                 holder.createdAt = (TextView) row.findViewById(R.id.lite_created);
                 // Set holder as tag for row for more efficient access.
                 row.setTag(holder);
@@ -146,6 +158,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             holder.pace.setText(Utility.formatPace(currentSession.getTimePerKilometer()));
             holder.distance.setText(Utility.formatDistance(currentSession.getDistance()));
             holder.duration.setText(Utility.formatDurationToMinutesString(currentSession.getDuration()));
+            holder.sportTypeField.setText(currentSession.getSportType());
             holder.createdAt.setText(Utility.formatDate(currentSession.getCreatedAt()));
 
             return row;
@@ -216,9 +229,12 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
         TextView duration;
 
+        TextView sportTypeField;
+
         TextView createdAt;
 
         GoogleMap map;
+
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -261,4 +277,48 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void generateSportTypeSpinner() {
+        // set spinner and data
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getApplicationContext(),
+                R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sportType = sportType.getSportTypeValue(position);
+                historySession = sortListBySportType(historySession, sportType);
+                refreshListView(historySession);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private List<Sessions> sortListBySportType(List<Sessions> historySession, SportTypes sportType) {
+        List<Sessions> result = new ArrayList<>();
+        for(Sessions ses : historySession){
+            if(ses.getSportType().equals(sportType.toString())){
+                result.add(ses);
+            }
+        }
+        return result;
+    }
+
+    private void refreshListView(List<Sessions> list) {
+        if (list.size() != 0) {
+            mAdapter = new MapAdapter(this, list);
+            mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
+            mList.setListAdapter(mAdapter);
+            AbsListView lv = mList.getListView();
+            lv.setRecyclerListener(mRecycleListener);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            emptyList.setVisibility(View.VISIBLE);
+            emptyList.setText(R.string.msg_empty_list);
+        }
+    }
 }

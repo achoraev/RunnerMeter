@@ -39,7 +39,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="pace"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
 
         <LinearLayout android:layout_width="1dp"
@@ -52,7 +51,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="distance"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
         <LinearLayout android:layout_width="1dp"
                       android:layout_height="@dimen/history_data_row_inside"
@@ -63,7 +61,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="total time"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 
@@ -72,12 +69,18 @@
                   android:gravity="center"
                   android:orientation="horizontal">
         <TextView
+                android:id="@+id/lite_sport_type"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceSmall"/>
+        <TextView
                 android:id="@+id/lite_created"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="created"
                 android:textAppearance="?android:attr/textAppearanceSmall"/>
     </LinearLayout>
 

@@ -127,15 +127,15 @@ public class MainActivity extends AppCompatActivity implements
     private Spinner chooseTypeSport;
     private Session pausedSession;
 
-    private InterstitialAd mInterstitialAd;
-    private AdView mAdView;
+    private InterstitialAd adMobInterstitialAd;
+    private AdView adMobAdView;
 
     private SharedPreferences settings;
     private Tracker mTracker;
     private ParseInstallation installation = ParseInstallation.getCurrentInstallation();
     private Double totalDistance = 0.00;
     private UserMetricsInterface usersMetrics = new Metrics();
-    private MoPubInterstitial mInterstitial;
+    private MoPubInterstitial moPubInterstitial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements
         startStopBtn.setOnClickListener(MainActivity.this);
 
         // setup adds
-        new Utility().setupAdds(mAdView, this);
+        new Utility().setupAdds(adMobAdView, this);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         // Obtain the shared Tracker instance.
@@ -187,14 +187,15 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void setupMoPubInterestitialAd() {
-        mInterstitial = new MoPubInterstitial(this, getString(R.string.interstitial_mopub_ad));
-        mInterstitial.setInterstitialAdListener(this);
+        moPubInterstitial = new MoPubInterstitial(this, getString(R.string.interstitial_mopub_ad));
+        moPubInterstitial.setInterstitialAdListener(this);
+        moPubInterstitial.load();
     }
 
     private void setupInterstitialAd() {
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
-        mInterstitialAd.setAdListener(new AdListener() {
+        adMobInterstitialAd = new InterstitialAd(this);
+        adMobInterstitialAd.setAdUnitId(getString(R.string.interestitial_add));
+        adMobInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
                 requestNewInterstitial();
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements
 //                .addTestDevice(getString(R.string.huawei_device_id))
                 .build();
 
-        mInterstitialAd.loadAd(adRequest);
+        adMobInterstitialAd.loadAd(adRequest);
     }
 
     private void applyEUcookiePolicy() {
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements
         facebookProfilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         chooseTypeSport = (Spinner) findViewById(R.id.type_of_sports);
-        mAdView = (AdView) findViewById(R.id.adView);
+        adMobAdView = (AdView) findViewById(R.id.adView);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(MainActivity.this);
@@ -590,6 +591,9 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_history_fragment:
                 Intent historyIntent = new Intent(MainActivity.this, HistoryLiteMapListActivity.class);
+                Bundle historyBundle = new Bundle();
+                historyBundle.putSerializable(getString(R.string.type_of_sport), sportType);
+                historyIntent.putExtras(historyBundle);
                 overridePendingTransition(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 startActivity(historyIntent);
@@ -689,8 +693,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         // 3 - land
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+        if (adMobInterstitialAd.isLoaded()) {
+            adMobInterstitialAd.show();
         }
 
         if (mGoogleApiClient.isConnected()) {
@@ -913,8 +917,8 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case Constants.REQUEST_LOGIN_FROM_RESULT:
                 // from parse login
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
+                if (adMobInterstitialAd.isLoaded()) {
+                    adMobInterstitialAd.show();
                 }
 
                 // connect installation with user
@@ -1027,7 +1031,7 @@ public class MainActivity extends AppCompatActivity implements
                 logOutCurrentUser();
             }
 
-//            mInterstitial.load();
+            moPubInterstitial.destroy();
             finish();
             stopLocationUpdates();
             super.onBackPressed();
@@ -1295,8 +1299,8 @@ public class MainActivity extends AppCompatActivity implements
                     startLogic();
                 } else {
                     stopLogic();
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
+                    if (adMobInterstitialAd.isLoaded()) {
+                        adMobInterstitialAd.show();
                     }
                 }
                 break;
@@ -1310,7 +1314,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onInterstitialLoaded(MoPubInterstitial interstitial) {
         if (interstitial.isReady()) {
-            mInterstitial.show();
+            moPubInterstitial.show();
         } else {
             Toast.makeText(this, "MoPub ad not loaded", Toast.LENGTH_SHORT).show();
         }
@@ -1318,21 +1322,21 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
-
+        Toast.makeText(this, "MoPub ad failed " + errorCode.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onInterstitialShown(MoPubInterstitial interstitial) {
-
+        Toast.makeText(this, "MoPub ad shown", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInterstitialClicked(MoPubInterstitial interstitial) {
-
+        Toast.makeText(this, "MoPub ad clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
-
+        Toast.makeText(this, "MoPub ad dismissed", Toast.LENGTH_SHORT).show();
     }
 }

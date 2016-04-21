@@ -29,6 +29,7 @@ import java.util.List;
  * Created by angelr on 15-Dec-15.
  */
 public class HistoryLiteMapListActivity extends AppCompatActivity {
+    private static final Integer QUERY_SIZE = 15;
     private TextView emptyList;
     private ListFragment mList;
     private MapAdapter mAdapter;
@@ -41,20 +42,17 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lite_list_layout);
 
-        generateSportTypeSpinner();
         sportType = (SportTypes) getIntent().getExtras().get(getString(R.string.type_of_sport));
         emptyList = (TextView) findViewById(R.id.empty_list);
         chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport_history);
+        generateSportTypeSpinner();
 
-        ParseQuery(15, ParseUser.getCurrentUser());
+        ParseQuery(QUERY_SIZE, ParseUser.getCurrentUser());
     }
 
     private void ParseQuery(int limit, final ParseUser user) {
         ParseQuery<Sessions> query = ParseQuery.getQuery(getString(R.string.session_object));
         query.whereEqualTo(getString(R.string.session_username), user);
-        if(sportType != null){
-            query.whereEqualTo(getString(R.string.session_sport_type), sportType.toString().toLowerCase());
-        }
         query.include("segmentId");
         query.whereExists("segmentId");
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
@@ -310,6 +308,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
     private void refreshListView(List<Sessions> list) {
         if (list.size() != 0) {
+            emptyList.setVisibility(View.GONE);
             mAdapter = new MapAdapter(this, list);
             mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
             mList.setListAdapter(mAdapter);

@@ -18,7 +18,7 @@ import com.runner.sportsmeter.models.Sessions;
 /**
  * Created by angelr on 30-Jul-15.
  */
-public class ParseApplication extends MultiDexApplication {
+public class Application extends MultiDexApplication {
     private Tracker mTracker;
 
     /**

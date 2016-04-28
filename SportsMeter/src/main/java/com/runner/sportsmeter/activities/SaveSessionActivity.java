@@ -31,6 +31,7 @@ import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
+import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;

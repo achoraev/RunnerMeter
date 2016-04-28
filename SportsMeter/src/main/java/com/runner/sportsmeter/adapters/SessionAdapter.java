@@ -1,4 +1,4 @@
-package com.runner.sportsmeter.common;
+package com.runner.sportsmeter.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.models.Session;
 
 import java.util.ArrayList;

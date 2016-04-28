@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         // Obtain the shared Tracker instance.
-        ParseApplication application = (ParseApplication) getApplication();
+        Application application = (Application) getApplication();
         mTracker = application.getDefaultTracker();
     }
 

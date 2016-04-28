@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.ViewPagerAdapter;
-import com.runner.sportsmeter.fragments.HelpFragmentFour;
-import com.runner.sportsmeter.fragments.HelpFragmentOne;
-import com.runner.sportsmeter.fragments.HelpFragmentThree;
-import com.runner.sportsmeter.fragments.HelpFragmentTwo;
+import com.runner.sportsmeter.adapters.ViewPagerAdapter;
+import com.runner.sportsmeter.fragments.FourthPageHelpFragment;
+import com.runner.sportsmeter.fragments.FirstPageHelpFragment;
+import com.runner.sportsmeter.fragments.ThirdPageHelpFragment;
+import com.runner.sportsmeter.fragments.SecondPageHelpFragment;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -58,10 +58,10 @@ public class HelpActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new HelpFragmentOne(), getString(R.string.tab_how_to_login));
-        adapter.addFragment(new HelpFragmentTwo(), getString(R.string.tab_how_start_page));
-        adapter.addFragment(new HelpFragmentThree(), getString(R.string.tab_main_page));
-        adapter.addFragment(new HelpFragmentFour(), getString(R.string.tab_save_page));
+        adapter.addFragment(new FirstPageHelpFragment(), getString(R.string.tab_how_to_login));
+        adapter.addFragment(new SecondPageHelpFragment(), getString(R.string.tab_how_start_page));
+        adapter.addFragment(new ThirdPageHelpFragment(), getString(R.string.tab_main_page));
+        adapter.addFragment(new FourthPageHelpFragment(), getString(R.string.tab_save_page));
         viewPager.setAdapter(adapter);
     }
 

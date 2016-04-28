@@ -10,9 +10,9 @@ import com.runner.sportsmeter.R;
 /**
  * Created by angelr on 07-Dec-15.
  */
-public class HelpFragmentFour extends Fragment {
+public class SecondPageHelpFragment extends Fragment {
 
-    public HelpFragmentFour() {
+    public SecondPageHelpFragment() {
         // Required empty public constructor
     }
 
@@ -20,6 +20,6 @@ public class HelpFragmentFour extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.help_fragment_four, container, false);
+        return inflater.inflate(R.layout.help_fragment_two, container, false);
     }
 }

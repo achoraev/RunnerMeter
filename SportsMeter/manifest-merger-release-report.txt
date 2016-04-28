@@ -398,7 +398,7 @@ ADDED from AndroidManifest.xml:72:9
 		ADDED from AndroidManifest.xml:73:19
 	android:name
 		ADDED from AndroidManifest.xml:72:19
-activity#com.runner.sportsmeter.activities.PostFacebookFragment
+activity#com.runner.sportsmeter.fragments.PostFacebookFragment
 ADDED from AndroidManifest.xml:76:9
 	android:screenOrientation
 		ADDED from AndroidManifest.xml:78:19

@@ -11,7 +11,7 @@ import com.google.android.gms.ads.AdView;
 import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Constants;
-import com.runner.sportsmeter.common.RecyclerAdapter;
+import com.runner.sportsmeter.adapters.RecyclerAdapter;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.models.Sessions;

@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.runner.sportsmeter.R;
-import com.runner.sportsmeter.common.RecyclerAdapter;
+import com.runner.sportsmeter.adapters.RecyclerAdapter;
 import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;

@@ -34,7 +34,7 @@
 
     <application
             android:allowBackup="false"
-            android:name="com.runner.sportsmeter.ParseApplication"
+            android:name=".Application"
             android:icon="@mipmap/logo"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
@@ -98,7 +98,7 @@
                   android:label="Google Plus Login"
                   android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.runner.sportsmeter.activities.PostFacebookFragment"
+        <activity android:name=".fragments.PostFacebookFragment"
                   android:label="@string/post_on_facebook"
                   android:screenOrientation="portrait">
         </activity>

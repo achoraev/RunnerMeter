@@ -1,4 +1,4 @@
-package com.runner.sportsmeter.activities;
+package com.runner.sportsmeter.fragments;
 
 import android.content.Intent;
 import android.net.Uri;

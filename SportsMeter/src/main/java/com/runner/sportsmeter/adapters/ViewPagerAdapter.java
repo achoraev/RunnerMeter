@@ -1,4 +1,4 @@
-package com.runner.sportsmeter.common;
+package com.runner.sportsmeter.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

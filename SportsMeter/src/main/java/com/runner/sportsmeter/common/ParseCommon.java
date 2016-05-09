@@ -94,10 +94,10 @@ public class ParseCommon {
 //        Parse.initialize(context, context.getString(R.string.parse_app_id), context.getString(R.string.parse_client_key));
         // todo switch to parse server before release
         Parse.initialize(new Parse.Configuration.Builder(context)
-                .applicationId("test")
+                .applicationId("qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN")
                 .clientKey(null)
-//                .server("http://10.3.72.24:1337/parse/")
-                .server("http://95.87.239.167:1337/parse/")
+                .server("http://10.3.72.24:1337/parse/")
+//                .server("http://95.87.239.167:1337/parse/")
                 .enableLocalDataStore()
                 .build()
         );

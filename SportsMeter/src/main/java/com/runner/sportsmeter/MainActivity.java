@@ -507,7 +507,11 @@ public class MainActivity extends AppCompatActivity implements
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.toolbar_spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
-        chooseTypeSport.setSelection(sportType.getIntValue(sportType.toString()));
+        if (!sportType.equals(SportTypes.CHOOSE_SPORT)) {
+            chooseTypeSport.setSelection(sportType.getIntValue(sportType.toString()));
+        } else {
+            chooseTypeSport.setSelection(sportType.getIntValue(SportTypes.RUNNING.toString()));
+        }
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -1296,7 +1300,9 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.start_stop_btn:
                 if (!startButtonEnabled) {
-                    startLogic();
+                    if(checkSportType(sportType)){
+                        startLogic();
+                    }
                 } else {
                     stopLogic();
                     if (adMobInterstitialAd.isLoaded()) {
@@ -1304,6 +1310,15 @@ public class MainActivity extends AppCompatActivity implements
                     }
                 }
                 break;
+        }
+    }
+
+    private boolean checkSportType(SportTypes sportType) {
+        if(sportType.equals(SportTypes.CHOOSE_SPORT)){
+            Toast.makeText(MainActivity.this, getString(R.string.choose_type_of_sport), Toast.LENGTH_LONG).show();
+            return false;
+        } else {
+            return true;
         }
     }
 

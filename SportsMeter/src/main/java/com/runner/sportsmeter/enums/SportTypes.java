@@ -13,7 +13,7 @@ public enum SportTypes {
 
     private static final int MAX_SPEED_RUNNER = 44;
     private static final int MAX_SPEED_BIKER = 133;
-    private static final int MAX_SPEED_WALKING = 44;
+    private static final int MAX_SPEED_WALKING = 20;
     private int val;
     private String strVal;
 

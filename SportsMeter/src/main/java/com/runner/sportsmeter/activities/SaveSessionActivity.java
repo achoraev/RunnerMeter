@@ -209,12 +209,16 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
     private void saveSegmentToParse(ArrayList<ParseGeoPoint> points, final Sessions current) {
         Random rand = new Random();
+        final ParseACL defaultACL = new ParseACL();
+        defaultACL.setPublicReadAccess(true);
+        defaultACL.setPublicWriteAccess(true);
         if (current.getDistance() > 20) {
             final Segments segment = new Segments();
             segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
             segment.setName("segment_" + rand.nextInt(123456));
             segment.setDistance(current.getDistance());
             segment.setGeoPointsArray(points);
+            segment.setACL(defaultACL);
             segment.saveEventually(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -223,6 +227,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                         Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
                         if (current.getDistance() > 20 && current.getTimePerKilometer() != 0 && isValid) {
                             current.setSegmentId(segment);
+                            current.setACL(defaultACL);
                             current.saveEventually();
                             current.pinInBackground();
                         } else if (current.getTimePerKilometer() != 0 && !isValid) {

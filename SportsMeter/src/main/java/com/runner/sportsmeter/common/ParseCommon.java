@@ -96,7 +96,7 @@ public class ParseCommon {
         Parse.initialize(new Parse.Configuration.Builder(context)
                 .applicationId("qRfCcjHNsMi4Q2uDBma1npkkHW8Uoj7hiZqDLbHN")
                 .clientKey(null)
-                .server("https://sportmeter.azurewebsites.net/parse/")
+                .server("https://sportmeterparseserver.azurewebsites.net/parse/")
 //                .server("http://10.3.72.24:1337/parse/")
 //                .server("http://95.87.239.167:1337/parse/")
                 .enableLocalDataStore()

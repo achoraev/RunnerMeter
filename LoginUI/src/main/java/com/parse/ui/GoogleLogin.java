@@ -150,7 +150,7 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
         ParseUser user = new ParseUser();
         user.setUsername(acct.getEmail());
         user.setPassword(acct.getId());
-        user.put("name", acct.getDisplayName());
+        user.put("name", acct.getDisplayName() != null ? acct.getDisplayName() : "Anonymous");
         if (acct.getPhotoUrl() != null) {
             user.put("pictureURI", acct.getPhotoUrl().toString());
         }

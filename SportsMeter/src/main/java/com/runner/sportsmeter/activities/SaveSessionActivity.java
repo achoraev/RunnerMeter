@@ -82,13 +82,14 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             public void onClick(View v) {
                 saveParseSession(currentParseSession);
                 if (endPointCoordinates != null) {
-                    String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
-                    Uri gmmIntentUri = Uri.parse(url);
-                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                    mapIntent.setPackage("com.google.android.apps.maps");
-                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(mapIntent);
-                    }
+                    // todo disable street view for now
+//                    String url = "google.streetview:cbll=" + endPointCoordinates.latitude + "," + endPointCoordinates.longitude;
+//                    Uri gmmIntentUri = Uri.parse(url);
+//                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+//                    mapIntent.setPackage("com.google.android.apps.maps");
+//                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+//                        startActivity(mapIntent);
+//                    }
                 }
                 finish();
             }

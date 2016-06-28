@@ -62,6 +62,7 @@ dependencies {
     compile 'com.mopub:mopub-sdk:4.5.1'
     // 23.1.1 not find Text view
     compile 'com.jayway.android.robotium:robotium-solo:5.5.4'
+    // todo update to 9.0.0
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'

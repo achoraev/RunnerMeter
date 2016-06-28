@@ -16,7 +16,6 @@ import java.util.Locale;
 public class Calculations {
 
 
-
     public double calculateDistance(LatLng lastUpdatedCoord, LatLng currentCoordinates) {
         float[] result = new float[4];
         Location.distanceBetween(lastUpdatedCoord.latitude,
@@ -32,9 +31,9 @@ public class Calculations {
             result = (distance / Constants.ONE_THOUSAND) / (Double.valueOf(time) / (Constants.SIXTY * Constants.SIXTY * Constants.ONE_THOUSAND) % Constants.TWENTY_FOUR);
             result = roundToTwoDigitsAfterDecimalPoint(result);
         }
-        Log.i(Constants.TAG, String.valueOf(time));
-        Log.i(Constants.TAG, String.valueOf(distance));
-        Log.i(Constants.TAG, String.valueOf(result));
+        Log.i(Constants.TAG, String.valueOf(time) + "time");
+        Log.i(Constants.TAG, String.valueOf(distance) + "distance");
+        Log.i(Constants.TAG, String.valueOf(result) + "speed");
         if (result > 1.0) {
             return result;
         } else {
@@ -84,8 +83,8 @@ public class Calculations {
             }
         }
 
-        Log.i(Constants.TAG, String.valueOf(currentSpeed));
-        Log.i(Constants.TAG, String.valueOf(maxSpeed));
+        Log.i(Constants.TAG, String.valueOf(currentSpeed) + "current speed");
+        Log.i(Constants.TAG, String.valueOf(maxSpeed) + "max speed");
         return maxSpeed;
     }
 

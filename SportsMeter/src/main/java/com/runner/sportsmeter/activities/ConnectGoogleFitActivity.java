@@ -136,8 +136,7 @@ public class ConnectGoogleFitActivity extends AppCompatActivity {
                                         result.startResolutionForResult(ConnectGoogleFitActivity.this,
                                                 REQUEST_OAUTH);
                                     } catch (IntentSender.SendIntentException e) {
-                                        Log.i(Constants.TAG,
-                                                "Exception while starting resolution activity", e);
+                                        Log.i(Constants.TAG, "Exception while starting resolution activity", e);
                                     }
                                 }
                             }

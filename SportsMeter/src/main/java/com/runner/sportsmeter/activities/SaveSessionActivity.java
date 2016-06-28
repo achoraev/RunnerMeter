@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,10 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import com.facebook.share.widget.LikeView;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,6 +25,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.*;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.fragments.PostFacebookFragment;
@@ -53,6 +50,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             saveMaxSpeed, saveAvgSpeed, saveTypeSport, saveCreatedAt;
     private Button saveBtn, notSaveBtn, postOnFacebookBtn;
     private ImageView sessionScreenshot;
+    private ProgressBar progressBar;
     private ParseObject saveSession;
     private LatLng startPointCoordinates, endPointCoordinates;
     private LikeView likeView;
@@ -91,7 +89,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 //                        startActivity(mapIntent);
 //                    }
                 }
-                finish();
             }
         });
 
@@ -101,7 +98,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 saveParseSession(currentParseSession);
                 // todo check for logged user with facebook
                 postOnFacebookWall();
-                finish();
             }
         });
 
@@ -172,6 +168,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         saveBtn = (Button) findViewById(R.id.button_save);
         notSaveBtn = (Button) findViewById(R.id.button_not_save);
         postOnFacebookBtn = (Button) findViewById(R.id.button_post_facebook);
+        progressBar = (ProgressBar) findViewById(R.id.save_progress_bar);
 
         saveTimeKm = (TextView) findViewById(R.id.save_time_kilometer);
         saveDistance = (TextView) findViewById(R.id.save_distance);
@@ -213,33 +210,54 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         final ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
         defaultACL.setPublicWriteAccess(true);
-        if (current.getDistance() > 20) {
+
+        if (current.getTimePerKilometer() > 0 && !(current.getName().equals("Guest") || current.getName().equals("Anonymous")) && current.getDistance() > 20) {
+            Log.i(Constants.TAG, "Start saving. Distance is > 20 m");
+            progressBar.setVisibility(View.VISIBLE);
             final Segments segment = new Segments();
             segment.setCurrentUser(ParseUser.getCurrentUser() != null ? ParseUser.getCurrentUser() : new ParseUser());
             segment.setName("segment_" + rand.nextInt(123456));
             segment.setDistance(current.getDistance());
             segment.setGeoPointsArray(points);
             segment.setACL(defaultACL);
-            segment.saveEventually(new SaveCallback() {
+            segment.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if(e == null){
                         isSaveSession = true;
                         Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
-                        if (current.getDistance() > 20 && current.getTimePerKilometer() != 0 && isValid) {
+                        if (isValid) {
                             current.setSegmentId(segment);
+
                             current.setACL(defaultACL);
-                            current.saveEventually();
+                            current.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if(e == null) {
+                                        // todo extract and translate strings
+                                        Toast.makeText(SaveSessionActivity.this, "Session is saved", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(SaveSessionActivity.this, "Session is NOT saved" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
                             current.pinInBackground();
-                        } else if (current.getTimePerKilometer() != 0 && !isValid) {
+                            Log.i(Constants.TAG, "Session saved");
+                        } else {
                             String message = getString(R.string.this_time) + " " + current.getTimePerKilometer() + " " + getString(R.string.time_is_fastest) + " " + current.getSportType();
                             Toast.makeText(SaveSessionActivity.this, message, Toast.LENGTH_LONG).show();
+                            Log.i(Constants.TAG, message);
                         }
                     } else {
                         Toast.makeText(SaveSessionActivity.this, R.string.save_notsave_btn, Toast.LENGTH_LONG).show();
+                        Log.i(Constants.TAG, e.getMessage());
                     }
+                    progressBar.setVisibility(View.GONE);
+                    finish();
                 }
             });
+        } else {
+            finish();
         }
     }
 

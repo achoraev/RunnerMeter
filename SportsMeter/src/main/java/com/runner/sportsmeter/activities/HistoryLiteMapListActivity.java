@@ -64,6 +64,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 //                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
                     if (user != null) {
                         AssignSessions(sessions);
+                        historySession.clear();
                         historySession.addAll(sessions);
                         ParseObject.pinAllInBackground("HistorySegments", sessions);
                     }
@@ -253,6 +254,12 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 mapView.onCreate(null);
                 // Set the map ready callback to receive the GoogleMap object
                 mapView.getMapAsync(this);
+                mapView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(HistoryLiteMapListActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         }
     }
@@ -286,6 +293,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportType = sportType.getSportTypeValue(position);
+                historySession.clear();
                 historySession = sortListBySportType(historySession, sportType);
                 refreshListView(historySession);
             }

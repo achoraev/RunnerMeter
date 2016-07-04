@@ -1,6 +1,7 @@
 package com.runner.sportsmeter.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +19,12 @@ import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
+import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -64,7 +67,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 //                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
                     if (user != null) {
                         AssignSessions(sessions);
-                        historySession.clear();
                         historySession.addAll(sessions);
                         ParseObject.pinAllInBackground("HistorySegments", sessions);
                     }
@@ -79,7 +81,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private void AssignSessions(List<Sessions> sessions) {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
         // Set a custom list adapter for a list of locations
-        if (sessions.size() != 0) {
+        if (sessions.size() > 0) {
             mAdapter = new MapAdapter(this, sessions);
             mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
             mList.setListAdapter(mAdapter);
@@ -87,6 +89,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             // Set a RecyclerListener to clean up MapView from ListView
             AbsListView lv = mList.getListView();
             lv.setRecyclerListener(mRecycleListener);
+            emptyList.setVisibility(View.GONE);
+            emptyList.setText("");
         } else {
             emptyList.setVisibility(View.VISIBLE);
             emptyList.setText(R.string.msg_empty_list);
@@ -109,7 +113,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View row = convertView;
             ViewHolder holder;
 
@@ -127,6 +131,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 holder.duration = (TextView) row.findViewById(R.id.lite_total_time);
                 holder.sportTypeField = (TextView) row.findViewById(R.id.lite_sport_type);
                 holder.createdAt = (TextView) row.findViewById(R.id.lite_created);
+                holder.shareOnFacebook = (Button) row.findViewById(R.id.button_list_share_facebook);
                 // Set holder as tag for row for more efficient access.
                 row.setTag(holder);
 
@@ -141,7 +146,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             }
 
             // Get the NamedLocation for this item and attach it to the MapView
-            Sessions currentSession = getItem(position);
+            final Sessions currentSession = getItem(position);
             holder.mapView.setTag(currentSession);
 
             // Ensure the map has been initialised by the on map ready callback in ViewHolder.
@@ -159,7 +164,28 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             holder.duration.setText(Utility.formatDurationToMinutesString(currentSession.getDuration()));
             holder.sportTypeField.setText(currentSession.getSportType());
             holder.createdAt.setText(Utility.formatDate(currentSession.getCreatedAt()));
+            if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+                holder.shareOnFacebook.setVisibility(View.VISIBLE);
+                holder.shareOnFacebook.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        postOnFacebookWall(currentSession);
+                    }
+                });
+            }
 
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo uncomment when view is ready
+                    Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
+                    Bundle viewBundle = new Bundle();
+                    viewBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(currentSession));
+//                    viewBundle.putParcelable("Segment", (Parcelable) currentSession.getSegmentId());
+                    viewIntent.putExtras(viewBundle);
+                    startActivity(viewIntent);
+                }
+            });
             return row;
         }
 
@@ -170,6 +196,18 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
          */
         public HashSet<MapView> getMaps() {
             return mMaps;
+        }
+
+        private void postOnFacebookWall(Sessions session) {
+            ParseFacebookUtils.linkWithPublishPermissionsInBackground(
+                    ParseUser.getCurrentUser(),
+                    HistoryLiteMapListActivity.this,
+                    Arrays.asList("publish_actions"));
+            Intent postIntent = new Intent(HistoryLiteMapListActivity.this, PostFacebookFragment.class);
+            Bundle postBundle = new Bundle();
+            postBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(session));
+            postIntent.putExtras(postBundle);
+            startActivity(postIntent);
         }
     }
 
@@ -234,6 +272,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
         GoogleMap map;
 
+        Button shareOnFacebook;
+
 
         @Override
         public void onMapReady(GoogleMap googleMap) {
@@ -254,12 +294,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 mapView.onCreate(null);
                 // Set the map ready callback to receive the GoogleMap object
                 mapView.getMapAsync(this);
-                mapView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(HistoryLiteMapListActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         }
     }
@@ -293,7 +327,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportType = sportType.getSportTypeValue(position);
-                historySession.clear();
                 historySession = sortListBySportType(historySession, sportType);
                 refreshListView(historySession);
             }
@@ -315,13 +348,13 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     }
 
     private void refreshListView(List<Sessions> list) {
-        if (list.size() != 0) {
+        if (list.size() > 0) {
             emptyList.setVisibility(View.GONE);
-            mAdapter = new MapAdapter(this, list);
-            mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
-            mList.setListAdapter(mAdapter);
-            AbsListView lv = mList.getListView();
-            lv.setRecyclerListener(mRecycleListener);
+//            mAdapter = new MapAdapter(this, list);
+//            mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
+//            mList.setListAdapter(mAdapter);
+//            AbsListView lv = mList.getListView();
+//            lv.setRecyclerListener(mRecycleListener);
             mAdapter.notifyDataSetChanged();
         } else {
             emptyList.setVisibility(View.VISIBLE);

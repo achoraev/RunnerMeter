@@ -37,10 +37,10 @@ public class PostFacebookFragment extends FragmentActivity {
         // this part is optional
 //        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() { ... });
 
-        String action = SportTypes.valueOf(sportType).equals(SportTypes.RUNNING) ? " running " :
-                        SportTypes.valueOf(sportType).equals(SportTypes.CYCLING) ? " cycling " :
-                        SportTypes.valueOf(sportType).equals(SportTypes.CLIMBING) ? " climbing " :
-                        SportTypes.valueOf(sportType).equals(SportTypes.WALKING) ? " walking " : " ";
+        String action = SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.RUNNING) ? " running " :
+                        SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.CYCLING) ? " cycling " :
+                        SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.CLIMBING) ? " climbing " :
+                        SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.WALKING) ? " walking " : " ";
         // todo action not works
         String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToString(sessionTimeDiff) + " with Sport Meter";
         if (ShareDialog.canShow(ShareLinkContent.class)) {
@@ -54,7 +54,7 @@ public class PostFacebookFragment extends FragmentActivity {
             ShareOpenGraphObject object = new ShareOpenGraphObject.Builder()
                     .putString("og:type", "fitness.course")
                     .putString("og:title", "Sample Course")
-                    .putString("og:description", "This is a sample course.")
+                    .putString("og:description", message)
                     .putInt("fitness:duration:value", Integer.valueOf(sessionTimeDiff.toString()))
                     .putString("fitness:duration:units", "s")
                     .putInt("fitness:distance:value", (int) sessionDistance)
@@ -67,10 +67,12 @@ public class PostFacebookFragment extends FragmentActivity {
                     .putObject("fitness:course", object)
                     .build();
             ShareOpenGraphContent content = new ShareOpenGraphContent.Builder()
+                    .setContentUrl(Uri.parse(getString(R.string.facebook_page)))
                     .setPreviewPropertyName("fitness:course")
                     .setAction(act)
                     .build();
 
+//            ShareApi.share(content, null);
             shareDialog.show(linkContent);
         }
     }

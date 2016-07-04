@@ -181,6 +181,13 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                     Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
                     Bundle viewBundle = new Bundle();
                     viewBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(currentSession));
+//                    ParseGeoPoint start = currentSession.getSegmentId().getGeoPointsArray().get(0);
+//                    List l = currentSession.getSegmentId().getGeoPointsArray();
+//                    ParseGeoPoint end = currentSession.getSegmentId().getGeoPointsArray().get(l.size() - 1);
+//                    LatLng startLatLng = new LatLng(start.getLatitude(), start.getLongitude());
+//                    LatLng endLatLng = new LatLng(end.getLatitude(), end.getLongitude());
+//                    viewBundle.putParcelable("start", startLatLng);
+//                    viewBundle.putParcelable("end", endLatLng);
 //                    viewBundle.putParcelable("Segment", (Parcelable) currentSession.getSegmentId());
                     viewIntent.putExtras(viewBundle);
                     startActivity(viewIntent);

@@ -112,6 +112,10 @@
         <activity android:name=".activities.HistoryLiteMapListActivity"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.runner.sportsmeter.activities.ShowSessionActivity"
+                  android:label="@string/world_map"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity
                 android:name="com.parse.ui.LoginActivity"
                 android:label="@string/app_name"

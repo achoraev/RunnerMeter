@@ -15,7 +15,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -94,7 +93,7 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void initializeViews() {
-        postOnFacebookBtn = (Button) findViewById(R.id.button_post_facebook);
+        postOnFacebookBtn = (Button) findViewById(R.id.button_list_share_facebook);
 //        saveTimeKm = (TextView) findViewById(R.id.save_time_kilometer);
 //        saveDistance = (TextView) findViewById(R.id.save_distance);
 //        saveDuration = (TextView) findViewById(R.id.save_duration);
@@ -157,8 +156,8 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-        mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
+//        mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
+//        mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
         if (currentSegment != null && currentSegment.getPoints().size() != 0) {
             List<LatLng> list = currentSegment.getPoints();
 //            startPointCoordinates = list.get(0);

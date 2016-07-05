@@ -83,7 +83,7 @@
         <com.facebook.share.widget.ShareButton
                 android:background="@color/Blue_800"
                 android:id="@+id/button_show_share_facebook"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"

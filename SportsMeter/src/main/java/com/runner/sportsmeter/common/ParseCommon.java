@@ -188,7 +188,7 @@ public class ParseCommon {
         return result;
     }
 
-    public static List<LatLng> convertArrayListOfParseGeoPointToList(ArrayList<ParseGeoPoint> listOfPoints) {
+    public static List<LatLng> convertArrayListOfParseGeoPointToList(List<ParseGeoPoint> listOfPoints) {
         List<LatLng> result = new ArrayList<>();
         for(ParseGeoPoint p : listOfPoints){
             result.add(new LatLng(p.getLatitude(), p.getLongitude()));

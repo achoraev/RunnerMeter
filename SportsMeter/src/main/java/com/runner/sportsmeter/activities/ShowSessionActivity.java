@@ -11,21 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.common.Calculations;
+import com.runner.sportsmeter.common.Constants;
+import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created on 04-Jul-16
@@ -34,17 +41,16 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_LOCATION = 0x1;
     private Session currentSession;
-//    private TextView saveTimeKm, saveDistance, saveDuration, saveUsername,
-//            saveMaxSpeed, saveAvgSpeed, saveTypeSport, saveCreatedAt;
+    private TextView showTimeKm, showDistance, showDuration, showUsername,
+            showMaxSpeed, showAvgSpeed, showTypeSport, showCreatedAt;
     private Button postOnFacebookBtn;
     private LatLng startPointCoordinates, endPointCoordinates;
 //    private LikeView likeView;
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private PolylineOptions currentSegment;
-//    private LatLngBounds bound;
     private Sessions currentParseSession;
-//    private ArrayList<ParseGeoPoint> arrayListOfParseGeoPoints;
+    private ArrayList<ParseGeoPoint> arrayListOfParseGeoPoints;
 //    private AdView mAdView;
 
     @Override
@@ -82,26 +88,26 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void setTextViewsFromSession(Session session) {
-//        saveTimeKm.setText(Utility.formatPace(session.getTimePerKilometer()));
-//        saveDistance.setText(Utility.formatDistance(session.getDistance()));
-//        saveDuration.setText(Calculations.convertTimeToString(session.getDuration()));
-//        saveUsername.setText(String.valueOf(session.getUserName()));
+        showTimeKm.setText(Utility.formatPace(session.getTimePerKilometer()));
+        showDistance.setText(Utility.formatDistance(session.getDistance()));
+        showDuration.setText(Calculations.convertTimeToString(session.getDuration()));
+        showUsername.setText(String.valueOf(session.getUserName()));
 //        saveMaxSpeed.setText(Utility.formatSpeed(session.getMaxSpeed()));
 //        saveAvgSpeed.setText(Utility.formatSpeed(session.getAverageSpeed()));
-//        saveTypeSport.setText(session.getSportType());
-//        saveCreatedAt.setText(Utility.formatDate(new Date()));
+        showTypeSport.setText(session.getSportType());
+        showCreatedAt.setText(session.getCreatedAt());
     }
 
     private void initializeViews() {
-        postOnFacebookBtn = (Button) findViewById(R.id.button_list_share_facebook);
-//        saveTimeKm = (TextView) findViewById(R.id.save_time_kilometer);
-//        saveDistance = (TextView) findViewById(R.id.save_distance);
-//        saveDuration = (TextView) findViewById(R.id.save_duration);
-//        saveUsername = (TextView) findViewById(R.id.save_username);
-//        saveMaxSpeed = (TextView) findViewById(R.id.save_max_speed);
+        postOnFacebookBtn = (Button) findViewById(R.id.button_show_share_facebook);
+        showTimeKm = (TextView) findViewById(R.id.show_pace);
+        showDistance = (TextView) findViewById(R.id.show_distance);
+        showDuration = (TextView) findViewById(R.id.show_total_time);
+        showUsername = (TextView) findViewById(R.id.show_name);
+//        showMaxSpeed = (TextView) findViewById(R.id.save_max_speed);
 //        saveAvgSpeed = (TextView) findViewById(R.id.save_average_speed);
-//        saveTypeSport = (TextView) findViewById(R.id.save_type_sport);
-//        saveCreatedAt = (TextView) findViewById(R.id.save_created_at);
+        showTypeSport = (TextView) findViewById(R.id.show_sport_type);
+        showCreatedAt = (TextView) findViewById(R.id.show_created);
     }
 
     private void postOnFacebookWall() {
@@ -118,20 +124,8 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
 
     private void updateFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-//            if (savedInstanceState.keySet().contains("currentSegment")) {
-//                currentSegment = savedInstanceState.getParcelable("currentSegment");
-//                if(currentSegment != null) {
-//                    arrayListOfParseGeoPoints = ParseCommon.convertListToArrayListOfParseGeoPoint(currentSegment.getPoints());
-//                }
-//            }
             if (savedInstanceState.keySet().contains("Session")) {
                 currentSession = savedInstanceState.getParcelable("Session");
-            }
-            if (savedInstanceState.keySet().contains("start_coords")) {
-                startPointCoordinates = savedInstanceState.getParcelable("start_coords");
-            }
-            if (savedInstanceState.keySet().contains("end_coords")) {
-                endPointCoordinates = savedInstanceState.getParcelable("end_coords");
             }
         }
     }
@@ -156,21 +150,21 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-//        mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
-        if (currentSegment != null && currentSegment.getPoints().size() != 0) {
-            List<LatLng> list = currentSegment.getPoints();
-//            startPointCoordinates = list.get(0);
-//            endPointCoordinates = list.get(list.size() - 1);
-//            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//            builder.include(startPointCoordinates);
-//            builder.include(endPointCoordinates);
-//            bound = builder.build();
-//            bound = new LatLngBounds(endPointCoordinates, startPointCoordinates);
-//            mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
-//            mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
-            mMap.addPolyline(currentSegment);
-//            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bound, MAP_WIDTH, MAP_HEIGHT, MAP_PADDING));
-        }
+
+        ParseGeoPoint start = currentParseSession.getSegmentId().getGeoPointsArray().get(0);
+        arrayListOfParseGeoPoints = currentParseSession.getSegmentId().getGeoPointsArray();
+        ParseGeoPoint end = currentParseSession.getSegmentId().getGeoPointsArray().get(arrayListOfParseGeoPoints.size() - 1);
+        startPointCoordinates = new LatLng(start.getLatitude(), start.getLongitude());
+        endPointCoordinates = new LatLng(end.getLatitude(), end.getLongitude());
+
+        mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
+        mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
+        currentSegment = new PolylineOptions()
+                .width(Constants.POLYLINE_WIDTH)
+                .color(Constants.POLYLINE_COLOR);
+        currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(arrayListOfParseGeoPoints));
+        mMap.addPolyline(currentSegment);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(endPointCoordinates));
     }
 }

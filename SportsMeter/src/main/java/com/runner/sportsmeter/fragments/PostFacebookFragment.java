@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.share.ShareApi;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.model.ShareOpenGraphAction;
 import com.facebook.share.model.ShareOpenGraphContent;
@@ -73,8 +72,8 @@ public class PostFacebookFragment extends FragmentActivity {
                     .setAction(act)
                     .build();
 
-            ShareApi.share(content, null);
-//            shareDialog.show(linkContent);
+//            ShareApi.share(content, null);
+            shareDialog.show(linkContent);
         }
     }
 

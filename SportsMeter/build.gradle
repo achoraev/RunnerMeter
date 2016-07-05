@@ -30,7 +30,7 @@ android {
             applicationId "com.runner.sportsmeter"
             versionCode version_Code
             versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
-            minSdkVersion 14
+            minSdkVersion 15
             targetSdkVersion 23
             multiDexEnabled true
         }
@@ -78,7 +78,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
-    compile 'com.facebook.android:facebook-android-sdk:4.5.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.7.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -23,10 +23,12 @@ import com.runner.sportsmeter.models.Sessions;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by angelr on 14-May-15.
@@ -147,6 +149,10 @@ public class Utility {
         newSession.setName(sess.getUserName());
         newSession.setSportType(sess.getSportType().toLowerCase());
         return newSession;
+    }
+
+    public static String formatStringToDate(String createdAt) throws ParseException {
+        return new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(createdAt);
     }
 
     public static String formatDate(Date createdAt) {

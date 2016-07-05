@@ -1,2 +1,2 @@
 # RunnerMeter
-My android app for Runners.
+My android app for Runners, Bikers and etc.

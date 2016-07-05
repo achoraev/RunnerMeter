@@ -135,6 +135,7 @@ public class Utility {
                 sess.getParseUser(),
                 sess.getName(),
                 sess.getSportType());
+                sess.getCreatedAt();
         return newSession;
     }
 

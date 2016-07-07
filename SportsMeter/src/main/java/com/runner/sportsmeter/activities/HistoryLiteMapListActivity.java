@@ -39,6 +39,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private SportTypes sportType;
     private List<Sessions> historySession = new ArrayList<>();
     private Spinner chooseTypeSport;
+    private PolylineOptions currentSegment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +114,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
 
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
             ViewHolder holder;
 
@@ -169,10 +170,16 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 holder.shareOnFacebook.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Toast.makeText(HistoryLiteMapListActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
                         postOnFacebookWall(currentSession);
                     }
                 });
             }
+
+            currentSegment = new PolylineOptions()
+                    .width(Constants.POLYLINE_WIDTH)
+                    .color(Constants.POLYLINE_COLOR);
+            currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId().getGeoPointsArray()));
 
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -180,6 +187,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                     Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
                     Bundle viewBundle = new Bundle();
                     viewBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(currentSession));
+                    viewBundle.putParcelable("Segment", currentSegment);
                     viewIntent.putExtras(viewBundle);
                     startActivity(viewIntent);
                 }
@@ -338,7 +346,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private List<Sessions> sortListBySportType(List<Sessions> historySession, SportTypes sportType) {
         List<Sessions> result = new ArrayList<>();
         for(Sessions ses : historySession){
-            if(ses.getSportType().equals(sportType.toString())){
+            if(ses.getSportType().toUpperCase().equals(sportType.toString())){
                 result.add(ses);
             }
         }
@@ -355,8 +363,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 //            lv.setRecyclerListener(mRecycleListener);
             mAdapter.notifyDataSetChanged();
         } else {
-            emptyList.setVisibility(View.VISIBLE);
-            emptyList.setText(R.string.msg_empty_list);
+//            emptyList.setVisibility(View.VISIBLE);
+//            emptyList.setText(R.string.msg_empty_list);
         }
     }
 }

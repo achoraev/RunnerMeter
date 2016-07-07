@@ -152,8 +152,17 @@ public class Utility {
         return newSession;
     }
 
-    public static String formatStringToDate(String createdAt) throws ParseException {
-        return new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(createdAt);
+    public static Date formatStringToDate(String createdAt) {
+        try {
+            return new SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.getDefault()).parse(createdAt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String formatParseDate(Date createdAt) {
+        return new SimpleDateFormat("YYYY-MM-DDThh:mm:ss.SSSZ").format(createdAt);
     }
 
     public static String formatDate(Date createdAt) {

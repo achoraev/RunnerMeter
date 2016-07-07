@@ -24,7 +24,6 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Constants;
-import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Session;
@@ -130,6 +129,9 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
             if (savedInstanceState.keySet().contains("Session")) {
                 currentSession = savedInstanceState.getParcelable("Session");
             }
+            if (savedInstanceState.keySet().contains("Segment")) {
+                currentSegment = savedInstanceState.getParcelable("Segment");
+            }
         }
     }
 
@@ -154,22 +156,15 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        if(currentParseSession.getSegmentId() != null){
-            ParseGeoPoint start = currentParseSession.getSegmentId().getGeoPointsArray().get(0);
-            arrayListOfParseGeoPoints = currentParseSession.getSegmentId().getGeoPointsArray();
-            ParseGeoPoint end = currentParseSession.getSegmentId().getGeoPointsArray().get(arrayListOfParseGeoPoints.size() - 1);
-            startPointCoordinates = new LatLng(start.getLatitude(), start.getLongitude());
-            endPointCoordinates = new LatLng(end.getLatitude(), end.getLongitude());
+        if(currentSegment != null){
+            startPointCoordinates = currentSegment.getPoints().get(0);
+            endPointCoordinates = currentSegment.getPoints().get(currentSegment.getPoints().size() - 1);
 
             mMap.addMarker(new MarkerOptions().position(startPointCoordinates).title(getString(R.string.start_point)));
             mMap.addMarker(new MarkerOptions().position(endPointCoordinates).title(getString(R.string.end_point)));
-            currentSegment = new PolylineOptions()
-                    .width(Constants.POLYLINE_WIDTH)
-                    .color(Constants.POLYLINE_COLOR);
-            currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(arrayListOfParseGeoPoints));
             mMap.addPolyline(currentSegment);
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(startPointCoordinates));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(endPointCoordinates));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(endPointCoordinates, Constants.MAP_ZOOM));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoordinates, Constants.MAP_ZOOM));
         }
     }
 }

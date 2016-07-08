@@ -111,14 +111,17 @@ public class Calculations {
     public Boolean isTimePerKilometerValid(double timePerKilometer, String sportType) {
         Boolean isTimePerKilometerValid = true;
         switch (sportType) {
-            case "DRIVING":
-                isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_DRIVER;
+            case "WALKING":
+                isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_WALKING;
                 break;
             case "CYCLING":
                 isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_BIKER;
                 break;
             case "RUNNING":
                 isTimePerKilometerValid = timePerKilometer >= Constants.BEST_TIME_RUNNER;
+                break;
+            case "CLIMBING":
+                isTimePerKilometerValid = true;
                 break;
         }
         return isTimePerKilometerValid;

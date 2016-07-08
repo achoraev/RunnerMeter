@@ -55,4 +55,5 @@ public class Constants {
     public static final double BEST_TIME_RUNNER = 1.36;
     public static final double BEST_TIME_BIKER = 0.45;
     public static final double BEST_TIME_DRIVER = 0.17;
+    public static final double BEST_TIME_WALKING = 3.00;
 }

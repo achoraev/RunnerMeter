@@ -135,7 +135,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         saveMaxSpeed.setText(Utility.formatSpeed(session.getMaxSpeed()));
         saveAvgSpeed.setText(Utility.formatSpeed(session.getAverageSpeed()));
         saveTypeSport.setText(session.getSportType());
-        saveCreatedAt.setText(session.getCreatedAt());
+        saveCreatedAt.setText(Utility.formatDate(new Date()));
     }
 
 

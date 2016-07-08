@@ -11,7 +11,7 @@ public class Constants {
     public static final int THREE_SECOND = 3000;
     public static final int TWO_SECOND = 2000;
     public static final int ONE_SECOND = 1000;
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = TWO_SECOND;
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = THREE_SECOND;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public static final int MAP_ZOOM = 15;

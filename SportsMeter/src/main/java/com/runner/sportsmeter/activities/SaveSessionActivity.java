@@ -225,7 +225,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 public void done(ParseException e) {
                     if(e == null){
                         isSaveSession = true;
-                        Boolean isValid = new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
+                        // todo change validation to works properly
+                        Boolean isValid = true;
+//                                new Calculations().isTimePerKilometerValid(current.getTimePerKilometer(), current.getSportType());
                         if (isValid) {
                             current.setSegmentId(segment);
 

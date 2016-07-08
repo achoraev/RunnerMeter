@@ -40,6 +40,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private List<Sessions> historySession = new ArrayList<>();
     private Spinner chooseTypeSport;
     private PolylineOptions currentSegment;
+    private Boolean isLinkedWithFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         emptyList = (TextView) findViewById(R.id.empty_list);
         chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport_history);
         generateSportTypeSpinner();
+        isLinkedWithFacebook = ParseFacebookUtils.isLinked(ParseUser.getCurrentUser());
 
         ParseQuery(QUERY_SIZE, ParseUser.getCurrentUser());
     }
@@ -165,7 +167,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             holder.duration.setText(Utility.formatDurationToMinutesString(currentSession.getDuration()));
             holder.sportTypeField.setText(currentSession.getSportType());
             holder.createdAt.setText(Utility.formatDate(currentSession.getCreatedAt()));
-            if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+            if(isLinkedWithFacebook) {
                 holder.shareOnFacebook.setVisibility(View.VISIBLE);
                 holder.shareOnFacebook.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -176,14 +178,14 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 });
             }
 
-            currentSegment = new PolylineOptions()
-                    .width(Constants.POLYLINE_WIDTH)
-                    .color(Constants.POLYLINE_COLOR);
-            currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId().getGeoPointsArray()));
-
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    currentSegment = new PolylineOptions()
+                            .width(Constants.POLYLINE_WIDTH)
+                            .color(Constants.POLYLINE_COLOR);
+                    currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId().getGeoPointsArray()));
+
                     Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
                     Bundle viewBundle = new Bundle();
                     viewBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(currentSession));

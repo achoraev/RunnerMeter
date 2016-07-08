@@ -41,6 +41,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private Spinner chooseTypeSport;
     private PolylineOptions currentSegment;
     private Boolean isLinkedWithFacebook;
+    private Sessions currentSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             super(context, R.layout.lite_map_list_row, R.id.lite_listrow_text, locations);
         }
 
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
@@ -149,7 +149,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             }
 
             // Get the NamedLocation for this item and attach it to the MapView
-            final Sessions currentSession = getItem(position);
+            currentSession = getItem(position);
             holder.mapView.setTag(currentSession);
 
             // Ensure the map has been initialised by the on map ready callback in ViewHolder.
@@ -169,6 +169,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             holder.createdAt.setText(Utility.formatDate(currentSession.getCreatedAt()));
             if(isLinkedWithFacebook) {
                 holder.shareOnFacebook.setVisibility(View.VISIBLE);
+                holder.shareOnFacebook.setClickable(true);
                 holder.shareOnFacebook.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -181,17 +182,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentSegment = new PolylineOptions()
-                            .width(Constants.POLYLINE_WIDTH)
-                            .color(Constants.POLYLINE_COLOR);
-                    currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId().getGeoPointsArray()));
-
-                    Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
-                    Bundle viewBundle = new Bundle();
-                    viewBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(currentSession));
-                    viewBundle.putParcelable("Segment", currentSegment);
-                    viewIntent.putExtras(viewBundle);
-                    startActivity(viewIntent);
+                    openShowSessionActivity(currentSession);
                 }
             });
             return row;
@@ -219,18 +210,38 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         }
     }
 
+    private void openShowSessionActivity(Sessions currentSession) {
+        currentSegment = new PolylineOptions()
+                .width(Constants.POLYLINE_WIDTH)
+                .color(Constants.POLYLINE_COLOR);
+        currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId().getGeoPointsArray()));
+
+        Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
+        Bundle viewBundle = new Bundle();
+        viewBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(currentSession));
+        viewBundle.putParcelable("Segment", currentSegment);
+        viewIntent.putExtras(viewBundle);
+        startActivity(viewIntent);
+    }
+
     /**
      * Displays a {@linkLiteListDemoActivity.NamedLocation} on a
      * {@link com.google.android.gms.maps.GoogleMap}.
      * Adds a marker and centers the camera on the NamedLocation with the normal map type.
      */
-    private void setMapLocation(GoogleMap map, Sessions data) {
+    private void setMapLocation(GoogleMap map, final Sessions data) {
         Segments currentSegment = null;
         ArrayList<ParseGeoPoint> geoPointsParse = new ArrayList<>();
         PolylineOptions currentPolyline = new PolylineOptions()
                 .width(Constants.POLYLINE_WIDTH)
                 .color(Constants.POLYLINE_COLOR);
 
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                openShowSessionActivity(data);
+            }
+        });
         if (data != null) {
             currentSegment = data.getSegmentId();
         }

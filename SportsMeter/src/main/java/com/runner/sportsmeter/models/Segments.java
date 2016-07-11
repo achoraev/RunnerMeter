@@ -21,14 +21,6 @@ public class Segments extends ParseObject {
         put("currentUser", currentUser);
     }
 
-    public int getSegmentId() {
-        return getInt("segmentId");
-    }
-
-    public void setSegmentId(int segmentId) {
-        put("segmentId", segmentId);
-    }
-
     public String getName() {
         return getString("segmentName");
     }

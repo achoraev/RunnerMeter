@@ -65,7 +65,6 @@
     <string name="saving_session">सत्र की बचत</string>
     <string name="about_application">आवेदन के बारे में</string>
     <string name="help_page">मदद</string>
-    <string name="post_on_facebook">फेसबुक पर पोस्ट</string>
     <string name="account_page_label">खाता जानकारी</string>
     // account
     <string name="account_name_label">तुम्हारा नाम:</string>
@@ -84,7 +83,7 @@
     <string name="save_average_speed">औसत स्पीड</string>
     // buttons
     <string name="save_save_btn">सहेजें</string>
-    <string name="save_post_facebook_btn">फेसबुक पर पोस्ट</string>
+    <string name="post_on_facebook">फेसबुक पर पोस्ट</string>
     <string name="bikers_click">बाईकर्स यहाँ क्लिक करें…</string>
     <string name="runners_click">धावक यहाँ क्लिक करें…</string>
     <string name="drivers_click">ड्राइवर्स यहाँ क्लिक करें…</string>

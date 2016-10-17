@@ -66,7 +66,6 @@
     <string name="saving_session">Menyimpan sesi</string>
     <string name="about_application">Tentang aplikasi</string>
     <string name="help_page">Tolong</string>
-    <string name="post_on_facebook">Posting di facebook</string>
     <string name="account_page_label">Info Akun</string>
     // account
     <string name="account_name_label">Namamu:</string>
@@ -88,7 +87,7 @@
     <string name="runners_click">Pelari klik di sini…</string>
     <string name="drivers_click">Driver klik di sini…</string>
     <string name="save_save_btn">SIMPAN</string>
-    <string name="save_post_facebook_btn">Posting di Facebook</string>
+    <string name="post_on_facebook">Posting di Facebook</string>
     <string name="screen_shot_successfully_saved">Layar ditembak berhasil disimpan!</string>
     <string name="this_time">Waktu/km</string>
     <string name="time_is_fastest">tercepat dari world record untuk</string>

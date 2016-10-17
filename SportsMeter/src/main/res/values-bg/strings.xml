@@ -64,7 +64,6 @@
     <string name="saving_session">Записване на сесия</string>
     <string name="about_application">За приложението</string>
     <string name="help_page">Помощ</string>
-    <string name="post_on_facebook">Постване във facebook</string>
     <string name="account_page_label">Акаунт информация</string>
     // account
     <string name="account_name_label">Твоето име:</string>
@@ -84,7 +83,7 @@
     // buttons
     <string name="save_notsave_btn">НЕ ЗАПИСВАЙ</string>
     <string name="save_save_btn">ЗАПИШИ</string>
-    <string name="save_post_facebook_btn">Постване във Facebook</string>
+    <string name="post_on_facebook">Постване във Facebook</string>
     <string name="bikers_click">Колоездачи щракнете тук…</string>
     <string name="runners_click">Бегачи щракнете тук…</string>
     <string name="drivers_click">Шофьори натиснете тук…</string>

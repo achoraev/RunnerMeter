@@ -66,7 +66,6 @@
     <string name="saving_session">Сохранение сессии</string>
     <string name="about_application">О приложении</string>
     <string name="help_page">Справка</string>
-    <string name="post_on_facebook">Пост на facebook</string>
     <string name="account_page_label">Информация о счёте</string>
     // account
     <string name="account_name_label">Ваше имя:</string>
@@ -85,7 +84,7 @@
     <string name="save_average_speed">средняя скорость</string>
     // buttons
     <string name="save_save_btn">СОХРАНИТЬ</string>
-    <string name="save_post_facebook_btn">Пост на Facebook</string>
+    <string name="post_on_facebook">Пост на Facebook</string>
     <string name="bikers_click">Байкеры нажмите здесь…</string>
     <string name="runners_click">Бегунов нажмите здесь…</string>
     <string name="drivers_click">Драйвера нажмите здесь…</string>

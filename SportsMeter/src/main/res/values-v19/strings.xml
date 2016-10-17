@@ -66,7 +66,6 @@
     <string name="saving_session">Saving Session</string>
     <string name="about_application">About Application</string>
     <string name="help_page">Help</string>
-    <string name="post_on_facebook">Post on facebook</string>
     <string name="account_page_label">Account Info</string>
     <string name="leader_board_best_runners">Best runners</string>
     <string name="leader_board_best_bikers">Best bikers</string>
@@ -90,7 +89,7 @@
     // buttons
     <string name="save_notsave_btn">DON\'T SAVE</string>
     <string name="save_save_btn">SAVE</string>
-    <string name="save_post_facebook_btn">Post on Facebook</string>
+    <string name="post_on_facebook">Post on Facebook</string>
     // start messages
     <string name="bikers_click">Bikers click here…</string>
     <string name="runners_click">Runners click here…</string>

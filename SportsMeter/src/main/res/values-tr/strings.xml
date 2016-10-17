@@ -65,7 +65,6 @@
     <string name="saving_session">Oturum kaydetme</string>
     <string name="about_application">Uygulama hakkında</string>
     <string name="help_page">Yardım</string>
-    <string name="post_on_facebook">Facebook\'ta mesaj</string>
     <string name="account_page_label">Hesap bilgileri</string>
     // account
     <string name="account_name_label">Adınız:</string>
@@ -84,7 +83,7 @@
     <string name="save_average_speed">ortalama hız</string>
     // buttons
     <string name="save_save_btn">KAYDET</string>
-    <string name="save_post_facebook_btn">Facebook yayında</string>
+    <string name="post_on_facebook">Facebook yayında</string>
     <string name="bikers_click">Bisikletçileri tıklayınız…</string>
     <string name="runners_click">Koşucular tıklayınız…</string>
     <string name="drivers_click">Sürücüler buraya tıklayın…</string>

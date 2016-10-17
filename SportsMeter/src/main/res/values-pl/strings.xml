@@ -65,7 +65,6 @@
     <string name="saving_session">Zapisywanie sesji</string>
     <string name="about_application">O aplikacji</string>
     <string name="help_page">Pomoc</string>
-    <string name="post_on_facebook">Post na facebook</string>
     <string name="account_page_label">Uważać informacja</string>
     // account
     <string name="account_name_label">Imię i nazwisko:</string>
@@ -84,7 +83,7 @@
     <string name="save_average_speed">średnia prędkość</string>
     // buttons
     <string name="save_save_btn">ZAPISZ</string>
-    <string name="save_post_facebook_btn">Post na Facebook</string>
+    <string name="post_on_facebook">Post na Facebook</string>
     <string name="bikers_click">Rowerzystów kliknij tutaj…</string>
     <string name="runners_click">Biegaczy kliknij tutaj…</string>
     <string name="drivers_click">Sterowniki kliknij tutaj…</string>

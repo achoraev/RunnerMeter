@@ -66,7 +66,6 @@
     <string name="saving_session">Sesiune de economisire</string>
     <string name="about_application">Despre aplicaţie</string>
     <string name="help_page">ajutor</string>
-    <string name="post_on_facebook">Post pe facebook</string>
     <string name="account_page_label">Info cont</string>
     // account
     <string name="account_name_label">numele tău:</string>
@@ -85,7 +84,7 @@
     <string name="save_average_speed">viteza medie</string>
     // buttons
     <string name="save_save_btn">SALVAŢI</string>
-    <string name="save_post_facebook_btn">Post de pe Facebook</string>
+    <string name="post_on_facebook">Post de pe Facebook</string>
     <string name="bikers_click">Motociclisti click aici…</string>
     <string name="runners_click">Alergători click aici…</string>
     <string name="drivers_click">Drivere click aici…</string>

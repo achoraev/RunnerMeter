@@ -66,7 +66,6 @@
     <string name="saving_session">Opslaan van de sessie</string>
     <string name="about_application">Over de toepassing</string>
     <string name="help_page">Help</string>
-    <string name="post_on_facebook">Post op facebook</string>
     <string name="account_page_label">Accountinfo</string>
     // account
     <string name="account_name_label">Uw naam:</string>
@@ -85,7 +84,7 @@
     <string name="save_average_speed">gemiddelde snelheid</string>
     // buttons
     <string name="save_save_btn">OPSLAAN</string>
-    <string name="save_post_facebook_btn">Post op Facebook</string>
+    <string name="post_on_facebook">Post op Facebook</string>
     <string name="bikers_click">Fietsers Klik hier…</string>
     <string name="runners_click">Lopers Klik hier…</string>
     <string name="drivers_click">Stuurprogramma\'s Klik hier…</string>

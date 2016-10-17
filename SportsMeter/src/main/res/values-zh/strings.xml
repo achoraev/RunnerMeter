@@ -64,7 +64,6 @@
     <string name="saving_session">保存会话</string>
     <string name="about_application">有关应用程序</string>
     <string name="help_page">帮助</string>
-    <string name="post_on_facebook">在 facebook 上张贴</string>
     <string name="account_page_label">帐户信息</string>
     // account
     <string name="account_name_label">您的姓名：</string>
@@ -83,7 +82,7 @@
     <string name="save_average_speed">平均速度</string>
     // buttons
     <string name="save_save_btn">保存</string>
-    <string name="save_post_facebook_btn">在 Facebook 上的帖子</string>
+    <string name="post_on_facebook">在 Facebook 上的帖子</string>
     <string name="bikers_click">骑自行车的人请单击此处…</string>
     <string name="runners_click">跑步者单击此处…</string>
     <string name="drivers_click">驱动程序请单击此处…</string>

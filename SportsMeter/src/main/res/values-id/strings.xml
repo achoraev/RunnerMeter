@@ -143,5 +143,8 @@
     <string name="calories_message">Data yang diperlukan untuk menghitung kalori</string>
     <string name="total_distance">Total jarak:</string>
     <string name="msg_empty_list">Tidak ada data!</string>
+    <string name="session_saved">Sesi tercatat</string>
+    <string name="session_not_saved">Sesi TIDAK tercatat</string>
+    <string name="facebook_not_logged_in">Anda tidak login ke Facebook.</string>
 
 </resources>

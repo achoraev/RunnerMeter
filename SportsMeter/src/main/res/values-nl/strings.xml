@@ -143,5 +143,8 @@
     <string name="calories_message">Gegevens die nodig zijn voor de berekening van de calorieën</string>
     <string name="total_distance">Totale afstand:</string>
     <string name="msg_empty_list">Geen gegevens!</string>
+    <string name="session_saved">De sessie werd opgenomen</string>
+    <string name="session_not_saved">De sessie is NIET geregistreerd</string>
+    <string name="facebook_not_logged_in">U bent niet ingelogd op Facebook.</string>
 
 </resources>

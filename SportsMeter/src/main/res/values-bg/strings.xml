@@ -141,5 +141,8 @@
     <string name="calories_message">Данни, необходими за изчисляване на калории</string>
     <string name="total_distance">Общо разстояние:</string>
     <string name="msg_empty_list">Няма данни!</string>
+    <string name="session_saved">Сесията е записана</string>
+    <string name="session_not_saved">Сесията НЕ е записана</string>
+    <string name="facebook_not_logged_in">Не сте влезли във Facebook.</string>
 
 </resources>

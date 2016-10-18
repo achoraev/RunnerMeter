@@ -143,5 +143,8 @@
     <string name="calories_message">Dati necessari per il calcolo delle calorie</string>
     <string name="total_distance">Distanza totale:</string>
     <string name="msg_empty_list">Nessun dato!</string>
+    <string name="session_saved">La sessione è stata registrata</string>
+    <string name="session_not_saved">La sessione NON è stata registrata</string>
+    <string name="facebook_not_logged_in">Non sei loggato su Facebook.</string>
 
 </resources>

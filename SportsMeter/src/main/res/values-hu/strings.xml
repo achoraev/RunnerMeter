@@ -143,5 +143,8 @@
     <string name="calories_message">Kalória kiszámításához szükséges adatok</string>
     <string name="total_distance">Teljes távolság:</string>
     <string name="msg_empty_list">Nincs adat!</string>
+    <string name="session_saved">A munkamenet vették</string>
+    <string name="session_not_saved">A munkamenet NEM lett felvéve</string>
+    <string name="facebook_not_logged_in">Ha nem vagy bejelentkezve a Facebookra.</string>
 
 </resources>

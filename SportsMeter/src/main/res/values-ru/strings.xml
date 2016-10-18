@@ -143,5 +143,8 @@
     <string name="calories_message">Данные, необходимые для расчета калорий</string>
     <string name="total_distance">Общая дистанция:</string>
     <string name="msg_empty_list">Без данных!</string>
+    <string name="session_saved">Сессия была записана</string>
+    <string name="session_not_saved">Сессия НЕ была записана</string>
+    <string name="facebook_not_logged_in">Вы не вошли Facebook.</string>
 
 </resources>

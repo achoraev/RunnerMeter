@@ -141,5 +141,8 @@
     <string name="calories_message">计算热量所需的数据</string>
     <string name="total_distance">总距离 ︰</string>
     <string name="msg_empty_list">没有数据 ！</string>
+    <string name="session_saved">会议录</string>
+    <string name="session_not_saved">会议不录</string>
+    <string name="facebook_not_logged_in">您没有登录到 Facebook。</string>
 
 </resources>

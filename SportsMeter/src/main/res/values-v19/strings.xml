@@ -147,6 +147,9 @@
     <string name="calories_message">Data needed for calculating calories</string>
     <string name="total_distance">"Total distance:"</string>
     <string name="msg_empty_list">No data!</string>
+    <string name="session_saved">Session is saved</string>
+    <string name="session_not_saved">Session is NOT saved</string>
+    <string name="facebook_not_logged_in">You are not logged in with Facebook.</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
 
 

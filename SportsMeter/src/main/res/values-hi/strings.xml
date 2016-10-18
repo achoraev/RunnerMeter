@@ -142,5 +142,8 @@
     <string name="calories_message">कैलोरी की गणना के लिए आवश्यक डेटा</string>
     <string name="total_distance">कुल दूरी:</string>
     <string name="msg_empty_list">कोई डेटा नहीं!</string>
+    <string name="session_saved">सत्र दर्ज की गई</string>
+    <string name="session_not_saved">सत्र रिकॉर्ड नहीं किया गया</string>
+    <string name="facebook_not_logged_in">आप Facebook में लॉग इन नहीं हैं।</string>
 
 </resources>

@@ -142,5 +142,8 @@
     <string name="calories_message">Kalori hesaplamak için gerekli veri</string>
     <string name="total_distance">Toplam mesafe:</string>
     <string name="msg_empty_list">Veri yok!</string>
+    <string name="session_saved">Oturum kaydedildi</string>
+    <string name="session_not_saved">Oturum kaydedilmedi</string>
+    <string name="facebook_not_logged_in">Facebook için açmadınız.</string>
 
 </resources>

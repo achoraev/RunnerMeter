@@ -143,5 +143,8 @@
     <string name="calories_message">Date necesare pentru calcul calorii</string>
     <string name="total_distance">Distanta totala:</string>
     <string name="msg_empty_list">Nu există date!</string>
+    <string name="session_saved">Sesiunea a fost înregistrat</string>
+    <string name="session_not_saved">Sesiunea NU a fost înregistrată</string>
+    <string name="facebook_not_logged_in">Nu sunteţi conectat la Facebook.</string>
 
 </resources>

@@ -39,7 +39,6 @@ import java.util.*;
 public class Utility {
 
     public static void postOnFacebookWall(Session currentSession, Activity activity) {
-        // todo uncomment
         if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
             ParseFacebookUtils.linkWithPublishPermissionsInBackground(
                     ParseUser.getCurrentUser(),

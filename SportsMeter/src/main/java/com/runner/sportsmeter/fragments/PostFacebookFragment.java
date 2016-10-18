@@ -41,7 +41,6 @@ public class PostFacebookFragment extends FragmentActivity {
                         SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.CYCLING) ? " cycling " :
                         SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.CLIMBING) ? " climbing " :
                         SportTypes.valueOf(sportType.toUpperCase()).equals(SportTypes.WALKING) ? " walking " : " made ";
-        // todo action not works
         String message = userName + action + sessionDistance + " m for " + Calculations.convertTimeToStringFromSeconds(sessionTimeDiff) + " with Sport Meter";
         if (ShareDialog.canShow(ShareLinkContent.class)) {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()

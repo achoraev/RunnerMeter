@@ -2,7 +2,6 @@ package com.runner.sportsmeter.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,12 +27,14 @@ import com.runner.sportsmeter.common.Calculations;
 import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
-import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by angelr on 09-Oct-15.
@@ -96,8 +97,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onClick(View v) {
                 saveParseSession(currentParseSession);
-                // todo check for logged user with facebook
-                postOnFacebookWall();
+                Utility.postOnFacebookWall(currentSession, SaveSessionActivity.this);
             }
         });
 
@@ -130,7 +130,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
         saveTimeKm.setText(Utility.formatPace(session.getTimePerKilometer()));
         saveDistance.setText(Utility.formatDistance(session.getDistance()));
-        saveDuration.setText(Calculations.convertTimeToString(session.getDuration()));
+        saveDuration.setText(Calculations.convertTimeToStringFromSeconds(session.getDuration()));
         saveUsername.setText(String.valueOf(session.getUserName()));
         saveMaxSpeed.setText(Utility.formatSpeed(session.getMaxSpeed()));
         saveAvgSpeed.setText(Utility.formatSpeed(session.getAverageSpeed()));
@@ -180,18 +180,6 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
         saveCreatedAt = (TextView) findViewById(R.id.save_created_at);
     }
 
-    private void postOnFacebookWall() {
-        ParseFacebookUtils.linkWithPublishPermissionsInBackground(
-                ParseUser.getCurrentUser(),
-                SaveSessionActivity.this,
-                Arrays.asList("publish_actions"));
-        Intent postIntent = new Intent(SaveSessionActivity.this, PostFacebookFragment.class);
-        Bundle postBundle = new Bundle();
-        postBundle.putParcelable("Session", currentSession);
-        postIntent.putExtras(postBundle);
-        startActivity(postIntent);
-    }
-
     @Override
     public void onBackPressed() {
         if (!isSaveSession) {
@@ -236,10 +224,9 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                                 @Override
                                 public void done(ParseException e) {
                                     if(e == null) {
-                                        // todo extract and translate strings
-                                        Toast.makeText(SaveSessionActivity.this, "Session is saved", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(SaveSessionActivity.this,getString(R.string.session_saved), Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(SaveSessionActivity.this, "Session is NOT saved" + e.getMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(SaveSessionActivity.this, getString(R.string.session_not_saved) + e.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });

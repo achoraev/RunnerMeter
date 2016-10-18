@@ -2,7 +2,6 @@ package com.runner.sportsmeter.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,18 +18,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
 import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.Utility;
-import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created on 04-Jul-16
@@ -41,9 +36,9 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
     private Session currentSession;
     private TextView showTimeKm, showDistance, showDuration, showUsername,
             showMaxSpeed, showAvgSpeed, showTypeSport, showCreatedAt;
-    private Button postOnFacebookBtn;
+    private Button shareFacebook;
     private LatLng startPointCoordinates, endPointCoordinates;
-//    private LikeView likeView;
+    //    private LikeView likeView;
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
     private PolylineOptions currentSegment;
@@ -79,16 +74,12 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void setTextViewsFromSession(Session session) {
-        if(ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())){
-            postOnFacebookBtn.setVisibility(View.VISIBLE);
-            postOnFacebookBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    postOnFacebookWall();
-                }
-            });
-        }
-
+        shareFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.postOnFacebookWall(currentSession, ShowSessionActivity.this);
+            }
+        });
         showTimeKm.setText(Utility.formatPace(session.getTimePerKilometer()));
         showDistance.setText(Utility.formatDistance(session.getDistance()));
         showDuration.setText(Utility.formatDurationToMinutesString(session.getDuration()));
@@ -101,7 +92,7 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void initializeViews() {
-        postOnFacebookBtn = (Button) findViewById(R.id.button_show_share_facebook);
+        shareFacebook = (Button) findViewById(R.id.button_share);
         showTimeKm = (TextView) findViewById(R.id.show_pace);
         showDistance = (TextView) findViewById(R.id.show_distance);
         showDuration = (TextView) findViewById(R.id.show_total_time);
@@ -110,18 +101,6 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
 //        saveAvgSpeed = (TextView) findViewById(R.id.save_average_speed);
         showTypeSport = (TextView) findViewById(R.id.show_sport_type);
         showCreatedAt = (TextView) findViewById(R.id.show_created);
-    }
-
-    private void postOnFacebookWall() {
-        ParseFacebookUtils.linkWithPublishPermissionsInBackground(
-                ParseUser.getCurrentUser(),
-                ShowSessionActivity.this,
-                Arrays.asList("publish_actions"));
-        Intent postIntent = new Intent(ShowSessionActivity.this, PostFacebookFragment.class);
-        Bundle postBundle = new Bundle();
-        postBundle.putParcelable("Session", currentSession);
-        postIntent.putExtras(postBundle);
-        startActivity(postIntent);
     }
 
     private void updateFromBundle(Bundle savedInstanceState) {
@@ -144,10 +123,12 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
         // for android 6.0
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(ShowSessionActivity.this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission
+                                .ACCESS_COARSE_LOCATION},
                         MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                 return;
             }
@@ -156,7 +137,7 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        if(currentSegment != null){
+        if (currentSegment != null) {
             startPointCoordinates = currentSegment.getPoints().get(0);
             endPointCoordinates = currentSegment.getPoints().get(currentSegment.getPoints().size() - 1);
 

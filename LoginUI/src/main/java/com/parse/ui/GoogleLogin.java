@@ -131,6 +131,8 @@ public class GoogleLogin extends AppCompatActivity implements GoogleApiClient.On
                     }
                 });
             }
+        } else {
+            Toast.makeText(this, getString(R.string.google_login_failed), Toast.LENGTH_SHORT).show();
         }
     }
 

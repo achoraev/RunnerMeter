@@ -19,12 +19,10 @@ import com.runner.sportsmeter.common.Constants;
 import com.runner.sportsmeter.common.ParseCommon;
 import com.runner.sportsmeter.common.Utility;
 import com.runner.sportsmeter.enums.SportTypes;
-import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Segments;
 import com.runner.sportsmeter.models.Sessions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,15 +30,15 @@ import java.util.List;
  * Created by angelr on 15-Dec-15.
  */
 public class HistoryLiteMapListActivity extends AppCompatActivity {
+
     private static final Integer QUERY_SIZE = 15;
+    private static List<Sessions> historySession = new ArrayList<>();
     private TextView emptyList;
     private ListFragment mList;
     private MapAdapter mAdapter;
     private SportTypes sportType;
-    private List<Sessions> historySession = new ArrayList<>();
     private Spinner chooseTypeSport;
     private PolylineOptions currentSegment;
-    private Boolean isLinkedWithFacebook;
     private Sessions currentSession;
 
     @Override
@@ -52,7 +50,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         emptyList = (TextView) findViewById(R.id.empty_list);
         chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport_history);
         generateSportTypeSpinner();
-        isLinkedWithFacebook = ParseFacebookUtils.isLinked(ParseUser.getCurrentUser());
 
         ParseQuery(QUERY_SIZE, ParseUser.getCurrentUser());
     }
@@ -86,7 +83,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
         // Set a custom list adapter for a list of locations
         if (sessions.size() > 0) {
-            mAdapter = new MapAdapter(this, sessions);
+            mAdapter = new MapAdapter(HistoryLiteMapListActivity.this, sessions);
             mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
             mList.setListAdapter(mAdapter);
 
@@ -96,6 +93,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             emptyList.setVisibility(View.GONE);
             emptyList.setText("");
         } else {
+            mAdapter = null;
+            mList = null;
             emptyList.setVisibility(View.VISIBLE);
             emptyList.setText(R.string.msg_empty_list);
         }
@@ -116,7 +115,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View row = convertView;
             ViewHolder holder;
 
@@ -134,7 +133,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 holder.duration = (TextView) row.findViewById(R.id.lite_total_time);
                 holder.sportTypeField = (TextView) row.findViewById(R.id.lite_sport_type);
                 holder.createdAt = (TextView) row.findViewById(R.id.lite_created);
-                holder.shareOnFacebook = (Button) row.findViewById(R.id.button_list_share_facebook);
+                holder.shareOnFacebook = (Button) row.findViewById(R.id.list_button_share);
+                holder.session = getItem(position);
                 // Set holder as tag for row for more efficient access.
                 row.setTag(holder);
 
@@ -167,24 +167,20 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             holder.duration.setText(Utility.formatDurationToMinutesString(currentSession.getDuration()));
             holder.sportTypeField.setText(currentSession.getSportType());
             holder.createdAt.setText(Utility.formatDate(currentSession.getCreatedAt()));
-            if(isLinkedWithFacebook) {
-                holder.shareOnFacebook.setVisibility(View.VISIBLE);
-                holder.shareOnFacebook.setClickable(true);
-                holder.shareOnFacebook.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(HistoryLiteMapListActivity.this, "Clicked", Toast.LENGTH_SHORT).show();
-                        postOnFacebookWall(currentSession);
-                    }
-                });
-            }
-
-            row.setOnClickListener(new View.OnClickListener() {
+            holder.shareOnFacebook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openShowSessionActivity(currentSession);
+                    Utility.postOnFacebookWall(new Utility().convertParseSessionsToSession(currentSession),
+                            HistoryLiteMapListActivity.this);
                 }
             });
+
+//            row.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    openShowSessionActivity(((ViewHolder)v.getTag()).session);
+//                }
+//            });
             return row;
         }
 
@@ -196,25 +192,14 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         public HashSet<MapView> getMaps() {
             return mMaps;
         }
-
-        private void postOnFacebookWall(Sessions session) {
-            ParseFacebookUtils.linkWithPublishPermissionsInBackground(
-                    ParseUser.getCurrentUser(),
-                    HistoryLiteMapListActivity.this,
-                    Arrays.asList("publish_actions"));
-            Intent postIntent = new Intent(HistoryLiteMapListActivity.this, PostFacebookFragment.class);
-            Bundle postBundle = new Bundle();
-            postBundle.putParcelable("Session", new Utility().convertParseSessionsToSession(session));
-            postIntent.putExtras(postBundle);
-            startActivity(postIntent);
-        }
     }
 
     private void openShowSessionActivity(Sessions currentSession) {
         currentSegment = new PolylineOptions()
                 .width(Constants.POLYLINE_WIDTH)
                 .color(Constants.POLYLINE_COLOR);
-        currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId().getGeoPointsArray()));
+        currentSegment.addAll(ParseCommon.convertArrayListOfParseGeoPointToList(currentSession.getSegmentId()
+                .getGeoPointsArray()));
 
         Intent viewIntent = new Intent(HistoryLiteMapListActivity.this, ShowSessionActivity.class);
         Bundle viewBundle = new Bundle();
@@ -255,8 +240,10 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
             currentPolyline.addAll(geoPoint);
             // Add a marker for this item and set the camera
             map.addPolyline(currentPolyline);
-            map.addMarker(new MarkerOptions().position(geoPoint.get(0)).title(getString(R.string.start_point)).visible(true));
-            map.addMarker(new MarkerOptions().position(geoPoint.get(geoPoint.size() - 1)).title(getString(R.string.end_point)).visible(true));
+            map.addMarker(new MarkerOptions().position(geoPoint.get(0)).title(getString(R.string.start_point))
+                    .visible(true));
+            map.addMarker(new MarkerOptions().position(geoPoint.get(geoPoint.size() - 1)).title(getString(R.string
+                    .end_point)).visible(true));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(geoPoint.get(0), 13f));
         }
 
@@ -292,6 +279,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         GoogleMap map;
 
         Button shareOnFacebook;
+
+        Sessions session;
 
 
         @Override
@@ -358,12 +347,13 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
     private List<Sessions> sortListBySportType(List<Sessions> historySession, SportTypes sportType) {
         List<Sessions> result = new ArrayList<>();
-        for(Sessions ses : historySession){
-            if(ses.getSportType().toUpperCase().equals(sportType.toString())){
+        for (Sessions ses : historySession) {
+            if (ses.getSportType().toUpperCase().equals(sportType.toString())) {
                 result.add(ses);
             }
         }
         return result;
+
     }
 
     private void refreshListView(List<Sessions> list) {
@@ -375,6 +365,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 //            AbsListView lv = mList.getListView();
 //            lv.setRecyclerListener(mRecycleListener);
             mAdapter.notifyDataSetChanged();
+            AssignSessions(list);
         } else {
 //            emptyList.setVisibility(View.VISIBLE);
 //            emptyList.setText(R.string.msg_empty_list);

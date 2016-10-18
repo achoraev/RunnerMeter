@@ -1227,7 +1227,7 @@ public class MainActivity extends AppCompatActivity implements
         String speed = String.valueOf(averageSpeed) + speedUnit;
         String maxSpeed = String.valueOf(currentMaxSpeed) + speedUnit;
         speedMeter.setText(speed);
-        timeMeter.setText(Calculations.convertTimeToString(sessionTimeDiff));
+        timeMeter.setText(Calculations.convertTimeToStringFromMillis(sessionTimeDiff));
         maxSpeedMeter.setText(maxSpeed);
     }
 
@@ -1331,27 +1331,27 @@ public class MainActivity extends AppCompatActivity implements
         if (interstitial.isReady()) {
             moPubInterstitial.show();
         } else {
-            Toast.makeText(this, "MoPub ad not loaded", Toast.LENGTH_SHORT).show();
+            Log.i(Constants.TAG, "MoPub ad not loaded");
         }
     }
 
     @Override
     public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
-        Toast.makeText(this, "MoPub ad failed " + errorCode.toString(), Toast.LENGTH_LONG).show();
+        Log.i(Constants.TAG, "MoPub ad failed ");
     }
 
     @Override
     public void onInterstitialShown(MoPubInterstitial interstitial) {
-        Toast.makeText(this, "MoPub ad shown", Toast.LENGTH_SHORT).show();
+        Log.i(Constants.TAG,  "MoPub ad shown");
     }
 
     @Override
     public void onInterstitialClicked(MoPubInterstitial interstitial) {
-        Toast.makeText(this, "MoPub ad clicked", Toast.LENGTH_SHORT).show();
+        Log.i(Constants.TAG, "MoPub ad clicked");
     }
 
     @Override
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
-        Toast.makeText(this, "MoPub ad dismissed", Toast.LENGTH_SHORT).show();
+        Log.i(Constants.TAG, "MoPub ad dismissed");
     }
 }

@@ -1,22 +1,28 @@
 package com.runner.sportsmeter.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.runner.sportsmeter.R;
+import com.runner.sportsmeter.fragments.PostFacebookFragment;
 import com.runner.sportsmeter.models.Session;
 import com.runner.sportsmeter.models.Sessions;
 
@@ -25,15 +31,29 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Created by angelr on 14-May-15.
  */
 public class Utility {
+
+    public static void postOnFacebookWall(Session currentSession, Activity activity) {
+        // todo uncomment
+        if (ParseFacebookUtils.isLinked(ParseUser.getCurrentUser())) {
+            ParseFacebookUtils.linkWithPublishPermissionsInBackground(
+                    ParseUser.getCurrentUser(),
+                    activity,
+                    Arrays.asList("publish_actions"));
+            Intent postIntent = new Intent(activity, PostFacebookFragment.class);
+            Bundle postBundle = new Bundle();
+            postBundle.putParcelable("Session", currentSession);
+            postIntent.putExtras(postBundle);
+            activity.startActivity(postIntent);
+        } else {
+            Toast.makeText(activity.getBaseContext(), activity.getString(R.string.facebook_not_logged_in), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void hideKeyboard(View view, Context context) {
         if (view != null) {

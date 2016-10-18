@@ -59,12 +59,16 @@ public class Calculations {
         return lastDate.getTime() - startDate.getTime();
     }
 
-    public static String convertTimeToString(long diff) {
-        long diffSeconds = diff / Constants.ONE_THOUSAND % Constants.SIXTY;
-        long diffMinutes = diff / (Constants.SIXTY * Constants.ONE_THOUSAND) % Constants.SIXTY;
-        long diffHours = diff / (Constants.SIXTY * Constants.SIXTY * Constants.ONE_THOUSAND) % Constants.TWENTY_FOUR;
+    public static String convertTimeToStringFromMillis(long diff){
+        return convertTimeToStringFromSeconds(diff / 1000);
+    }
 
-        return diffHours + "h:" + diffMinutes + "m:" + diffSeconds + "s";
+    public static String convertTimeToStringFromSeconds(long diff) {
+        long diffMinutes = (diff / Constants.SIXTY) % Constants.SIXTY;
+        long diffSeconds = (diff % Constants.SIXTY) % Constants.SIXTY;
+        long diffHours = diff / (Constants.SIXTY * Constants.SIXTY);
+
+        return String.format(Locale.getDefault(), "%02d:%02d:%02d s", diffHours, diffMinutes, diffSeconds);
     }
 
     public static double calculateMaxSpeed(double currentSpeed, double currentMaxSpeed, SportTypes type) {

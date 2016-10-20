@@ -57,7 +57,7 @@ public class LeaderBoardActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportTypeForQuery = sportType.getSportTypeValue(position);
                 if(!sportTypeForQuery.equals(SportTypes.CHOOSE_SPORT)) {
-                    ParseQuery(sportTypeForQuery, Constants.LIMIT_FOR_SPORT_TYPE, null);
+                    ParseQuery(sportTypeForQuery, Constants.LIMIT_FOR_USER_QUERY, null);
                 }
             }
 

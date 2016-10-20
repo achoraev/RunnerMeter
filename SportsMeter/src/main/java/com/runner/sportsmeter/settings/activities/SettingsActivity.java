@@ -183,6 +183,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("map_interval"));
             bindPreferenceSummaryToValue(findPreference("preferred_unit"));
+            bindPreferenceSummaryToValue(findPreference("history_query_size"));
         }
 
         @Override

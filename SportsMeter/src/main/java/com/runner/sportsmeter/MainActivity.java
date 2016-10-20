@@ -1395,7 +1395,11 @@ public class MainActivity extends AppCompatActivity implements
         }
         if (prefs.contains("preferred_unit")) {
             int preferredUnit = Integer.parseInt(prefs.getString("preferred_unit", "0"));
-            Constants.setDefaultUserMetrics(UserMetrics.METRIC.getUserMetricValue(preferredUnit));
+            Constants.setDefaultUserUnit(UserMetrics.METRIC.getUserMetricValue(preferredUnit));
+        }
+        if (prefs.contains("history_query_size")) {
+            int querySize = Integer.parseInt(prefs.getString("history_query_size", "15"));
+            Constants.setLimitForUserQuery(querySize);
         }
     }
 }

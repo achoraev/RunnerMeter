@@ -44,10 +44,8 @@ public class Constants {
     public static final String FACEBOOK_PAGE = "https://www.facebook.com/sportmeter/";
     public static final String WEBSITE = "http://sportmeter.co/";
 
-    public static final int LIMIT_FOR_SPORT_TYPE = 15;
-    public static final int LIMIT_FOR_USER_QUERY = 15;
+    public static int LIMIT_FOR_USER_QUERY = 15;
     public static final int QUERY_LIMIT = 500;
-    public static final int QUERY_LIMIT_FOR_HISTORY = 15;
 
     public static final int ONE_HUNDRED = 100;
     public static final int SIXTY = 60;
@@ -57,10 +55,14 @@ public class Constants {
     public static final double BEST_TIME_BIKER = 0.45;
     public static final double BEST_TIME_DRIVER = 0.17;
     public static final double BEST_TIME_WALKING = 3.00;
-    public static UserMetrics defaultUserMetrics = UserMetrics.METRIC;
+    public static UserMetrics DEFAULT_USER_UNIT = UserMetrics.METRIC;
 
-    public static void setDefaultUserMetrics(UserMetrics defaultUserMetrics) {
-        Constants.defaultUserMetrics = defaultUserMetrics;
+    public static void setLimitForUserQuery(int limitForUserQuery) {
+        LIMIT_FOR_USER_QUERY = limitForUserQuery;
+    }
+
+    public static void setDefaultUserUnit(UserMetrics defaultUserUnit) {
+        DEFAULT_USER_UNIT = defaultUserUnit;
     }
 
     public static void setUpdateIntervalInMilliseconds(long updateIntervalInMilliseconds) {

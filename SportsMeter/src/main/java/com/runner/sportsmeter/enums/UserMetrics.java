@@ -32,9 +32,9 @@ public enum UserMetrics {
     public UserMetrics getUserMetricValue(int val){
         switch (val) {
             case 0:
-                return IMPERIAL;
-            case 1:
                 return METRIC;
+            case 1:
+                return IMPERIAL;
         }
         throw new RuntimeException("Sport Type value not supported " + val);
     }

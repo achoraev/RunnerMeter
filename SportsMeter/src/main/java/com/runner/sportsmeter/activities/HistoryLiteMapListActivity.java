@@ -50,7 +50,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport_history);
         generateSportTypeSpinner();
 
-        ParseQuery(Constants.QUERY_LIMIT_FOR_HISTORY, ParseUser.getCurrentUser());
+        ParseQuery(Constants.LIMIT_FOR_USER_QUERY, ParseUser.getCurrentUser());
     }
 
     private void ParseQuery(int limit, final ParseUser user) {

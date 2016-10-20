@@ -31,7 +31,6 @@ import java.util.List;
  */
 public class HistoryLiteMapListActivity extends AppCompatActivity {
 
-    private static final Integer QUERY_SIZE = 15;
     private static List<Sessions> historySession = new ArrayList<>();
     private TextView emptyList;
     private ListFragment mList;
@@ -51,7 +50,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         chooseTypeSport = (Spinner) findViewById(R.id.choose_type_of_sport_history);
         generateSportTypeSpinner();
 
-        ParseQuery(QUERY_SIZE, ParseUser.getCurrentUser());
+        ParseQuery(Constants.QUERY_LIMIT_FOR_HISTORY, ParseUser.getCurrentUser());
     }
 
     private void ParseQuery(int limit, final ParseUser user) {
@@ -59,6 +58,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         query.whereEqualTo(getString(R.string.session_username), user);
         query.include("segmentId");
         query.whereExists("segmentId");
+        query.whereNotEqualTo("sportType", SportTypes.CHOOSE_SPORT.toString().toLowerCase());
         query.orderByAscending(getString(R.string.session_time_per_kilometer));
         query.setLimit(limit);
         query.findInBackground(new FindCallback<Sessions>() {
@@ -67,9 +67,11 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                     // todo remove
 //                    Toast.makeText(HistoryLiteMapListActivity.this, "Get from Parse.", Toast.LENGTH_SHORT).show();
                     if (user != null) {
-                        AssignSessions(sessions);
+                        assignSessions(sessions);
                         historySession.addAll(sessions);
                         ParseObject.pinAllInBackground("HistorySegments", sessions);
+                        refreshListView(sortListBySportType(historySession, sportType));
+                        assignSessions(sortListBySportType(historySession, sportType));
                     }
                 } else {
                     Log.e("session", "Error: " + e.getMessage());
@@ -79,24 +81,17 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
         });
     }
 
-    private void AssignSessions(List<Sessions> sessions) {
+    private void assignSessions(List<Sessions> sessions) {
         Log.d("session", "Retrieved " + sessions.size() + " sessions");
         // Set a custom list adapter for a list of locations
+        mAdapter = new MapAdapter(HistoryLiteMapListActivity.this, sessions);
+        mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
+        mList.setListAdapter(mAdapter);
         if (sessions.size() > 0) {
-            mAdapter = new MapAdapter(HistoryLiteMapListActivity.this, sessions);
-            mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
-            mList.setListAdapter(mAdapter);
-
             // Set a RecyclerListener to clean up MapView from ListView
             AbsListView lv = mList.getListView();
             lv.setRecyclerListener(mRecycleListener);
-            emptyList.setVisibility(View.GONE);
-            emptyList.setText("");
-        } else {
-            mAdapter = null;
-            mList = null;
-            emptyList.setVisibility(View.VISIBLE);
-            emptyList.setText(R.string.msg_empty_list);
+            refreshListView(sessions);
         }
     }
 
@@ -175,12 +170,6 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 }
             });
 
-//            row.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    openShowSessionActivity(((ViewHolder)v.getTag()).session);
-//                }
-//            });
             return row;
         }
 
@@ -331,12 +320,15 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
                 R.array.array_type_of_sports, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         chooseTypeSport.setAdapter(adapter);
+        chooseTypeSport.setSelection(sportType.getIntValue(sportType.toString()));
         chooseTypeSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportType = sportType.getSportTypeValue(position);
-                historySession = sortListBySportType(historySession, sportType);
-                refreshListView(historySession);
+                if (historySession.size() > 0) {
+                    refreshListView(sortListBySportType(historySession, sportType));
+                    assignSessions(sortListBySportType(historySession, sportType));
+                }
             }
 
             @Override
@@ -347,6 +339,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
 
     private List<Sessions> sortListBySportType(List<Sessions> historySession, SportTypes sportType) {
         List<Sessions> result = new ArrayList<>();
+
         for (Sessions ses : historySession) {
             if (ses.getSportType().toUpperCase().equals(sportType.toString())) {
                 result.add(ses);
@@ -359,16 +352,8 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
     private void refreshListView(List<Sessions> list) {
         if (list.size() > 0) {
             emptyList.setVisibility(View.GONE);
-//            mAdapter = new MapAdapter(this, list);
-//            mList = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list);
-//            mList.setListAdapter(mAdapter);
-//            AbsListView lv = mList.getListView();
-//            lv.setRecyclerListener(mRecycleListener);
-            mAdapter.notifyDataSetChanged();
-            AssignSessions(list);
         } else {
-//            emptyList.setVisibility(View.VISIBLE);
-//            emptyList.setText(R.string.msg_empty_list);
+            emptyList.setVisibility(View.VISIBLE);
         }
     }
 }

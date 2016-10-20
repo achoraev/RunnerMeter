@@ -11,13 +11,6 @@
               android:textAppearance="?android:attr/textAppearanceLarge"
               android:text="@string/my_activity_history"/>
 
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:id="@+id/empty_list"
-              android:gravity="center"
-              android:visibility="gone"
-              android:textAppearance="?android:attr/textAppearanceMedium"/>
-
     <Spinner xmlns:android="http://schemas.android.com/apk/res/android"
              android:id="@+id/choose_type_of_sport_history"
              android:layout_gravity="center"
@@ -25,6 +18,14 @@
              android:layout_width="150dp"
              android:layout_marginBottom="10dp"
              android:layout_height="30dp"/>
+
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/empty_list"
+              android:text="@string/msg_empty_list"
+              android:gravity="center"
+              android:visibility="gone"
+              android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:layout_width="match_parent"

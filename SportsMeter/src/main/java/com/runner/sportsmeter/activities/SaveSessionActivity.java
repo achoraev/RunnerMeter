@@ -130,7 +130,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
 
         saveTimeKm.setText(Utility.formatPace(session.getTimePerKilometer()));
         saveDistance.setText(Utility.formatDistance(session.getDistance()));
-        saveDuration.setText(Calculations.convertTimeToStringFromSeconds(session.getDuration()));
+        saveDuration.setText(Calculations.convertTimeToStringFromMillis(session.getDuration()));
         saveUsername.setText(String.valueOf(session.getUserName()));
         saveMaxSpeed.setText(Utility.formatSpeed(session.getMaxSpeed()));
         saveAvgSpeed.setText(Utility.formatSpeed(session.getAverageSpeed()));
@@ -238,7 +238,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                             Log.i(Constants.TAG, message);
                         }
                     } else {
-                        Toast.makeText(SaveSessionActivity.this, R.string.save_notsave_btn, Toast.LENGTH_LONG).show();
+                        Toast.makeText(SaveSessionActivity.this, getString(R.string.session_not_saved), Toast.LENGTH_LONG).show();
                         Log.i(Constants.TAG, e.getMessage());
                     }
                     progressBar.setVisibility(View.GONE);
@@ -246,6 +246,7 @@ public class SaveSessionActivity extends AppCompatActivity implements OnMapReady
                 }
             });
         } else {
+            Toast.makeText(SaveSessionActivity.this, getString(R.string.session_not_saved), Toast.LENGTH_SHORT).show();
             finish();
         }
     }

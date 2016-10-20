@@ -4,7 +4,7 @@ package com.runner.sportsmeter.enums;
  * Created by angelr on 01-Sep-15.
  */
 public enum SportTypes {
-    CHOOSE_SPORT(0, "choose"),
+    CHOOSE_SPORT(0, "choose_sport"),
     RUNNING(1, "running"),
     CYCLING(2, "cycling"),
     CLIMBING(3, "climbing"),

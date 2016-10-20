@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -65,6 +66,7 @@ import com.runner.sportsmeter.enums.SportTypes;
 import com.runner.sportsmeter.enums.UserMetrics;
 import com.runner.sportsmeter.interfaces.UserMetricsInterface;
 import com.runner.sportsmeter.models.*;
+import com.runner.sportsmeter.settings.activities.SettingsActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.l_main_layout);
 
+        getFromDefaultPreferencesValues(PreferenceManager.getDefaultSharedPreferences(this));
         // EU user consent policy
         applyEUcookiePolicy();
 
@@ -264,11 +267,14 @@ public class MainActivity extends AppCompatActivity implements
     private void startLogic() {
 //         check on 6.0 for permission
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED
+                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission
+                                .ACCESS_COARSE_LOCATION},
                         Constants.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                 return;
             }
@@ -309,7 +315,8 @@ public class MainActivity extends AppCompatActivity implements
             currentSegment.add(startPointCoord);
             listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
             mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants
+                    .ONE_SECOND, null);
         }
 
         updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
@@ -361,7 +368,8 @@ public class MainActivity extends AppCompatActivity implements
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
 
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants
+                    .ONE_SECOND, null);
         }
 
         stopLocationUpdates();
@@ -406,7 +414,8 @@ public class MainActivity extends AppCompatActivity implements
 //                sessionScreenShot = bitmap;
 //                // this save session image on sdcard
 ////                sessionImagePath = Utility.saveToExternalStorage(bitmap, getApplicationContext());
-////                Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast.LENGTH_LONG).show();
+////                Toast.makeText(MainActivity.this, getString(R.string.screen_shot_successfully_saved), Toast
+// .LENGTH_LONG).show();
 ////                Log.d("url", sessionImagePath);
 //
 //                // this save bitmap on parse and after callback save Segment
@@ -635,7 +644,8 @@ public class MainActivity extends AppCompatActivity implements
                     overridePendingTransition(android.R.anim.fade_in,
                             android.R.anim.fade_out);
                     startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
-                    Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.no_email_client_installed), Toast
+                            .LENGTH_SHORT).show();
                 }
 
                 break;
@@ -722,6 +732,12 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                overridePendingTransition(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                startActivity(settingsIntent);
+                return true;
             case R.id.action_about:
                 Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
                 overridePendingTransition(android.R.anim.fade_in,
@@ -805,7 +821,8 @@ public class MainActivity extends AppCompatActivity implements
                     android.R.anim.fade_out);
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(MainActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast
+                    .LENGTH_LONG).show();
             Log.i(Constants.TAG, e.getMessage());
         }
     }
@@ -831,10 +848,13 @@ public class MainActivity extends AppCompatActivity implements
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED
+                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission
+                                .ACCESS_COARSE_LOCATION},
                         Constants.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                 return;
             }
@@ -842,13 +862,15 @@ public class MainActivity extends AppCompatActivity implements
 
         mMap.setMyLocationEnabled(true);
         startPointCoord = SOFIA_CENTER;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants
+                .ONE_SECOND, null);
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[]
+            grantResults) {
         switch (requestCode) {
             case Constants.MY_PERMISSIONS_REQUEST_ACCESS_LOCATION: {
                 if (grantResults.length > 0
@@ -931,10 +953,13 @@ public class MainActivity extends AppCompatActivity implements
                     installation.saveEventually();
 
                     // create account object from current user
-                    currentUserAccount = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(), MainActivity.this, sportType);
+                    currentUserAccount = ParseCommon.convertFromUserToAccount(ParseUser.getCurrentUser(),
+                            MainActivity.this, sportType);
                     currentUserAccount.setGender((Gender) getIntent().getExtras().get("gender"));
-                    Double width = getIntent().getExtras().getDouble("weight") != 0 ? getIntent().getExtras().getDouble("weight") : 0;
-                    Double height = getIntent().getExtras().getDouble("height") != 0 ? getIntent().getExtras().getDouble("height") : 0;
+                    Double width = getIntent().getExtras().getDouble("weight") != 0 ? getIntent().getExtras()
+                            .getDouble("weight") : 0;
+                    Double height = getIntent().getExtras().getDouble("height") != 0 ? getIntent().getExtras()
+                            .getDouble("height") : 0;
                     currentUserAccount.setUserWeight(width);
                     currentUserAccount.setUserHeight(height);
 
@@ -945,7 +970,8 @@ public class MainActivity extends AppCompatActivity implements
                         // get facebook mail
                         getFacebookMail(currentUserAccount, faceId);
                     } else {
-                        currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount, UserMetrics.METRIC, MainActivity.this);
+                        currentUserAccount = ParseCommon.createAndSaveAccount(mail, faceId, currentUserAccount,
+                                UserMetrics.METRIC, MainActivity.this);
                         ParseCommon.checkIfAccountExistAndSave(currentUserAccount);
                     }
                 }
@@ -973,7 +999,8 @@ public class MainActivity extends AppCompatActivity implements
                             total += ses.getDistance();
                         }
                         total = Calculations.roundDigitsAfterDecimalPoint(total / 1000, 3);
-                        String totalDistance = getString(R.string.total_distance) + " " + total + " " + unit.getDistanceUnit();
+                        String totalDistance = getString(R.string.total_distance) + " " + total + " " + unit
+                                .getDistanceUnit();
                         showTotalDistance.setText(totalDistance);
                     }
                 }
@@ -989,7 +1016,8 @@ public class MainActivity extends AppCompatActivity implements
                     public void onCompleted(JSONObject object, GraphResponse graphResponse) {
                         try {
                             String userEmail = object.getString("email");
-                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current, UserMetrics.METRIC, MainActivity.this);
+                            Account finalAccount = ParseCommon.createAndSaveAccount(userEmail, faceId, current,
+                                    UserMetrics.METRIC, MainActivity.this);
                             ParseCommon.checkIfAccountExistAndSave(finalAccount);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1104,7 +1132,8 @@ public class MainActivity extends AppCompatActivity implements
                 if (isPausedActivityEnable && pausedSession != null) {
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.app_color)));
                     fab.setImageDrawable(getResources().getDrawable(R.drawable.resume_btn));
-                    updateInfoPanel(pausedSession.getDistance(), pausedSession.getAverageSpeed(), pausedSession.getMaxSpeed(), pausedSession.getDuration(), usersMetrics);
+                    updateInfoPanel(pausedSession.getDistance(), pausedSession.getAverageSpeed(), pausedSession
+                            .getMaxSpeed(), pausedSession.getDuration(), usersMetrics);
                 }
             }
         }
@@ -1129,7 +1158,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private void startLocationUpdates() {
         try {
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest
+                    .permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -1216,12 +1247,14 @@ public class MainActivity extends AppCompatActivity implements
 //                    mMap.addPolyline(miniSegment);
                     mMap.addPolyline(currentSegment);
                 }
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants.ONE_SECOND, null);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM),
+                        Constants.ONE_SECOND, null);
             }
         }
     }
 
-    private void updateInfoPanel(double sessionDistance, double averageSpeed, double currentMaxSpeed, long sessionTimeDiff, UserMetricsInterface speedMetricUnit) {
+    private void updateInfoPanel(double sessionDistance, double averageSpeed, double currentMaxSpeed, long
+            sessionTimeDiff, UserMetricsInterface speedMetricUnit) {
         String speedUnit = speedMetricUnit.getSpeedUnit();
         distanceMeter.setText(String.valueOf((sessionDistance / 1000) + " " + speedMetricUnit.getDistanceUnit()));
         String speed = String.valueOf(averageSpeed) + speedUnit;
@@ -1300,7 +1333,7 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.start_stop_btn:
                 if (!startButtonEnabled) {
-                    if(checkSportType(sportType)){
+                    if (checkSportType(sportType)) {
                         startLogic();
                     }
                 } else {
@@ -1314,7 +1347,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private boolean checkSportType(SportTypes sportType) {
-        if(sportType.equals(SportTypes.CHOOSE_SPORT)){
+        if (sportType.equals(SportTypes.CHOOSE_SPORT)) {
             Toast.makeText(MainActivity.this, getString(R.string.choose_type_of_sport), Toast.LENGTH_LONG).show();
             return false;
         } else {
@@ -1342,7 +1375,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onInterstitialShown(MoPubInterstitial interstitial) {
-        Log.i(Constants.TAG,  "MoPub ad shown");
+        Log.i(Constants.TAG, "MoPub ad shown");
     }
 
     @Override
@@ -1353,5 +1386,16 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
         Log.i(Constants.TAG, "MoPub ad dismissed");
+    }
+
+    private void getFromDefaultPreferencesValues(SharedPreferences prefs) {
+        if (prefs.contains("map_interval")) {
+            int mapInterval = Integer.parseInt(prefs.getString("map_interval", "3"));
+            Constants.setUpdateIntervalInMilliseconds(mapInterval);
+        }
+        if (prefs.contains("preferred_unit")) {
+            int preferredUnit = Integer.parseInt(prefs.getString("preferred_unit", "0"));
+            Constants.setDefaultUserMetrics(UserMetrics.METRIC.getUserMetricValue(preferredUnit));
+        }
     }
 }

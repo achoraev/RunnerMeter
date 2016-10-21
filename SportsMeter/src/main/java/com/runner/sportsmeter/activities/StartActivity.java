@@ -62,19 +62,6 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         mDetector = new GestureDetectorCompat(StartActivity.this, this);
         mDetector.setOnDoubleTapListener(this);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager
-                    .PERMISSION_GRANTED
-                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager
-                    .PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(StartActivity.this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission
-                                .ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
-                return;
-            }
-        }
-
         settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
         if (settings.getBoolean(FIRST_RUN, true)) {
             startActivity(new Intent(StartActivity.this, HelpActivity.class));
@@ -123,6 +110,18 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 //        // setup adds
         mAdView = (AdView) findViewById(R.id.adViewStart);
         new Utility().setupAdds(mAdView, this);
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED
+                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(StartActivity.this,
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission
+                                .ACCESS_COARSE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
+            }
+        }
     }
 
     private void generateGenderSpinner() {
@@ -279,6 +278,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(StartActivity.this, R.string.permission_granted, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(StartActivity.this, R.string.gps_not_available, Toast.LENGTH_LONG).show();
+                    finish();
                 }
                 return;
             }

@@ -146,5 +146,11 @@
     <string name="session_saved">Die Sitzung wurde aufgenommen</string>
     <string name="session_not_saved">Die Sitzung wurde NICHT aufgezeichnet.</string>
     <string name="facebook_not_logged_in">Sie sind nicht bei Facebook eingeloggt.</string>
+    <string name="pref_header_general">Allgemeine</string>
+    <string name="preferred_unit">Bevorzugte Einheit</string>
+    <string name="history_query_size">Größe des Abfrage-Geschichte</string>
+    <string name="update_map_interval">Karte-Update-Intervall</string>
+    <string name="metric">Metrik</string>
+    <string name="imperial">Imperial</string>
 
 </resources>

@@ -150,15 +150,13 @@
     <string name="session_saved">Session is saved</string>
     <string name="session_not_saved">Session is NOT saved</string>
     <string name="facebook_not_logged_in">You are not logged in with Facebook.</string>
-    <!--<string name="google_legal_notices">Google legal notices</string>-->
-
     <string name="pref_header_general">General</string>
-    <string name="preferred_unit">Preferred units</string>
-    <string name="history_query_size">History Query size</string>
-    <string name="update_map_interval">Update Google Map interval</string>
+    <string name="preferred_unit">Preferred unit</string>
+    <string name="history_query_size">Size of query history</string>
+    <string name="update_map_interval">Map update interval</string>
     <string name="metric">Metric</string>
     <string name="imperial">Imperial</string>
-
+    <!--<string name="google_legal_notices">Google legal notices</string>-->
 
     // not translate
     <string name="app_name" translatable="false">Sport Meter</string>
@@ -213,16 +211,5 @@
     <!--<string name="applovin_key" translatable="false">IlDngBnezGmAWN8hSPPfGcbUR83iIuuad6MJI7zFNkPv5TaXy_BDboh1wllDddpFlAZ1HWHfEhZJE8sB81Okp4</string>-->
     // MoPub key and ads
     <string name="interstitial_mopub_ad" translatable="false">d4f5d0fff25d4d199360647e3be73d7d</string>
-
-    // for settings
-    <!--<string name="pref_title_social_recommendations">Enable social recommendations</string>-->
-    <!--<string name="pref_description_social_recommendations">Recommendations for people to contact based on your message-->
-        <!--history-->
-    <!--</string>-->
-
-    <!--<string name="pref_title_display_name">Display name</string>-->
-    <!--<string name="pref_default_display_name">John Smith</string>-->
-
-    <!--<string name="pref_title_add_friends_to_messages">Add friends to messages</string>-->
 
 </resources>

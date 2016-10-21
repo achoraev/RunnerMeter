@@ -144,5 +144,11 @@
     <string name="session_saved">Сесията е записана</string>
     <string name="session_not_saved">Сесията НЕ е записана</string>
     <string name="facebook_not_logged_in">Не сте влезли във Facebook.</string>
+    <string name="pref_header_general">Общи</string>
+    <string name="preferred_unit">Предпочитана единица</string>
+    <string name="history_query_size">Размер на хронология на търсене</string>
+    <string name="update_map_interval">Карта обновяване интервал</string>
+    <string name="metric">Метрични</string>
+    <string name="imperial">Империал</string>
 
 </resources>

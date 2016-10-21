@@ -150,6 +150,12 @@
     <string name="session_saved">Session is saved</string>
     <string name="session_not_saved">Session is NOT saved</string>
     <string name="facebook_not_logged_in">You are not logged in with Facebook.</string>
+    <string name="pref_header_general">General</string>
+    <string name="preferred_unit">Preferred unit</string>
+    <string name="history_query_size">Size of query history</string>
+    <string name="update_map_interval">Map update interval</string>
+    <string name="metric">Metric</string>
+    <string name="imperial">Imperial</string>
     <!--<string name="google_legal_notices">Google legal notices</string>-->
 
 

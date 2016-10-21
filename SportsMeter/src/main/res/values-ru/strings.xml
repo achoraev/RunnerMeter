@@ -146,5 +146,11 @@
     <string name="session_saved">Сессия была записана</string>
     <string name="session_not_saved">Сессия НЕ была записана</string>
     <string name="facebook_not_logged_in">Вы не вошли Facebook.</string>
+    <string name="pref_header_general">Общие</string>
+    <string name="preferred_unit">Предпочтительный блок</string>
+    <string name="history_query_size">Размер журнала запросов</string>
+    <string name="update_map_interval">Интервал обновления карты</string>
+    <string name="metric">Метрика</string>
+    <string name="imperial">Империал</string>
 
 </resources>

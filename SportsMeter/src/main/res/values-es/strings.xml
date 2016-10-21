@@ -146,5 +146,11 @@
     <string name="session_saved">La sesión fue registrada</string>
     <string name="session_not_saved">El período de sesiones NO se registró</string>
     <string name="facebook_not_logged_in">No se registran en Facebook.</string>
+    <string name="pref_header_general">General</string>
+    <string name="preferred_unit">Recomendado: unidad</string>
+    <string name="history_query_size">Tamaño de la historia de la consulta</string>
+    <string name="update_map_interval">Intervalo de actualización de mapa</string>
+    <string name="metric">Métrica</string>
+    <string name="imperial">Imperial</string>
 
 </resources>

@@ -146,5 +146,11 @@
     <string name="session_saved">Sesi tercatat</string>
     <string name="session_not_saved">Sesi TIDAK tercatat</string>
     <string name="facebook_not_logged_in">Anda tidak login ke Facebook.</string>
+    <string name="pref_header_general">Umum</string>
+    <string name="preferred_unit">Lebih disukai unit</string>
+    <string name="history_query_size">Ukuran Riwayat kueri</string>
+    <string name="update_map_interval">Peta update interval</string>
+    <string name="metric">Metrik</string>
+    <string name="imperial">Imperial</string>
 
 </resources>

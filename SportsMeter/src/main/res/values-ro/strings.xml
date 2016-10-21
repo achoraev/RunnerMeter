@@ -146,5 +146,11 @@
     <string name="session_saved">Sesiunea a fost înregistrat</string>
     <string name="session_not_saved">Sesiunea NU a fost înregistrată</string>
     <string name="facebook_not_logged_in">Nu sunteţi conectat la Facebook.</string>
+    <string name="pref_header_general">Generale</string>
+    <string name="preferred_unit">Unitate de preferat</string>
+    <string name="history_query_size">Dimensiunea de interogare istorie</string>
+    <string name="update_map_interval">Interval de actualizare hartă</string>
+    <string name="metric">Metrice</string>
+    <string name="imperial">Iulia</string>
 
 </resources>

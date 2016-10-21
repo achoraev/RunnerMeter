@@ -145,5 +145,11 @@
     <string name="session_saved">सत्र दर्ज की गई</string>
     <string name="session_not_saved">सत्र रिकॉर्ड नहीं किया गया</string>
     <string name="facebook_not_logged_in">आप Facebook में लॉग इन नहीं हैं।</string>
+    <string name="pref_header_general">सामान्य</string>
+    <string name="preferred_unit">प्राथमिक इकाई</string>
+    <string name="history_query_size">क्वेरी इतिहास के आकार</string>
+    <string name="update_map_interval">नक्शा अद्यतन अंतराल</string>
+    <string name="metric">मेट्रिक</string>
+    <string name="imperial">इम्पीरियल</string>
 
 </resources>

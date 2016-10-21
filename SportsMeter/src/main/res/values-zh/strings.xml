@@ -144,5 +144,11 @@
     <string name="session_saved">会议录</string>
     <string name="session_not_saved">会议不录</string>
     <string name="facebook_not_logged_in">您没有登录到 Facebook。</string>
+    <string name="pref_header_general">一般</string>
+    <string name="preferred_unit">首选的单位</string>
+    <string name="history_query_size">查询历史记录的大小</string>
+    <string name="update_map_interval">地图更新间隔</string>
+    <string name="metric">公制</string>
+    <string name="imperial">帝国</string>
 
 </resources>

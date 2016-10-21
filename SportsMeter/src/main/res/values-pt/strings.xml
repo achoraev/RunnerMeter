@@ -146,5 +146,11 @@
     <string name="session_saved">A sessão foi gravada.</string>
     <string name="session_not_saved">A sessão NÃO foi gravada</string>
     <string name="facebook_not_logged_in">Você não está logado no Facebook.</string>
+    <string name="pref_header_general">Geral</string>
+    <string name="preferred_unit">Unidade preferencial</string>
+    <string name="history_query_size">Tamanho da história de consulta</string>
+    <string name="update_map_interval">Intervalo de atualização de mapa</string>
+    <string name="metric">Métrica</string>
+    <string name="imperial">Imperial</string>
 
 </resources>

@@ -1,5 +1,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <EditTextPreference/>
+
     <!--<SwitchPreference-->
             <!--android:key="example_switch"-->
             <!--android:title="@string/pref_title_social_recommendations"-->

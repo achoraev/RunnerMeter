@@ -49,6 +49,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
     private Button saveBtn;
     private LinearLayout accountDataLayout;
     private GestureDetectorCompat mDetector;
+    private SharedPreferences settings;
+    private Snackbar snackbar;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -61,19 +63,21 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         mDetector.setOnDoubleTapListener(this);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED
+                    && checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager
+                    .PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(StartActivity.this,
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission
+                                .ACCESS_COARSE_LOCATION},
                         MY_PERMISSIONS_REQUEST_ACCESS_LOCATION);
                 return;
             }
         }
 
-        SharedPreferences settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
+        settings = getSharedPreferences(FIRST_RUN, MODE_PRIVATE);
         if (settings.getBoolean(FIRST_RUN, true)) {
             startActivity(new Intent(StartActivity.this, HelpActivity.class));
-            settings.edit().putBoolean(FIRST_RUN, false).apply();
         }
 
         fiveRunSettings = getSharedPreferences(FIVE_RUN, MODE_PRIVATE);
@@ -88,14 +92,14 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         }
 
         // set snackbar
-        Snackbar.make(findViewById(R.id.start_coordinator), R.string.enter_app, Snackbar.LENGTH_INDEFINITE)
+        snackbar = Snackbar.make(findViewById(R.id.start_coordinator), R.string.enter_app, Snackbar.LENGTH_INDEFINITE)
                 .setAction(">>>>", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startMainActivity(sportType, gender);
                     }
-                })
-                .show();
+                });
+        snackbar.show();
 
         initializeViews();
 
@@ -150,6 +154,10 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sportType = sportType.getSportTypeValue(position);
+                if (!sportType.equals(SportTypes.CHOOSE_SPORT) && !settings.getBoolean(FIRST_RUN, true)) {
+                    snackbar.dismiss();
+                    startMainActivity(sportType, gender);
+                }
             }
 
             @Override
@@ -181,7 +189,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Uri uri = Uri.parse("market://details?id=" + getPackageName());
-//                                        Uri uri = Uri.parse("https://play.google.com/store/ereview?docId=" + getPackageName());
+//                                        Uri uri = Uri.parse("https://play.google.com/store/ereview?docId=" +
+// getPackageName());
                                         try {
                                             overridePendingTransition(android.R.anim.fade_in,
                                                     android.R.anim.fade_out);
@@ -189,7 +198,9 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
                                             runCount = maxCountForAskRateMe + 1;
                                             fiveRunSettings.edit().putInt(FIVE_RUN, runCount).apply();
                                         } catch (ActivityNotFoundException e) {
-                                            Toast.makeText(StartActivity.this, getString(R.string.unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(StartActivity.this, getString(R.string
+                                                    .unable_find_market_app) + e.getMessage(), Toast.LENGTH_LONG)
+                                                    .show();
                                             Log.d("App", e.getMessage());
                                         }
                                     }
@@ -280,14 +291,17 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.type_of_sport), sportType);
         bundle.putSerializable("gender", gend);
-        Double weight = userWeight.getText().toString().equals("") ? 0 : Double.parseDouble(userWeight.getText().toString());
-        Double height = userHeight.getText().toString().equals("") ? 0 : Double.parseDouble(userHeight.getText().toString());
+        Double weight = userWeight.getText().toString().equals("") ? 0 : Double.parseDouble(userWeight.getText()
+                .toString());
+        Double height = userHeight.getText().toString().equals("") ? 0 : Double.parseDouble(userHeight.getText()
+                .toString());
         bundle.putDouble("weight", weight);
         bundle.putDouble("height", height);
         startIntent.putExtras(bundle);
         overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
         startActivity(startIntent);
+        settings.edit().putBoolean(FIRST_RUN, false).apply();
         finish();
     }
 

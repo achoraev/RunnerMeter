@@ -2,6 +2,8 @@
 
     <!-- These settings headers are only used on tablets. -->
 
+    <header/>
+
     <header
             android:fragment="com.runner.sportsmeter.settings.activities.SettingsActivity$GeneralPreferenceFragment"
             android:title="@string/pref_header_general"

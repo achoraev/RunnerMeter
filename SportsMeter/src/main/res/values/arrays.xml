@@ -35,7 +35,7 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="update_map_interval" translatable="false">
+    <string-array name="update_map_interval">
         <item>1 seconds</item>
         <item>2 seconds</item>
         <item>3 seconds(default)</item>
@@ -50,7 +50,7 @@
         <item>5000</item>
     </string-array>
 
-    <string-array name="history_query_size" translatable="false">
+    <string-array name="history_query_size">
         <item>10</item>
         <item>15</item>
         <item>20</item>

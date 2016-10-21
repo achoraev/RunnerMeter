@@ -1,4 +1,4 @@
-package com.runner.sportsmeter.common.CalculationTests;
+package com.runner.sportsmeter.common.calculations.tests;
 
 import com.runner.sportsmeter.common.Calculations;
 

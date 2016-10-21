@@ -103,7 +103,7 @@ public class HistoryLiteMapListActivity extends AppCompatActivity {
      */
     private class MapAdapter extends ArrayAdapter<Sessions> {
 
-        private final HashSet<MapView> mMaps = new HashSet<MapView>();
+        private final HashSet<MapView> mMaps = new HashSet<>();
 
         public MapAdapter(Context context, List<Sessions> locations) {
             super(context, R.layout.lite_map_list_row, R.id.lite_listrow_text, locations);

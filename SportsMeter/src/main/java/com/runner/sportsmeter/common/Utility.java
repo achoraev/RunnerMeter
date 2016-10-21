@@ -150,11 +150,10 @@ public class Utility {
                 sess.getMaxSpeed(),
                 sess.getAverageSpeed(),
                 sess.getTimePerKilometer(),
-                "",
+                Utility.formatDate(sess.getCreatedAt()),
                 sess.getParseUser(),
                 sess.getName(),
                 sess.getSportType());
-                sess.getCreatedAt();
         return newSession;
     }
 

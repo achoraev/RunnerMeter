@@ -87,7 +87,6 @@ public class ShowSessionActivity extends AppCompatActivity implements OnMapReady
 //        saveMaxSpeed.setText(Utility.formatSpeed(session.getMaxSpeed()));
 //        saveAvgSpeed.setText(Utility.formatSpeed(session.getAverageSpeed()));
         showTypeSport.setText(session.getSportType());
-//        showCreatedAt.setText(Utility.formatDate(session.getCreatedAt()));
         showCreatedAt.setText(session.getCreatedAt());
     }
 

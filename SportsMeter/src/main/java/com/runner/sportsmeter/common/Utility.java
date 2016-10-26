@@ -86,6 +86,7 @@ public class Utility {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
+            connection.disconnect();
             return BitmapFactory.decodeStream(input);
         } catch (IOException e) {
             // Log exception

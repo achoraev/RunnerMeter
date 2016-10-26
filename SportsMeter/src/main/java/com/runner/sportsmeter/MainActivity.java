@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements
     private ProgressBar progressBar;
     private FloatingActionButton fab;
 
-    private GoogleMap mMap;
+    private GoogleMap myGoogleMap;
     private GoogleApiClient mGoogleApiClient;
     private SupportMapFragment mapFragment;
     private LatLng currentCoordinates;
@@ -291,15 +291,15 @@ public class MainActivity extends AppCompatActivity implements
             startLocationUpdates();
         }
         // clear map
-        mMap.clear();
+        myGoogleMap.clear();
 
         currentUpdateTimeMillis = new Date().getTime();
         if (sessionStartTimeMillis == 0) {
             sessionStartTimeMillis = currentUpdateTimeMillis;
         }
 
-        if (mMap.getMyLocation() != null) {
-            startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+        if (myGoogleMap.getMyLocation() != null) {
+            startPointCoord = new LatLng(myGoogleMap.getMyLocation().getLatitude(), myGoogleMap.getMyLocation().getLongitude());
         } else {
             try {
                 Thread.sleep(Constants.ONE_SECOND);
@@ -307,15 +307,15 @@ public class MainActivity extends AppCompatActivity implements
                 e.printStackTrace();
             }
 
-            if (mMap.getMyLocation() != null) {
-                startPointCoord = new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude());
+            if (myGoogleMap.getMyLocation() != null) {
+                startPointCoord = new LatLng(myGoogleMap.getMyLocation().getLatitude(), myGoogleMap.getMyLocation().getLongitude());
             }
         }
-        if (mMap.getMyLocation() != null) {
+        if (myGoogleMap.getMyLocation() != null) {
             currentSegment.add(startPointCoord);
             listOfPoints.add(new ParseGeoPoint(startPointCoord.latitude, startPointCoord.longitude));
-            mMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants
+            myGoogleMap.addMarker(new MarkerOptions().position(startPointCoord).title(getString(R.string.start_point)));
+            myGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants
                     .ONE_SECOND, null);
         }
 
@@ -363,12 +363,12 @@ public class MainActivity extends AppCompatActivity implements
         if (currentCoordinates != null) {
             endPointCoord = currentCoordinates;
             currentSegment.add(currentCoordinates);
-            mMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
+            myGoogleMap.addMarker(new MarkerOptions().position(currentCoordinates).title(getString(R.string.end_point)));
             if (ParseUser.getCurrentUser() != null) {
                 new ParseCommon().saveTraceStartAndEndCoord(startPointCoord, endPointCoord);
             }
 
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants
+            myGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM), Constants
                     .ONE_SECOND, null);
         }
 
@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements
         fab.setVisibility(View.GONE);
     }
 
-//        mMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
+//        myGoogleMap.snapshot(new GoogleMap.SnapshotReadyCallback() {
 //            @Override
 //            public void onSnapshotReady(Bitmap bitmap) {
 //                sessionScreenShot = bitmap;
@@ -431,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements
 ////                            settings.edit().putInt("segmentId", segmentId).apply();
 ////                            currentSegment = null;
 ////                            // clear map
-////                            mMap.clear();
+////                            myGoogleMap.clear();
 ////                        }
 ////                    }
 ////                });
@@ -845,8 +845,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.i(Constants.TAG, "Map is ready");
-        mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        myGoogleMap = googleMap;
+        myGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
             if (checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager
                     .PERMISSION_GRANTED
@@ -860,12 +860,12 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
-        mMap.setMyLocationEnabled(true);
+        myGoogleMap.setMyLocationEnabled(true);
         startPointCoord = SOFIA_CENTER;
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants
+        myGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(startPointCoord, Constants.MAP_ZOOM), Constants
                 .ONE_SECOND, null);
-        mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        myGoogleMap.getUiSettings().setCompassEnabled(true);
+        myGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
     @Override
@@ -1226,7 +1226,7 @@ public class MainActivity extends AppCompatActivity implements
 
             updateInfoPanel(sessionDistance, averageSpeed, currentMaxSpeed, sessionTimeDiff, usersMetrics);
 
-            if (mMap != null) {
+            if (myGoogleMap != null) {
                 if (currentSegment != null) {
                     currentSegment.add(lastUpdatedCoord, currentCoordinates);
 
@@ -1244,10 +1244,10 @@ public class MainActivity extends AppCompatActivity implements
 //                        miniSegment.color(POLYLINE_COLOR);
 //                    }
 //
-//                    mMap.addPolyline(miniSegment);
-                    mMap.addPolyline(currentSegment);
+//                    myGoogleMap.addPolyline(miniSegment);
+                    myGoogleMap.addPolyline(currentSegment);
                 }
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM),
+                myGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentCoordinates, Constants.MAP_ZOOM),
                         Constants.ONE_SECOND, null);
             }
         }
@@ -1370,7 +1370,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
-        Log.i(Constants.TAG, "MoPub ad failed ");
+        Log.i(Constants.TAG, "MoPub ad failed " + errorCode);
+        finish();
     }
 
     @Override
@@ -1386,6 +1387,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onInterstitialDismissed(MoPubInterstitial interstitial) {
         Log.i(Constants.TAG, "MoPub ad dismissed");
+        finish();
     }
 
     private void getFromDefaultPreferencesValues(SharedPreferences prefs) {

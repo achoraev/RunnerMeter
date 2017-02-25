@@ -206,6 +206,7 @@
     <string name="app_email" translatable="false">runner.meter@gmail.com</string>
     <string name="change_type_of_sport" translatable="false">Change type</string>
     <string name="copyright" translatable="false">Copyright © 2015 by Angel Raev. All rights reserved.</string>
+    <string name="privacy" translatable="false">Privacy policy.</string>
 
     // applovin
     <!--<string name="applovin_key" translatable="false">IlDngBnezGmAWN8hSPPfGcbUR83iIuuad6MJI7zFNkPv5TaXy_BDboh1wllDddpFlAZ1HWHfEhZJE8sB81Okp4</string>-->
